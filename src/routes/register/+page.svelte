@@ -1,5 +1,6 @@
 <script lang="ts">
   import { supabaseClient } from "$lib/supabaseClient";
+  import { PrismaClient } from "@prisma/client";
   import { goto } from "$app/navigation";
   let loading = false
   let email: string

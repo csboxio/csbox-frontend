@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from '$app/stores'
   import Chart from "$lib/charts.svelte"
   import Settings from "$lib/settings.svelte"
   import Navbar from "$lib/navbar.svelte"

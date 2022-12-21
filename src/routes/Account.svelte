@@ -9,6 +9,7 @@
     let loading = false
     let username: string | null = null
     let password: string | null = null
+    let fullName: string | null = null
     let website: string | null = null
     let avatarUrl: string | null = null
 
@@ -23,14 +24,13 @@
 
             const { data, error, status } = await supabaseClient
                 .from('profiles')
-                .select(`username, password, website, avatar_url`)
+                .select(`username, full_name, avatar_url`)
                 .eq('id', user.id)
                 .single()
 
             if (data) {
                 username = data.username
-                password = data.password
-                website = data.website
+                fullName = data.full_name
                 avatarUrl = data.avatar_url
             }
 
@@ -52,7 +52,7 @@
             const updates = {
                 id: user.id,
                 username,
-                password,
+                fullName,
                 website,
                 avatar_url: avatarUrl,
                 updated_at: new Date()
