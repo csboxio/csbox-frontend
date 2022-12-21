@@ -15,10 +15,7 @@
     }
 </script>
 
-<svelte:head>
-    <title>Supabase + SvelteKit</title>
-    <meta name="description" content="SvelteKit using supabase-js v2" />
-</svelte:head>
+
 
 {#if $page.data.session}
     <p>client-side data fetching with RLS</p>
@@ -26,8 +23,6 @@
 {/if}
 
 {#if !$page.data.session}
-    <h1>I am not logged in</h1>
-
     <Auth />
 {:else}
     <h1>Welcome {$page.data.session.user.email}</h1>
