@@ -1,63 +1,21 @@
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte'
-    import { supabaseClient } from '$lib/supabaseClient'
-
-    export let size = 10
-    export let url: string
-
+    import { uploadAvatar, downloadImage } from "$lib/account";
+    let size = 10
+    let url: string
     let avatarUrl: string | null = null
+
+    let data: string | null = null
     let uploading = false
     let files: FileList
+    let user = $page.data.session.user
 
-    const dispatch = createEventDispatcher()
 
-    const downloadImage = async (path: string) => {
-        try {
-            const { data, error } = await supabaseClient.storage.from('avatars').download(path)
-
-            if (error) {
-                throw error
-            }
-
-            const url = URL.createObjectURL(data)
-            avatarUrl = url
-        } catch (error) {
-            if (error instanceof Error) {
-                console.log('Error downloading image: ', error.message)
-            }
-        }
+    import type { AuthSession } from "@supabase/supabase-js";
+    import { page } from "$app/stores";
+    async function getAvatar(){
+        avatarUrl = await downloadImage(user)
     }
-
-    const uploadAvatar = async () => {
-        try {
-            uploading = true
-
-            if (!files || files.length === 0) {
-                throw new Error('You must select an image to upload.')
-            }
-
-            const file = files[0]
-            const fileExt = file.name.split('.').pop()
-            const filePath = `${Math.random()}.${fileExt}`
-
-            let { error } = await supabaseClient.storage.from('avatars').upload(filePath, file)
-
-            if (error) {
-                throw error
-            }
-
-            url = filePath
-            dispatch('upload')
-        } catch (error) {
-            if (error instanceof Error) {
-                alert(error.message)
-            }
-        } finally {
-            uploading = false
-        }
-    }
-
-    $: if (url) downloadImage(url)
+    getAvatar()
 </script>
 
 <div>
@@ -69,7 +27,7 @@
                 style="height: {size}em; width: {size}em;"
         />
     {:else}
-        <div class="avatar no-image" style="height: {size}em; width: {size}em;" />
+        <div class="avatar no-image" style="height: {size}em; width: {size}em;"></div>
     {/if}
 
     <div style="width: {size}em;">
@@ -82,7 +40,7 @@
                 id="single"
                 accept="image/*"
                 bind:files
-                on:change={uploadAvatar}
+                on:change={uploadAvatar(files, uploading, url, user)}
                 disabled={uploading}
         />
     </div>

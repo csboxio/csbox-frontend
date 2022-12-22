@@ -24,13 +24,14 @@
 
             const { data, error, status } = await supabaseClient
                 .from('profiles')
-                .select(`username, full_name, avatar_url`)
+                .select(`username, full_name, avatar_url, website`)
                 .eq('id', user.id)
                 .single()
 
             if (data) {
                 username = data.username
                 fullName = data.full_name
+                website = data.website
                 avatarUrl = data.avatar_url
             }
 
@@ -51,15 +52,29 @@
 
             const updates = {
                 id: user.id,
-                username,
-                fullName,
-                website,
+                username: username,
+                full_name: fullName,
+                website: website,
                 avatar_url: avatarUrl,
                 updated_at: new Date()
             }
 
             let { error } = await supabaseClient.from('profiles').upsert(updates)
 
+            if (error) throw error
+        } catch (error) {
+            if (error instanceof Error) {
+                alert(error.message)
+            }
+        } finally {
+            loading = false
+        }
+    }
+
+    async function signOut() {
+        try {
+            loading = true
+            let { error } = await supabaseClient.auth.signOut()
             if (error) throw error
         } catch (error) {
             if (error instanceof Error) {
@@ -80,12 +95,12 @@
         <input id="email" type="text" value={session.user.email} disabled />
     </div>
     <div>
-        <label for="username">Name</label>
-        <input id="username" type="text" bind:value={username} />
+        <label for="name">Full Name</label>
+        <input id="name" type="text" bind:value={fullName} />
     </div>
     <div>
         <label for="website">Website</label>
-        <input id="website" type="website" bind:value={website} />
+        <input id="website" type="text" bind:value={website} />
     </div>
 
     <div>

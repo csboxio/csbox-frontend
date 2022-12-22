@@ -18,41 +18,41 @@
 
   const prisma = new PrismaClient()
 
-async function updateProfile() {
-  try {
-    loading = true;
-    const { user } = session;
-    const updates = {
-      where: {
-        id: user.id,
-      },
-      create: {
-        id: user.id,
-        updated_at: new Date(),
-        username: username,
-        full_name: full_name,
-        avatar_url: avatar_url,
-        website: website,
-      },
-      update: {
-        id: user.id,
-        updated_at: new Date(),
-        username: username,
-        full_name: full_name,
-        avatar_url: avatar_url,
-        website: website,
-      }
-    };
-    let { error } = await prisma.profiles.upsert(updates);
-    if (error) throw error;
+  async function updateProfile() {
+    try {
+      loading = true;
+      const { user } = session;
+      const updates = {
+        where: {
+          id: user.id,
+        },
+        create: {
+          id: user.id,
+          updated_at: new Date(),
+          username: username,
+          full_name: full_name,
+          avatar_url: avatar_url,
+          website: website,
+        },
+        update: {
+          id: user.id,
+          updated_at: new Date(),
+          username: username,
+          full_name: full_name,
+          avatar_url: avatar_url,
+          website: website,
+        }
+      };
+      let { error } = await prisma.profiles.upsert(updates);
+      if (error) throw error;
     } catch (error) {
-    if (error instanceof Error) {
-      alert(error.message);
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+    } finally {
+      loading = false;
     }
-  } finally {
-    loading = false;
   }
-}
 
   async function signOut() {
     try {

@@ -18,8 +18,6 @@
             loading = false
         }
     }
-
-    let data = supabaseClient.auth.getUser()
 </script>
 
 <body class="antialiased bg-body text-body font-body">
@@ -37,10 +35,10 @@
                         <form class="row flex-center flex" on:submit|preventDefault={handleLogin}>
                         <div class="flex flex-wrap max-w-md mx-auto -m-2 mb-5">
                             <div class="w-full p-2">
-                                <input class="w-full px-5 py-3.5 text-gray-500 placeholder-gray-500 bg-white outline-none focus:ring-4 focus:ring-indigo-500 border border-gray-200 rounded-lg" type="email" placeholder="Email address" name="email" bind:value={email}>
+                                <input class="w-full px-5 py-3.5 text-gray-500 placeholder-gray-500 bg-white outline-none focus:ring-4 focus:ring-indigo-500 border border-gray-200 rounded-lg" type="email" placeholder="Email address" name="email" autocomplete="username" bind:value={email}>
                             </div>
                             <div class="w-full p-2">
-                                <input class="w-full px-5 py-3.5 text-gray-500 placeholder-gray-500 bg-white outline-none focus:ring-4 focus:ring-indigo-500 border border-gray-200 rounded-lg" type="password" placeholder="Password" name="password" bind:value={password}>
+                                <input class="w-full px-5 py-3.5 text-gray-500 placeholder-gray-500 bg-white outline-none focus:ring-4 focus:ring-indigo-500 border border-gray-200 rounded-lg" type="password" placeholder="Password" name="password" autocomplete="current-password" bind:value={password}>
                             </div>
                             <div class="w-full p-2">
                                 <div class="group relative">

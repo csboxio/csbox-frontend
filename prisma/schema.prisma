@@ -1,5 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
+  provider        = "prismaServer-client-js"
   previewFeatures = ["multiSchema"]
 }
 
