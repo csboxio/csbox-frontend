@@ -1,95 +1,60 @@
 <script lang="ts">
+  import type { ActionData } from './$types';
+  import { applyAction, enhance, type SubmitFunction } from '$app/forms';
+  import { invalidate } from '$app/navigation';
 
-  import { onMount } from 'svelte'
-  import type { AuthSession } from '@supabase/supabase-js'
-  import { supabaseClient } from '$lib/supabaseClient'
-  import { PrismaClient } from "@prisma/client";
-  import Avatar from '../Avatar.svelte'
-  import { error } from "@sveltejs/kit";
+  export let form: ActionData;
+  let loading = false;
 
-  export let session: AuthSession
-
-  let loading = false
-  let username: string | null = null
-  let full_name: string | null = null
-  let avatar_url: string | null = null
-  let password: string | null = null
-  let website: string | null = null
-
-  const prisma = new PrismaClient()
-
-  async function updateProfile() {
-    try {
-      loading = true;
-      const { user } = session;
-      const updates = {
-        where: {
-          id: user.id,
-        },
-        create: {
-          id: user.id,
-          updated_at: new Date(),
-          username: username,
-          full_name: full_name,
-          avatar_url: avatar_url,
-          website: website,
-        },
-        update: {
-          id: user.id,
-          updated_at: new Date(),
-          username: username,
-          full_name: full_name,
-          avatar_url: avatar_url,
-          website: website,
-        }
-      };
-      let { error } = await prisma.profiles.upsert(updates);
-      if (error) throw error;
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-      }
-    } finally {
-      loading = false;
-    }
-  }
-
-  async function signOut() {
-    try {
-      loading = true
-      let { error } = await supabaseClient.auth.signOut()
-      if (error) throw error
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message)
-      }
-    } finally {
-      loading = false
-    }
-  }
 </script>
 
-<form class="form-widget" on:submit|preventDefault={updateProfile}>
-  <Avatar bind:url={avatar_url} size={10} on:upload={updateProfile} />
-  <div>
-    <label for="email">Email</label>
-    <input id="email" type="text" bind:value={full_name}  />
-  </div>
-  <div>
-    <label for="username">Name</label>
-    <input id="username" type="text" bind:value={username} />
-  </div>
+<section class="columns mt-6 pt-6">
+  <div class="column is-half is-offset-one-quarter">
+    <h1 class="title">Sign in</h1>
+    {#if form?.error}
+      <div class="block notification is-danger">{form.error}</div>
+    {/if}
+    <form method="POST" action="?/signin">
+      {#if form?.missing}<p class="error">The email field is required</p>{/if}
+      {#if form?.incorrect}<p class="error">Invalid credentials!</p>{/if}
+      <div class="field">
+        <label for="email" class="label">Email</label>
+        <p class="control">
+          <input
+            id="email"
+            name="email"
+            value={form?.values?.email ?? ''}
+            class="input"
+            type="email"
+            placeholder="Email"
+            required
+          />
+        </p>
+      </div>
+      <div class="field">
+        <label for="password" class="label">Password</label>
+        <p class="control">
+          <input
+            id="password"
+            name="password"
+            class="input"
+            type="password"
+            placeholder="Password"
+            required
+          />
+        </p>
+      </div>
+      <div class="field">
+        <p class="control">
+          <button disabled={loading} class="button is-fullwidth is-link">Sign in</button>
+        </p>
+      </div>
+    </form>
 
-  <div>
-    <input
-      type="submit"
-      class="button block primary"
-      value={loading ? 'Loading...' : 'Update'}
-      disabled={loading}
-    />
+    <div class="mt-6">
+      <p class="has-text-centered">
+        Don't have an account? <a href="/signup">Sign up</a>
+      </p>
+    </div>
   </div>
-
-  <div>
-    <button class="button block" on:click={signOut} disabled={loading}> Sign Out </button>
-  </div>
-</form>
+</section>
