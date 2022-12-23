@@ -1,40 +1,10 @@
 <script lang="ts">
-  import { supabaseClient } from "$lib/supabaseClient";
-  import { PrismaClient } from "@prisma/client";
-  import { goto } from "$app/navigation";
-  let loading = false
-  let email: string
-  let password: string
-  async function signOut() {
-    try {
-      loading = true
-      let { error } = await supabaseClient.auth.signOut()
-      if (error) throw error
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message)
-      }
-    } finally {
-      loading = false
-    }
-  }
+  import type { ActionData } from './$types';
+  import { applyAction, enhance, type SubmitFunction } from '$app/forms';
+  import { invalidate } from '$app/navigation';
 
-  const handleRegister = async () => {
-    try {
-      loading = true
-      const { error } = await supabaseClient.auth.signUp({ email, password })
-      if (error) throw error
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message)
-      }
-    } finally {
-      loading = false
-      goto('/')
-      alert('Successfully Registered')
-    }
-
-  }
+  export let form: ActionData;
+  let loading = false;
 </script>
 
 <body class="antialiased bg-body text-body font-body">
@@ -47,14 +17,23 @@
         <div class="w-full p-6">
           <div class="md:max-w-xl text-center mx-auto">
             <h2 class="mb-4 font-heading font-bold text-gray-100 text-6xl sm:text-7xl">Register</h2>
+            {#if form?.error}
+              <div class="block notification is-danger">{form.error}</div>
+            {/if}
             <p class="mb-11 text-lg text-gray-200">Please fill out the information below!</p>
-            <form class="row flex-center flex" on:submit|preventDefault={handleRegister}>
+            <form class="row flex-center flex" method="POST" action="?/signup">
+              {#if form?.missing}<p class="error">The email field is required</p>{/if}
+              {#if form?.incorrect}<p class="error">Invalid credentials!</p>{/if}
               <div class="flex flex-wrap max-w-md mx-auto -m-2 mb-5">
                 <div class="w-full p-2">
-                  <input class="w-full px-5 py-3.5 text-gray-500 placeholder-gray-500 bg-white outline-none focus:ring-4 focus:ring-indigo-500 border border-gray-200 rounded-lg" type="email" placeholder="Email address" name="email" bind:value={email}>
+                  <!--Email-->
+                  <input class="w-full px-5 py-3.5 text-gray-500 placeholder-gray-500 bg-white outline-none focus:ring-4 focus:ring-indigo-500 border border-gray-200 rounded-lg"
+                         type="email" placeholder="Email address" name="email" autocomplete="username" value={form?.values?.email ?? ''}>
                 </div>
+                <!--Password-->
                 <div class="w-full p-2">
-                  <input class="w-full px-5 py-3.5 text-gray-500 placeholder-gray-500 bg-white outline-none focus:ring-4 focus:ring-indigo-500 border border-gray-200 rounded-lg" type="password" placeholder="Password" name="password" bind:value={password}>
+                  <input class="w-full px-5 py-3.5 text-gray-500 placeholder-gray-500 bg-white outline-none focus:ring-4 focus:ring-indigo-500 border border-gray-200 rounded-lg"
+                         id="password" type="password" placeholder="Password" name="password" autocomplete="current-password" required>
                 </div>
                 <div class="w-full p-2">
                   <div class="group relative">
@@ -75,7 +54,7 @@
             </form>
             <p class="text-base text-gray-200">
               <span>Already have an account?</span>
-              <a class="text-blue-900 hover:text-blue-700" on:click={signOut} disabled={loading} href="/">Login</a>
+              <a class="text-blue-900 hover:text-blue-700" href="/">Login</a>
             </p>
           </div>
         </div>
