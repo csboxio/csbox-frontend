@@ -88,7 +88,7 @@
 
 </script>
 
-<form class="form-widget" on:submit|preventDefault={updateProfile}>
+<form method="POST" on:submit|preventDefault={updateProfile}>
     <Avatar bind:url={avatarUrl} size={10} on:upload={updateProfile} />
     <div>
         <label for="email">Email</label>
