@@ -1,60 +1,122 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
+  import type { AuthSession } from '@supabase/supabase-js'
+  import { supabaseClient } from '$lib/supabaseClient'
+  import { getSupabase } from "@supabase/auth-helpers-sveltekit";
+  import { redirect } from "@sveltejs/kit";
+  import Avatar from '../Avatar.svelte'
   import type { ActionData } from './$types';
-  import { applyAction, enhance, type SubmitFunction } from '$app/forms';
-  import { invalidate } from '$app/navigation';
+  import { page } from '$app/stores'
 
   export let form: ActionData;
-  let loading = false;
+  export let session = $page.data.session
 
+
+  let loading = false
+  let username: string | null = null
+  let password: string | null = null
+  let fullName: string | null = null
+  let website: string | null = null
+  let avatarUrl: string | null = null
+
+  onMount(() => {
+    getProfile()
+  })
+
+  async function updateProfile() {
+    try {
+      loading = true
+      const { user } = session
+
+      const updates = {
+        id: user.id,
+        username: username,
+        full_name: fullName,
+        website: website,
+        avatar_url: avatarUrl,
+        updated_at: new Date()
+      }
+
+      let { error } = await supabaseClient.from('profiles').upsert(updates)
+
+      if (error) throw error
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message)
+      }
+    } finally {
+      loading = false
+    }
+  }
+
+  const getProfile = async () => {
+    try {
+      loading = true
+      const { user } = session
+
+      const { data, error, status } = await supabaseClient
+        .from('profiles')
+        .select(`username, full_name, avatar_url, website`)
+        .eq('id', user.id)
+        .single()
+
+      if (data) {
+        username = data.username
+        fullName = data.full_name
+        website = data.website
+        avatarUrl = data.avatar_url
+      }
+
+      if (error && status !== 406) throw error
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message)
+      }
+    } finally {
+      loading = false
+    }
+  }
+
+  async function signOut() {
+    try {
+      loading = true
+      let { error } = await supabaseClient.auth.signOut()
+      if (error) throw error
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message)
+      }
+    } finally {
+      loading = false
+    }
+  }
 </script>
 
-<section class="columns mt-6 pt-6">
-  <div class="column is-half is-offset-one-quarter">
-    <h1 class="title">Sign in</h1>
-    {#if form?.error}
-      <div class="block notification is-danger">{form.error}</div>
-    {/if}
-    <form method="POST" action="?/signin">
-      {#if form?.missing}<p class="error">The email field is required</p>{/if}
-      {#if form?.incorrect}<p class="error">Invalid credentials!</p>{/if}
-      <div class="field">
-        <label for="email" class="label">Email</label>
-        <p class="control">
-          <input
-            id="email"
-            name="email"
-            value={form?.values?.email ?? ''}
-            class="input"
-            type="email"
-            placeholder="Email"
-            required
-          />
-        </p>
-      </div>
-      <div class="field">
-        <label for="password" class="label">Password</label>
-        <p class="control">
-          <input
-            id="password"
-            name="password"
-            class="input"
-            type="password"
-            placeholder="Password"
-            required
-          />
-        </p>
-      </div>
-      <div class="field">
-        <p class="control">
-          <button disabled={loading} class="button is-fullwidth is-link">Sign in</button>
-        </p>
-      </div>
-    </form>
-
-    <div class="mt-6">
-      <p class="has-text-centered">
-        Don't have an account? <a href="/signup">Sign up</a>
-      </p>
-    </div>
+<form method="POST" action="?/updateProfile">
+  <Avatar bind:url={avatarUrl} size={10} on:upload={updateProfile} />
+  <div>
+    <label for="email">Email</label>
+    <input id="email" type="text" value={$page.data.session.user.email} disabled />
   </div>
-</section>
+  <div>
+    <label for="name">Full Name</label>
+    <input id="name" type="text" value={form?.values?.full_name ?? ''}/>
+  </div>
+  <div>
+    <label for="website">Website</label>
+    <input id="website" type="text" value={form?.values?.website ?? ''}/>
+  </div>
+
+  <div>
+    <input
+      type="submit"
+      class="button block primary"
+      value={loading ? 'Loading...' : 'Update'}
+      disabled={loading}
+    />
+  </div>
+
+  <div>
+    <button class="button block" on:click={signOut} disabled={loading}> Sign Out </button>
+  </div>
+</form>

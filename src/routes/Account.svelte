@@ -3,6 +3,7 @@
     import type { AuthSession } from '@supabase/supabase-js'
     import { supabaseClient } from '$lib/supabaseClient'
     import Avatar from './Avatar.svelte'
+    import { goto } from "$app/navigation";
 
     export let session: AuthSession
 
@@ -45,32 +46,6 @@
         }
     }
 
-    async function updateProfile() {
-        try {
-            loading = true
-            const { user } = session
-
-            const updates = {
-                id: user.id,
-                username: username,
-                full_name: fullName,
-                website: website,
-                avatar_url: avatarUrl,
-                updated_at: new Date()
-            }
-
-            let { error } = await supabaseClient.from('profiles').upsert(updates)
-
-            if (error) throw error
-        } catch (error) {
-            if (error instanceof Error) {
-                alert(error.message)
-            }
-        } finally {
-            loading = false
-        }
-    }
-
     async function signOut() {
         try {
             loading = true
@@ -86,22 +61,25 @@
     }
 
 
+
 </script>
 
-<form method="POST" on:submit|preventDefault={updateProfile}>
-    <Avatar bind:url={avatarUrl} size={10} on:upload={updateProfile} />
+<form method="POST" action="?/updateProfile">
+    <Avatar bind:url={avatarUrl} size={10} on:upload={getProfile}/>
     <div>
         <label for="email">Email</label>
-        <input id="email" type="text" value={session.user.email} disabled />
+        <input name="email" id="email" type="text" value={session.user.email} disabled />
     </div>
     <div>
         <label for="name">Full Name</label>
-        <input id="name" type="text" bind:value={fullName} />
+        <input name="name" id="name" type="text" bind:value={fullName} />
     </div>
     <div>
         <label for="website">Website</label>
-        <input id="website" type="text" bind:value={website} />
+        <input name="website" id="website" type="text" bind:value={website} />
     </div>
+    <!--<input name="avatarUrl" id="avatarUrl" type="hidden" bind:value={avatarUrl}/>-->
+
 
     <div>
         <input

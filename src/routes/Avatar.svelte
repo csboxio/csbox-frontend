@@ -12,7 +12,7 @@
 
     import type { AuthSession } from "@supabase/supabase-js";
     import { page } from "$app/stores";
-    async function getAvatar(){
+    export async function getAvatar(){
         avatarUrl = await downloadImage(user)
     }
     getAvatar()
