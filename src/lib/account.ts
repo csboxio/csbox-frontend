@@ -58,15 +58,14 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
 
     const file = files[0]
     const fileExt = file.name.split('.').pop()
-    const filePath = `${Math.random()}.${fileExt}`
+    const filePath = `${user.id + "/" + user.id + "_profileImage"}.${fileExt}`
 
     let { error } = await supabaseClient.storage.from('avatars').upload(filePath, file)
-    await updateProfile(filePath, user)
+    const { data } = supabaseClient.storage.from('avatars').getPublicUrl(filePath)
+    await updateProfile(data.publicUrl, user)
     if (error) {
       throw error
     }
-    url = filePath
-
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)

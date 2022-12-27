@@ -2,8 +2,8 @@
     import { uploadAvatar } from "$lib/account";
     import { page } from "$app/stores";
     import { browser } from "$app/environment";
-    import { supabaseClient } from "$lib/supabaseClient";
     import { onMount } from "svelte";
+    import { supabaseClient } from "$lib/supabaseClient";
 
     let size = 10
     let url: string
@@ -12,17 +12,6 @@
     let uploading = false
     let files: FileList
     let user = $page.data.session.user
-
-    async function downloadAvatar(avatar_url) {
-
-        const { data } = await supabaseClient.storage.from('avatars').download(avatar_url)
-        // Check if null
-        if (data == null) {
-            return
-        }
-        // Get object URL
-        avatarUrl = URL.createObjectURL(data)
-    }
 
     async function getAvatar() {
         const res = await fetch(`/api/avatar`, {
@@ -34,16 +23,13 @@
         });
         return await res.text()
     }
-    let promise;
     async function handleAvatar() {
         if (browser == true) {
-            promise = await getAvatar();
-            console.log(promise)
-            downloadAvatar(promise)
+            avatarUrl = await getAvatar();
         }
     }
     onMount(async () => {
-    handleAvatar()
+        handleAvatar()
     });
 </script>
 

@@ -21,13 +21,6 @@ export const actions: Actions = {
     throw redirect(303, '/')
   },
 
-  signout: async (event) => {
-    const { supabaseClient } = await getSupabase(event)
-    await supabaseClient.auth.signOut()
-    console.log("signout")
-    throw redirect(303, '/')
-  },
-
   updateProfile: async (event) => {
     const { request, cookies, url } = event
     const { supabaseClient } = await getSupabase(event)
@@ -44,7 +37,6 @@ export const actions: Actions = {
       id: user.id,
       full_name: fullName,
       website: website,
-      avatar_url: null,
       updated_at: new Date()
     }
 

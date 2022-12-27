@@ -60,12 +60,10 @@
         }
     }
 
-
-
 </script>
 
 <form method="POST" action="?/updateProfile">
-    <Avatar bind:url={avatarUrl} size={10}/>
+    <Avatar bind:url={avatarUrl} size={10} />
     <div>
         <label for="email">Email</label>
         <input name="email" id="email" type="text" value={session.user.email} disabled />
@@ -91,5 +89,5 @@
 </form>
 
 <div>
-    <button class="button block" on:click={fetch("?/signout")} disabled={loading}> Sign Out </button>
+    <button class="button block" on:click={signOut} disabled={loading}> Sign Out </button>
 </div>
