@@ -1,7 +1,8 @@
 import type { Actions } from './$types'
 import { error, redirect } from '@sveltejs/kit'
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
-import { AuthApiError } from '@supabase/supabase-js'
+import { supabaseClient } from "$lib/supabaseClient";
+import { getPath } from "$lib/account";
 
 export const actions: Actions = {
   signin: async (event) => {
@@ -23,6 +24,7 @@ export const actions: Actions = {
   signout: async (event) => {
     const { supabaseClient } = await getSupabase(event)
     await supabaseClient.auth.signOut()
+    console.log("signout")
     throw redirect(303, '/')
   },
 
@@ -36,18 +38,19 @@ export const actions: Actions = {
 
     const fullName = formData.get('name')
     const website = formData.get('website')
-    const avatarUrl = formData.get('avatarUrl')
 
     const updates = {
+      // @ts-ignore
       id: user.id,
       full_name: fullName,
       website: website,
-      avatar_url: avatarUrl,
+      avatar_url: null,
       updated_at: new Date()
     }
 
     console.log(updates)
 
+    // @ts-ignore
     let { error } = await supabaseClient.from('profiles').upsert(updates)
 
 

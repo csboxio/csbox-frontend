@@ -20,16 +20,15 @@ export const actions: Actions = {
     const avatarUrl = formData.get('url') as string
 
     const updates = {
+      // @ts-ignore
       id: user.id,
       full_name: fullName,
       website: website,
       avatar_url: avatarUrl,
       updated_at: new Date()
     }
-
+    // @ts-ignore
     let { error } = await supabaseClient.from('profiles').upsert(updates)
-
-
     throw redirect(303, '/')
   }
 }

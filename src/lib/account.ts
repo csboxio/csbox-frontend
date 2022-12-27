@@ -1,9 +1,11 @@
 import { supabaseClient } from "$lib/supabaseClient";
 import type { User } from "@supabase/supabase-js";
+import { createEventDispatcher } from 'svelte'
 import { json } from '@sveltejs/kit';
 
 let loading = false
 let avatarUrl: string | null = null
+
 
 
 export const getPath = async (user: User) => {
@@ -64,6 +66,7 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
       throw error
     }
     url = filePath
+
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
