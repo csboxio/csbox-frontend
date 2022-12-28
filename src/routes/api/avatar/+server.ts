@@ -1,5 +1,6 @@
 import { supabaseClient } from "$lib/supabaseClient";
 import { json } from "@sveltejs/kit";
+import { getSupabase } from "@supabase/auth-helpers-sveltekit";
 
 /** @type {import('./$types').RequestHandler} */
 // @ts-ignore

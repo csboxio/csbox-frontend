@@ -3,10 +3,12 @@
   import Chart from "$lib/charts.svelte"
   import Settings from "$lib/settings.svelte"
   import Navbar from "$lib/navbar.svelte"
+  import Auth from '../Auth.svelte'
+  import { redirect } from "@sveltejs/kit";
+
   let model
 
 </script>
-
 <body class="bg-gray-600 antialiased bg-body text-body font-body" on:click|stopPropagation={() => model.handleToggleMenuTopRight("outside")} >
 <div class="">
   <Navbar/>

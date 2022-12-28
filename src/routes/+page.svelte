@@ -6,11 +6,12 @@
 </script>
 
 
+/
 {#if !$page.data.session}
     <Auth />
 {:else}
     <h1>Welcome {$page.data.session.user.email}</h1>
-    <p>Finish creating your account</p>
+    <p>Edit account</p>
 
     <Account session={$page.data.session} />
 {/if}

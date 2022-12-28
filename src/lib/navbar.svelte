@@ -20,7 +20,7 @@
     <div class="lg:hidden navbar-backdrop fixed top-0 left-0 w-full h-full bg-gray-800 opacity-50"></div>
     <nav class="fixed top-0 left-0 bottom-0 max-w-max flex flex-col h-full py-6 px-4 bg-gray-700 overflow-auto">
       <a class="inline-block mb-12" href="#">
-        <img class="h-7 mx-auto" src="/images/logo.png" alt="">
+        <img class="h-7 mx-auto" src="" alt="">
       </a>
       <div class="mb-6">
         <ul>

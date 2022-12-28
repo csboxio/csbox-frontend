@@ -54,7 +54,7 @@
             </form>
             <p class="text-base text-gray-200">
               <span>Already have an account?</span>
-              <a class="text-blue-900 hover:text-blue-700" href="/">Login</a>
+              <a class="text-blue-500 hover:text-blue-300" href="/">Login</a>
             </p>
           </div>
         </div>

@@ -5,7 +5,7 @@
     import { onMount } from "svelte";
     import { supabaseClient } from "$lib/supabaseClient";
 
-    let size = 10
+    let size = 5
     let url: string
     let avatarUrl: string
     let data: string | null = null
