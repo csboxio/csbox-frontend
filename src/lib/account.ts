@@ -1,12 +1,12 @@
 import { supabaseClient } from "$lib/supabaseClient";
 import type { User } from "@supabase/supabase-js";
-import { createEventDispatcher } from 'svelte'
+import { createEventDispatcher, onMount } from "svelte";
 import { json } from '@sveltejs/kit';
+import { resizeFile } from "$lib/utilities/image.js";
+import { browser } from "$app/environment";
 
 let loading = false
 let avatarUrl: string | null = null
-
-
 
 export const getPath = async (user: User) => {
   try {
@@ -48,6 +48,16 @@ export const downloadImage = async (user: User) => {
   return avatarUrl
 }
 
+async function resizedFile(files: FileList) {
+  if (browser) {
+    const file = files[0]
+    console.log(typeof(file))
+    let rfile = await resizeFile(file)
+    console.log(typeof(rfile))
+    return rfile
+  }
+}
+
 export const uploadAvatar = async (files: FileList, uploading: boolean, url: string, user: User) => {
   try {
     uploading = true
@@ -56,24 +66,20 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
       throw new Error('You must select an image to upload.')
     }
 
-    const file = files[0]
-    const fileExt = file.name.split('.').pop()
-    const filePath = `${user.id + "/" + user.id + "_profileImage"}.${fileExt}`
+    let rfile = await resizedFile(files)
 
-    let { error } = await supabaseClient.storage.from('avatars').upload(filePath, file)
+    console.log(typeof(rfile))
+
+    const filePath = `${user.id + "/" + user.id + "_profileImage"}.JPEG`
+    let { error } = await supabaseClient.storage.from('avatars').upload(filePath, rfile)
     const { data } = supabaseClient.storage.from('avatars').getPublicUrl(filePath)
     await updateProfile(data.publicUrl, user)
-    if (error) {
-      throw error
-    }
+
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
     }
-  } finally {
-    uploading = false
   }
-
 }
 
 export async function updateProfile(avatarUrl: string, user: User) {
