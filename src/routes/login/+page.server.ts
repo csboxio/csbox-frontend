@@ -6,6 +6,7 @@ export const actions: Actions = {
   signin: async (event) => {
     const { request, cookies, url } = event
     const { session, supabaseClient } = await getSupabase(event)
+
     const formData = await request.formData()
 
     const email = formData.get('email') as string
@@ -26,6 +27,9 @@ export const actions: Actions = {
 
     const { data } = await supabaseClient.auth.refreshSession()
     const { session, user } = data
+    if (!session) {
+      throw redirect(303, '/');
+    }
 
     const fullName = formData.get('name')
     const website = formData.get('website')

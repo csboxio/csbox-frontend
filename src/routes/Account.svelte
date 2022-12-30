@@ -63,7 +63,7 @@
 </script>
 
 <form method="POST" action="?/updateProfile">
-    <Avatar bind:url={avatarUrl} size={10} />
+    <Avatar bind:url={avatarUrl} size={10}/>
     <div>
         <label for="email">Email</label>
         <input name="email" id="email" type="text" value={session.user.email} disabled />
@@ -76,8 +76,6 @@
         <label for="website">Website</label>
         <input name="website" id="website" type="text" bind:value={website} />
     </div>
-
-
     <div>
         <input
                 type="submit"
@@ -87,7 +85,6 @@
         />
     </div>
 </form>
-
 <div>
     <button class="button block" on:click={signOut} disabled={loading}> Sign Out </button>
 </div>

@@ -6,7 +6,6 @@
 </script>
 
 
-/login
 {#if !$page.data.session}
   <Auth />
 {:else}

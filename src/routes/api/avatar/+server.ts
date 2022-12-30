@@ -6,6 +6,7 @@ import { getSupabase } from "@supabase/auth-helpers-sveltekit";
 // @ts-ignore
 export async function POST({ request }) {
   // Get path url from database
+  // TODO server side user check this is insecure
   const { user } = await request.json();
   let avatar_url;
   try {

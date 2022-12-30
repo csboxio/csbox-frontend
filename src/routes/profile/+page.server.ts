@@ -10,22 +10,6 @@ export const load: PageServerLoad = async ( {locals}) => {
 }
 
 export const actions: Actions = {
-  signin: async (event) => {
-    const { request, cookies, url } = event
-    const { session, supabaseClient } = await getSupabase(event)
-
-    const formData = await request.formData()
-
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-
-    const { error } = await supabaseClient.auth.signInWithPassword({
-      email,
-      password,
-    })
-
-    throw redirect(303, '/')
-  },
 
   updateProfile: async (event) => {
     const { request, cookies, url } = event
@@ -35,13 +19,15 @@ export const actions: Actions = {
     const { data } = await supabaseClient.auth.refreshSession()
     const { session, user } = data
 
-    const fullName = formData.get('name')
+    const fullName = formData.get('first_name')
+    const lastName = formData.get('last_name')
     const website = formData.get('website')
 
     const updates = {
       // @ts-ignore
       id: user.id,
-      full_name: fullName,
+      first_name: fullName,
+      last_name: lastName,
       website: website,
       updated_at: new Date()
     }
@@ -52,6 +38,6 @@ export const actions: Actions = {
     let { error } = await supabaseClient.from('profiles').upsert(updates)
 
 
-    throw redirect(303, '/')
+    throw redirect(303, '/profile')
   }
 }

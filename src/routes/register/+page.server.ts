@@ -7,6 +7,9 @@ export const actions: Actions = {
   signup: async (event) => {
     const { request, cookies, url } = event
     const { session, supabaseClient } = await getSupabase(event)
+    if (!session) {
+      throw redirect(303, '/');
+    }
     const formData = await request.formData()
 
     const email = formData.get('email') as string

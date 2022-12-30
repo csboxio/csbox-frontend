@@ -7,10 +7,10 @@ export const load: PageLoad = async (event) => {
   if (!session) {
     throw redirect(303, '/');
   }
-  const { data: tableData } = await supabaseClient.from('profiles').select('*');
+  const { data: userRow } = await supabaseClient.from('profiles').select('*');
 
   return {
     user: session.user,
-    tableData
+    userRow
   };
 };
