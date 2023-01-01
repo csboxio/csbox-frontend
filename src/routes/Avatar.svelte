@@ -6,34 +6,19 @@
   import { supabaseClient } from "$lib/supabaseClient";
 
   let size = 5;
-  let url: string;
+  export let url: string;
   let avatarUrl: string;
   let data: string | null = null;
   let uploading = false;
   let files: FileList;
   let user = $page.data.session.user;
 
-  async function getAvatar() {
-    const res = await fetch(`/api/avatar`, {
-      method: "POST",
-      body: JSON.stringify({ user }),
-      headers: {
-        "content-type": "application/json"
-      }
-    });
-    return await res.text();
-  }
-
   async function handleAvatar() {
     if (browser == true) {
-      avatarUrl = await getAvatar();
+      avatarUrl = url
     }
   }
-
-  onMount(async () => {
-    handleAvatar();
-    //console.log(user)
-  });
+  $: if (url) handleAvatar()
 </script>
 
 <div class="flex flex-wrap items-start -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">

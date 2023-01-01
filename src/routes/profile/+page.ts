@@ -7,7 +7,8 @@ export const load: PageLoad = async (event) => {
   if (!session) {
     throw redirect(303, '/');
   }
-  const { data: userRow } = await supabaseClient.from('profiles').select('*');
+  const { data: userRow } = await supabaseClient.from('profiles')
+    .select('username, first_name, last_name, website, country, avatar_url');
 
   return {
     user: session.user,

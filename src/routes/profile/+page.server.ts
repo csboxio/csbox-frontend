@@ -10,7 +10,6 @@ export const load: PageServerLoad = async ( {locals}) => {
 }
 
 export const actions: Actions = {
-
   updateProfile: async (event) => {
     const { request, cookies, url } = event
     const { supabaseClient } = await getSupabase(event)
@@ -19,7 +18,7 @@ export const actions: Actions = {
     const { data } = await supabaseClient.auth.refreshSession()
     const { session, user } = data
 
-    const fullName = formData.get('first_name')
+    const fullName = formData.get('first')
     const lastName = formData.get('last_name')
     const website = formData.get('website')
 
@@ -32,8 +31,8 @@ export const actions: Actions = {
       updated_at: new Date()
     }
 
-    console.log(updates)
 
+    console.log(updates)
     // @ts-ignore
     let { error } = await supabaseClient.from('profiles').upsert(updates)
 
