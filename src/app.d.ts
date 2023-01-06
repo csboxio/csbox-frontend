@@ -12,13 +12,11 @@ declare global {
             sb: TypedSupabaseClient
             session: Session | null;
         }
-
         interface Supabase {
             Database: import('./schema').Database;
 
             SchemaName: 'public';
         }
-
         interface PageData {
             session: import('@supabase/supabase-js').Session | null
         }

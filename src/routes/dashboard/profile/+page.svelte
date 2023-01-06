@@ -1,27 +1,17 @@
 <script lang="ts" xmlns="http://www.w3.org/1999/html">
   import { page } from "$app/stores";
-  import Avatar from "../Avatar.svelte";
+  import Avatar from "../../Avatar.svelte";
   import { onMount } from "svelte";
   let session = $page.data.session;
 
   /** @type {import("./$types").PageData} */
   export let data;
-  let userRow;
   let username: string | null = null;
-  let firstName: string | null = null;
-  let last_name: string | null = null;
-  let website: string | null = null;
-  let country: string | null = null;
-  let avatarUrl: string | null = null;
-  onMount(async () => {
-    let user = data.user[0]
-    username = user.username
-    firstName = user.first_name
-    last_name = user.last_name
-    website = user.website
-    country = user.country
-    avatarUrl = user.avatar_url
-  })
+  let firstName: string | null = data.user[0].first_name;
+  let last_name: string | null = data.user[0].last_name;
+  let website: string | null = data.user[0].website;
+  let country: string | null = data.user[0].country;
+  let avatarUrl: string | null = data.user[0].avatar_url;
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">

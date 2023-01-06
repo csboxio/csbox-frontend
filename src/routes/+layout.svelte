@@ -1,10 +1,20 @@
 <script lang="ts">
     import { page } from '$app/stores'
     import { supabaseClient } from '$lib/supabaseClient'
-    import { invalidate } from '$app/navigation'
+    import {invalidate, invalidateAll} from '$app/navigation'
     import { onMount } from 'svelte'
     import '../app.css'
 
+    onMount(() => {
+        const {
+            data: { subscription }
+        } = supabaseClient.auth.onAuthStateChange(() => {
+            invalidateAll()
+        })
+        return () => {
+            subscription.unsubscribe()
+        }
+    })
 </script>
 <svelte:head>
     <meta charset="utf-8">

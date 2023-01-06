@@ -3,9 +3,6 @@
     import Account from './Account.svelte'
     import Auth from './Auth.svelte'
     let loading = false;
-    import { get } from "svelte/store";
-    import { supabaseClient } from "$lib/supabaseClient";
-    import { onMount } from "svelte";
 </script>
 {#if !$page.data.session}
     <Auth />
