@@ -3,10 +3,31 @@
   import Chart from "$lib/charts.svelte"
   import Settings from "$lib/settings.svelte"
   import Navbar from "$lib/navbar.svelte"
-  import Auth from '../Auth.svelte'
-  import { redirect } from "@sveltejs/kit";
+  import { onMount } from "svelte";
+  let session = $page.data.session;
+  let email = $page.data.session.user.email
 
-  let model
+  /** @type {import("./$types").PageData} */
+  export let data;
+  let userRow;
+  let username: string | null = null;
+  let first_name: string | null = null;
+  let last_name: string | null = null;
+  let website: string | null = null;
+  let country: string | null = null;
+  let avatarUrl: string | null = null;
+  onMount(async () => {
+    let user = data.user[0]
+    username = user.username
+    first_name = user.first_name
+    last_name = user.last_name
+    website = user.website
+    country = user.country
+    avatarUrl = user.avatar_url
+  })
+
+  // this is needed for the outside click div, that needs to be redone
+  let model;
 
 </script>
 <body class="bg-gray-600 antialiased bg-body text-body font-body" on:click|stopPropagation={() => model.handleToggleMenuTopRight("outside")} >
@@ -41,11 +62,7 @@
                     </a>
                   </div>
                 </div>
-
-
-
-                <Settings bind:this={model} />
-
+                <Settings bind:this={model} bind:avatarUrl={avatarUrl} bind:first_name={first_name} bind:last_name={last_name} bind:email={email}/>
               </div>
             </div>
           </div>

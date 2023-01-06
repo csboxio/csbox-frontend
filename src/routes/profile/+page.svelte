@@ -13,22 +13,14 @@
   let website: string | null = null;
   let country: string | null = null;
   let avatarUrl: string | null = null;
-
-  const getUserRow = async () => {
-    // Page Data user information
-    let userRow
-    ({ userRow } = data);
-    return userRow[0];
-  }
-
   onMount(async () => {
-    userRow = await getUserRow()
-    username = userRow.username
-    firstName = userRow.first_name
-    last_name = userRow.last_name
-    website = userRow.website
-    country = userRow.country
-    avatarUrl = userRow.avatar_url
+    let user = data.user[0]
+    username = user.username
+    firstName = user.first_name
+    last_name = user.last_name
+    website = user.website
+    country = user.country
+    avatarUrl = user.avatar_url
   })
 </script>
 

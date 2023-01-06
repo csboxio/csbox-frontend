@@ -6,10 +6,7 @@
     import { get } from "svelte/store";
     import { supabaseClient } from "$lib/supabaseClient";
     import { onMount } from "svelte";
-
-
 </script>
-
 {#if !$page.data.session}
     <Auth />
 {:else}

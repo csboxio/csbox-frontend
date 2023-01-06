@@ -2,12 +2,6 @@ import type { Actions, PageServerLoad } from "./$types";
 import { error, redirect } from '@sveltejs/kit'
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 
-export const load: PageServerLoad = async ( {locals}) => {
-  const { data, error: err } = await locals.sb.auth.getSession()
-  if (err) {
-    throw error(500, err?.message)
-  }
-}
 
 export const actions: Actions = {
   updateProfile: async (event) => {

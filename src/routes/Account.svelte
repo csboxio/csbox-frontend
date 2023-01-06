@@ -25,13 +25,13 @@
 
             const { data, error, status } = await supabaseClient
                 .from('profiles')
-                .select(`username, full_name, avatar_url, website`)
+                .select('username, first_name, last_name, website, country, avatar_url')
                 .eq('id', user.id)
                 .single()
 
             if (data) {
                 username = data.username
-                fullName = data.full_name
+                fullName = data.first_name
                 website = data.website
                 avatarUrl = data.avatar_url
             }

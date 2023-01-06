@@ -8,7 +8,6 @@ export const load: PageServerLoad = async ( {locals}) => {
     throw error(500, err?.message)
   }
 }
-
 export const actions: Actions = {
   signin: async (event) => {
     const { request, cookies, url } = event

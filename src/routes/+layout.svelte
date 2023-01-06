@@ -5,17 +5,6 @@
     import { onMount } from 'svelte'
     import '../app.css'
 
-    onMount(() => {
-        const {
-            data: { subscription }
-        } = supabaseClient.auth.onAuthStateChange(() => {
-            invalidate('supabase:auth')
-        })
-
-        return () => {
-            subscription.unsubscribe()
-        }
-    })
 </script>
 <svelte:head>
     <meta charset="utf-8">
