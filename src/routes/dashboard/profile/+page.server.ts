@@ -29,6 +29,6 @@ export const actions: Actions = {
     let { error } = await supabaseClient.from('profiles').upsert(updates)
 
 
-    throw redirect(303, '/profile')
+    throw redirect(303, '/dashboard/profile')
   }
 }

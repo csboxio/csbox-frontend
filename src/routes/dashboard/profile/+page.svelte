@@ -6,6 +6,7 @@
 
   /** @type {import("./$types").PageData} */
   export let data;
+  // TODO error handling
   let username: string | null = null;
   let firstName: string | null = data.user[0].first_name;
   let last_name: string | null = data.user[0].last_name;
