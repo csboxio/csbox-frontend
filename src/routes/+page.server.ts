@@ -48,7 +48,7 @@ export const actions: Actions = {
     console.log(updates)
 
     // @ts-ignore
-    let { error } = await supabaseClient.from('profiles').upsert(updates)
+    let { error } = await supabaseClient.from('users').upsert(updates)
 
 
     throw redirect(303, '/')

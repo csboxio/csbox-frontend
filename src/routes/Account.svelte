@@ -24,7 +24,7 @@
             const { user } = session
 
             const { data, error, status } = await supabaseClient
-                .from('profiles')
+                .from('users')
                 .select('username, first_name, last_name, website, country, avatar_url')
                 .eq('id', user.id)
                 .single()

@@ -40,7 +40,7 @@
                     <div class="absolute top-0 left-0 w-full h-full bg-gradient-blue opacity-0 group-hover:opacity-50 rounded-lg transition ease-out duration-300"></div>
                     <button class="p-1 w-full font-heading font-medium text-base text-white overflow-hidden rounded-md">
                       <div class="relative py-4 px-9 bg-gradient-blue overflow-hidden rounded-md">
-                        <input type="submit"
+                        <input on:submit|preventDefault type="submit"
                                class="absolute top-0 left-0 transform -translate-y-full group-hover:-translate-y-0 h-full w-full bg-gray-900 transition ease-in-out duration-500"
                                disabled={loading}
                                value = ""

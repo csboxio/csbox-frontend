@@ -9,7 +9,7 @@ let avatarUrl: string | null = null
 export const getPath = async (user: User) => {
   try {
     const { data, error, status } = await supabaseClient
-      .from('profiles')
+      .from('users')
       .select(`avatar_url`)
       .eq('id', user.id)
       .single()
@@ -80,7 +80,7 @@ export async function updateProfile(avatarUrl: string, user: User) {
     }
 
     // @ts-ignore
-    let { error } = await supabaseClient.from('profiles').upsert(updates)
+    let { error } = await supabaseClient.from('users').upsert(updates)
 
     if (error) throw error
   } catch (error) {

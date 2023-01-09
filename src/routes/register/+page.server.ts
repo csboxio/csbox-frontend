@@ -12,10 +12,12 @@ export const actions: Actions = {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
 
+    console.log(email, password);
     const { error } = await supabaseClient.auth.signUp({
       email,
       password,
     })
+    console.log(error);
 
     throw redirect(303, '/')
   }
