@@ -4,7 +4,8 @@
   import { browser } from "$app/environment";
   import { onMount } from "svelte";
   import { supabaseClient } from "$lib/supabaseClient";
-  /** @type {import("./$types").PageData} */
+  import {uploadCourseImage} from "$lib/imageStorage.js";
+  /** @type {import("../../../.svelte-kit/types/src/routes").PageData} */
   export let data;
   export let url;
   let size = 5;
@@ -16,11 +17,11 @@
 
 <div class="flex flex-wrap items-start -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
   <div class="w-full sm:w-1/3 px-4 mb-6 sm:mb-0">
-    <span class="block text-sm font-medium text-gray-100 py-3">Profile Picture</span>
+    <span class="block text-sm font-medium text-gray-100 py-3">Course Image</span>
     {#if url}
       <img
         src={url}
-        alt={url ? 'Avatar' : 'No image'}
+        alt={url ? 'Course Image' : 'No image'}
         class="avatar image"
         style="height: {size}em; width: {size}em;"
       />
@@ -43,7 +44,7 @@
               id="single"
               accept="image/*"
               bind:files
-              on:change={uploadAvatar(files, uploading, url, user)}
+              on:change={uploadCourseImage(files, uploading, url, user)}
               disabled={uploading}>
             <div class="flex items-center justify-center h-14 w-14 bg-blue-500 group-hover:bg-blue-600 rounded-full">
 
