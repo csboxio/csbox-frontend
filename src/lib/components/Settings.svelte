@@ -1,14 +1,20 @@
 <script lang="ts">
   import { supabaseClient } from "$lib/utilities/supabaseClient";
   import { goto } from "$app/navigation";
+  import {page} from "$app/stores";
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s: string) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
   }
-  export let avatarUrl;
-  export let first_name;
-  export let last_name;
-  export let email;
+
+  let user = $page.data.user.userData
+  let email = $page.data.session.user.email
+
+  console.log('setting', user)
+
+  let avatarUrl = user.avatar_url;
+  let first_name = user.first_name;
+  let last_name = user.last_name;
 
   async function signOut() {
     try {

@@ -1,17 +1,10 @@
 <script lang="ts">
   import { page } from '$app/stores'
-  import Chart from "$lib/components/charts.svelte"
-  import Settings from "$lib/components/settings.svelte"
-  import Navbar from "$lib/components/navbar.svelte"
+  import Chart from "$lib/components/Charts.svelte"
+  import Settings from "$lib/components/Settings.svelte"
+  import Navbar from "$lib/components/Navbar.svelte"
   import { onMount } from "svelte";
-  let session = $page.data.session;
-  let email = $page.data.session.user.email
 
-  /** @type {import("./$types").PageData} */
-  export let data;
-  let first_name: string | null = data.user[0].first_name;
-  let last_name: string | null =  data.user[0].last_name;
-  let avatarUrl: string | null = data.user[0].avatar_url;
 
   // this is needed for the outside click div, that needs to be redone
   let model;
@@ -48,7 +41,7 @@
                     </a>
                   </div>
                 </div>
-                <Settings bind:this={model} bind:avatarUrl={avatarUrl} bind:first_name={first_name} bind:last_name={last_name} bind:email={email}/>
+                <Settings bind:this={model}/>
               </div>
             </div>
           </div>
