@@ -8,11 +8,11 @@
   export let data;
   // TODO error handling
   let username: string | null = null;
-  let firstName: string | null = data.user[0].first_name;
-  let last_name: string | null = data.user[0].last_name;
-  let website: string | null = data.user[0].website;
-  let country: string | null = data.user[0].country;
-  let avatarUrl: string | null = data.user[0].avatar_url;
+  let firstName: string | null = data.user.first_name;
+  let last_name: string | null = data.user.last_name;
+  let website: string | null = data.user.website;
+  let country: string | null = data.user.country;
+  let avatarUrl: string | null = data.user.avatar_url;
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">

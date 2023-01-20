@@ -44,9 +44,6 @@ export const actions: Actions = {
       updated_at: new Date()
     }
 
-    console.log(updates)
-
-    // @ts-ignore
     let { error } = await supabaseClient.from('users').upsert(updates)
 
 
