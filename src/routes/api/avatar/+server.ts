@@ -1,4 +1,4 @@
-import { supabaseClient } from "$lib/supabaseClient";
+import { supabaseClient } from "$lib/utilities/supabaseClient";
 import { json } from "@sveltejs/kit";
 import { getSupabase } from "@supabase/auth-helpers-sveltekit";
 

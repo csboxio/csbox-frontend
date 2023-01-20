@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { supabaseClient } from "$lib/supabaseClient";
+  import { supabaseClient } from "$lib/utilities/supabaseClient";
   import { goto } from "$app/navigation";
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s: string) {
