@@ -15,9 +15,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
   }
 
-  // @ts-ignore
   event.locals.sb = supabaseClient
-  // @ts-ignore
   event.locals.session = session
 
   return resolve(event)

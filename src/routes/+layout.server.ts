@@ -11,7 +11,7 @@ import { redirect } from "@sveltejs/kit";
 export const load: LayoutServerLoad = async (event) => {
     const { session, supabaseClient } = await getSupabase(event);
     if (session) {
-        const { data: tableData } = await supabaseClient.from('users').select('username, first_name, last_name, website, country, avatar_url');
+        const { data: tableData } = await supabaseClient.from('users').select('username, first_name, last_name, website, country, avatar_url')
         return {
             session,
             user: {

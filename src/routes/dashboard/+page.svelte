@@ -7,7 +7,7 @@
   let session = $page.data.session;
   let email = $page.data.session.user.email
 
-  /** @type {import("./$types").PageData} */
+  /** @type {import("./$types").PageLoadEvent} */
   export let data;
   let first_name: string | null = data.user[0].first_name;
   let last_name: string | null =  data.user[0].last_name;

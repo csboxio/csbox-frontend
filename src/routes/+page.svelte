@@ -5,6 +5,7 @@
     let loading = false;
 </script>
 {#if !$page.data.session}
+    {$page.data.session}
     <Auth />
 {:else}
     <h1>Welcome {$page.data.session.user.email}</h1>

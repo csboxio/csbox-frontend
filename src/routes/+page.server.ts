@@ -12,7 +12,6 @@ export const actions: Actions = {
   signin: async (event) => {
     const { request, cookies, url } = event
     const { session, supabaseClient } = await getSupabase(event)
-
     const formData = await request.formData()
 
     const email = formData.get('email') as string
