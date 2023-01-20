@@ -1,6 +1,6 @@
 <script lang="ts" xmlns="http://www.w3.org/1999/html">
   import { page } from "$app/stores";
-  import Avatar from "../../Avatar.svelte";
+  import Avatar from "$lib/components/Avatar.svelte";
   import { onMount } from "svelte";
   let session = $page.data.session;
 

@@ -1,9 +1,8 @@
 <script lang="ts">
   import { page } from '$app/stores'
-  import Chart from "$lib/charts.svelte"
-  import Settings from "$lib/settings.svelte"
-  import Navbar from "$lib/navbar.svelte"
-  import { onMount } from "svelte";
+  import Chart from "$lib/components/charts.svelte"
+  import Settings from "$lib/components/settings.svelte"
+  import Navbar from "$lib/components/navbar.svelte"
   let session = $page.data.session;
   let email = $page.data.session.user.email
 

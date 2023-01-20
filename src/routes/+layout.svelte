@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { page } from '$app/stores'
     import { supabaseClient } from '$lib/supabaseClient'
     import {invalidate, invalidateAll} from '$app/navigation'
     import { onMount } from 'svelte'

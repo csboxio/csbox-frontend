@@ -43,10 +43,7 @@ export const actions: Actions = {
       website: website,
       updated_at: new Date()
     }
-
     let { error } = await supabaseClient.from('users').upsert(updates)
-
-
     throw redirect(303, '/')
   }
 }

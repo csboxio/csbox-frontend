@@ -1,10 +1,8 @@
 <script lang="ts" xmlns="http://www.w3.org/1999/html">
   import { uploadAvatar } from "$lib/imageStorage";
   import { page } from "$app/stores";
-  import { browser } from "$app/environment";
-  import { onMount } from "svelte";
-  import { supabaseClient } from "$lib/supabaseClient";
-  /** @type {import("./$types").PageData} */
+
+  /** @type {import("../../../.svelte-kit/types/src/routes").PageData} */
   export let data;
   export let url;
   let size = 5;

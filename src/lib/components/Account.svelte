@@ -4,20 +4,16 @@
     import { supabaseClient } from '$lib/supabaseClient'
     import Avatar from './Avatar.svelte'
     import { goto } from "$app/navigation";
-
     export let session: AuthSession
-
     let loading = false
     let username: string | null = null
     let password: string | null = null
     let fullName: string | null = null
     let website: string | null = null
     let avatarUrl: string | null = null
-
     onMount(() => {
         getProfile()
     })
-
     const getProfile = async () => {
         try {
             loading = true

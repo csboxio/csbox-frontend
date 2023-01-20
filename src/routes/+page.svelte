@@ -1,8 +1,7 @@
 <script lang="ts">
     import { page } from '$app/stores'
-    import Account from './Account.svelte'
-    import Auth from './Auth.svelte'
-    let loading = false;
+    import Account from '$lib/components/Account.svelte'
+    import Auth from '$lib/components/Auth.svelte'
 </script>
 {#if !$page.data.session}
     {$page.data.session}
