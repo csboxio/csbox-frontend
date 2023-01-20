@@ -5,7 +5,7 @@
   import { onMount } from "svelte";
   import { supabaseClient } from "$lib/utilities/supabaseClient";
   import {uploadCourseImage} from "$lib/utilities/imageStorage.js";
-  /** @type {import("../../../.svelte-kit/types/src/routes").PageData} */
+  /** @type {import("./$types").PageData} */
   export let data;
   export let url;
   let size = 5;
@@ -15,9 +15,9 @@
   let user = $page.data.session.user;
 </script>
 
-<div class="flex flex-wrap items-start -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
-  <div class="w-full sm:w-1/3 px-4 mb-6 sm:mb-0">
-    <span class="block text-sm font-medium text-gray-100 py-3">Course Image</span>
+<div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
+  <div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
+    <span class="block text-sm font-medium text-gray-100">Course Image</span>
     {#if url}
       <img
         src={url}
@@ -29,9 +29,9 @@
       <div class="avatar no-image" style="height: {size}em; width: {size}em;"></div>
     {/if}
   </div>
-  <div class="w-full sm:w-2/3 px-4">
-    <div class="flex flex-wrap sm:flex-nowrap max-w-xl">
-      <div class="flex-shrink-0 w-20 h-20 mb-4 mr-4 rounded-full">
+  <div class="w-full sm:w-2/3 px-3 mb-3 sm:mb-0">
+    <div class="flex flex-wrap items-center -mx-3">
+      <div class="">
       </div>
 
       <div for="single">

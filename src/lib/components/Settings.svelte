@@ -10,8 +10,6 @@
   let user = $page.data.user.userData
   let email = $page.data.session.user.email
 
-  console.log('setting', user)
-
   let avatarUrl = user.avatar_url;
   let first_name = user.first_name;
   let last_name = user.last_name;
