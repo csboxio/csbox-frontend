@@ -9,7 +9,6 @@ export const load: LayoutServerLoad = async (event) => {
         return {
             session,
             user: {
-                sessionUser: session.user,
                 userData: event.locals.user,
                 name: "test",
             },

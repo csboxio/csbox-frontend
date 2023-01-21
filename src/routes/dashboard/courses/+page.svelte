@@ -58,6 +58,7 @@
           </button>
           </a>
           <div class="flex flex-wrap -mx-4 -mb-6">
+
             <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-6 drop-shadow-2xl">
               <div class="relative p-6 bg-gray-500 rounded-xl">
                 <img src="https://dummyimage.com/150x150/000/fff" class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl"/>

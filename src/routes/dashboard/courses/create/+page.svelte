@@ -46,8 +46,6 @@
           </div>
         </div>
 
-        <CourseImage/>
-
         <div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
           <div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
             <span class="text-sm font-medium text-gray-100">Course Prefix</span>
