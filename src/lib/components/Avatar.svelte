@@ -20,7 +20,7 @@
         src={url}
         alt={url ? 'Avatar' : 'No image'}
         class="avatar image"
-        style="height: {size}em; width: {size}em;"
+        style="height: {size}em; width: {size}em; background: transparent;"
       />
     {:else}
       <div class="avatar no-image" style="height: {size}em; width: {size}em;"></div>

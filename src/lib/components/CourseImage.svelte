@@ -11,7 +11,7 @@
   let size = 5;
   let avatarUrl: string;
   let uploading = false;
-  let files: FileList;
+  export let files: FileList;
   let user = $page.data.session.user;
 </script>
 
@@ -39,13 +39,14 @@
         <div class="w-full py-8 px-4 text-center border-dashed border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg">
           <div class="relative group h-14 w-14 mx-auto mb-4">
             <input
+              name="course_image"
               class="absolute top-0 left-0 h-40 w-40 opacity-0"
               type="file"
-              id="single"
+              id="course_image"
               accept="image/*"
               bind:files
-              on:change={uploadCourseImage(files, uploading, url, user)}
               disabled={uploading}>
+            <!--on:submit={uploadCourseImage(files, uploading, url)}-->
             <div class="flex items-center justify-center h-14 w-14 bg-blue-500 group-hover:bg-blue-600 rounded-full">
 
               <svg width="20" height="40" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -9,6 +9,9 @@
   // this is needed for the outside click div, that needs to be redone
   let model;
 
+  /** @type {import('./$types').PageData} */
+  export let data;
+  let course_data = data.courseData
 </script>
 <body class="bg-gray-600 antialiased bg-body text-body font-body" on:click|stopPropagation={() => model.handleToggleMenuTopRight("outside")} >
 <div class="">
@@ -48,8 +51,8 @@
         </div>
       </section>
 
-      <section class="pt-5 pb-8">
-        <div class="container px-4 mx-auto">
+      <section class="pt-6 pb-6">
+        <div class="container px-2 mx-auto">
           <a href="/dashboard/courses/create">
           <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-300 to-blue-500 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">
   <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
@@ -58,87 +61,42 @@
           </button>
           </a>
           <div class="flex flex-wrap -mx-4 -mb-6">
+            {#each course_data as {course_item_url, course_title, course_prefix, course_number, course_term} }
 
-            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-6 drop-shadow-2xl">
-              <div class="relative p-6 bg-gray-500 rounded-xl">
-                <img src="https://dummyimage.com/150x150/000/fff" class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl"/>
-                <a class="inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200" href="#">
-                  <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </a>
-                <h4 class="text-xl text-white font-bold mb-3">Software Development I</h4>
-                <h4 class="text-xl text-white font-bold mb-1">CS101 12345</h4>
-                <h4 class="text-gray-300 mb-1">2023 Spring Cred</h4>
+              <div class="flex w-1/2 justify-around i items-center md:w-1/2 ">
+              <div class="relative group md:w-1/2 ">
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                <div class="px-1 py-1">
+                  <div class="relative p-6 bg-gray-500  rounded-xl">
+                  <img src="https://dummyimage.com/150x150/000/fff" class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl"/>
+                  <a class="inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200" href="#">
+                    <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </a>
+                  <h4 class="text-xl text-white font-bold mb-3">{course_title}</h4>
+                  <h4 class="text-xl text-white font-bold mb-1">{course_prefix} {course_number}</h4>
+                  <h4 class="text-gray-300 mb-1">{course_term}</h4>
+                </div>
+              </div>
               </div>
             </div>
+              {/each}
 
-            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-6 drop-shadow-2xl">
-              <div class="relative p-6 bg-gray-500 rounded-xl">
-                <img src="https://dummyimage.com/150x150/000/fff" class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl"/>
-                <a class="inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200" href="#">
-                  <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </a>
-                <h4 class="text-xl text-white font-bold mb-3">Software Development II</h4>
-                <h4 class="text-xl text-white font-bold mb-1">CS101 12345</h4>
-                <h4 class="text-gray-300 mb-1">2023 Spring Cred</h4>
+            <!--No courses found-->
+            {#if course_data.length === 0}
+              <div class="flex p-4 mb-12 mt-12 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">
+                <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                <span class="sr-only">Info</span>
+                <div>
+                  <span class="font-medium">No courses found...</span>
+                </div>
               </div>
-            </div>
-
-            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-6 drop-shadow-2xl">
-              <div class="relative p-6 bg-gray-500 rounded-xl">
-                <img src="https://dummyimage.com/150x150/000/fff" class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl"/>
-                <a class="inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200" href="#">
-                  <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </a>
-                <h4 class="text-xl text-white font-bold mb-3">Software Development III</h4>
-                <h4 class="text-xl text-white font-bold mb-1">CS101 12345</h4>
-                <h4 class="text-gray-300 mb-1">2023 Fall Cred</h4>
-              </div>
-            </div>
-
-            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-6 drop-shadow-2xl">
-              <div class="relative p-6 bg-gray-500 rounded-xl">
-                <img src="https://dummyimage.com/150x150/000/fff" class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl"/>
-                <a class="inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200" href="#">
-                  <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </a>
-                <h4 class="text-xl text-white font-bold mb-3">Software Development IIII</h4>
-                <h4 class="text-xl text-white font-bold mb-1">CS101 12345</h4>
-                <h4 class="text-gray-300 mb-1">2023 Fall Cred</h4>
-              </div>
-            </div>
-
-            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-6">
-
-            </div>
-            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-6">
-
-            </div>
-            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-6">
-
-            </div>
-            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-6">
-
-            </div>
-            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-6">
-
-            </div>
+            {/if}
           </div>
+
         </div>
       </section>
     </div>

@@ -83,7 +83,7 @@ export const uploadCourseImage = async (files: FileList, uploading: boolean, url
     // @ts-ignore
     const { error } = await supabaseClient.storage.from('courses').upload(filePath, rfile)
     const { data } = supabaseClient.storage.from('courses').getPublicUrl(filePath)
-    await updateCourse(data.publicUrl, courseId)
+    //await updateCourse(data.publicUrl, courseId)
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
