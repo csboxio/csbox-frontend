@@ -23,9 +23,9 @@
 <form method="POST" action="?/createCourse">
   <section class="py-3">
     <div class="container px-9 mx-auto">
-      <div class="h-screen flex">
+      <div class="min-h-screen flex">
 
-        <div class="flex w-1/2 justify-around i items-center md:w-1/2 ">
+        <div class="flex w-1/2 justify-around i items-center md:w-1/2">
           <div class="relative group md:w-1/2 ">
           <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
           <div class="px-1 py-1">
@@ -156,7 +156,7 @@
               </div>
             </div>
 
-            <CourseImage bind:files={files} />
+            <!--<CourseImage bind:files={files} />-->
 
             <div class="w-full sm:w-auto px-4">
               <div>
