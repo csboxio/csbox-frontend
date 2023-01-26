@@ -63,15 +63,15 @@
 
         <div class="container m-8">
           <div class="flex flex-wrap -mx-12 -mb-6">
-            {#each course_data as {course_item_url, course_title, course_prefix, course_number, course_term} }
+            {#each course_data as {course_image_url, course_title, course_prefix, course_number, course_term} }
 
               <div class="mb-8 mx-4">
                   <div class="min-w-xs max-w-xs ">
               <div class="relative group">
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-300 to-blue-400 rounded-lg blur opacity-10 group-hover:opacity-75 transition duration-1500 group-hover:duration-200 animate-tilt"></div>
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-10 group-hover:opacity-75 transition duration-1500 group-hover:duration-200 animate-tilt"></div>
                 <div>
                   <div class="relative p-6 bg-gray-700  rounded-xl">
-                  <img src="https://dummyimage.com/150x150/000/fff" class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl"/>
+                  <img src={course_image_url} class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl"/>
                   <a class="inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200" href="#">
                     <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>

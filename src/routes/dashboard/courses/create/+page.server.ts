@@ -29,8 +29,9 @@ export const actions: Actions = {
         course_term: term,
       }
       const { error } = await supabaseClient.from('courses').insert(updates)
+      if (!error) {
+        return { success: true, course_id: updates.id };
+      }
     }
-
-    throw redirect(303, '/dashboard/courses')
   }
 }

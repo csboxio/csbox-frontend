@@ -2,9 +2,11 @@ import { supabaseClient } from "$lib/utilities/supabaseClient";
 import type { User } from "@supabase/supabase-js";
 import { resizeFile } from "$lib/utilities/image.js.js";
 import { browser } from "$app/environment";
+import { page } from "$app/stores";
+
+import {getSupabase} from "@supabase/auth-helpers-sveltekit";
 
 let loading = false
-let avatarUrl: string | null = null
 
 export const getPath = async (user: User) => {
   try {
@@ -30,9 +32,8 @@ export const getPath = async (user: User) => {
 
 }
 
-export const deleteImage = async (filePath: String) => {
+export const deleteImage = async (filePath: string) => {
   // Delete image from storage
-  // @ts-ignore
   const { data } = await supabaseClient.storage.from('avatars').remove(filePath)
   // Check if null
   if (data == null) {
@@ -69,7 +70,7 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
   }
 }
 
-export const uploadCourseImage = async (files: FileList, uploading: boolean, url: string, courseId: bigint) => {
+export const uploadCourseImage = async (files: FileList, uploading: boolean, url: string, courseId: bigint, user: User) => {
   try {
     if (!files || files.length === 0) {
       throw new Error('You must select an image to upload.')
@@ -83,7 +84,7 @@ export const uploadCourseImage = async (files: FileList, uploading: boolean, url
     // @ts-ignore
     const { error } = await supabaseClient.storage.from('courses').upload(filePath, rfile)
     const { data } = supabaseClient.storage.from('courses').getPublicUrl(filePath)
-    //await updateCourse(data.publicUrl, courseId)
+    await updateCourse(data.publicUrl, courseId, user)
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
@@ -102,8 +103,7 @@ export async function updateProfile(avatarUrl: string, user: User) {
       updated_at: new Date()
     }
 
-    // @ts-ignore
-    let { error } = await supabaseClient.from('users').upsert(updates)
+    const { error } = await supabaseClient.from('users').upsert(updates)
 
     if (error) throw error
   } catch (error) {
@@ -115,20 +115,22 @@ export async function updateProfile(avatarUrl: string, user: User) {
   }
 }
 
-export async function updateCourse(courseUrl: string, courseId: bigint) {
+export async function updateCourse(courseUrl: string, courseId: bigint, user: User) {
   try {
-
+    console.log(courseId, user.id)
     loading = true
-
     const updates = {
       id: courseId,
+      inserted_at: new Date(),
+      created_by: user.id,
       course_image_url: courseUrl,
-      updated_at: new Date()
     }
+    const { error } = await supabaseClient.from('courses')
+        .upsert(updates)
+        .eq('created_by', user.id)
+        .eq('id', courseId)
 
-    // @ts-ignore
-    let { error } = await supabaseClient.from('courses').upsert(updates)
-
+    console.log(error)
     if (error) throw error
   } catch (error) {
     if (error instanceof Error) {

@@ -9,10 +9,11 @@
   export let data;
   export let url;
   let size = 5;
-  let avatarUrl: string;
+  export let courseID: bigint;
   let uploading = false;
   export let files: FileList;
   let user = $page.data.session.user;
+  console.log("t")
 </script>
 
 <div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
@@ -45,8 +46,8 @@
               id="course_image"
               accept="image/*"
               bind:files
+              on:change={uploadCourseImage(files, uploading, url, courseID, user)}
               disabled={uploading}>
-            <!--on:submit={uploadCourseImage(files, uploading, url)}-->
             <div class="flex items-center justify-center h-14 w-14 bg-blue-500 group-hover:bg-blue-600 rounded-full">
 
               <svg width="20" height="40" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
