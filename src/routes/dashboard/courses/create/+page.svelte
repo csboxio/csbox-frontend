@@ -65,14 +65,14 @@
 
 <!--Svelte-kit preloading doesn't like me changing the body background color between pages-->
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
-<div class="from-gray-500 to-gray-600 bg-gradient-to-br antialiased bg-body text-body font-body">
+<div class="from-gray-500 to-gray-500 bg-gradient-to-br antialiased bg-body text-body font-body">
 
 <form method="POST" action="?/createCourse" on:submit|preventDefault={handleSubmit}>
   <section class="py-3">
-    <div class="container px-9 mx-auto">
-      <div class="min-h-screen flex">
+    <div class="container px-6 mx-auto">
+      <div class="min-h-screen gap-4 flex min-w-2/3">
 
-          <div class="flex w-1/2 justify-around i items-center md:w-1/2">
+          <div class="flex w-2/3 justify-around i items-center md:w-2/3">
               <div class="min-w-xs max-w-xs ">
                   <div class="relative group">
                       <div class="absolute -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-10 group-hover:opacity-75 transition duration-1500 group-hover:duration-200 animate-tilt"></div>
@@ -95,7 +95,7 @@
               </div>
           </div>
 
-        <div>
+        <div class="flex w-2/3 justify-around i items-center md:w-2/3">
           <div class="p-9 bg-gray-600 rounded-xl">
             <!--Header-->
             <div
