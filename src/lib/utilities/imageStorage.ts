@@ -34,6 +34,7 @@ export const getPath = async (user: User) => {
 
 export const deleteImage = async (filePath: string) => {
   // Delete image from storage
+  // @ts-ignore
   const { data } = await supabaseClient.storage.from('avatars').remove(filePath)
   // Check if null
   if (data == null) {

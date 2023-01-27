@@ -11,10 +11,11 @@
   /** @type {import("./$types").PageData} */
   export let data;
   // TODO error handling
-  let course_title: string | null = null;
-  let course_prefix: string | null = null;
-  let course_number: string | null = null;
-  let course_term: string | null = null;
+  let course_title: string | null = "Software Development I";
+  let course_prefix: string | null = "CS101";
+  let course_number: string | null = "12345";
+  let course_term: string | null = "Spring 2023";
+  let course_image_url: string| null = "https://dummyimage.com/150x150/000/fff";
 
   let step;
 
@@ -71,26 +72,28 @@
     <div class="container px-9 mx-auto">
       <div class="min-h-screen flex">
 
-        <div class="flex w-1/2 justify-around i items-center md:w-1/2">
-          <div class="relative group md:w-1/2 ">
-            <div class="absolute -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-10 group-hover:opacity-75 transition duration-1500 group-hover:duration-200 animate-tilt"></div>
-          <div>
-              <div class="relative p-6 bg-gray-700 rounded-xl">
-                <img src="https://dummyimage.com/150x150/000/fff" class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg"/>
-                <a class="inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200" href="#">
-                  <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </a>
-                <h4 class="text-xl text-white font-bold mb-3">Software Development</h4>
-                <h4 class="text-xl text-white font-bold mb-1">CS101 12345</h4>
-                <h4 class="text-gray-300 mb-1">Spring 2024</h4>
+          <div class="flex w-1/2 justify-around i items-center md:w-1/2">
+              <div class="min-w-xs max-w-xs ">
+                  <div class="relative group">
+                      <div class="absolute -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-10 group-hover:opacity-75 transition duration-1500 group-hover:duration-200 animate-tilt"></div>
+                      <div>
+                          <div class="relative p-6 bg-gray-700  rounded-xl">
+                              <img src={course_image_url} class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl"/>
+                              <a class="inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200" href="#">
+                                  <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                      <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                      <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                  </svg>
+                              </a>
+                              <h4 class="text-xl text-white font-bold mb-3">{course_title}</h4>
+                              <h4 class="text-xl text-white font-bold mb-1">{course_prefix} {course_number}</h4>
+                              <h4 class="text-gray-300 mb-1">{course_term}</h4>
+                          </div>
+                      </div>
+                  </div>
               </div>
           </div>
-        </div>
-        </div>
 
         <div>
           <div class="p-9 bg-gray-600 rounded-xl">
@@ -145,7 +148,7 @@
                     <div class="w-full sm:w-auto px-3 mb-3 sm:mb-0">
                       <input name="course_title" id="course_title" type="text"
                              class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
-                             placeholder="Software Development I" bind:value={course_title}>
+                             placeholder="" bind:value={course_title}>
                     </div>
                   </div>
                 </div>
@@ -162,7 +165,7 @@
                     <div class="w-full sm:w-auto px-3 mb-3 sm:mb-0">
                       <input name="course_prefix" id="course_prefix" type="text"
                              class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
-                             placeholder="CS101" bind:value={course_prefix}>
+                             placeholder="" bind:value={course_prefix}>
                     </div>
                   </div>
                 </div>
@@ -179,7 +182,7 @@
                     <div class="w-full sm:w-auto px-3 mb-3 sm:mb-0">
                       <input name="course_number" id="course_number" type="text"
                              class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
-                             placeholder="12345" bind:value={course_number}>
+                             placeholder="" bind:value={course_number}>
                     </div>
                   </div>
                 </div>
@@ -196,7 +199,7 @@
                     <div class="w-full sm:w-auto px-3 mb-3 sm:mb-0">
                       <input name="course_term" id="course_term" type="text"
                              class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
-                             placeholder="Spring 2023" bind:value={course_term}>
+                             placeholder="" bind:value={course_term}>
                     </div>
                   </div>
                 </div>
