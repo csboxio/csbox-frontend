@@ -13,7 +13,6 @@
   let uploading = false;
   export let files: FileList;
   let user = $page.data.session.user;
-  console.log("t")
 </script>
 
 <div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">

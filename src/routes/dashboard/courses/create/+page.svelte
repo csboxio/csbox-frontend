@@ -49,9 +49,13 @@
       if (result.type === 'success') {
           // re-run all `load` functions, following the successful update
           step = 2;
-          currentCourseId = JSON.stringify(result["data"].course_id)
-
-          //currentCourseId = data.get('course_number') as string
+          try {
+              currentCourseId = JSON.stringify(result["data"].course_id)
+          }
+          catch {
+              console.log("ERROR: No course ID found")
+              alert("ERROR: Try logging out, and logging back in.")
+          }
           await invalidateAll();
       }
 
@@ -186,6 +190,7 @@
             <div class="flex justify-between w-full sm:w-auto">
               <div>
                 <!--Save and cancel buttons-->
+                  <!--TODO cancel delete row-->
                 <a
                   class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
                   href="/dashboard/courses" >Cancel</a>
@@ -207,10 +212,17 @@
                 <form>
                 <CourseImage bind:courseID={currentCourseId}/>
                 </form>
-                <button class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-                        on:click={() => handleSteps(3)}>
-                    Next
-                </button>
+                <div>
+                    <!--Save and cancel buttons-->
+                    <!--TODO cancel delete row-->
+                    <a
+                            class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
+                            href="/dashboard/courses" >Cancel</a>
+                    <button class="float-right inline-block py-2 px-4 text-xs text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
+                            on:click={() => handleSteps(3)}>
+                        Next
+                    </button>
+                </div>
                 <!--Step 3-->
               {:else if step === 3}
                 <button class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
