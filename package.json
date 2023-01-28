@@ -47,11 +47,13 @@
 		"@supabase/supabase-js": "^2.2.1",
 		"@sveltejs/adapter-node": "^1.0.0",
 		"axios": "^1.2.1",
+		"filepond": "^4.30.4",
 		"lib": "^4.3.3",
 		"Prettier": "npm:prettier@^2.8.1",
 		"react-image-file-resizer": "^0.4.8",
 		"svelte-apexcharts": "^1.0.2",
 		"svelte-click-outside": "^1.0.0",
+		"svelte-filepond": "^0.2.0",
 		"svelte-steps": "^2.4.1"
 	}
 }

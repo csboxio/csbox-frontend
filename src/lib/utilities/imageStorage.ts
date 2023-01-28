@@ -6,7 +6,7 @@ import { page } from "$app/stores";
 
 import {getSupabase} from "@supabase/auth-helpers-sveltekit";
 
-let loading = false
+export let loading: boolean = false;
 
 export const getPath = async (user: User) => {
   try {
@@ -73,6 +73,7 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
 
 export const uploadCourseImage = async (files: FileList, uploading: boolean, url: string, courseId: bigint, user: User) => {
   try {
+    loading = true;
     if (!files || files.length === 0) {
       throw new Error('You must select an image to upload.')
     }
@@ -86,6 +87,7 @@ export const uploadCourseImage = async (files: FileList, uploading: boolean, url
     const { error } = await supabaseClient.storage.from('courses').upload(filePath, rfile)
     const { data } = supabaseClient.storage.from('courses').getPublicUrl(filePath)
     await updateCourse(data.publicUrl, courseId, user)
+    loading = false;
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
@@ -118,8 +120,6 @@ export async function updateProfile(avatarUrl: string, user: User) {
 
 export async function updateCourse(courseUrl: string, courseId: bigint, user: User) {
   try {
-    console.log(courseId, user.id)
-    loading = true
     const updates = {
       id: courseId,
       inserted_at: new Date(),
@@ -130,8 +130,6 @@ export async function updateCourse(courseUrl: string, courseId: bigint, user: Us
         .upsert(updates)
         .eq('created_by', user.id)
         .eq('id', courseId)
-
-    console.log(error)
     if (error) throw error
   } catch (error) {
     if (error instanceof Error) {

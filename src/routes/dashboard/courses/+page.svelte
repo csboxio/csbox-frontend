@@ -67,10 +67,10 @@
 
               <div class="mb-8 mx-4">
                   <div class="min-w-xs max-w-xs ">
-              <div class="relative group">
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-10 group-hover:opacity-75 transition duration-1500 group-hover:duration-200 animate-tilt"></div>
+              <div class="relative group ">
+                <div class="absolute group-hover:scale-110 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200"></div>
                 <div>
-                  <div class="relative p-6 bg-gray-700  rounded-xl">
+                  <div class="relative p-6 bg-gray-700 rounded-xl group-hover:scale-110 transition duration-1500">
                   <img src={course_image_url == null ? "https://via.placeholder.com/150/000000/FFFFFF/?text=" : course_image_url }  class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl bg-gray-600 "/>
                   <div class="inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200" href="#">
                     <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
