@@ -1,8 +1,8 @@
-import type { PageLoad } from './$types'
+import type { PageServerLoadEvent } from './$types'
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 import { page } from '$app/stores';
 
-export const load: PageLoad = async (event) => {
+export const load: PageServerLoadEvent = async (event) => {
   const { session, supabaseClient } = await getSupabase(event);
   if (session) {
     const { data: courseData } = await supabaseClient.from('courses')
