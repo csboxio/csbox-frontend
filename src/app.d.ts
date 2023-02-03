@@ -11,16 +11,20 @@ declare global {
         interface Locals {
             sb: TypedSupabaseClient
             session: Session | null;
-        }
 
+            user: Database.users
+        }
         interface Supabase {
             Database: import('./schema').Database;
 
             SchemaName: 'public';
         }
-
         interface PageData {
             session: import('@supabase/supabase-js').Session | null
+        }
+
+        declare module '@fortawesome/pro-solid-svg-icons/index.es' {
+            export * from '@fortawesome/pro-solid-svg-icons';
         }
     }
 }

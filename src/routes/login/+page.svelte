@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores'
-  import Account from '../Account.svelte'
-  import Auth from '../Auth.svelte'
+  import Account from '$lib/components/Account.svelte'
+  import Auth from '$lib/components/Auth.svelte'
   let loading = false;
 </script>
 

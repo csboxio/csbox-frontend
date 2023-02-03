@@ -1,21 +1,26 @@
 import type { Actions } from './$types'
-import { error, redirect } from '@sveltejs/kit'
+import { error, fail, redirect } from "@sveltejs/kit";
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
+import { AuthApiError } from "@supabase/supabase-js";
 
 export const actions: Actions = {
-  signin: async (event) => {
-    const { request, cookies, url } = event
-    const { session, supabaseClient } = await getSupabase(event)
+  signin: async ({request, locals}) => {
+    const body = Object.fromEntries(await request.formData())
 
-    const formData = await request.formData()
-
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-
-    const { error } = await supabaseClient.auth.signInWithPassword({
-      email,
-      password,
+    const { error: err } = await locals.sb.auth.signInWithPassword({
+      email: body.email as string,
+      password: body.password as string,
     })
+    if (err) {
+      if (err instanceof  AuthApiError && err.status == 400) {
+        return fail(400, {
+          error: 'Invalid credentials'
+        })
+      }
+      return fail(500, {
+        error: 'Server error. Please try again later.'
+      })
+    }
 
     throw redirect(303, '/')
   },
@@ -42,10 +47,8 @@ export const actions: Actions = {
       updated_at: new Date()
     }
 
-    console.log(updates)
-
     // @ts-ignore
-    let { error } = await supabaseClient.from('profiles').upsert(updates)
+    let { error } = await supabaseClient.from('users').upsert(updates)
 
 
     throw redirect(303, '/')

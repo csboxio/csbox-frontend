@@ -1,4 +1,4 @@
-import { supabaseClient } from "$lib/supabaseClient";
+import { supabaseClient } from "$lib/utilities/supabaseClient";
 import { json } from "@sveltejs/kit";
 import { getSupabase } from "@supabase/auth-helpers-sveltekit";
 
@@ -11,7 +11,7 @@ export async function POST({ request }) {
   let avatar_url;
   try {
     const { data, error, status } = await supabaseClient
-      .from("profiles")
+      .from("users")
       .select(`avatar_url`)
       // @ts-ignore
       .eq("id", user.id)

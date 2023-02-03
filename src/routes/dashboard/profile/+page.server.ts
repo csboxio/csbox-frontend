@@ -1,17 +1,11 @@
-import type { Actions, PageServerLoad } from "./$types";
+import type {Actions, PageServerLoad} from "./$types";
 import { error, redirect } from '@sveltejs/kit'
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 
-export const load: PageServerLoad = async ( {locals}) => {
-  const { data, error: err } = await locals.sb.auth.getSession()
-  if (err) {
-    throw error(500, err?.message)
-  }
-}
 
 export const actions: Actions = {
   updateProfile: async (event) => {
-    const { request, cookies, url } = event
+    const { request } = event
     const { supabaseClient } = await getSupabase(event)
     const formData = await request.formData()
 
@@ -31,12 +25,10 @@ export const actions: Actions = {
       updated_at: new Date()
     }
 
-
-    console.log(updates)
     // @ts-ignore
-    let { error } = await supabaseClient.from('profiles').upsert(updates)
+    let { error } = await supabaseClient.from('users').upsert(updates)
 
 
-    throw redirect(303, '/profile')
+    throw redirect(303, '/dashboard/profile')
   }
 }

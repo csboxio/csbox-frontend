@@ -1,7 +1,5 @@
 <script lang="ts">
-    import type { ActionData } from './$types';
-    import { applyAction, enhance, type SubmitFunction } from '$app/forms';
-    import { invalidate } from '$app/navigation';
+    import type { ActionData } from '../../../.svelte-kit/types/src/routes';
 
     export let form: ActionData;
     let loading = false;

@@ -1,24 +1,31 @@
 <script lang="ts">
   import { page } from '$app/stores'
-  import Chart from "$lib/charts.svelte"
-  import Settings from "$lib/settings.svelte"
-  import Navbar from "$lib/navbar.svelte"
-  import Auth from '../Auth.svelte'
-  import { redirect } from "@sveltejs/kit";
+  import Chart from "$lib/components/Charts.svelte"
+  import Settings from "$lib/components/Settings.svelte"
+  import Navbar from "$lib/components/Navbar.svelte"
+  let session = $page.data.session;
+  let email = $page.data.session.user.email
+  let user = $page.data.user
 
-  let model
+  /** @type {import("./$types").PageLoadEvent} */
+  export let data;
+  let first_name: string | null = user.first_name;
+  let last_name: string | null =  user.last_name;
+  let avatarUrl: string | null = user.avatar_url;
+
+  // this is needed for the outside click div, that needs to be redone
+  let model;
 
 </script>
 <body class="bg-gray-600 antialiased bg-body text-body font-body" on:click|stopPropagation={() => model.handleToggleMenuTopRight("outside")} >
 <div class="">
   <Navbar/>
-    <div class="mx-auto lg:ml-24">
+    <div class="mx-auto lg:ml-20">
       <section>
         <div class="pt-5 pb-6 px-8 bg-gray-700">
           <div class="flex flex-wrap items-center justify-between -mx-2">
             <div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
               <h4 class="text-2xl font-bold text-white tracking-wide leading-7 mb-1">Dashboard</h4>
-              <p class="text-xs text-gray-300">Get daily review of the week</p>
             </div>
             <div class="w-full lg:w-auto px-2">
               <div class="sm:flex items-center">
@@ -41,11 +48,7 @@
                     </a>
                   </div>
                 </div>
-
-
-
-                <Settings bind:this={model} />
-
+                <Settings bind:this={model}/>
               </div>
             </div>
           </div>
@@ -57,9 +60,9 @@
           <div class="mb-6">
             <div class="flex flex-wrap -mx-3 -mb-6">
               <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
-                <div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl">
+                <div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
                   <div class="max-w-xs mx-auto text-center">
-                    <div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl">
+                    <div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl ">
                       <svg width="22" height="22" viewbox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M21 16H1C0.734784 16 0.48043 16.1054 0.292893 16.2929C0.105357 16.4804 0 16.7348 0 17C0 17.2652 0.105357 17.5196 0.292893 17.7071C0.48043 17.8946 0.734784 18 1 18H21C21.2652 18 21.5196 17.8946 21.7071 17.7071C21.8946 17.5196 22 17.2652 22 17C22 16.7348 21.8946 16.4804 21.7071 16.2929C21.5196 16.1054 21.2652 16 21 16ZM21 20H1C0.734784 20 0.48043 20.1054 0.292893 20.2929C0.105357 20.4804 0 20.7348 0 21C0 21.2652 0.105357 21.5196 0.292893 21.7071C0.48043 21.8946 0.734784 22 1 22H21C21.2652 22 21.5196 21.8946 21.7071 21.7071C21.8946 21.5196 22 21.2652 22 21C22 20.7348 21.8946 20.4804 21.7071 20.2929C21.5196 20.1054 21.2652 20 21 20ZM5 6C4.80222 6 4.60888 6.05865 4.44443 6.16853C4.27998 6.27841 4.15181 6.43459 4.07612 6.61732C4.00043 6.80004 3.98063 7.00111 4.01921 7.19509C4.0578 7.38907 4.15304 7.56725 4.29289 7.70711C4.43275 7.84696 4.61093 7.9422 4.80491 7.98079C4.99889 8.01937 5.19996 7.99957 5.38268 7.92388C5.56541 7.84819 5.72159 7.72002 5.83147 7.55557C5.94135 7.39112 6 7.19778 6 7C6 6.73478 5.89464 6.48043 5.70711 6.29289C5.51957 6.10536 5.26522 6 5 6ZM19 0H3C2.20435 0 1.44129 0.31607 0.87868 0.87868C0.31607 1.44129 0 2.20435 0 3V11C0 11.7956 0.31607 12.5587 0.87868 13.1213C1.44129 13.6839 2.20435 14 3 14H19C19.7956 14 20.5587 13.6839 21.1213 13.1213C21.6839 12.5587 22 11.7956 22 11V3C22 2.20435 21.6839 1.44129 21.1213 0.87868C20.5587 0.31607 19.7956 0 19 0ZM20 11C20 11.2652 19.8946 11.5196 19.7071 11.7071C19.5196 11.8946 19.2652 12 19 12H3C2.73478 12 2.48043 11.8946 2.29289 11.7071C2.10536 11.5196 2 11.2652 2 11V3C2 2.73478 2.10536 2.48043 2.29289 2.29289C2.48043 2.10536 2.73478 2 3 2H19C19.2652 2 19.5196 2.10536 19.7071 2.29289C19.8946 2.48043 20 2.73478 20 3V11ZM11 4C10.4067 4 9.82664 4.17595 9.33329 4.50559C8.83994 4.83524 8.45542 5.30377 8.22836 5.85195C8.0013 6.40013 7.94189 7.00333 8.05764 7.58527C8.1734 8.16721 8.45912 8.70176 8.87868 9.12132C9.29824 9.54088 9.83279 9.8266 10.4147 9.94236C10.9967 10.0581 11.5999 9.9987 12.1481 9.77164C12.6962 9.54458 13.1648 9.16006 13.4944 8.66671C13.8241 8.17336 14 7.59334 14 7C14 6.20435 13.6839 5.44129 13.1213 4.87868C12.5587 4.31607 11.7956 4 11 4ZM11 8C10.8022 8 10.6089 7.94135 10.4444 7.83147C10.28 7.72159 10.1518 7.56541 10.0761 7.38268C10.0004 7.19996 9.98063 6.99889 10.0192 6.80491C10.0578 6.61093 10.153 6.43275 10.2929 6.29289C10.4327 6.15304 10.6109 6.0578 10.8049 6.01921C10.9989 5.98063 11.2 6.00043 11.3827 6.07612C11.5654 6.15181 11.7216 6.27998 11.8315 6.44443C11.9414 6.60888 12 6.80222 12 7C12 7.26522 11.8946 7.51957 11.7071 7.70711C11.5196 7.89464 11.2652 8 11 8ZM17 6C16.8022 6 16.6089 6.05865 16.4444 6.16853C16.28 6.27841 16.1518 6.43459 16.0761 6.61732C16.0004 6.80004 15.9806 7.00111 16.0192 7.19509C16.0578 7.38907 16.153 7.56725 16.2929 7.70711C16.4327 7.84696 16.6109 7.9422 16.8049 7.98079C16.9989 8.01937 17.2 7.99957 17.3827 7.92388C17.5654 7.84819 17.7216 7.72002 17.8315 7.55557C17.9414 7.39112 18 7.19778 18 7C18 6.73478 17.8946 6.48043 17.7071 6.29289C17.5196 6.10536 17.2652 6 17 6Z" fill="#194BFB"></path>
                       </svg>
@@ -78,7 +81,7 @@
                 </div>
               </div>
               <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
-                <div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl">
+                <div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
                   <div class="max-w-xs mx-auto text-center">
                     <div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl">
                       <svg width="22" height="18" viewbox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +102,7 @@
                 </div>
               </div>
               <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
-                <div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl">
+                <div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
                   <div class="max-w-xs mx-auto text-center">
                     <div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl">
                       <svg width="16" height="20" viewbox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -120,7 +123,7 @@
                 </div>
               </div>
               <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
-                <div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl">
+                <div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
                   <div class="max-w-xs mx-auto text-center">
                     <div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl">
                       <svg width="22" height="22" viewbox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -147,7 +150,7 @@
           <div class="mb-6">
             <div class="flex flex-wrap -mx-3">
               <div class="w-full lg:w-2/3 px-3 mb-6 lg:mb-0">
-                <div class="p-6 bg-gray-500 rounded-xl">
+                <div class="p-6 bg-gray-500 rounded-xl drop-shadow-xl">
                   <div class="flex flex-wrap -mx-4 -mb-4 justify-between items-center">
                     <div class="w-auto px-4 mb-4">
                       <h4 class="text-gray-100 font-bold tracking-wide">Grade Overview</h4>
@@ -181,7 +184,7 @@
                 </div>
               </div>
               <div class="w-full lg:w-1/3 px-3">
-                <div class="p-6 bg-gray-500 rounded-xl">
+                <div class="p-6 bg-gray-500 rounded-xl drop-shadow-xl">
                   <h4 class="text-gray-100 font-bold tracking-wide mb-8">Average grade by category</h4>
                   <div class="chart mb-10" data-type="donut" style="min-height: 180px;"></div>
                   <div class="flex flex-wrap px-4 items-center justify-between">
@@ -208,7 +211,7 @@
 
           <div class="flex flex-wrap -mx-3">
             <div class="w-full lg:w-1/3 px-3 mb-6 lg:mb-0">
-              <div class="h-full py-6 px-4 sm:px-6 bg-gray-500 rounded-xl">
+              <div class="h-full py-6 px-4 sm:px-6 bg-gray-500 rounded-xl drop-shadow-xl">
                 <h4 class="text-lg text-gray-100 font-semibold mb-6">Notifications</h4>
                 <a class="flex p-4 items-center justify-between hover:bg-gray-600 rounded-xl transition duration-150" href="#">
                   <div class="flex items-center pr-2">

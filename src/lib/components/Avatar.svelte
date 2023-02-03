@@ -1,36 +1,26 @@
 <script lang="ts" xmlns="http://www.w3.org/1999/html">
-  import { uploadAvatar } from "$lib/account";
+  import { uploadAvatar } from "$lib/utilities/imageStorage";
   import { page } from "$app/stores";
-  import { browser } from "$app/environment";
-  import { onMount } from "svelte";
-  import { supabaseClient } from "$lib/supabaseClient";
 
+  /** @type {import("../../../.svelte-kit/types/src/routes").PageData} */
+  export let data;
+  export let url;
   let size = 5;
-  export let url: string;
   let avatarUrl: string;
-  let data: string | null = null;
   let uploading = false;
   let files: FileList;
   let user = $page.data.session.user;
-
-  async function handleAvatar() {
-    if (browser == true) {
-      avatarUrl = url
-    }
-  }
-  $: if (url) handleAvatar()
 </script>
 
 <div class="flex flex-wrap items-start -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
   <div class="w-full sm:w-1/3 px-4 mb-6 sm:mb-0">
     <span class="block text-sm font-medium text-gray-100 py-3">Profile Picture</span>
-    {#if avatarUrl}
+    {#if url}
       <img
-        loading="lazy"
-        src={avatarUrl}
-        alt={avatarUrl ? 'Avatar' : 'No image'}
+        src={url}
+        alt={url ? 'Avatar' : 'No image'}
         class="avatar image"
-        style="height: {size}em; width: {size}em;"
+        style="height: {size}em; width: {size}em; background: transparent;"
       />
     {:else}
       <div class="avatar no-image" style="height: {size}em; width: {size}em;"></div>

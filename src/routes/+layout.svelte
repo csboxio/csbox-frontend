@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { page } from '$app/stores'
-    import { supabaseClient } from '$lib/supabaseClient'
-    import { invalidate } from '$app/navigation'
+    import { supabaseClient } from '$lib/utilities/supabaseClient'
+    import {invalidate, invalidateAll} from '$app/navigation'
     import { onMount } from 'svelte'
     import '../app.css'
 
@@ -9,14 +8,14 @@
         const {
             data: { subscription }
         } = supabaseClient.auth.onAuthStateChange(() => {
-            invalidate('supabase:auth')
+            invalidateAll()
         })
-
         return () => {
             subscription.unsubscribe()
         }
     })
 </script>
+
 <svelte:head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

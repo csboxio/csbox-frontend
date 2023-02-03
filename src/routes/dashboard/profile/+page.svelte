@@ -1,35 +1,23 @@
 <script lang="ts" xmlns="http://www.w3.org/1999/html">
   import { page } from "$app/stores";
-  import Avatar from "../Avatar.svelte";
+  import Avatar from "$lib/components/Avatar.svelte";
   import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
   let session = $page.data.session;
 
   /** @type {import("./$types").PageData} */
   export let data;
-  let userRow;
+  // TODO error handling
   let username: string | null = null;
-  let firstName: string | null = null;
-  let last_name: string | null = null;
-  let website: string | null = null;
-  let country: string | null = null;
-  let avatarUrl: string | null = null;
+  let firstName: string | null = data.user.first_name;
+  let last_name: string | null = data.user.last_name;
+  let website: string | null = data.user.website;
+  let country: string | null = data.user.country;
+  let avatarUrl: string | null = data.user.avatar_url;
 
-  const getUserRow = async () => {
-    // Page Data user information
-    let userRow
-    ({ userRow } = data);
-    return userRow[0];
+  function previousPage() {
+    history.back()
   }
-
-  onMount(async () => {
-    userRow = await getUserRow()
-    username = userRow.username
-    firstName = userRow.first_name
-    last_name = userRow.last_name
-    website = userRow.website
-    country = userRow.country
-    avatarUrl = userRow.avatar_url
-  })
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
@@ -44,8 +32,8 @@
           <div class="w-full sm:w-auto px-4">
             <div>
               <!--Save and cancel buttons-->
-              <a class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-600 hover:bg-gray-400 rounded-lg transition duration-200" href="/dashboard">Cancel</a>
-              <input class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200" href="/dashboard" type="submit">
+              <a class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-600 hover:bg-gray-400 rounded-lg transition duration-200" rel="external" on:click={previousPage}>Cancel</a>
+              <input class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200" rel="external" href="/dashboard" type="submit">
             </div>
           </div>
         </div>

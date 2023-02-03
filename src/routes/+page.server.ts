@@ -8,12 +8,10 @@ export const load: PageServerLoad = async ( {locals}) => {
     throw error(500, err?.message)
   }
 }
-
 export const actions: Actions = {
   signin: async (event) => {
     const { request, cookies, url } = event
     const { session, supabaseClient } = await getSupabase(event)
-
     const formData = await request.formData()
 
     const email = formData.get('email') as string
@@ -45,13 +43,7 @@ export const actions: Actions = {
       website: website,
       updated_at: new Date()
     }
-
-    console.log(updates)
-
-    // @ts-ignore
-    let { error } = await supabaseClient.from('profiles').upsert(updates)
-
-
+    let { error } = await supabaseClient.from('users').upsert(updates)
     throw redirect(303, '/')
   }
 }

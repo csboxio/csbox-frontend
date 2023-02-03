@@ -1,37 +1,33 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import type { AuthSession } from '@supabase/supabase-js'
-    import { supabaseClient } from '$lib/supabaseClient'
+    import { supabaseClient } from '$lib/utilities/supabaseClient'
     import Avatar from './Avatar.svelte'
     import { goto } from "$app/navigation";
-
     export let session: AuthSession
-
     let loading = false
     let username: string | null = null
     let password: string | null = null
     let fullName: string | null = null
     let website: string | null = null
     let avatarUrl: string | null = null
-
     onMount(() => {
         getProfile()
     })
-
     const getProfile = async () => {
         try {
             loading = true
             const { user } = session
 
             const { data, error, status } = await supabaseClient
-                .from('profiles')
-                .select(`username, full_name, avatar_url, website`)
+                .from('users')
+                .select('username, first_name, last_name, website, country, avatar_url')
                 .eq('id', user.id)
                 .single()
 
             if (data) {
                 username = data.username
-                fullName = data.full_name
+                fullName = data.first_name
                 website = data.website
                 avatarUrl = data.avatar_url
             }
