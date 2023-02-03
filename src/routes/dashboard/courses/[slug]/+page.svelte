@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type { PageData } from './$types';
     import Settings from "$lib/components/Settings.svelte"
     import Navbar from "$lib/components/Navbar.svelte"
 
