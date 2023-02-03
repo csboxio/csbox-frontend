@@ -3,7 +3,6 @@
   import CourseImage from "$lib/components/CourseImage.svelte";
   import { invalidateAll, goto } from '$app/navigation';
   import { applyAction, deserialize } from '$app/forms';
-  import type { ActionData } from './$types';
   import type { ActionResult } from '@sveltejs/kit';
 
   let session = $page.data.session;
@@ -26,7 +25,6 @@
   }
   export let files: FileList;
 
-  export let form: ActionData;
 
   let error: any;
 
