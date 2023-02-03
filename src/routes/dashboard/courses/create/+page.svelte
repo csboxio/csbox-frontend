@@ -3,7 +3,7 @@
   import CourseImage from "$lib/components/CourseImage.svelte";
   import { invalidateAll, goto } from '$app/navigation';
   import { applyAction, deserialize } from '$app/forms';
-  import type { ActionResult } from '@sveltejs/kit';
+  import { ActionResult } from '@sveltejs/kit';
 
   let session = $page.data.session;
   let loading;
@@ -11,11 +11,11 @@
   /** @type {import("./$types").PageData} */
   export let data;
   // TODO error handling
-  let course_title: string | null;
-  let course_prefix: string | null;
-  let course_number: string | null;
-  let course_term: string | null;
-  let course_image_url: string| null;
+  let course_title;
+  let course_prefix;
+  let course_number;
+  let course_term;
+  let course_image_url;
 
   //Progress bar step
   let step = 1;
@@ -23,10 +23,6 @@
   function handleSteps(num, event) {
     step = num;
   }
-  export let files: FileList;
-
-
-  let error: any;
 
   let currentCourseId;
 
@@ -42,13 +38,13 @@
           }
       });
 
-      const result: ActionResult = deserialize(await response.text());
+      const result = deserialize(await response.text());
 
       if (result.type === 'success') {
           // re-run all `load` functions, following the successful update
           step = 2;
           try {
-              currentCourseId = JSON.stringify(result["data"].course_id)
+              currentCourseId = JSON.stringify(result["data"]?.course_id)
           }
           catch {
               console.log("ERROR: No course ID found")

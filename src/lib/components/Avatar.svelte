@@ -6,9 +6,9 @@
   export let data;
   export let url;
   let size = 5;
-  let avatarUrl: string;
+  let avatarUrl;
   let uploading = false;
-  let files: FileList;
+  let files;
   let user = $page.data.session.user;
 </script>
 

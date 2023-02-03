@@ -9,9 +9,9 @@
   export let data;
   export let url;
   let size = 5;
-  export let courseID: bigint;
+  export let courseID;
   let uploading = false;
-  export let files: FileList;
+  export let files;
   let user = $page.data.session.user;
   let loading = false;
 

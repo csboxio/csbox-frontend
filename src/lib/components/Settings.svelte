@@ -3,7 +3,7 @@
   import { goto } from "$app/navigation";
   import {page} from "$app/stores";
   export let showTopRightMenuModel = false
-  export function handleToggleMenuTopRight(s: string) {
+  export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
   }
 

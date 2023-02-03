@@ -8,12 +8,12 @@
   /** @type {import("./$types").PageData} */
   export let data;
   // TODO error handling
-  let username: string | null = null;
-  let firstName: string | null = data.user.first_name;
-  let last_name: string | null = data.user.last_name;
-  let website: string | null = data.user.website;
-  let country: string | null = data.user.country;
-  let avatarUrl: string | null = data.user.avatar_url;
+  let username;
+  let firstName = data.user.first_name;
+  let last_name = data.user.last_name;
+  let website = data.user.website;
+  let country = data.user.country;
+  let avatarUrl = data.user.avatar_url;
 
   function previousPage() {
     history.back()

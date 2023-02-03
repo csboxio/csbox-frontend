@@ -1,16 +1,15 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import type { AuthSession } from '@supabase/supabase-js'
     import { supabaseClient } from '$lib/utilities/supabaseClient'
     import Avatar from './Avatar.svelte'
     import { goto } from "$app/navigation";
-    export let session: AuthSession
+    export let session
     let loading = false
-    let username: string | null = null
-    let password: string | null = null
-    let fullName: string | null = null
-    let website: string | null = null
-    let avatarUrl: string | null = null
+    let username;
+    let password;
+    let fullName;
+    let website;
+    let avatarUrl;
     onMount(() => {
         getProfile()
     })
