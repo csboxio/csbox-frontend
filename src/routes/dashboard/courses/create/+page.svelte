@@ -58,7 +58,7 @@
           await invalidateAll();
       }
 
-      applyAction(result);
+      await applyAction(result);
   }
 
 </script>

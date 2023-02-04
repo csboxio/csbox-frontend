@@ -4,7 +4,7 @@
   import { browser } from "$app/environment";
   import { onMount } from "svelte";
   import { supabaseClient } from "$lib/utilities/supabaseClient";
-  import {uploadCourseImage} from "$lib/utilities/imageStorage.js";
+  import { uploadCourseImage } from "$lib/utilities/imageStorage.js";
   /** @type {import("./$types").PageData} */
   export let data;
   export let url;

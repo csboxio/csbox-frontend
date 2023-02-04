@@ -2,7 +2,8 @@
   import { page } from "$app/stores";
   import Avatar from "$lib/components/Avatar.svelte";
   import { onMount } from "svelte";
-  import { goto } from "$app/navigation";
+  import { goto, invalidateAll } from "$app/navigation";
+  import { applyAction, deserialize } from "$app/forms";
   let session = $page.data.session;
 
   /** @type {import("./$types").PageData} */
@@ -15,13 +16,38 @@
   let country: string | null = data.user.country;
   let avatarUrl: string | null = data.user.avatar_url;
 
+  let loading;
   function previousPage() {
     history.back()
+  }
+
+  async function handleSubmit(event) {
+    loading = true;
+    const data = new FormData(this);
+
+    const response = await fetch(this.action, {
+      method: 'POST',
+      body: data,
+      headers: {
+        'x-sveltekit-action': 'true',
+        'cache-control': 'max-age=1800'
+      }
+    });
+
+    const result = deserialize(await response.text());
+
+    if (result.type === 'redirect') {
+      // re-run all `load` functions, following the successful update
+      console.log('profile made');
+      await invalidateAll();
+    }
+
+    await applyAction(result);
   }
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
-<form method="POST" action="?/updateProfile">
+<form method="POST" action="?/updateProfile" on:submit|preventDefault={handleSubmit}>
   <section class="py-3">
     <div class="container px-6 mx-auto">
       <div class="p-8 bg-gray-500 rounded-xl">
