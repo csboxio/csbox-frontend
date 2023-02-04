@@ -3,7 +3,7 @@ import { error, redirect } from '@sveltejs/kit'
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 import {uuid} from "@supabase/supabase-js/dist/module/lib/helpers";
 
-
+export const prerender = false;
 export const actions: Actions = {
   createCourse: async (event) => {
     const { request } = event

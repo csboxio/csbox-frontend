@@ -2,7 +2,7 @@ import type {Actions, PageServerLoad} from "./$types";
 import { error, redirect } from '@sveltejs/kit'
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 
-
+export const prerender = false;
 export const actions: Actions = {
   updateProfile: async (event) => {
     const { request } = event
