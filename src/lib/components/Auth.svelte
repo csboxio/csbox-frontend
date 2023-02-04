@@ -1,7 +1,6 @@
 <script lang="ts">
-    import type { ActionData } from '../../../.svelte-kit/types/src/routes';
 
-    export let form: ActionData;
+    export let form;
     let loading = false;
 </script>
 

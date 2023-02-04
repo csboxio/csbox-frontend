@@ -9,9 +9,9 @@
 
   /** @type {import("./$types").PageLoadEvent} */
   export let data;
-  let first_name: string | null = user.first_name;
-  let last_name: string | null =  user.last_name;
-  let avatarUrl: string | null = user.avatar_url;
+  let first_name = user.first_name;
+  let last_name = user.last_name;
+  let avatarUrl = user.avatar_url;
 
   // this is needed for the outside click div, that needs to be redone
   let model;

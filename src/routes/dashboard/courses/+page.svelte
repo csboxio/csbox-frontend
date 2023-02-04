@@ -1,10 +1,6 @@
 <script lang="ts">
-  import { page } from '$app/stores'
-  import Chart from "$lib/components/Charts.svelte"
   import Settings from "$lib/components/Settings.svelte"
   import Navbar from "$lib/components/Navbar.svelte"
-  import { onMount } from "svelte";
-
 
   // this is needed for the outside click div, that needs to be redone
   let model;

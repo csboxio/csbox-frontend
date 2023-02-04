@@ -6,10 +6,10 @@
   export let data;
   export let url;
   let size = 5;
-  let avatarUrl: string;
+  let avatarUrl;
   let uploading = false;
-  let files: FileList;
-  let user = $page.data.session.user;
+  let files;
+  let user = $page.data.session?.user;
 </script>
 
 <div class="flex flex-wrap items-start -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">

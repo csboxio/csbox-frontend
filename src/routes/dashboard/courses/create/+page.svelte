@@ -3,8 +3,6 @@
   import CourseImage from "$lib/components/CourseImage.svelte";
   import { invalidateAll, goto } from '$app/navigation';
   import { applyAction, deserialize } from '$app/forms';
-  import type { ActionData } from './$types';
-  import type { ActionResult } from '@sveltejs/kit';
 
   let session = $page.data.session;
   let loading;
@@ -12,11 +10,11 @@
   /** @type {import("./$types").PageData} */
   export let data;
   // TODO error handling
-  let course_title: string | null;
-  let course_prefix: string | null;
-  let course_number: string | null;
-  let course_term: string | null;
-  let course_image_url: string| null;
+  let course_title;
+  let course_prefix;
+  let course_number;
+  let course_term;
+  let course_image_url;
 
   //Progress bar step
   let step = 1;
@@ -24,11 +22,9 @@
   function handleSteps(num, event) {
     step = num;
   }
-  export let files: FileList;
+  export let files;
 
-  export let form: ActionData;
-
-  let error: any;
+  export let form;
 
   let currentCourseId;
 
@@ -44,7 +40,7 @@
           }
       });
 
-      const result: ActionResult = deserialize(await response.text());
+      const result = deserialize(await response.text());
 
       if (result.type === 'success') {
           // re-run all `load` functions, following the successful update

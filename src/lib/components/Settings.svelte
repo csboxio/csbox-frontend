@@ -3,12 +3,12 @@
   import { goto } from "$app/navigation";
   import {page} from "$app/stores";
   export let showTopRightMenuModel = false
-  export function handleToggleMenuTopRight(s: string) {
+  export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
   }
 
   let user = $page.data.user.userData
-  let email = $page.data.session.user.email
+  let email = $page.data.session?.user.email
 
   let avatarUrl = user.avatar_url;
   let first_name = user.first_name;
