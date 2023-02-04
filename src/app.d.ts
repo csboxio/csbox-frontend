@@ -1,14 +1,30 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 // and what to do when importing types
-declare namespace App {
-    interface Supabase {
-        Database: import('./schema').Database;
 
-        SchemaName: 'public';
-    }
+import type { TypedSupabaseClient } from "@supabase/auth-helpers-sveltekit/dist/types";
+import type { Session } from "@supabase/supabase-js";
 
-    interface PageData {
-        session: import('@supabase/supabase-js').Session | null
+declare global {
+    declare namespace App {
+
+        interface Locals {
+            sb: TypedSupabaseClient
+            session: Session | null;
+
+            user: Database.users
+        }
+        interface Supabase {
+            Database: import('./schema').Database;
+
+            SchemaName: 'public';
+        }
+        interface PageData {
+            session: import('@supabase/supabase-js').Session | null
+        }
+
+        declare module '@fortawesome/pro-solid-svg-icons/index.es' {
+            export * from '@fortawesome/pro-solid-svg-icons';
+        }
     }
 }
