@@ -8,6 +8,10 @@
   /** @type {import('./$types').PageData} */
   export let data;
   let course_data = data.courseData
+
+  async function getCourseImage(image_url) {
+    const image = await fetch(image_url);
+  }
 </script>
 <body class="bg-gray-600 antialiased bg-body text-body font-body" on:click|stopPropagation={() => model.handleToggleMenuTopRight("outside")} >
 <div class="">
@@ -67,7 +71,7 @@
                 <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200"></div>
                 <div>
                   <div class="relative p-6 bg-gray-700 rounded-xl group-hover:scale-105 transition duration-1500">
-                  <img src={course_image_url == null ? "https://via.placeholder.com/150/000000/FFFFFF/?text=" : course_image_url }  class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl bg-gray-600 "/>
+                  <img src={course_image_url == null ? '/images/placeholder_b.png' : course_image_url }  class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl bg-gray-600 "/>
                   <div class="inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200" href="#">
                     <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>

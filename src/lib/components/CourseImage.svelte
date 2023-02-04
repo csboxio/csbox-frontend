@@ -12,7 +12,7 @@
   export let courseID;
   let uploading = false;
   export let files;
-  let user = $page.data.session.user;
+  let user = $page.data.session?.user;
   let loading = false;
 
 </script>

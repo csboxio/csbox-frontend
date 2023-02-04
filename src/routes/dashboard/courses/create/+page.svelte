@@ -3,6 +3,8 @@
   import CourseImage from "$lib/components/CourseImage.svelte";
   import { invalidateAll, goto } from '$app/navigation';
   import { applyAction, deserialize } from '$app/forms';
+  import Fa from 'svelte-fa/src/fa.svelte'
+  import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 
   let session = $page.data.session;
   let loading;
@@ -36,7 +38,8 @@
           method: 'POST',
           body: data,
           headers: {
-              'x-sveltekit-action': 'true'
+              'x-sveltekit-action': 'true',
+              'cache-control': 'max-age=3600'
           }
       });
 
@@ -58,8 +61,6 @@
       applyAction(result);
   }
 
-  import Fa from 'svelte-fa/src/fa.svelte'
-  import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 </script>
 
 <!--Svelte-kit preloading doesn't like me changing the body background color between pages-->
