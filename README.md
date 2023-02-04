@@ -10,4 +10,4 @@
 - Password too short or too long
 - Error from server or success
 - UI element for waiting for email
-- 
+- Image resizer production 
