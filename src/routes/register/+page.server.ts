@@ -3,6 +3,7 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 import { AuthApiError } from '@supabase/supabase-js'
 
+export const prerender = false;
 export const actions: Actions = {
   signup: async ({request, locals}) => {
     const body = Object.fromEntries(await request.formData())

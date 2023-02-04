@@ -2,7 +2,7 @@ import type { Actions, PageServerLoad } from "./$types";
 import { error, redirect } from '@sveltejs/kit'
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 
-export const prerender = 'auto';
+export const prerender = false;
 export const load: PageServerLoad = async ( {locals}) => {
   const { data, error: err } = await locals.sb.auth.getSession()
   if (err) {
