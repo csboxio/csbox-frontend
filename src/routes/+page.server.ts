@@ -3,7 +3,6 @@ import { error, redirect } from '@sveltejs/kit'
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 
 export const prerender = false;
-
 export const actions: Actions = {
   signin: async (event) => {
     const { request, cookies, url } = event

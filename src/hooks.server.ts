@@ -5,8 +5,15 @@ import { redirect } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
 
-  // protect requests to all routes that start with /protected-routes
+  // protect requests to all routes that start with /api
   if (event.url.pathname.startsWith('/api')) {
+    const { session } = await getSupabase(event)
+    if (!session) {
+      throw redirect(303, '/');
+    }
+  }
+
+  if (event.url.pathname.startsWith('/dashboard')) {
     const { session } = await getSupabase(event)
     if (!session) {
       throw redirect(303, '/');
