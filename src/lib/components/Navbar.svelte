@@ -1,7 +1,7 @@
 <script lang="ts">
   import Fa from 'svelte-fa/src/fa.svelte'
   import {faBars, faHouse, faTachometer, faBook, faCalendar, faInbox, faGear} from "@fortawesome/free-solid-svg-icons";
-  export const prerender = false;
+  export const prerender = true;
 </script>
 
 <div>
