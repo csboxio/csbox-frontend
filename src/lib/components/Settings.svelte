@@ -2,6 +2,9 @@
   import { supabaseClient } from "$lib/utilities/supabaseClient";
   import { goto } from "$app/navigation";
   import {page} from "$app/stores";
+  import { Session } from "@supabase/supabase-js";
+  import { browser } from "$app/environment";
+  import { json } from "@sveltejs/kit";
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
@@ -24,6 +27,20 @@
       }
     }
     await goto('/login')
+  }
+
+  async function getUser(session: Session) {
+    if(browser) {
+      const response = await fetch('api/profile', {
+        method: 'GET',
+        body: session.user.id,
+        headers: {
+          'x-sveltekit-action': 'true',
+          'cache-control': 'max-age=300'
+        }
+      });
+      return json(response)
+    }
   }
 </script>
 
