@@ -38,7 +38,7 @@
 
     if (result.type === 'redirect') {
       // re-run all `load` functions, following the successful update
-      console.log('profile made');
+      console.log('courses made');
       await invalidateAll();
     }
 

@@ -5,10 +5,9 @@ import { supabaseClient } from "$lib/utilities/supabaseClient";
 export async function GET({ request }) {
   // Get path url from database
   // TODO server side user check this is insecure
-    const {data: userData} = await supabaseClient.from('users')
-      .select('username, first_name, last_name, website, country, avatar_url')
-      .eq('id', request.params)
-      .single()
+    const { data: courseData, error } = await supabaseClient.from('courses')
+      .select('id, course_image_url, course_title, course_prefix, course_number, course_term')
+      .eq('created_by', request.event.locals.user.id);
     // @ts-ignore
     console.log(userData)
     // @ts-ignore

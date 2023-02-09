@@ -30,6 +30,8 @@ export const handle: Handle = async ({ event, resolve }) => {
       .single()
 
 
+
+
     event.locals.user = tableData
   }
   return resolve(event)
