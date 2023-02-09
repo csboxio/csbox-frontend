@@ -8,6 +8,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   event.locals.sb = supabaseClient
   event.locals.session = session
+
+
   // protect requests to all routes that start with /api
   if (event.url.pathname.startsWith('/api')) {
     const { session } = await getSupabase(event)
@@ -21,6 +23,14 @@ export const handle: Handle = async ({ event, resolve }) => {
     if (!session) {
       throw redirect(303, '/');
     }
+
+    const {data: tableData} = await supabaseClient.from('users')
+      .select('username, first_name, last_name, website, country, avatar_url')
+      .eq('id', session.user.id)
+      .single()
+
+
+    event.locals.user = tableData
   }
   return resolve(event)
 }

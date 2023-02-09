@@ -12,7 +12,7 @@ export const actions: Actions = {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
 
-    const { error } = await supabaseClient.auth.signInWithPassword({
+    const { error } = await event.locals.sb.auth.signInWithPassword({
       email,
       password,
     })
@@ -25,7 +25,7 @@ export const actions: Actions = {
     const { supabaseClient } = await getSupabase(event)
     const formData = await request.formData()
 
-    const { data } = await supabaseClient.auth.refreshSession()
+    const { data } = await event.locals.sb.auth.refreshSession()
     const { session, user } = data
 
     const fullName = formData.get('name')
@@ -38,7 +38,7 @@ export const actions: Actions = {
       website: website,
       updated_at: new Date()
     }
-    let { error } = await supabaseClient.from('users').upsert(updates)
+    let { error } = await event.locals.sb.from('users').upsert(updates)
     throw redirect(303, '/')
   }
 }

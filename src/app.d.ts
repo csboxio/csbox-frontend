@@ -13,6 +13,9 @@ declare global {
             session: Session | null;
 
             user: Database.users
+
+            courses: Database.courses
+
         }
         interface Supabase {
             Database: import('./schema').Database;

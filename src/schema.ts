@@ -6,18 +6,33 @@ export interface Database {
             courses: {
                 Row: {
                     id: string
+                    course_image_url: string | null
+                    course_title: string | null
+                    course_prefix: string | null
+                    course_number: string | null
+                    course_term: string | null
                     inserted_at: string | null
                     slug: string | null
                     created_by: string | null
                 }
                 Insert: {
                     id: string
+                    course_image_url: string | null
+                    course_title: string | null
+                    course_prefix: string | null
+                    course_number: string | null
+                    course_term: string | null
                     inserted_at: string | null
                     slug: string | null
                     created_by: string | null
                 }
                 Update: {
                     id: string
+                    course_image_url: string | null
+                    course_title: string | null
+                    course_prefix: string | null
+                    course_number: string | null
+                    course_term: string | null
                     inserted_at: string | null
                     slug: string | null
                     created_by: string | null
