@@ -2,20 +2,22 @@
   import { supabaseClient } from "$lib/utilities/supabaseClient";
   import { goto } from "$app/navigation";
   import {page} from "$app/stores";
-  import { Session } from "@supabase/supabase-js";
   import { browser } from "$app/environment";
   import { json } from "@sveltejs/kit";
+  import { onMount } from "svelte";
+  import { getSupabase } from "@supabase/auth-helpers-sveltekit";
+  import type { Session } from "@supabase/supabase-js";
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
   }
 
-  let user = $page.data.user.userData
+  let user = $page.data.user
   let email = $page.data.session?.user.email
+  let first_name;
+  let last_name = user;
+  let avatarUrl;
 
-  let avatarUrl = user.avatar_url;
-  let first_name = user.first_name;
-  let last_name = user.last_name;
 
   async function signOut() {
     try {
@@ -29,19 +31,13 @@
     await goto('/login')
   }
 
-  async function getUser(session: Session) {
-    if(browser) {
-      const response = await fetch('api/profile', {
-        method: 'GET',
-        body: session.user.id,
-        headers: {
-          'x-sveltekit-action': 'true',
-          'cache-control': 'max-age=300'
-        }
-      });
-      return json(response)
-    }
-  }
+
+
+  onMount(async () => {
+    console.log(user)
+    avatarUrl = user.userData.avatar_url;
+    first_name = user.userData.first_name;
+  });
 </script>
 
 <div class="w-full sm:w-auto">

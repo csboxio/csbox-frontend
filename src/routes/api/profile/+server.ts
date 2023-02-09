@@ -5,12 +5,12 @@ import { supabaseClient } from "$lib/utilities/supabaseClient";
 export async function GET({ request }) {
   // Get path url from database
   // TODO server side user check this is insecure
-  const { user } = await request.json();
-
     const {data: userData} = await supabaseClient.from('users')
       .select('username, first_name, last_name, website, country, avatar_url')
-      .eq('id', user.id)
+      .eq('id', request.params)
       .single()
     // @ts-ignore
-  return new Response(userData)
+    console.log(userData)
+    // @ts-ignore
+    return new Response(JSON.stringify(userData))
 }
