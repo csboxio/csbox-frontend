@@ -1,15 +1,22 @@
 import { supabaseClient } from "$lib/utilities/supabaseClient";
+import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from "$env/static/public";
+import { createClient } from "@supabase/supabase-js";
+import type { RequestHandler } from "@sveltejs/kit";
+import { getSupabase } from "@supabase/auth-helpers-sveltekit";
+import { error, redirect } from "@sveltejs/kit";
 
 /** @type {import('./$types').RequestHandler} */
 // @ts-ignore
-export async function GET({ request }) {
-  // Get path url from database
-  // TODO server side user check this is insecure
-    const { data: courseData, error } = await supabaseClient.from('courses')
+export const GET: RequestHandler = async (event) => {
+    const { session, supabaseClient } = await getSupabase(event)
+    if (!session) {
+        throw redirect(303, '/');
+    }
+    const { data, error } = await supabaseClient.from('courses')
       .select('id, course_image_url, course_title, course_prefix, course_number, course_term')
-      .eq('created_by', request.event.locals.user.id);
-    // @ts-ignore
-    console.log(userData)
-    // @ts-ignore
-    return new Response(JSON.stringify(userData))
+      .eq('created_by', session.user?.id);
+    return new Response(JSON.stringify({ data }), {
+        headers: { 'Content-Type': 'application/json' },
+        status: 200,
+    })
 }

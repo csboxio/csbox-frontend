@@ -1,6 +1,9 @@
 <script lang="ts">
   import Settings from "$lib/components/Settings.svelte"
   import Navbar from "$lib/components/Navbar.svelte"
+  import { getSupabase } from "@supabase/auth-helpers-sveltekit";
+  import { onMount } from "svelte";
+  import { page } from "$app/stores";
 
   // this is needed for the outside click div, that needs to be redone
   let model;
@@ -12,6 +15,24 @@
   async function getCourseImage(image_url) {
     const image = await fetch(image_url);
   }
+
+  async function getCourses() {
+    let session = $page.data.session;
+    if (session) {
+      const response = await fetch('/api/courses', {
+        method: 'GET'
+      });
+      if (response.ok) {
+        return response.text()
+      }
+    }
+  }
+
+  onMount(async () => {
+    let courses = await getCourses()
+    console.log(courses)
+  });
+
 </script>
 <body class="bg-gray-600 antialiased bg-body text-body font-body" on:click|stopPropagation={() => model.handleToggleMenuTopRight("outside")} >
 <div class="">
