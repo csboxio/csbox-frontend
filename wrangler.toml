@@ -1,0 +1,16 @@
+name = "csbox"
+
+account_id = "4ccb114e028a029b7a8d337b1e239b1a"
+
+main = "./.cloudflare/worker.js"
+site.bucket = "./.cloudflare/public"
+
+build.command = "npm run build"
+
+compatibility_date = "2021-11-12"
+workers_dev = true
+
+
+[env.production.vars]
+PUBLIC_SUPABASE_URL = "https://bpjcaiybudgwujfpyevt.supabase.co"
+PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwamNhaXlidWRnd3VqZnB5ZXZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzMyODg3NzIsImV4cCI6MTk4ODg2NDc3Mn0.s8MK11TtrcjWiaeOtM5wCWQ9yoVKJP1Uy1w_HIDqVUs"

@@ -13,6 +13,7 @@ export const actions: Actions = {
       password: body.password as string,
     })
     if (err) {
+      console.log(err)
       if (err instanceof  AuthApiError && err.status == 400) {
         return fail(400, {
           error: 'Invalid credentials'
