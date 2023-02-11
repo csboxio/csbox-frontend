@@ -1,6 +1,6 @@
 import { supabaseClient } from "$lib/utilities/supabaseClient";
 import type { User } from "@supabase/supabase-js";
-import { resizeFile } from "$lib/utilities/image.js.js";
+import { resizeFile } from "$lib/utilities/image";
 import { browser } from "$app/environment";
 import { page } from "$app/stores";
 

@@ -3,7 +3,7 @@ import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 import type { LayoutData } from "../../../.svelte-kit/types/src/routes/$types";
 import { redirect } from "@sveltejs/kit";
 import { browser } from "$app/environment";
-export const prerender = true;
+export const prerender = false;
 //@ts-ignore
 export const load: LayoutData = async (event) => {
   const { session, supabaseClient } = await getSupabase(event);
