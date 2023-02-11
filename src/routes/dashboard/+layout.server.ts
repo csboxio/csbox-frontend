@@ -1,7 +1,8 @@
-import type { LayoutData } from './$types'
-import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 
-// @ts-ignore
+import { getSupabase } from '@supabase/auth-helpers-sveltekit'
+import type { LayoutData } from "../../../.svelte-kit/types/src/routes/$types";
+
+//@ts-ignore
 export const load: LayoutData = async (event) => {
   const { session, supabaseClient } = await getSupabase(event);
   if (session) {
