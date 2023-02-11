@@ -3,43 +3,13 @@
     import { supabaseClient } from '$lib/utilities/supabaseClient'
     import Avatar from './Avatar.svelte'
     import { goto } from "$app/navigation";
-    export let session
+    import { page } from "$app/stores";
+    export let session;
     let loading = false;
-    let username;
-    let password;
-    let fullName;
-    let website;
-    let avatarUrl;
-    onMount(() => {
-        getProfile()
-    })
-    const getProfile = async () => {
-        try {
-            loading = true
-            const { user } = session
-
-            const { data, error, status } = await supabaseClient
-                .from('users')
-                .select('username, first_name, last_name, website, country, avatar_url')
-                .eq('id', user.id)
-                .single()
-
-            if (data) {
-                username = data.username
-                fullName = data.first_name
-                website = data.website
-                avatarUrl = data.avatar_url
-            }
-
-            if (error && status !== 406) throw error
-        } catch (error) {
-            if (error instanceof Error) {
-                alert(error.message)
-            }
-        } finally {
-            loading = false
-        }
-    }
+    let username = $page.data.user.userData.username;
+    let first_name = $page.data.user.userData.first_name;
+    let website = $page.data.user.userData.website;
+    let avatarUrl = $page.data.user.userData.avatar_url;
 
     async function signOut() {
         try {
@@ -65,7 +35,7 @@
     </div>
     <div>
         <label for="name">Full Name</label>
-        <input name="name" id="name" type="text" bind:value={fullName} />
+        <input name="name" id="name" type="text" bind:value={first_name} />
     </div>
     <div>
         <label for="website">Website</label>

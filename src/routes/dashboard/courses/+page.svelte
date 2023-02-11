@@ -16,18 +16,6 @@
   export let data;
   let course_data = $page.data.courses.courseData
 
-  async function getCourses() {
-    let session = $page.data.session;
-    if (session) {
-      const response = await fetch('/api/courses', {
-        method: 'GET'
-      });
-      if (response.ok) {
-        return response.text()
-      }
-    }
-  }
-
 </script>
 
 
