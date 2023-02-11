@@ -1,9 +1,12 @@
 <script lang="ts">
   import Settings from "$lib/components/Settings.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
+  import CourseNavbar from "$lib/components/CourseNavbar.svelte";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import {lazyimage} from 'svelte-lazyimage-cache';
+  import { browser } from "$app/environment";
+  import { supabaseClient } from "../../../lib/utilities/supabaseClient";
 
 
   // this is needed for the outside click div, that needs to be redone
@@ -11,9 +14,7 @@
 
   /** @type {import('./$types').PageData} */
   export let data;
-  let course_data = data.courseData
-
-
+  let course_data = $page.data.courses.courseData
 
   async function getCourses() {
     let session = $page.data.session;
@@ -26,12 +27,11 @@
       }
     }
   }
-  onMount(async () => {
-    console.log(course_data)
-    $: console.log(course_data)
-  });
 
 </script>
+
+
+
 <body class="bg-gray-600 antialiased bg-body text-body font-body" on:click|stopPropagation={() => model.handleToggleMenuTopRight("outside")} >
 <div class="">
   <Navbar/>

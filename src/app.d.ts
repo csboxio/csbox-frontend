@@ -14,7 +14,7 @@ declare global {
 
             user: Database.users
 
-            courses: Database.courses
+            course: Database.courses
 
         }
         interface Supabase {

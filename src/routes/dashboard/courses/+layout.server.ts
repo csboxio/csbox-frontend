@@ -1,21 +1,18 @@
 import type { LayoutData } from './$types'
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 
-export const prerender = 'auto';
-
 // @ts-ignore
 export const load: LayoutData = async (event) => {
   const { session, supabaseClient } = await getSupabase(event);
   if (session) {
-    const {data: tableData} = await event.locals.sb.from('users')
-      .select('username, first_name, last_name, website, country, avatar_url')
-      .eq('id', session.user.id)
-      .single()
+
+    const { data: courseData, error } = await supabaseClient.from('courses')
+      .select('id, course_image_url, course_title, course_prefix, course_number, course_term')
+      .eq('created_by', session.user.id);
 
     return {
-      session,
-      user: {
-        userData: tableData,
+      courses: {
+        courseData: courseData
       },
     };
   }

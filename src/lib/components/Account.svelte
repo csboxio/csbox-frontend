@@ -2,6 +2,7 @@
     import { onMount } from 'svelte'
     import { supabaseClient } from '$lib/utilities/supabaseClient'
     import Avatar from './Avatar.svelte'
+    import { goto } from "$app/navigation";
     export let session
     let loading = false;
     let username;
@@ -81,4 +82,7 @@
 </form>
 <div>
     <button class="button block" on:click={signOut} disabled={loading}> Sign Out </button>
+</div>
+<div>
+    <button class="button block" on:click={() => goto('/dashboard')}> Dashboard </button>
 </div>
