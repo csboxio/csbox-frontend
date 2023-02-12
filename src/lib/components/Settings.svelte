@@ -2,6 +2,7 @@
   import { supabaseClient } from "$lib/utilities/supabaseClient";
   import { goto } from "$app/navigation";
   import {page} from "$app/stores";
+  import { onMount } from "svelte";
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
@@ -10,7 +11,30 @@
   let user = $page.data.user.userData
   let email = $page.data.session?.user.email
 
-  let avatarUrl = user.avatar_url;
+  async function imageToBlob(image: URL | RequestInfo){
+    // Convert url from database into blob
+    return await fetch(image,
+      {
+        method: 'GET',
+        headers: {
+          credentials: 'omit',
+          'cache-control': 'max-age=3600'
+        }
+      })
+      .then((response) => response.blob())
+      .then((myBlob) =>
+      {
+        return (myBlob);
+      })
+  }
+  async function test() {
+    return Promise.resolve(imageToBlob(user.avatar_url))
+  }
+  onMount(async () => {
+    user.avatar_url = await test()
+  });
+
+  let avatarUrl;
   let first_name = user.first_name;
   let last_name = user.last_name;
 
@@ -33,7 +57,7 @@
       <button type="button" class="inline-flex items-center justify-center py-2 pl-2 pr-3 bg-gray-500 hover:bg-gray-400 hover:bg-opacity-40 transition duration-150 rounded-full"
               id="menu-button" aria-expanded="true" aria-haspopup="true"
               on:click|stopPropagation={() => handleToggleMenuTopRight("inside")}>
-        <img class="h-8 w-8 mr-3 rounded-full object-cover" src="{avatarUrl}" alt="">
+        <img class="h-8 w-8 mr-3 rounded-full object-cover" src="{avatarUrl}" alt="{avatarUrl}">
         <h4 class="text-white font-bold tracking-wide mr-5">{first_name} {last_name}</h4>
         <svg width="10" height="6" viewbox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1 1L5 5L9 1" stroke="#3D485B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>

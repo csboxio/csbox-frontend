@@ -16,6 +16,7 @@
   export let data;
   let course_data = $page.data.courses.courseData
 
+
 </script>
 
 
