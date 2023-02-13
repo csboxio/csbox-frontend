@@ -1,7 +1,6 @@
 <script lang="ts">
   import Settings from "$lib/components/Settings.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
-  import CourseNavbar from "$lib/components/CourseNavbar.svelte";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import {lazyimage} from 'svelte-lazyimage-cache';
