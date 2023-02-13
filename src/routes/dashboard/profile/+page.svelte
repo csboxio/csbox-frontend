@@ -8,7 +8,6 @@
 
   /** @type {import("./$types").PageData} */
   export let data;
-  // TODO error handling
   let username: string | null = null;
   let firstName: string | null = data.user.first_name;
   let last_name: string | null = data.user.last_name;
@@ -16,6 +15,7 @@
   let country: string | null = data.user.country;
   let avatarUrl: string | null = data.user.avatar_url;
 
+  // TODO switch to locals.
   let loading;
   function previousPage() {
     history.back()
@@ -58,7 +58,7 @@
           <div class="w-full sm:w-auto px-4">
             <div>
               <!--Save and cancel buttons-->
-              <a class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-600 hover:bg-gray-400 rounded-lg transition duration-200" rel="external" on:click={previousPage}>Cancel</a>
+              <button class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-600 hover:bg-gray-400 rounded-lg transition duration-200" rel="external" on:click={previousPage}>Cancel</button>
               <input class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200" rel="external" href="/dashboard" type="submit">
             </div>
           </div>

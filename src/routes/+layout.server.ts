@@ -1,11 +1,11 @@
-import type { LayoutData } from './$types'
+import type { LayoutServerLoad } from "./$types";
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 import { browser } from "$app/environment";
 
 export const prerender = false;
 
 // @ts-ignore
-export const load: LayoutData = async (event) => {
+export const load: LayoutServerLoad = async (event) => {
   const { session, supabaseClient } = await getSupabase(event);
   if (session && !browser) {
     const {data: tableData} = await event.locals.sb.from('users')
