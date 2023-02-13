@@ -3,12 +3,10 @@ import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 import type { Handle } from '@sveltejs/kit'
 import { redirect } from "@sveltejs/kit";
 export const handle: Handle = async ({ event, resolve }) => {
-  console.time('Handle')
+  console.time('hooks')
   const { session, supabaseClient } = await getSupabase(event)
-
   event.locals.sb = supabaseClient
   event.locals.session = session
-
 
   // protect requests to all routes that start with /api
   if (event.url.pathname.startsWith('/api')) {
@@ -25,6 +23,6 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
 
   }
-  console.timeEnd('Handle')
+  console.timeEnd('hooks')
   return resolve(event)
 }

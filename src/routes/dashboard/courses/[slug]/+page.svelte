@@ -1,7 +1,6 @@
 <script lang="ts">
     import Settings from "$lib/components/Settings.svelte"
     import Navbar from "$lib/components/Navbar.svelte"
-
     let model;
     /** @type {import('./$types').PageData} */
     export let data;

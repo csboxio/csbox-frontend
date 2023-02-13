@@ -6,15 +6,15 @@ export const prerender = false;
 
 // @ts-ignore
 export const load: LayoutServerLoad = async (event) => {
-  const { session, supabaseClient } = await getSupabase(event);
-  if (session && !browser) {
+  if (event.locals.session && !browser) {
+    console.time('layout')
     const {data: tableData} = await event.locals.sb.from('users')
       .select('username, first_name, last_name, website, country, avatar_url')
-      .eq('id', session.user.id)
+      .eq('id', event.locals.session.user.id)
       .single()
-
+    console.timeEnd('layout')
     return {
-      session,
+      session: event.locals.session,
       user: {
         userData: tableData,
       },
