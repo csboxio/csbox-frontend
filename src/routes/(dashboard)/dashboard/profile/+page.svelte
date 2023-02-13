@@ -6,7 +6,7 @@
   import { applyAction, deserialize } from "$app/forms";
   let session = $page.data.session;
 
-  /** @type {import("./$types").PageData} */
+  /** @type {import("../../../../../.svelte-kit/types/src/routes").PageData} */
   export let data;
   let username: string | null = null;
   let firstName: string | null = data.user.first_name;

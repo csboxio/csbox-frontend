@@ -5,13 +5,13 @@
   import { page } from "$app/stores";
   import {lazyimage} from 'svelte-lazyimage-cache';
   import { browser } from "$app/environment";
-  import { supabaseClient } from "../../../lib/utilities/supabaseClient";
+  import { supabaseClient } from "../../../../lib/utilities/supabaseClient";
 
 
   // this is needed for the outside click div, that needs to be redone
   let model;
 
-  /** @type {import('./$types').PageData} */
+  /** @type {import('../../../../../.svelte-kit/types/src/routes').PageData} */
   export let data;
   let course_data = $page.data.courses.courseData
 

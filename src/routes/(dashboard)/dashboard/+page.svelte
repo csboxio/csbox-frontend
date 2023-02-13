@@ -7,7 +7,7 @@
   let email = $page.data.session?.user.email
   let user = $page.data.user
 
-  /** @type {import("./$types").PageLoadEvent} */
+  /** @type {import("../../../../.svelte-kit/types/src/routes").PageLoadEvent} */
   export let data;
   let first_name = user?.first_name;
   let last_name = user?.last_name;

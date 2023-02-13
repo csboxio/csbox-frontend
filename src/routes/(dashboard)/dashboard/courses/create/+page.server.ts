@@ -1,7 +1,5 @@
-import type {Actions, PageServerLoad} from "./$types";
-import { error, redirect } from '@sveltejs/kit'
+import type {Actions, error, redirect} from '@sveltejs/kit'
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
-import {uuid} from "@supabase/supabase-js/dist/module/lib/helpers";
 
 export const prerender = false;
 export const actions: Actions = {

@@ -2,9 +2,12 @@
     import Settings from "$lib/components/Settings.svelte"
     import Navbar from "$lib/components/Navbar.svelte"
     let model;
-    /** @type {import('./$types').PageData} */
+    /** @type {import('../../../../../../.svelte-kit/types/src/routes').PageData} */
     export let data;
-    let course_data = data.courseData
+    let course_data = data.courses.courseData
+    let course_number = parseInt(data.courseNumber)
+    let slug_course = course_data.filter(i => i.id === course_number)[0]
+    console.log(slug_course)
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body" on:click|stopPropagation={() => model.handleToggleMenuTopRight("outside")} >
@@ -49,10 +52,10 @@
 
             <div class="container m-8">
                 <div class="flex flex-wrap -mx-12 -mb-6">
-                    {course_data.course_title}
-                    {course_data.course_number}
-                    {course_data.course_prefix}
-                    {course_data.course_term}
+                    {slug_course.course_title}
+                    {slug_course.course_number}
+                    {slug_course.course_prefix}
+                    {slug_course.course_term}
 
                 </div>
 

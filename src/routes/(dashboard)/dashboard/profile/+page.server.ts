@@ -1,4 +1,4 @@
-import type {Actions, PageServerLoad} from "./$types";
+import type {Actions, PageServerLoad} from "../../../../../.svelte-kit/types/src/routes";
 import { error, redirect } from '@sveltejs/kit'
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 

@@ -9,7 +9,7 @@
   let session = $page.data.session;
   let loading;
 
-  /** @type {import("./$types").PageData} */
+  /** @type {import("../../../../../../.svelte-kit/types/src/routes").PageData} */
   export let data;
   // TODO error handling
   let course_title;

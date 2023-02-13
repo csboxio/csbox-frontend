@@ -8,7 +8,6 @@
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
   }
 
-  let user = $page.data.user.userData
   let email = $page.data.session?.user.email
 
   async function imageToBlob(image: URL | RequestInfo){
@@ -28,15 +27,16 @@
       })
   }
   async function test() {
-    return Promise.resolve(imageToBlob(user.avatar_url))
+    return Promise.resolve(imageToBlob($page.data.user.avatar_url))
   }
   onMount(async () => {
-    user.avatar_url = await test()
+    $page.data.user.avatar_url = await test()
   });
 
+
   let avatarUrl;
-  let first_name = user.first_name;
-  let last_name = user.last_name;
+  let first_name = $page.data.user.first_name;
+  let last_name = $page.data.user.last_name;
 
   async function signOut() {
     try {
