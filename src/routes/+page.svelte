@@ -4,6 +4,7 @@
     import Auth from '$lib/components/Auth.svelte'
 
 </script>
+{$page.data.session}
 {#if !$page.data.session}
     <Auth />
 {:else}
