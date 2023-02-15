@@ -1,5 +1,10 @@
 <script lang="ts">
+  import {page} from "$app/stores";
+
   export const prerender = true;
+
+
+
 </script>
 
 <div>
@@ -28,14 +33,27 @@
       <div class="mb-6">
         <ul>
           <li>
-            <a class="flex items-center justify-center w-12 h-12 rounded-xl text-gray-400 hover:text-blue-500 hover:bg-gray-800 mb-2" sveltekit:prefetch href='/dashboard'>
-              <svg class="svelte-fa svelte-1cj2gr0" style="height:1em;line-height:.75em;font-size:1.33333em;vertical-align:-.225em;transform-origin:center;overflow:visible" viewBox="0 0 512 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(256 256)" transform-origin="128 0"><g transform="translate(0,0) scale(1,1)"><path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm320 96c0-15.9-5.8-30.4-15.3-41.6l76.6-147.4c6.1-11.8 1.5-26.3-10.2-32.4s-26.2-1.5-32.4 10.2L262.1 288.3c-2-.2-4-.3-6.1-.3c-35.3 0-64 28.7-64 64s28.7 64 64 64s64-28.7 64-64z" fill="currentColor" transform="translate(-256 -256)"></path></g></g></svg>
-            </a>
+            {#if $page.route.id === '/dashboard'}
+              <a class="flex items-center justify-center w-12 h-12 rounded-xl text-blue-500  hover:bg-gray-800 mb-2" sveltekit:prefetch href='/dashboard'>
+                <svg class="svelte-fa svelte-1cj2gr0" style="height:1em;line-height:.75em;font-size:1.33333em;vertical-align:-.225em;transform-origin:center;overflow:visible" viewBox="0 0 512 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(256 256)" transform-origin="128 0"><g transform="translate(0,0) scale(1,1)"><path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm320 96c0-15.9-5.8-30.4-15.3-41.6l76.6-147.4c6.1-11.8 1.5-26.3-10.2-32.4s-26.2-1.5-32.4 10.2L262.1 288.3c-2-.2-4-.3-6.1-.3c-35.3 0-64 28.7-64 64s28.7 64 64 64s64-28.7 64-64z" fill="currentColor" transform="translate(-256 -256)"></path></g></g></svg>
+              </a>
+            {:else }
+              <a class="flex items-center justify-center w-12 h-12 rounded-xl text-gray-400 hover:text-blue-500 hover:bg-gray-800 mb-2" sveltekit:prefetch href='/dashboard'>
+                <svg class="svelte-fa svelte-1cj2gr0" style="height:1em;line-height:.75em;font-size:1.33333em;vertical-align:-.225em;transform-origin:center;overflow:visible" viewBox="0 0 512 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(256 256)" transform-origin="128 0"><g transform="translate(0,0) scale(1,1)"><path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm320 96c0-15.9-5.8-30.4-15.3-41.6l76.6-147.4c6.1-11.8 1.5-26.3-10.2-32.4s-26.2-1.5-32.4 10.2L262.1 288.3c-2-.2-4-.3-6.1-.3c-35.3 0-64 28.7-64 64s28.7 64 64 64s64-28.7 64-64z" fill="currentColor" transform="translate(-256 -256)"></path></g></g></svg>
+              </a>
+              {/if}
+
           </li>
           <li>
-            <a class="flex items-center justify-center w-12 h-12 rounded-xl text-gray-400 hover:text-blue-500 hover:bg-gray-800 mb-2" sveltekit:prefetch href=/dashboard/courses>
+            {#if $page.route.id.includes('/dashboard/courses')}
+            <a class="flex items-center justify-center w-12 h-12 rounded-xl text-blue-500 hover:bg-gray-800 mb-2" sveltekit:prefetch href=/dashboard/courses>
               <svg class="svelte-fa svelte-1cj2gr0" style="height:1em;line-height:.75em;font-size:1.33333em;vertical-align:-.225em;transform-origin:center;overflow:visible" viewBox="0 0 448 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(224 256)" transform-origin="112 0"><g transform="translate(0,0) scale(1,1)"><path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z" fill="currentColor" transform="translate(-224 -256)"></path></g></g></svg>
             </a>
+              {:else}
+              <a class="flex items-center justify-center w-12 h-12 rounded-xl text-gray-400 hover:text-blue-500 hover:bg-gray-800 mb-2" sveltekit:prefetch href=/dashboard/courses>
+                <svg class="svelte-fa svelte-1cj2gr0" style="height:1em;line-height:.75em;font-size:1.33333em;vertical-align:-.225em;transform-origin:center;overflow:visible" viewBox="0 0 448 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(224 256)" transform-origin="112 0"><g transform="translate(0,0) scale(1,1)"><path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z" fill="currentColor" transform="translate(-224 -256)"></path></g></g></svg>
+              </a>
+              {/if}
           </li>
           <li>
             <a class="flex items-center justify-center w-12 h-12 rounded-xl text-gray-400 hover:text-blue-500 hover:bg-gray-800 mb-2" href={'#'}>
