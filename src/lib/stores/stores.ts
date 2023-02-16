@@ -7,3 +7,5 @@ import type { PageServerLoad } from "../../../.svelte-kit/types/src/routes/$type
 
 export const userStore = writable();
 export const courseStore = writable();
+
+export const imageStore = writable();
