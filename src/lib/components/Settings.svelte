@@ -4,26 +4,30 @@
   import {page} from "$app/stores";
   import { onDestroy, onMount } from "svelte";
   import { userStore } from "../stores/stores";
+  import {browser} from "$app/environment";
+
+  export const ssr = true;
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
   }
 
-  export let layoutUser;
-  let user = layoutUser;
+  let email;
+  let avatarUrl;
+  let full_name;
+  if (!browser) {
+    let layoutUser;
 
-  const userSubscribe = userStore.subscribe(value => {
-    layoutUser = value
-  })
-  onDestroy(userSubscribe)
+    const userSubscribe = userStore.subscribe(value => {
+      layoutUser = value
+    })
 
-  async function avatarFunc() {
-    return Promise.resolve(imageToBlob(user.avatar_url))
+
+    email = $page.data.session?.user.email
+    avatarUrl = layoutUser?.avatar_url;
+    full_name = layoutUser.first_name + " " + layoutUser.last_name;
   }
 
-  let email = $page.data.session?.user.email
-  let avatarUrl;
-  let full_name = layoutUser.first_name + " " + layoutUser.last_name;
 
   async function signOut() {
     try {
@@ -37,26 +41,7 @@
     await goto('/login')
   }
 
-  async function imageToBlob(image: URL | RequestInfo){
-    // Convert url from database into blob
-    return await fetch(image,
-      {
-        method: 'GET',
-        headers: {
-          credentials: 'omit',
-          'cache-control': 'max-age=3600'
-        }
-      })
-      .then((response) => response.blob())
-      .then((myBlob) =>
-      {
-        return (myBlob);
-      })
-  }
 
-  onMount(async () => {
-    user.avatar_url = await avatarFunc()
-  });
 </script>
 
 <div class="w-full sm:w-auto">
