@@ -15,19 +15,12 @@
   let email;
   let avatarUrl;
   let full_name;
-  if (!browser) {
-    let layoutUser;
+  let user;
 
-    const userSubscribe = userStore.subscribe(value => {
-      layoutUser = value
-    })
-
-
-    email = $page.data.session?.user.email
-    avatarUrl = layoutUser?.avatar_url;
-    full_name = layoutUser.first_name + " " + layoutUser.last_name;
-  }
-
+  user = $page.data.user.userData
+  email = $page.data.session?.user.email
+  avatarUrl = user.avatar_url;
+  full_name = user.first_name + " " + user.last_name;
 
   async function signOut() {
     try {
