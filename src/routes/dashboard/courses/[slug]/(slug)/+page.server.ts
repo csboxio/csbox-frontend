@@ -1,4 +1,4 @@
-import type { PageServerLoadEvent } from './$types'
+import type { PageServerLoadEvent } from "./$types"
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 import { page } from '$app/stores';
 
