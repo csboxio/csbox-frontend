@@ -54,5 +54,5 @@
     <button class="button block" on:click={signOut} disabled={loading}> Sign Out </button>
 </div>
 <div>
-    <button class="button block" on:click={() => goto('/dashboard')}> Dashboard </button>
+    <button class="button block" on:click|preventDefault={() => goto('/dashboard')}> Dashboard </button>
 </div>
