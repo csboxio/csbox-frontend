@@ -3,13 +3,10 @@
   import Navbar from "$lib/components/Navbar.svelte"
   import Settings from "$lib/components/Settings.svelte";
   import pageTitle from './+page.svelte'
+  import data from "./+page.svelte"
   import {page} from "$app/stores";
   let model;
-
-
   let course_data = $page.data.courses.courseData;
-
-
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body" on:click|stopPropagation={() => model.handleToggleMenuTopRight("outside")} >
