@@ -3,8 +3,6 @@
 
   export const prerender = false;
 
-
-
 </script>
 
 <div>
