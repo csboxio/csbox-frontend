@@ -32,7 +32,6 @@
       </div>
 
       <div for="single">
-
         <div class="w-full py-8 px-4 text-center border-dashed border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg">
           <div class="relative group h-14 w-14 mx-auto mb-4">
             <input

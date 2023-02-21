@@ -4,6 +4,9 @@ const config = {
 	plugins: [sveltekit()],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
+	},
+	ssr: {
+		noExternal: ['svelte-lazyimage-cache', 'react-image-file-resizer.js']
 	}
 };
 

@@ -1,8 +1,10 @@
 <script lang="ts">
     import { supabaseClient } from '$lib/utilities/supabaseClient'
     import {invalidate, invalidateAll} from '$app/navigation'
-    import { onMount } from 'svelte'
+    import { onDestroy, onMount } from "svelte";
     import '../app.css'
+    import { userStore } from "../lib/stores/stores";
+    import { page } from "$app/stores";
 
     onMount(() => {
         const {
@@ -14,6 +16,7 @@
             subscription.unsubscribe()
         }
     })
+
 </script>
 <svelte:head>
     <meta charset="utf-8">
