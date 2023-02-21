@@ -10,9 +10,13 @@
 
 <div class="flex flex-row">
     <section class="p-1">
-        <div class="container m-12">
-            <div class="flex flex-wrap -mx-12 -mb-6 text-white font-semibold">
-                Assignments
+        <div class="container mx-12 my-5">
+            <h4 class="text-xl font-bold text-white -mx-10 my-5">Assignments</h4>
+
+            <div class="flex flex-wrap -mx-10 -mb-6 text-white font-semibold">
+                1
+                2
+                3
             </div>
         </div>
     </section>
