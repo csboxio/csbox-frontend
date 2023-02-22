@@ -13,7 +13,7 @@
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body" on:click|stopPropagation={() => model.handleToggleMenuTopRight("outside")} >
-<div class="">
+<div class="{show_create_box ? 'filter blur-[1px]' : ''}">
   <Navbar/>
   <div class="mx-auto lg:ml-20">
     <section>
