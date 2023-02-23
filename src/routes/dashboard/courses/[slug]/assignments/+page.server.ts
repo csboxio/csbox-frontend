@@ -16,6 +16,8 @@ export const load: PageServerLoadEvent = async (event) => {
 
     const { data: assignmentData } = await supabaseClient.from('assignments')
       .select('id, inserted_at, assignment_title, category, description')
+      .eq('course_id', event.params.slug)
+
     return {
       courseData,
       assignmentData
