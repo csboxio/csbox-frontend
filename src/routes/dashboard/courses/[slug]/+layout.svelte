@@ -5,6 +5,7 @@
   import pageTitle from './+page.svelte'
   import data from "./+page.svelte"
   import {page} from "$app/stores";
+  import show_create_box from "./assignments/+page.svelte"
   import {browser} from "$app/environment";
   import {onMount} from "svelte";
   let model;
@@ -13,7 +14,7 @@
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body" on:click|stopPropagation={() => model.handleToggleMenuTopRight("outside")} >
-<div class="{show_create_box ? 'filter blur-[1px]' : ''}">
+<div class="{show_create_box ? '' : 'filter blur-[1px]'}">
   <Navbar/>
   <div class="mx-auto lg:ml-20">
     <section>
