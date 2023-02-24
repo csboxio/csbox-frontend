@@ -1,10 +1,10 @@
 <script>
-    import { page } from '$app/stores';
-    import { onMount } from 'svelte';
-    import { goto } from "$app/navigation";
+    import {page} from '$app/stores';
+    import {onMount} from 'svelte';
+    import {goto} from "$app/navigation";
 
     onMount(async () => {
-      goto('/login')
+        goto('/login')
     });
 </script>
 

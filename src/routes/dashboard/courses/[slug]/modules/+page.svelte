@@ -1,8 +1,4 @@
 <script lang="ts">
-    import Settings from "$lib/components/Settings.svelte"
-    import Navbar from "$lib/components/Navbar.svelte"
-    import {page} from "$app/stores";
-    import CourseNav from "$lib/components/CourseNav.svelte";
     let model;
     export let data;
     let course_data = data.courseData

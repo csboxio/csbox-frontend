@@ -1,11 +1,13 @@
 <script lang="ts">
   import {page} from "$app/stores";
 
+
+
   export const prerender = false;
 
 </script>
 
-<div>
+<div class="relative">
   <nav class="lg:hidden flex items-center justify-between p-8 bg-gray-700 mb-3">
     <div class="w-full xl:w-auto px-2 xl:mr-12">
       <div class="flex items-center justify-between">
@@ -16,13 +18,12 @@
           <button class="navbar-burger text-gray-400 hover:text-gray-300 focus:outline-none">
             <svg class="svelte-fa svelte-1cj2gr0" style="height:1em;line-height:.75em;font-size:1.33333em;vertical-align:-.225em;transform-origin:center;overflow:visible" viewBox="0 0 448 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(224 256)" transform-origin="112 0"><g transform="translate(0,0) scale(1,1)"><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" fill="currentColor" transform="translate(-224 -256)"></path></g></g></svg>
               <title>Mobile menu</title>
-
           </button>
         </div>
       </div>
     </div>
   </nav>
-  <div class="hidden lg:block navbar-menu relative z-50">
+  <div class="hidden lg:block navbar-menu relative z-10">
     <div class="lg:hidden navbar-backdrop fixed top-0 left-0 w-full h-full bg-gray-800 opacity-50"></div>
     <nav class="fixed top-0 left-0 bottom-0 max-w-max flex flex-col h-full py-12 px-4 bg-gray-700 overflow-auto">
       <a class="inline-block mb-12" href={'#'}>
@@ -33,13 +34,14 @@
           <li>
             {#if $page.route.id === '/dashboard'}
               <a class="flex items-center justify-center w-12 h-12 rounded-xl text-blue-500  hover:bg-gray-800 mb-2" sveltekit:prefetch href='/dashboard'>
-                <svg class="svelte-fa svelte-1cj2gr0" style="height:1em;line-height:.75em;font-size:1.33333em;vertical-align:-.225em;transform-origin:center;overflow:visible" viewBox="0 0 512 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(256 256)" transform-origin="128 0"><g transform="translate(0,0) scale(1,1)"><path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm320 96c0-15.9-5.8-30.4-15.3-41.6l76.6-147.4c6.1-11.8 1.5-26.3-10.2-32.4s-26.2-1.5-32.4 10.2L262.1 288.3c-2-.2-4-.3-6.1-.3c-35.3 0-64 28.7-64 64s28.7 64 64 64s64-28.7 64-64z" fill="currentColor" transform="translate(-256 -256)"></path></g></g></svg>
+                <svg class="svelte-fa svelte-1cj2gr0 " style="height:1em;line-height:.75em;font-size:1.33333em;vertical-align:-.225em;transform-origin:center;overflow:visible" viewBox="0 0 512 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(256 256)" transform-origin="128 0"><g transform="translate(0,0) scale(1,1)"><path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm320 96c0-15.9-5.8-30.4-15.3-41.6l76.6-147.4c6.1-11.8 1.5-26.3-10.2-32.4s-26.2-1.5-32.4 10.2L262.1 288.3c-2-.2-4-.3-6.1-.3c-35.3 0-64 28.7-64 64s28.7 64 64 64s64-28.7 64-64z" fill="currentColor" transform="translate(-256 -256)"></path></g></g></svg>
               </a>
             {:else }
               <a class="flex items-center justify-center w-12 h-12 rounded-xl text-gray-400 hover:text-blue-500 hover:bg-gray-800 mb-2" sveltekit:prefetch href='/dashboard'>
                 <svg class="svelte-fa svelte-1cj2gr0" style="height:1em;line-height:.75em;font-size:1.33333em;vertical-align:-.225em;transform-origin:center;overflow:visible" viewBox="0 0 512 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(256 256)" transform-origin="128 0"><g transform="translate(0,0) scale(1,1)"><path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm320 96c0-15.9-5.8-30.4-15.3-41.6l76.6-147.4c6.1-11.8 1.5-26.3-10.2-32.4s-26.2-1.5-32.4 10.2L262.1 288.3c-2-.2-4-.3-6.1-.3c-35.3 0-64 28.7-64 64s28.7 64 64 64s64-28.7 64-64z" fill="currentColor" transform="translate(-256 -256)"></path></g></g></svg>
               </a>
-              {/if}
+
+            {/if}
 
           </li>
           <li>
