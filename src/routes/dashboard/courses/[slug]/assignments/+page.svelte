@@ -61,16 +61,18 @@
             <h4 class="text-xl font-bold text-white -mx-5 my-10">Assignments</h4>
             <div class="flex flex-col -mx-24 pl-14 -mb-6 text-white font-semibold">
                 {#each assignments as {id, assignment_title, category, desc}, i}
-                    <button href="" data-sveltekit-preload-data="hover">
                         <div class="mb-6 mx-4">
                             <div class="min-w-xs max-w-xs ">
-                                <div class="relative group ">
+                                <div class="relative group">
+
                                     <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200"></div>
                                     <div>
+
                                         <div class="relative p-5 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500">
+                                            <a  data-sveltekit-preload-data="hover">
+
                                             <h4 class="text-base text-white font-bold">{assignment_title === "" ? "assignment" : assignment_title}</h4>
                                             <!--Popup-->
-                                            <a>
                                                 <div class="inline-block absolute top-0 right-0 m-5 text-gray-300 hover:text-gray-200"
                                                      href="#"
                                                      on:click={() => {
@@ -94,17 +96,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                {#if hoverID === i}
+                                    <div class="relative w-1/2 -top-16 left-64 z-2 block rounded-md bg-gray-500 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <div class="px-4 p-2 py-3 text-sm text-gray-900 dark:text-white">
+                                            <div class="truncate font-bold">Edit</div>
+                                            <div class="truncate font-bold">Delete</div>
+                                        </div>
+                                    </div>
+                                {/if}
                             </div>
                         </div>
-                    </button>
-                    {#if hoverID === i}
-                        <div class="relative  z-10 mt-2 w-56 origin-right rounded-md bg-gray-500 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                            <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                                <div class="truncate font-bold">test</div>
-                            </div>
-                        </div>
-                    {/if}
+
                 {/each}
                 <!--No courses found-->
                 {#if assignments.length === 0}
