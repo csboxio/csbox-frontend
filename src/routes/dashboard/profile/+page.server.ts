@@ -12,12 +12,14 @@ export const actions: Actions = {
         const {data} = await supabaseClient.auth.refreshSession()
         const {session, user} = data
 
+        if (!session || !user) {
+            throw redirect(303, '/')
+        }
         const fullName = formData.get('first')
         const lastName = formData.get('last_name')
         const website = formData.get('website')
 
         const updates = {
-            // @ts-ignore
             id: user.id,
             first_name: fullName,
             last_name: lastName,
@@ -25,9 +27,8 @@ export const actions: Actions = {
             updated_at: new Date()
         }
 
-        // @ts-ignore
-        let {error} = await supabaseClient.from('users').upsert(updates)
-
+        const {error} = await supabaseClient.from('users').upsert(updates)
+        console.log(error)
 
         throw redirect(303, '/dashboard/courses')
     }

@@ -1,6 +1,9 @@
 <script lang="ts">
     import {applyAction, deserialize} from "$app/forms";
     import {invalidateAll} from "$app/navigation";
+    import {getSupabase} from "@supabase/auth-helpers-sveltekit";
+    import { supabaseClient } from "$lib/utilities/supabaseClient";
+
 
     let model;
     export let data;
@@ -45,6 +48,16 @@
         await applyAction(result);
     }
 
+    async function handleDeleteAssignment(cid) {
+        console.log("clicked", cid)
+        const { error, status } = await supabaseClient.from("assignments")
+            .delete()
+            .match({"id": cid})
+        if (status === 204) {
+            await invalidateAll();
+        }
+    }
+
     let hoverID;
     $: hoverID;
 
@@ -62,18 +75,18 @@
             <div class="flex flex-col -mx-24 pl-14 -mb-6 text-white font-semibold">
                 {#each assignments as {id, assignment_title, category, desc}, i}
                         <div class="mb-6 mx-4">
-                            <div class="min-w-xs max-w-xs ">
-                                <div class="relative group">
+                            <div class="min-w-xs max-w-xs">
+                                <div class="relative group {hoverID === i ? 'border rounded hover:border-hidden' : ''} ">
 
                                     <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200"></div>
                                     <div>
 
                                         <div class="relative p-5 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500">
-                                            <a  data-sveltekit-preload-data="hover">
+                                            <a data-sveltekit-preload-data="hover">
 
-                                            <h4 class="text-base text-white font-bold">{assignment_title === "" ? "assignment" : assignment_title}</h4>
+                                            <h4 class="text-base text-white font-bold">{assignment_title === "" ? "No title found..." : assignment_title}</h4>
                                             <!--Popup-->
-                                                <div class="inline-block absolute top-0 right-0 m-5 text-gray-300 hover:text-gray-200"
+                                                <div class="inline-block absolute top-0 right-0 m-5 text-gray-300 hover:text-gray-100 hover:scale-110"
                                                      href="#"
                                                      on:click={() => {
 				                                hoverID = i;
@@ -98,9 +111,9 @@
                                 </div>
                                 {#if hoverID === i}
                                     <div class="relative w-1/2 -top-16 left-64 z-2 block rounded-md bg-gray-500 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <div class="px-4 p-2 py-3 text-sm text-gray-900 dark:text-white">
-                                            <div class="truncate font-bold">Edit</div>
-                                            <div class="truncate font-bold">Delete</div>
+                                        <div class=" text-sm text-gray-900 dark:text-white">
+                                            <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700">Edit</div>
+                                            <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700 hover:text-red-400" on:click={handleDeleteAssignment(id)}>Delete</div>
                                         </div>
                                     </div>
                                 {/if}
