@@ -22,6 +22,8 @@
 
     let course_data = data.courseData
 
+    let open = false;
+
 
     async function handleSubmit(event) {
         loading = true;
@@ -48,22 +50,25 @@
         await applyAction(result);
     }
 
+
+    let hoverID;
+    $: hoverID;
+
     async function handleDeleteAssignment(cid) {
         console.log("clicked", cid)
+        hoverID = 0
         const { error, status } = await supabaseClient.from("assignments")
             .delete()
             .match({"id": cid})
         if (status === 204) {
             await invalidateAll();
+            hoverID = 0
+            open = false;
         }
     }
 
-    let hoverID;
-    $: hoverID;
-
     function hover(h) {
         hoverID = h
-        console.log(hoverID)
     }
 </script>
 
@@ -76,7 +81,7 @@
                 {#each assignments as {id, assignment_title, category, desc}, i}
                         <div class="mb-6 mx-4">
                             <div class="min-w-xs max-w-xs">
-                                <div class="relative group {hoverID === i ? 'border rounded hover:border-hidden' : ''} ">
+                                <div class="relative group {hoverID === i && open ? 'border rounded hover:border-hidden' : ''} ">
 
                                     <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200"></div>
                                     <div>
@@ -90,6 +95,7 @@
                                                      href="#"
                                                      on:click={() => {
 				                                hoverID = i;
+                                                open = true;
                                                 }}
                                                 >
                                                     <svg width="24" height="24" viewbox="0 0 24 24" fill="none"
@@ -109,7 +115,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                {#if hoverID === i}
+                                {#if hoverID === i && open}
                                     <div class="relative w-1/2 -top-16 left-64 z-2 block rounded-md bg-gray-500 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                         <div class=" text-sm text-gray-900 dark:text-white">
                                             <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700">Edit</div>
