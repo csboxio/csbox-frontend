@@ -70,6 +70,37 @@
     function hover(h) {
         hoverID = h
     }
+
+    let left = 500;
+    let top = 200;
+
+    function dragMe(node) {
+        let moving = false;
+
+        node.style.position = 'absolute';
+        node.style.top = `${top}px`;
+        node.style.left = `${left}px`;
+        node.style.cursor = 'move';
+        node.style.userSelect = 'none';
+
+        node.addEventListener('mousedown', () => {
+            moving = true;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (moving) {
+                left += e.movementX;
+                top += e.movementY;
+                node.style.top = `${top}px`;
+                node.style.left = `${left}px`;
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            moving = false;
+        });
+
+    }
 </script>
 
 
@@ -159,10 +190,10 @@
 
 {#if show_create_box}
     <!-- Main modal -->
-    <div class="fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2  overflow-y-auto overflow-x-hidden">
+    <div use:dragMe class="z-1000 fixed top-1/2 left-1/2 ">
         <div class="relative p-4 w-full max-w-2xl h-full md:h-auto ">
             <!-- Modal content -->
-            <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5">
+            <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5  border border-blue-300 border-opacity-50 rounded hover:border-hidden ">
                 <!-- Modal header -->
                 <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">

@@ -7,7 +7,7 @@
 
 </script>
 
-<div class="relative">
+<div class="z-1 relative">
   <nav class="lg:hidden flex items-center justify-between p-8 bg-gray-700 mb-3">
     <div class="w-full xl:w-auto px-2 xl:mr-12">
       <div class="flex items-center justify-between">
