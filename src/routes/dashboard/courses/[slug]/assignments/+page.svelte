@@ -56,14 +56,13 @@
 
     async function handleDeleteAssignment(cid) {
         console.log("clicked", cid)
-        hoverID = 0
+        open = false;
         const { error, status } = await supabaseClient.from("assignments")
             .delete()
             .match({"id": cid})
         if (status === 204) {
-            await invalidateAll();
-            hoverID = 0
             open = false;
+            await invalidateAll();
         }
     }
 
