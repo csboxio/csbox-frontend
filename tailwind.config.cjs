@@ -1,7 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{html,js,svelte,ts}'],
+  content: ['./src/**/*.{html,js,svelte,ts}',
+    "./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}",
+  ],
+
   theme: {
+    extend: {},
     screens: {
       sm: '640px',
       md: '768px',
@@ -1025,5 +1029,6 @@ module.exports = {
     wordBreak: ['responsive'],
     zIndex: ['responsive', 'focus-within', 'focus'],
   },
-  plugins: [],
+  plugins: [
+  ],
 }
