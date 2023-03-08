@@ -118,8 +118,8 @@
             <h4 class="text-xl font-bold text-white -mx-5 my-10">Assignments</h4>
             <div class="flex flex-col -mx-24 pl-14 -mb-6 text-white font-semibold delay-50">
                 {#each assignments as {id, assignment_title, category, desc}, i}
-                        <div transition:blur class="mb-6 mx-4">
-                            <div class="min-w-xs max-w-xs min-h-xs max-h-xs">
+                        <div transition:blur class="mb-6 mx-6">
+                            <div class="max-w-2xl min-w-xl min-h-xs max-h-xs">
                                 <div class="relative group ">
                                     <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 {hoverID === i && open ? 'opacity-30 scale-105' : ''} transition duration-1500 group-hover:duration-200"></div>
                                     <div>
@@ -127,7 +127,7 @@
                                             <a data-sveltekit-preload-data="hover">
                                             <h4 class="text-base text-white font-bold">{assignment_title === "" ? "No title found..." : assignment_title}</h4>
                                             <!--Popup-->
-                                                <div class="inline-block absolute top-0 right-0 m-5 text-gray-300 hover:text-gray-100 hover:scale-110"
+                                                <div class="inline-block absolute top-0 right-0 m-5 text-gray-300 hover:text-gray-100 hover:scale-105"
                                                      href="#"
                                                      on:click={() => { hoverID = i; open = true; }}>
                                                     <svg width="24" height="24" viewbox="0 0 24 24" fill="none"
@@ -148,8 +148,8 @@
                                     </div>
                                 </div>
                                 {#if hoverID === i && open}
-                                    <div transition:blur class="relative w-1/2 -top-16 left-64 ">
-                                       <div class="absolute block rounded-md bg-gray-500  z-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <div transition:blur class="relative w-1/2 -top-16 left-[105%]">
+                                       <div class="absolute block rounded-md bg-gray-500 z-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                         <div class="text-sm text-gray-900 dark:text-white">
                                             <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700 w-20 ">Edit</div>
                                             <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700 hover:text-red-400" on:click={handleDeleteAssignment(id)}>Delete</div>
