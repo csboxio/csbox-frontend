@@ -111,23 +111,16 @@
                 {#each assignments as {id, assignment_title, category, desc}, i}
                         <div class="mb-6 mx-4">
                             <div class="min-w-xs max-w-xs">
-                                <div class="relative group {hoverID === i && open ? 'border rounded hover:border-hidden' : ''} ">
-
-                                    <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200"></div>
+                                <div class="relative group ">
+                                    <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 {hoverID === i && open ? 'opacity-30 scale-105' : ''} transition duration-1500 group-hover:duration-200"></div>
                                     <div>
-
                                         <div class="relative p-5 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500">
                                             <a data-sveltekit-preload-data="hover">
-
                                             <h4 class="text-base text-white font-bold">{assignment_title === "" ? "No title found..." : assignment_title}</h4>
                                             <!--Popup-->
                                                 <div class="inline-block absolute top-0 right-0 m-5 text-gray-300 hover:text-gray-100 hover:scale-110"
                                                      href="#"
-                                                     on:click={() => {
-				                                hoverID = i;
-                                                open = true;
-                                                }}
-                                                >
+                                                     on:click={() => { hoverID = i; open = true; }}>
                                                     <svg width="24" height="24" viewbox="0 0 24 24" fill="none"
                                                          xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
@@ -151,6 +144,14 @@
                                             <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700">Edit</div>
                                             <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700 hover:text-red-400" on:click={handleDeleteAssignment(id)}>Delete</div>
                                         </div>
+                                        <div class="inline-block absolute top-0 right-0 m-2 text-gray-300 hover:text-gray-100 hover:scale-110"
+                                             href="#"
+                                             on:click={() => { open = false; }}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                                            </svg>
+                                        </div>
+
                                     </div>
                                 {/if}
                             </div>
@@ -192,7 +193,7 @@
     <div use:dragMe class="z-1000 fixed top-1/2 left-1/2 ">
         <div class="relative p-4 w-full max-w-2xl h-full md:h-auto ">
             <!-- Modal content -->
-            <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5  border border-blue-300 border-opacity-50 rounded hover:border-hidden ">
+            <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5 ">
                 <!-- Modal header -->
                 <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">

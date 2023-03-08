@@ -57,7 +57,6 @@
                 </div>
             </div>
         </section>
-
         <div class="flex flex-row">
             <CourseNav/>
             <slot/>
