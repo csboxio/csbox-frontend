@@ -3,6 +3,9 @@
     import {invalidateAll} from "$app/navigation";
     import {getSupabase} from "@supabase/auth-helpers-sveltekit";
     import { supabaseClient } from "$lib/utilities/supabaseClient";
+    import { blur } from 'svelte/transition'
+    import {browser} from "$app/environment";
+
 
 
     let model;
@@ -11,6 +14,7 @@
     let loading;
     let assignments;
     $: assignments = data.assignmentData
+
 
     function show_box() {
         show_create_box = true;
@@ -70,11 +74,16 @@
         hoverID = h
     }
 
-    let left = 500;
+    let left = 600;
     let top = 200;
 
     function dragMe(node) {
         let moving = false;
+
+        if (browser) {
+            // Window scrolling Y changing saves state when close and open.
+            top = 200 + window.scrollY
+        }
 
         node.style.position = 'absolute';
         node.style.top = `${top}px`;
@@ -107,10 +116,10 @@
     <section class="p-1">
         <div class="container mx-5 my-5">
             <h4 class="text-xl font-bold text-white -mx-5 my-10">Assignments</h4>
-            <div class="flex flex-col -mx-24 pl-14 -mb-6 text-white font-semibold">
+            <div class="flex flex-col -mx-24 pl-14 -mb-6 text-white font-semibold delay-50">
                 {#each assignments as {id, assignment_title, category, desc}, i}
-                        <div class="mb-6 mx-4">
-                            <div class="min-w-xs max-w-xs">
+                        <div transition:blur class="mb-6 mx-4">
+                            <div class="min-w-xs max-w-xs min-h-xs max-h-xs">
                                 <div class="relative group ">
                                     <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 {hoverID === i && open ? 'opacity-30 scale-105' : ''} transition duration-1500 group-hover:duration-200"></div>
                                     <div>
@@ -139,9 +148,10 @@
                                     </div>
                                 </div>
                                 {#if hoverID === i && open}
-                                    <div class="relative w-1/2 -top-16 left-64 z-2 block rounded-md bg-gray-500 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <div class=" text-sm text-gray-900 dark:text-white">
-                                            <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700">Edit</div>
+                                    <div transition:blur class="relative w-1/2 -top-16 left-64 ">
+                                       <div class="absolute block rounded-md bg-gray-500  z-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <div class="text-sm text-gray-900 dark:text-white">
+                                            <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700 w-20 ">Edit</div>
                                             <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700 hover:text-red-400" on:click={handleDeleteAssignment(id)}>Delete</div>
                                         </div>
                                         <div class="inline-block absolute top-0 right-0 m-2 text-gray-300 hover:text-gray-100 hover:scale-110"
@@ -152,6 +162,7 @@
                                             </svg>
                                         </div>
 
+                                    </div>
                                     </div>
                                 {/if}
                             </div>
@@ -178,7 +189,7 @@
             </div>
         </div>
 
-        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-300 to-blue-500 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
                 on:click={show_box}>
                 <span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
                   Create
