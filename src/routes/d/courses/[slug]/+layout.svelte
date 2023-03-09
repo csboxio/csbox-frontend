@@ -5,6 +5,7 @@
     import {page} from "$app/stores";
     import show_create_box from "./assignments/+page.svelte"
 
+    import '$lib/quilljs.css'
     let model;
     let course_data = $page.data.courses.courseData;
     let course = course_data.find(course => course.id)
