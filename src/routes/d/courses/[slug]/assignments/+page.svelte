@@ -6,15 +6,12 @@
     import { blur } from 'svelte/transition'
     import {browser} from "$app/environment";
 
-
-
     let model;
     export let data;
     export let show_create_box;
     let loading;
     let assignments;
     $: assignments = data.assignmentData
-
 
     function show_box() {
         show_create_box = true;
@@ -74,7 +71,7 @@
         hoverID = h
     }
 
-    let left = 600;
+    let left = 950;
     let top = 200;
 
     function dragMe(node) {
@@ -82,31 +79,33 @@
 
         if (browser) {
             // Window scrolling Y changing saves state when close and open.
-            top = 200 + window.scrollY
+            top = top + window.scrollY
+
+            node.style.position = 'absolute';
+            node.style.top = `${top}px`;
+            node.style.left = `${left}px`;
+            node.style.cursor = 'move';
+            node.style.userSelect = 'none';
+
+            node.addEventListener('mousedown', () => {
+                moving = true;
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (moving) {
+                    console.log(window.devicePixelRatio)
+                    // devicePixelRatio fixes zoomed in browser movement.
+                    left += e.movementX / window.devicePixelRatio;
+                    top += e.movementY / window.devicePixelRatio;
+                    node.style.top = `${top}px`;
+                    node.style.left = `${left}px`;
+                }
+            });
+
+            window.addEventListener('mouseup', () => {
+                moving = false;
+            });
         }
-
-        node.style.position = 'absolute';
-        node.style.top = `${top}px`;
-        node.style.left = `${left}px`;
-        node.style.cursor = 'move';
-        node.style.userSelect = 'none';
-
-        node.addEventListener('mousedown', () => {
-            moving = true;
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (moving) {
-                left += e.movementX;
-                top += e.movementY;
-                node.style.top = `${top}px`;
-                node.style.left = `${left}px`;
-            }
-        });
-
-        window.addEventListener('mouseup', () => {
-            moving = false;
-        });
 
     }
 </script>
