@@ -3,7 +3,8 @@
     import {invalidateAll} from "$app/navigation";
     import {getSupabase} from "@supabase/auth-helpers-sveltekit";
     import { supabaseClient } from "$lib/utilities/supabaseClient";
-
+    import { blur } from 'svelte/transition'
+    import {browser} from "$app/environment";
 
     let model;
     export let data;
@@ -70,34 +71,41 @@
         hoverID = h
     }
 
-    let left = 500;
+    let left = 950;
     let top = 200;
 
     function dragMe(node) {
         let moving = false;
 
-        node.style.position = 'absolute';
-        node.style.top = `${top}px`;
-        node.style.left = `${left}px`;
-        node.style.cursor = 'move';
-        node.style.userSelect = 'none';
+        if (browser) {
+            // Window scrolling Y changing saves state when close and open.
+            top = top + window.scrollY
 
-        node.addEventListener('mousedown', () => {
-            moving = true;
-        });
+            node.style.position = 'absolute';
+            node.style.top = `${top}px`;
+            node.style.left = `${left}px`;
+            node.style.cursor = 'move';
+            node.style.userSelect = 'none';
 
-        window.addEventListener('mousemove', (e) => {
-            if (moving) {
-                left += e.movementX;
-                top += e.movementY;
-                node.style.top = `${top}px`;
-                node.style.left = `${left}px`;
-            }
-        });
+            node.addEventListener('mousedown', () => {
+                moving = true;
+            });
 
-        window.addEventListener('mouseup', () => {
-            moving = false;
-        });
+            window.addEventListener('mousemove', (e) => {
+                if (moving) {
+                    console.log(window.devicePixelRatio)
+                    // devicePixelRatio fixes zoomed in browser movement.
+                    left += e.movementX / window.devicePixelRatio;
+                    top += e.movementY / window.devicePixelRatio;
+                    node.style.top = `${top}px`;
+                    node.style.left = `${left}px`;
+                }
+            });
+
+            window.addEventListener('mouseup', () => {
+                moving = false;
+            });
+        }
 
     }
 </script>
@@ -105,29 +113,28 @@
 
 <div class="flex flex-row">
     <section class="p-1">
-        <div class="container mx-5 my-5">
-            <h4 class="text-xl font-bold text-white -mx-5 my-10">Assignments</h4>
-            <div class="flex flex-col -mx-24 pl-14 -mb-6 text-white font-semibold">
+        <div class="container mx-1 my-8">
+            <h4 class="text-xl font-bold text-white -mx-auto my-5">Assignments</h4>
+            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+                    on:click={show_box}>
+                <span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+                  Create
+              </span>
+            </button>
+            <div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold delay-50">
                 {#each assignments as {id, assignment_title, category, desc}, i}
-                        <div class="mb-6 mx-4">
-                            <div class="min-w-xs max-w-xs">
-                                <div class="relative group {hoverID === i && open ? 'border rounded hover:border-hidden' : ''} ">
-
-                                    <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200"></div>
+                        <div transition:blur="{{duration: 200}}" class="mb-6 mx-6">
+                            <div id = {id} class="max-w-2xl min-w-xl min-h-xs max-h-xs">
+                                <div class="relative group ">
+                                    <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 {hoverID === i && open ? 'opacity-30 scale-105' : ''} transition duration-1500 group-hover:duration-200"></div>
                                     <div>
-
                                         <div class="relative p-5 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500">
                                             <a data-sveltekit-preload-data="hover">
-
                                             <h4 class="text-base text-white font-bold">{assignment_title === "" ? "No title found..." : assignment_title}</h4>
                                             <!--Popup-->
-                                                <div class="inline-block absolute top-0 right-0 m-5 text-gray-300 hover:text-gray-100 hover:scale-110"
+                                                <div class="inline-block absolute top-0 right-0 m-5 text-gray-300 hover:text-gray-100 hover:scale-105"
                                                      href="#"
-                                                     on:click={() => {
-				                                hoverID = i;
-                                                open = true;
-                                                }}
-                                                >
+                                                     on:click={() => { hoverID = i; open = true; }}>
                                                     <svg width="24" height="24" viewbox="0 0 24 24" fill="none"
                                                          xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
@@ -145,12 +152,25 @@
                                         </div>
                                     </div>
                                 </div>
-                                {#if hoverID === i && open}
-                                    <div class="relative w-1/2 -top-16 left-64 z-2 block rounded-md bg-gray-500 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <div class=" text-sm text-gray-900 dark:text-white">
-                                            <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700">Edit</div>
+                                {#if hoverID === i && open && browser}
+                                    <div transition:blur="{{duration: 200}}" id="edit" class="relative  w-1/2 bottom-16 left-[105%]">
+                                       <div class="absolute block rounded-md bg-gray-500 z-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <div class="text-sm text-gray-900 dark:text-white">
+                                            <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700 w-24 ">Edit</div>
                                             <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700 hover:text-red-400" on:click={handleDeleteAssignment(id)}>Delete</div>
                                         </div>
+                                        <div class="inline-block absolute top-0 right-0 m-2 text-gray-300 hover:text-gray-100 hover:scale-110"
+                                             href="#"
+                                             on:click={() => { open = false; }}>
+                                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+
+                                    </div>
                                     </div>
                                 {/if}
                             </div>
@@ -176,13 +196,6 @@
 
             </div>
         </div>
-
-        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-300 to-blue-500 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-                on:click={show_box}>
-                <span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-                  Create
-              </span>
-        </button>
     </section>
 </div>
 
@@ -192,7 +205,7 @@
     <div use:dragMe class="z-1000 fixed top-1/2 left-1/2 ">
         <div class="relative p-4 w-full max-w-2xl h-full md:h-auto ">
             <!-- Modal content -->
-            <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5  border border-blue-300 border-opacity-50 rounded hover:border-hidden ">
+            <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5 ">
                 <!-- Modal header -->
                 <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">

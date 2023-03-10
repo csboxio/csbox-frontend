@@ -1,7 +1,7 @@
 <script>
   import {page} from "$app/stores";
 
-  let route = '/dashboard/courses/' + $page.params.slug + '/'
+  let route = '/d/courses/' + $page.params.slug + '/'
 </script>
 
 <section class="fixed inset-y-0 z-1 flex-shrink-0 mr-5 bg-gray-600 border-r dark:border-primary-darker dark:bg-darker lg:static focus:outline-none">
