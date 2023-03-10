@@ -24,6 +24,7 @@
 
     let content = { html: '', text: ''};
 
+
     let edit = false;
 
     function handleEdit() {
@@ -50,9 +51,7 @@
         </button>
         <div class="container mx-1 my-8 ">
             <div class="flex flex space-x-4 grow">
-                <div class="flex-1 w-1/2 bg-white p-2">
-                    {@html content.html}
-                </div>
+
 
                 {#if edit}
                 <div class="flex-1 w-1/2 bg-white">
@@ -61,6 +60,10 @@
                         on:text-change={e => content = e.detail}>
                     </div>
                 </div>
+                  {:else}
+                  <div class="flex-1 w-1/2 bg-white p-2">
+                    {@html content.html}
+                  </div>
                 {/if}
 
 
