@@ -113,9 +113,15 @@
 
 <div class="flex flex-row">
     <section class="p-1">
-        <div class="container mx-5 my-5">
-            <h4 class="text-xl font-bold text-white -mx-5 my-10">Assignments</h4>
-            <div class="flex flex-col -mx-24 pl-14 -mb-6 text-white font-semibold delay-50">
+        <div class="container mx-1 my-8">
+            <h4 class="text-xl font-bold text-white -mx-auto my-5">Assignments</h4>
+            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+                    on:click={show_box}>
+                <span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+                  Create
+              </span>
+            </button>
+            <div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold delay-50">
                 {#each assignments as {id, assignment_title, category, desc}, i}
                         <div transition:blur="{{duration: 200}}" class="mb-6 mx-6">
                             <div id = {id} class="max-w-2xl min-w-xl min-h-xs max-h-xs">
@@ -156,8 +162,11 @@
                                         <div class="inline-block absolute top-0 right-0 m-2 text-gray-300 hover:text-gray-100 hover:scale-110"
                                              href="#"
                                              on:click={() => { open = false; }}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                                                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                      clip-rule="evenodd"></path>
                                             </svg>
                                         </div>
 
@@ -187,13 +196,6 @@
 
             </div>
         </div>
-
-        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-                on:click={show_box}>
-                <span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-                  Create
-              </span>
-        </button>
     </section>
 </div>
 
