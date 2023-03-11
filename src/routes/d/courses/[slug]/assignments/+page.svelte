@@ -123,7 +123,7 @@
             </button>
             <div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold delay-50">
                 {#each assignments as {id, assignment_title, category, desc}, i}
-                        <div transition:blur="{{duration: 200}}" class="mb-6 mx-6">
+                        <div transition:blur="{{duration: 200}}" class="mb-6 mx-6 cursor-pointer">
                             <div id = {id} class="max-w-2xl min-w-xl min-h-xs max-h-xs">
                                 <div class="relative group ">
                                     <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 {hoverID === i && open ? 'opacity-30 scale-105' : ''} transition duration-1500 group-hover:duration-200"></div>
