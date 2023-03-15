@@ -9,10 +9,11 @@ let loading;
 export const downloadCourseDocument = async (filePath: string) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const { data } = await supabaseClient.storage.from('/public/courses').download(filePath)
+    const { data, error } = await supabaseClient.storage.from('/public/courses').download(filePath)
     // Check if null
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
+    console.log(error)
     const text = await new Response(data).text();
 
     console.log(text)

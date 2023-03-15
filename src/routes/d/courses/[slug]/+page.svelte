@@ -32,7 +32,6 @@
     }
 
     let content = { html: '', text: ''};
-    content.html = get(courseDocument)
 
     let edit = false;
     function handleEdit() {
@@ -46,11 +45,12 @@
     }
 
     async function getDocument() {
-        const filePath = `${$page.params.slug + "/" + "document/" + "home"}.HTML`
-        content.html = await downloadCourseDocument(filePath)
+        if (browser) {
+            const filePath = `${$page.params.slug + "/" + "document/" + "home"}.HTML?t=${course_data.inserted_at}`
+            content.html = await downloadCourseDocument(filePath)
+        }
     }
 
-    courseDocument.set(content.html)
 
     onMount(async () => {
         await getDocument()

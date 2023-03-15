@@ -17,7 +17,7 @@ export const load: LayoutServerLoad = async ({locals, event}) => {
 
         if (!courses) {
             const {data: courseData, error} = await locals.sb.from('courses')
-                .select('id, course_image_url, course_title, course_prefix, course_number, course_term')
+                .select('id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term')
                 .eq('created_by', locals.session.user.id);
 
             courseStore.set(courseData);

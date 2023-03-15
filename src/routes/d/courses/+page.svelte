@@ -18,6 +18,7 @@
     $: hoverID;
     let open = false;
 
+
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body"
@@ -73,6 +74,7 @@
                     <!--Each course-->
                     {#each course_data as {
                         id,
+                        inserted_at,
                         course_image_url,
                         course_title,
                         course_prefix,
@@ -86,7 +88,7 @@
                                         <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200"></div>
                                         <div>
                                             <div class="relative p-6 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500">
-                                                <img src={ course_image_url }
+                                                <img src={ course_image_url + "?t=" + inserted_at}
                                                      class="relative inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl bg-gray-600 "/>
                                                 <a on:click|stopPropagation={() => { hoverID = i; open = true; }}>
                                                 <div class=" inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200">
