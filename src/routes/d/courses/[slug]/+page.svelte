@@ -1,12 +1,10 @@
 <script>
     import {downloadCourseDocument, uploadCourseDocument} from "$lib/utilities/course";
     import { page } from '$app/stores';
-    import { blur } from 'svelte/transition'
     import {browser} from "$app/environment";
     import {onMount} from "svelte";
     import Quill from "quill";
-    import {courseDocument} from "$lib/stores/stores";
-    import { get } from 'svelte/store';
+    import { blur } from 'svelte/transition'
 
 
     let quill;
@@ -51,7 +49,6 @@
         }
     }
 
-
     onMount(async () => {
         await getDocument()
         let container = document.getElementById('editor');
@@ -77,12 +74,12 @@
                   Save
               </span>
         </button>
-        <div class="container mx-1 my-8 ">
-            <div class="flex flex space-x-4 grow">
-                    <div class="flex-1 w-1/2 bg-white" hidden="{edit === true ? '' : 'hidden'}" >
-                        <div id="editor" class="editor bg-white" hidden="{edit === true ? '' : 'hidden'}"></div>
+        <div class="container my-6 ">
+            <div transition:blur="{{duration: 200}}" class="flex flex space-x-4 grow mr-4">
+                    <div transition:blur="{{duration: 200}}" class="flex-1 w-1/2 bg-white min-h-screen" hidden="{edit === true ? '' : 'hidden'}" >
+                        <div transition:blur="{{duration: 200}}" id="editor" class="editor bg-white" hidden="{edit === true ? '' : 'hidden'}"></div>
                     </div>
-                  <div class="flex-1 w-1/2 bg-white p-2" hidden="{edit === false ? '' : 'hidden'}">
+                  <div class="flex-1 w-1/2 bg-white p-2 min-h-screen" hidden="{edit === false ? '' : 'hidden'}">
                     {@html content.html}
                   </div>
             </div>

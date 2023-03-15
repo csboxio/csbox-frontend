@@ -16,10 +16,8 @@
     let avatarUrl;
     updated = $page.data.user.updated_at
     avatarUrl = user.avatar_url + "?t=" + updated;
-
     // this is needed for the outside click div, that needs to be redone
     let model;
-
 </script>
 <body class=" bg-gray-600 antialiased bg-body text-body font-body"
       on:click|stopPropagation={() => model.handleToggleMenuTopRight("outside")}>

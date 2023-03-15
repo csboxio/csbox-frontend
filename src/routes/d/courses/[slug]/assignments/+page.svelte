@@ -71,7 +71,7 @@
     hoverID = h
   }
 
-  let left = 950;
+  let left = 600;
   let top = 200;
 
   function dragMe(node) {
@@ -119,10 +119,11 @@
               </span>
       </button>
       <div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold delay-50">
+
         {#each assignments as {id, assignment_title, category, desc}, i}
           <div transition:blur="{{duration: 200}}" class="mb-6 mx-6 cursor-pointer">
             <div id = {id} class="max-w-2xl min-w-xl min-h-xs max-h-xs">
-              <div class="relative group ">
+              <div class="relative group">
                 <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 {hoverID === i && open ? 'opacity-30 scale-105' : ''} transition duration-1500 group-hover:duration-200"></div>
                 <div>
                   <div class="relative p-5 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500">
@@ -175,7 +176,7 @@
         {/each}
 
         <!--No courses found-->
-        {#if assignments.length === 0}
+        {#if assignments?.length === 0}
           <div class="flex p-4 mb-12 mt-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
                role="alert">
             <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor"
