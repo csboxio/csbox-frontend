@@ -200,7 +200,7 @@
                                         <!--TODO cancel delete row-->
                                         <a
                                                 class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
-                                                href="/dashboard/courses">Cancel</a>
+                                                href="/d/courses">Cancel</a>
                                     </div>
 
                                     <button
@@ -224,7 +224,7 @@
                                     <!--TODO cancel delete row-->
                                     <a
                                             class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
-                                            href="/dashboard/courses">Cancel</a>
+                                            href="/d/courses">Cancel</a>
                                     <button class="float-right inline-block py-2 px-4 text-xs text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
                                             on:click={() => handleSteps(3)}>
                                         Next
@@ -233,7 +233,7 @@
                                 <!--Step 3-->
                             {:else if step === 3}
                                 <button class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-                                        on:click|preventDefault={goto('/dashboard/courses')}>
+                                        on:click|preventDefault={goto('/d/courses')}>
                                     Confirm
                                 </button>
                             {/if}

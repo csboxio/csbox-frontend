@@ -80,7 +80,6 @@
     if (browser) {
       // Window scrolling Y changing saves state when close and open.
       top = top + window.scrollY
-
       node.style.position = 'absolute';
       node.style.top = `${top}px`;
       node.style.left = `${left}px`;
@@ -93,10 +92,9 @@
 
       window.addEventListener('mousemove', (e) => {
         if (moving) {
-          console.log(window.devicePixelRatio)
           // devicePixelRatio fixes zoomed in browser movement.
-          left += e.movementX / window.devicePixelRatio;
-          top += e.movementY / window.devicePixelRatio;
+          left += e.movementX;
+          top += e.movementY;
           node.style.top = `${top}px`;
           node.style.left = `${left}px`;
         }
@@ -106,7 +104,6 @@
         moving = false;
       });
     }
-
   }
 </script>
 
@@ -132,7 +129,7 @@
                     <a data-sveltekit-preload-data="hover">
                       <h4 class="text-base text-white font-bold">{assignment_title === "" ? "No title found..." : assignment_title}</h4>
                       <!--Popup-->
-                      <div class="inline-block absolute top-0 right-0 m-5 text-gray-300 hover:text-gray-100 hover:scale-105"
+                      <div class="inline-block absolute top-0 right-0 m-5 mr-2 text-gray-300 hover:text-gray-100 hover:scale-105"
                            href="#"
                            on:click={() => { hoverID = i; open = true; }}>
                         <svg width="24" height="24" viewbox="0 0 24 24" fill="none"
@@ -175,8 +172,8 @@
               {/if}
             </div>
           </div>
-
         {/each}
+
         <!--No courses found-->
         {#if assignments.length === 0}
           <div class="flex p-4 mb-12 mt-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
