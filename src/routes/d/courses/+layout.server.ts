@@ -1,7 +1,6 @@
 import {redirect} from "@sveltejs/kit";
 import {browser} from "$app/environment";
 import {courseStore} from "../../../lib/stores/stores";
-
 export const prerender = false;
 //@ts-ignore
 export const load: LayoutServerLoad = async ({locals, event}) => {

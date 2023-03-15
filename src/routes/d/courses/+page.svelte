@@ -6,7 +6,6 @@
     import { blur } from 'svelte/transition'
     import { goto } from "$app/navigation";
 
-
     // this is needed for the outside click div, that needs to be redone
     let model;
 
@@ -20,7 +19,6 @@
     let open = false;
 
 </script>
-
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body"
       on:click|stopPropagation={() => model.handleToggleMenuTopRight("outside")}>
@@ -69,16 +67,10 @@
                 </div>
             </div>
         </section>
-
-
         <section class="flex flex-col p-8">
-
             <div class="container m-6">
                 <div class="flex flex-wrap -mx-12 -mb-2">
-
-
                     <!--Each course-->
-
                     {#each course_data as {
                         id,
                         course_image_url,
@@ -87,7 +79,6 @@
                         course_number,
                         course_term
                     }, i}
-
                             <div class="relative mb-8 mx-4 cursor-pointer">
                                 <div class=" min-w-xs max-w-xs">
                                     <div class="relative group">
