@@ -6,11 +6,14 @@
     import {onMount} from "svelte";
     import Quill from "quill";
     import {courseDocument} from "$lib/stores/stores";
+    import { get } from 'svelte/store';
+
 
     let quill;
     let model;
     export let data;
     let course_data = data.courseData
+
     const options = {
         modules: {
             toolbar: [
@@ -27,26 +30,27 @@
         placeholder: "Type something...",
         theme: "snow"
     }
+
     let content = { html: '', text: ''};
+    content.html = get(courseDocument)
+
     let edit = false;
     function handleEdit() {
        edit = ((edit === true) ? edit = false : edit = true)
     }
+
     function handleSave() {
         if (browser) {
             uploadCourseDocument(content.html, $page.params.slug)
         }
     }
+
     async function getDocument() {
         const filePath = `${$page.params.slug + "/" + "document/" + "home"}.HTML`
         content.html = await downloadCourseDocument(filePath)
-        console.log(content.html.text)
     }
 
     courseDocument.set(content.html)
-    courseDocument.subscribe(value => {
-        content.html = value;
-    });
 
     onMount(async () => {
         await getDocument()

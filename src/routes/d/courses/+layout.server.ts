@@ -2,6 +2,7 @@ import {redirect} from "@sveltejs/kit";
 import {browser} from "$app/environment";
 import {courseStore} from "../../../lib/stores/stores";
 export const prerender = false;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 export const load: LayoutServerLoad = async ({locals, event}) => {
     if (!locals.session?.user) {

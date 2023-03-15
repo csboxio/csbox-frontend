@@ -15,6 +15,8 @@ export const downloadCourseDocument = async (filePath: string) => {
     // @ts-ignore
     const text = await new Response(data).text();
 
+    console.log(text)
+
     return text
 }
 
@@ -38,17 +40,13 @@ export const uploadCourseDocument = async (files: FileList, courseId: bigint) =>
         //await deleteCourseDocument(filePath)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const { error } = await supabaseClient.storage.from('courses').update(filePath, files,
-            {
-                cacheControl: '60',
-                // Overwrite file if it exists
-                upsert: true
-            })
+        const { error } = await supabaseClient.storage.from('courses').update(filePath, files)
     console.log(error)
         if (error) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             const { errors } = await supabaseClient.storage.from('courses').remove(filePath)
+            console.log(errors)
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
             const { error } = await supabaseClient.storage.from('courses').upload(filePath, files)
