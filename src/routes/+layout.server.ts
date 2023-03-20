@@ -4,6 +4,7 @@ import {userStore} from "../lib/stores/stores";
 
 export const prerender = false;
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export const load: LayoutServerLoad = async (event) => {
     if (event.locals.session && !browser) {
@@ -14,10 +15,9 @@ export const load: LayoutServerLoad = async (event) => {
 
         if (!user) {
             const {data: tableData} = await event.locals.sb.from('users')
-                .select('username, first_name, last_name, website, country, avatar_url')
+                .select('updated_at, username, first_name, last_name, website, country, avatar_url')
                 .eq('id', event.locals.session.user.id)
                 .single()
-
             userStore.set(tableData)
         }
 

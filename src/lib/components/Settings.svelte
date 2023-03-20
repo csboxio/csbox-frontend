@@ -16,10 +16,12 @@
   let avatarUrl;
   let full_name;
   let user;
+  let updated;
 
   user = $page.data.user.userData
   email = $page.data.session?.user.email
-  avatarUrl = user.avatar_url;
+  updated = $page.data.user.updated_at
+  avatarUrl = user.avatar_url + "?t=" + updated;
   full_name = user.first_name + " " + user.last_name;
 
   async function signOut() {
@@ -33,8 +35,6 @@
     }
     await goto('/login')
   }
-
-
 </script>
 
 <div class="w-full sm:w-auto">

@@ -30,7 +30,14 @@ export const actions: Actions = {
         const formData = await request.formData()
 
         const {data} = await event.locals.sb.auth.refreshSession()
-        const {session, user} = data
+        let user;
+        console.log(data)
+        if (data == null) {
+            const {data} = await supabaseClient.auth.refreshSession()
+            user = data.user
+        }
+
+        user = data.user
 
         const name = formData.get('name')
         let category = formData.get('category')
@@ -42,7 +49,7 @@ export const actions: Actions = {
         if (category == "Select category") {
             category = "";
         }
-
+        if (user != null) {
         const updates = {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignores
@@ -56,7 +63,8 @@ export const actions: Actions = {
             category: category,
             description: description
         }
-        const {error} = await event.locals.sb.from('assignments').upsert(updates)
-        console.log(error)
+            const {error} = await event.locals.sb.from('assignments').upsert(updates)
+            console.log(error)
+        }
     }
 }
