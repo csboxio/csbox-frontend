@@ -3,9 +3,11 @@
     import { page } from '$app/stores';
     import {browser} from "$app/environment";
     import {onMount} from "svelte";
-    import Quill from "quill";
     import { blur } from 'svelte/transition'
 
+    export const ssr = false;
+
+    import Quill from "quill";
 
     let quill;
     let model;
@@ -50,12 +52,14 @@
     }
 
     onMount(async () => {
-      await import('quill')
+      if (browser) {
+
         await getDocument()
         let container = document.getElementById('editor');
         quill = new Quill(container, options);
         const delta = quill.clipboard.convert(content.html)
         quill.setContents(delta, 'silent')
+      }
     })
 
 </script>
