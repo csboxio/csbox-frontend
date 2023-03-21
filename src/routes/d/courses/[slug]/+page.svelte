@@ -50,6 +50,7 @@
     }
 
     onMount(async () => {
+      await import('quill')
         await getDocument()
         let container = document.getElementById('editor');
         quill = new Quill(container, options);
