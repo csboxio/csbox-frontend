@@ -5,8 +5,6 @@
     import {onMount} from "svelte";
     import { blur } from 'svelte/transition'
 
-    export const ssr = false;
-
     import Quill from "quill";
 
     let quill;
