@@ -14,7 +14,6 @@
             subscription.unsubscribe()
         }
     })
-
 </script>
 <svelte:head>
     <meta charset="utf-8">
