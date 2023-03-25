@@ -14,3 +14,5 @@
 - UI placeholder looks to bright
 - Show that the left side the example
 - That you need to type your own text.
+
+- If quill ssr loading document error, just do npm run build, and it fixes it?
