@@ -1,7 +1,6 @@
 import type {PageServerLoadEvent} from "./$types"
 import {getSupabase} from '@supabase/auth-helpers-sveltekit'
 
-export const prerender = false;
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export const load: PageServerLoadEvent = async (event) => {

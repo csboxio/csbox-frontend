@@ -21,7 +21,7 @@
   user = $page.data.user.userData
   email = $page.data.session?.user.email
   updated = $page.data.user.updated_at
-  avatarUrl = user.avatar_url + "?t=" + updated;
+  avatarUrl = user.avatar_url + "?t=" + user.updated_at;
   full_name = user.first_name + " " + user.last_name;
 
   async function signOut() {

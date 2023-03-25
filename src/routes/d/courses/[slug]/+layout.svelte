@@ -8,7 +8,7 @@
     import '$lib/quilljs.css'
     let model;
     let course_data = $page.data.courses.courseData;
-    let course = course_data.find(course => course.id)
+
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body"
@@ -20,7 +20,7 @@
             <div class="pt-5 pb-6 px-8 bg-gray-700">
                 <div class="flex flex-wrap items-center justify-between -mx-2">
                     <div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
-                        <h4 class="text-xl font-bold text-white tracking-wide leading-7 mb-1">{course.course_title}</h4>
+                        <h4 class="text-xl font-bold text-white tracking-wide leading-7 mb-1"></h4>
                     </div>
                     <div class="w-full lg:w-auto px-2">
                         <div class="sm:flex items-center">
