@@ -9,6 +9,7 @@ const config = {
 		noExternal: ['svelte-lazyimage-cache', 'react-image-file-resizer.js'],
 		external: ['quill']
 	}
+
 };
 
 export default config;
