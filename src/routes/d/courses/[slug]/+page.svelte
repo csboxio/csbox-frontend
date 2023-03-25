@@ -13,6 +13,8 @@
     export let data;
     let course_data = data.courseData
 
+    let html;
+
     const options = {
         modules: {
             toolbar: [
@@ -39,7 +41,6 @@
 
     function handleSave() {
         if (browser) {
-          console.log(quill.root.innerHTML)
             uploadCourseDocument(quill.root.innerHTML, $page.params.slug, data.session.user.id)
             //invalidateAll()
         }
@@ -58,6 +59,8 @@
         quill = new Quill(container, options);
         const delta = quill.clipboard.convert(content.html)
         quill.setContents(delta, 'silent')
+
+
     })
 
 </script>
@@ -77,12 +80,12 @@
                   Save
               </span>
         </button>
-        <div class="container my-6 ">
-            <div transition:blur="{{duration: 200}}" class="flex flex space-x-4 grow mr-4">
-                    <div transition:blur="{{duration: 200}}" class="flex-1 w-1/2 bg-white min-h-screen" hidden="{edit === true ? '' : 'hidden'}" >
+        <div class="container my-6 rounded-lg">
+            <div transition:blur="{{duration: 200}}" class="flex flex space-x-4 grow mr-4 rounded-lg">
+                    <div transition:blur="{{duration: 200}}" class="flex-1 w-1/2 bg-white min-h-screen border-0 rounded-lg" hidden="{edit === true ? '' : 'hidden'}" >
                         <div transition:blur="{{duration: 200}}" id="editor" class="editor bg-white" hidden="{edit === true ? '' : 'hidden'}"></div>
                     </div>
-                  <div class="flex-1 w-1/2 bg-white p-2 min-h-screen" hidden="{edit === false ? '' : 'hidden'}">
+                  <div class="editor flex-1 w-1/2 bg-white p-2 min-h-screen border-0 rounded-lg" hidden="{edit === false ? '' : 'hidden'}">
                     {@html content.html}
                   </div>
             </div>
