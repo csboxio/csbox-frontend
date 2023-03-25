@@ -2,7 +2,6 @@ import {redirect} from "@sveltejs/kit";
 import {browser} from "$app/environment";
 import {courseStore} from "../../../lib/stores/stores";
 export const prerender = false;
-let loaded = false;
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 export const load: LayoutServerLoad = async ({locals, event}) => {
@@ -10,22 +9,19 @@ export const load: LayoutServerLoad = async ({locals, event}) => {
         throw redirect(303, '/login')
     }
     if (locals.session && !browser) {
-        let courses
-        if (!loaded) {
-            const courseSubscribe = courseStore.subscribe(value => {
-                courses = value
-            });
 
-            console.log(courses);
-            if (!courses) {
-                const {data: courseData, error} = await locals.sb.from('courses')
-                    .select('id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term')
-                    .eq('created_by', locals.session.user.id);
+        let courses;
+        const courseSubscribe = courseStore.subscribe(value => {
+            courses = value
+        });
 
-                courseStore.set(courseData);
-            }
+        if (!courses) {
+            const {data: courseData, error} = await locals.sb.from('courses')
+              .select('id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term')
+              .eq('created_by', locals.session.user.id);
+
+            courseStore.set(courseData);
         }
-        loaded = true;
 
         return {
             courses: {
