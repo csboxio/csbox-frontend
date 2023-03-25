@@ -8,7 +8,6 @@
     import '$lib/quilljs.css'
     let model;
     let course_data = $page.data.courses.courseData;
-    console.log(course_data)
 
 </script>
 

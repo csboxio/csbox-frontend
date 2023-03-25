@@ -47,7 +47,7 @@ export const uploadCourseDocument = async (files: FileList, courseId: bigint) =>
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             const { errors } = await supabaseClient.storage.from('courses').remove(filePath)
-            console.log(errors)
+
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
             const { error } = await supabaseClient.storage.from('courses').upload(filePath, files)
