@@ -5,6 +5,7 @@
     import {onMount} from "svelte";
     import Quill from "quill";
     import { blur } from 'svelte/transition'
+    import { invalidateAll } from "$app/navigation";
 
 
     let quill;
@@ -38,7 +39,9 @@
 
     function handleSave() {
         if (browser) {
-            uploadCourseDocument(content.html, $page.params.slug)
+          console.log(quill.root.innerHTML)
+            uploadCourseDocument(quill.root.innerHTML, $page.params.slug, data.session.user.id)
+            //invalidateAll()
         }
     }
 
