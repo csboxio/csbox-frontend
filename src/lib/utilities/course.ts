@@ -47,7 +47,6 @@ export const uploadCourseDocument = async (files: FileList, courseId: bigint, us
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const { errors } = await supabaseClient.storage.from("courses").remove(filePath);
-    console.log("remove")
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const { error } = await supabaseClient.storage.from("courses").upload(filePath, files);
@@ -71,7 +70,6 @@ async function updateCourseInsert(courseId: bigint, user: User) {
       .eq('created_by', user.id)
       .eq('id', courseId)
 
-    console.log(updates)
     if (error) throw error
   } catch (error) {
     if (error instanceof Error) {

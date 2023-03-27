@@ -1,6 +1,6 @@
 <script lang="ts">
   import {applyAction, deserialize} from "$app/forms";
-  import {invalidateAll} from "$app/navigation";
+  import {goto, invalidateAll} from "$app/navigation";
   import {getSupabase} from "@supabase/auth-helpers-sveltekit";
   import { supabaseClient } from "$lib/utilities/supabaseClient";
   import { blur } from 'svelte/transition'
@@ -71,6 +71,11 @@
     hoverID = h
   }
 
+  function handleAssignment(id) {
+    console.log("test")
+    goto("/d/courses/" + data.slug + "/assignments/" + id)
+  }
+
   let left = 600;
   let top = 200;
 
@@ -110,7 +115,7 @@
 
 <div class="flex flex-row">
   <section class="p-1">
-    <div class="container mx-1 my-8">
+    <div class="container ">
       <h4 class="text-xl font-bold text-white -mx-auto my-5">Assignments</h4>
       <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
               on:click={show_box}>
@@ -121,9 +126,10 @@
       <div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold delay-50">
 
         {#each assignments as {id, assignment_title, category, desc}, i}
-          <div transition:blur="{{duration: 200}}" class="mb-6 mx-6 cursor-pointer">
-            <div id = {id} class="max-w-2xl min-w-xl min-h-xs max-h-xs">
-              <div class="relative group">
+          <a on:click={handleAssignment(id)}>
+          <div transition:blur|local="{{duration: 200}}" class="mb-6 mx-6 cursor-pointer" >
+            <div id = {id} class="max-w-2xl min-w-xl min-h-xs max-h-xs" >
+              <div class="relative group" >
                 <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 {hoverID === i && open ? 'opacity-30 scale-105' : ''} transition duration-1500 group-hover:duration-200"></div>
                 <div>
                   <div class="relative p-5 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500">
@@ -132,7 +138,7 @@
                       <!--Popup-->
                       <div class="inline-block absolute top-0 right-0 m-5 mr-2 text-gray-300 hover:text-gray-100 hover:scale-105"
                            href="#"
-                           on:click={() => { hoverID = i; open = true; }}>
+                           on:click|stopPropagation={() => { hoverID = i; open = true; }}>
                         <svg width="24" height="24" viewbox="0 0 24 24" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                           <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
@@ -150,8 +156,9 @@
                   </div>
                 </div>
               </div>
+
               {#if hoverID === i && open && browser}
-                <div transition:blur="{{duration: 200}}" id="edit" class="relative  w-1/2 bottom-16 left-[105%]">
+                <div transition:blur|local="{{duration: 200}}" id="edit" class="relative  w-1/2 bottom-16 left-[105%]">
                   <div class="absolute block rounded-md bg-gray-500 z-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div class="text-sm text-gray-900 dark:text-white">
                       <div class="p-2 truncate font-bold hover:underline hover:bg-gray-700 w-24 ">Edit</div>
@@ -159,7 +166,7 @@
                     </div>
                     <div class="inline-block absolute top-0 right-0 m-2 text-gray-300 hover:text-gray-100 hover:scale-110"
                          href="#"
-                         on:click={() => { open = false; }}>
+                         on:click|stopPropagation={() => { open = false; }}>
                       <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                            xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
@@ -173,11 +180,12 @@
               {/if}
             </div>
           </div>
+          </a>
         {/each}
 
         <!--No courses found-->
         {#if assignments?.length === 0}
-          <div class="flex p-4 mb-12 mt-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
+          <div class="flex p-4 mb-6 mt-4 ml-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
                role="alert">
             <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor"
                  viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -205,7 +213,7 @@
       <!-- Modal content -->
       <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5 ">
         <!-- Modal header -->
-        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600 ">
           <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
             Add Assignment
           </h3>
