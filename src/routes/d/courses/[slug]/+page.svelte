@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import {downloadCourseDocument, uploadCourseDocument} from "$lib/utilities/course";
     import { page } from '$app/stores';
     import {browser} from "$app/environment";
@@ -7,13 +7,16 @@
     import { blur } from 'svelte/transition'
     import { invalidateAll } from "$app/navigation";
 
-
     let quill;
     let model;
     export let data;
     let course_data = data.courseData
-
     let html;
+
+    const mode = {
+        edit: false,
+        view: true,
+    }
 
     const options = {
         modules: {
@@ -34,16 +37,30 @@
 
     let content = { html: '', text: ''};
 
-    let edit = false;
     function handleEdit() {
-       edit = ((edit === true) ? edit = false : edit = true)
+       mode.edit = !mode.edit;
+        mode.view = !mode.view;
     }
 
     function handleSave() {
         if (browser) {
             uploadCourseDocument(quill.root.innerHTML, $page.params.slug, data.session.user.id)
             //invalidateAll()
+            mode.view = true;
+            mode.edit = false;
         }
+    }
+
+    function handleCancel() {
+        mode.view = true;
+        mode.edit = false;
+        quill.root.innerHTML = content.html
+    }
+
+    function handlePreview() {
+        mode.view = true;
+        mode.edit = false;
+        content.html = quill.root.innerHTML
     }
 
     async function getDocument() {
@@ -53,14 +70,16 @@
         }
     }
 
-    onMount(async () => {
+    async function setupQuill() {
         await getDocument()
         let container = document.getElementById('editor');
         quill = new Quill(container, options);
         const delta = quill.clipboard.convert(content.html)
         quill.setContents(delta, 'silent')
+    }
 
-
+    onMount(async () => {
+        await setupQuill()
     })
 
 </script>
@@ -68,24 +87,43 @@
 <div class="flex flex-row grow max-w-full">
     <section class="p-1 grow max-w-full">
         <h4 class="text-xl font-bold text-white -mx-auto my-5">Home</h4>
+
+        {#if mode.view}
         <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
         on:click={handleEdit}>
                 <span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
                   Edit
               </span>
         </button>
+        {/if}
+
+        {#if mode.edit}
         <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
                 on:click={handleSave}>
                 <span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
                   Save
               </span>
         </button>
+            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+                    on:click={handlePreview}>
+                <span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+                  Preview
+              </span>
+            </button>
+
+            <button class="relative inline-flex float-right mr-4 items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-500 to-red-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+                    on:click={handleCancel}>
+                <span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+                  Cancel
+              </span>
+            </button>
+        {/if}
         <div class="container my-6 rounded-lg">
             <div transition:blur="{{duration: 200}}" class="flex flex space-x-4 grow mr-4 rounded-lg">
-                    <div transition:blur="{{duration: 200}}" class="flex-1 w-1/2 bg-white min-h-screen border-0 rounded-lg" hidden="{edit === true ? '' : 'hidden'}" >
-                        <div transition:blur="{{duration: 200}}" id="editor" class="editor bg-white" hidden="{edit === true ? '' : 'hidden'}"></div>
+                    <div transition:blur="{{duration: 200}}" class="flex-1 w-1/2 bg-white min-h-screen border-0 rounded-lg" hidden="{mode.edit === true ? '' : 'hidden'}" >
+                        <div transition:blur="{{duration: 200}}" id="editor" class="editor bg-white" hidden="{mode.edit === true ? '' : 'hidden'}"></div>
                     </div>
-                  <div class="editor flex-1 w-1/2 bg-white p-2 min-h-screen border-0 rounded-lg" hidden="{edit === false ? '' : 'hidden'}">
+                  <div class="editor flex-1 w-1/2 bg-white p-2 min-h-screen border-0 rounded-lg" hidden="{mode.edit === false ? '' : 'hidden'}">
                     {@html content.html}
                   </div>
             </div>
