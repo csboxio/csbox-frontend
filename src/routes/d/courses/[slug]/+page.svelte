@@ -119,9 +119,9 @@
             </button>
         {/if}
         <div class="container my-6 rounded-lg">
-            <div transition:blur="{{duration: 200}}" class="flex flex space-x-4 grow mr-4 rounded-lg">
-                    <div transition:blur="{{duration: 200}}" class="flex-1 w-1/2 bg-white min-h-screen border-0 rounded-lg" hidden="{mode.edit === true ? '' : 'hidden'}" >
-                        <div transition:blur="{{duration: 200}}" id="editor" class="editor bg-white" hidden="{mode.edit === true ? '' : 'hidden'}"></div>
+            <div transition:blur|local="{{duration: 200}}" class="flex flex space-x-4 grow mr-4 rounded-lg">
+                    <div transition:blur|local="{{duration: 200}}" class="flex-1 w-1/2 bg-white min-h-screen border-0 rounded-lg" hidden="{mode.edit === true ? '' : 'hidden'}" >
+                        <div transition:blur|local="{{duration: 200}}" id="editor" class="editor bg-white" hidden="{mode.edit === true ? '' : 'hidden'}"></div>
                     </div>
                   <div class="editor flex-1 w-1/2 bg-white p-2 min-h-screen border-0 rounded-lg" hidden="{mode.edit === false ? '' : 'hidden'}">
                     {@html content.html}
