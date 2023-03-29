@@ -8,9 +8,8 @@
     import '$lib/quilljs.css'
     let model;
     let course_data = $page.data.courses.courseData;
-    let course = course_data.find(course => course.id)
-    let course_title;
-
+    let course = course_data.find(course => course.id = $page.data.slug)
+    console.log($page.data.slug, course)
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body"
@@ -62,7 +61,7 @@
         </section>
         <div class="flex flex-row">
             <CourseNav/>
-            <slot/>
+            <slot />
         </div>
     </div>
 </div>

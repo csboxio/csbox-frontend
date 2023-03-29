@@ -1,8 +1,11 @@
 import type {LayoutServerLoad} from './$types';
 
-export const load = (async ({parent}) => {
+export const load = (async ({ params,parent }) => {
     const {courses} = await parent();
+    const { slug } = params
     return {
-        courses
+        courses,
+        slug
     };
 }) satisfies LayoutServerLoad;
+
