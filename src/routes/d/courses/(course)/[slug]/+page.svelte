@@ -2,14 +2,18 @@
     import {downloadCourseDocument, uploadCourseDocument} from "$lib/utilities/course";
     import {page} from '$app/stores';
     import {browser} from "$app/environment";
-    import {onMount} from "svelte";
+    import { onMount, setContext } from "svelte";
     import Quill from "quill";
     import {blur} from 'svelte/transition'
+    import { writable } from "svelte/store";
 
     let quill;
     let model;
     export let data;
     let course_data = data.courseData
+    const course_save = writable('course_save')
+    setContext('course_save', course_data)
+
     let html;
 
     export let layout_course = course_data
