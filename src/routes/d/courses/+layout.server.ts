@@ -15,6 +15,7 @@ export const load: LayoutServerLoad = async ({locals, event}) => {
             courses = value
         });
 
+
         if (!courses) {
             const {data: courseData, error} = await locals.sb.from('courses')
               .select('id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term')

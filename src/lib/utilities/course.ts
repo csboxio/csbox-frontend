@@ -15,9 +15,6 @@ export const downloadCourseDocument = async (filePath: string) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const text = await new Response(data).text();
-
-  console.log(text);
-
   return text;
 };
 
@@ -42,7 +39,6 @@ export const uploadCourseDocument = async (files: FileList, courseId: bigint, us
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const { error } = await supabaseClient.storage.from("courses").update(filePath, files);
-  console.log(error);
   if (error) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

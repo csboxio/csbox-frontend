@@ -1,5 +1,6 @@
 import type {Actions} from "./$types";
 import {getSupabase} from '@supabase/auth-helpers-sveltekit'
+import {invalidateAll} from "$app/navigation";
 
 export const prerender = false;
 export const actions: Actions = {
