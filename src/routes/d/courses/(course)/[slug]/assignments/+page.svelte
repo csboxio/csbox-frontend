@@ -6,6 +6,7 @@
   import { blur } from 'svelte/transition'
   import {browser} from "$app/environment";
   import { Datepicker } from 'svelte-calendar';
+  import dayjs from 'dayjs';
 
 
   const theme = {
@@ -38,9 +39,18 @@
     }
   }
   }
-  export let due;
-  export let availablefrom;
-  export let availableuntil;
+
+  // Export due dates for pager.server.js
+
+
+
+  let storeDueDate;
+  let storeAvailableDate;
+  let storeAvailableUntilDate;
+
+  export let dueDate;
+  export let availablefromDate;
+  export let availableuntilDate;
 
   let model;
   export let data;
@@ -63,8 +73,16 @@
 
 
   async function handleSubmit(event) {
+    if (browser) {
+      dueDate = dayjs(storeDueDate?.selected);
+      availablefromDate = dayjs(storeAvailableDate?.selected);
+      availableuntilDate = dayjs(storeAvailableUntilDate?.selected);
+    }
     loading = true;
     const data = new FormData(this);
+    data.append('due', dueDate)
+    data.append('availfrom', availablefromDate)
+    data.append('availto', availableuntilDate)
 
 
     const response = await fetch(this.action, {
@@ -287,7 +305,7 @@
             <div>
               <label for="points"
                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Points</label>
-              <input type="text" name="points" id="points"
+              <input type="text" name="points" id="points" value="0"
                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                      placeholder="" required="">
             </div>
@@ -314,11 +332,6 @@
             </div>
 
             <div>
-              <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white w-full">Due</label>
-              <Datepicker {theme} bind:due class="w-full"/>
-            </div>
-
-            <div>
               <label for="submissiontype" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Submission Type</label>
               <select name="submissiontype" id="submissiontype"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
@@ -327,8 +340,13 @@
               </select>
             </div>
 
-
             <div>
+              <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white w-full">Due</label>
+              <Datepicker {theme} bind:storeDueDate class="w-full"/>
+            </div>
+
+
+            <!--<div>
               <label for="assignto" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Assign To</label>
               <select name="assignto" id="assignto"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm w-full rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
@@ -336,16 +354,16 @@
                 <option value="Everyone">Everyone</option>
                 <option value="Empty">Empty</option>
               </select>
-            </div>
+            </div>-->
 
             <div>
               <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white w-full">Available from</label>
-              <Datepicker {theme} bind:availablefrom class="w-full"/>
+              <Datepicker {theme} bind:storeAvailableDate class="w-full"/>
             </div>
 
             <div>
               <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white w-full">Available Until</label>
-              <Datepicker {theme} bind:availableuntil class="w-full"/>
+              <Datepicker {theme} bind:storeAvailableUntilDate class="w-full"/>
             </div>
 
 
