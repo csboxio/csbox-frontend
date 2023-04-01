@@ -35,6 +35,7 @@
 		"prisma": "^4.8.0",
 		"supabase": "^1.37.1",
 		"svelte": "^3.54.0",
+		"svelte-calendar": "^3.1.6",
 		"svelte-check": "^2.9.2",
 		"svelte-fa": "^3.0.3",
 		"svelte-image": "^0.0.1",
