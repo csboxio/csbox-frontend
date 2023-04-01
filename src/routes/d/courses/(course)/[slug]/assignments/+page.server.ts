@@ -43,8 +43,13 @@ export const actions: Actions = {
         user = data.user
 
         const name = formData.get('name')
-        let category = formData.get('category')
         const description = formData.get('description')
+        const points = formData.get('points')
+        let category = formData.get('category')
+        const display_as = formData.get('displayas')
+        const submission_type = formData.get('submissiontype')
+        const assign_to = formData.get('assignto')
+        const due = due
         const course_id = event.params.slug
 
         // if category is selected make it blank
@@ -64,7 +69,10 @@ export const actions: Actions = {
             inserted_at: new Date(),
             course_id: course_id,
             category: category,
-            description: description
+            description: description,
+            points: points,
+            display_as: display_as,
+            submission_type: submission_type
         }
             const {error} = await event.locals.sb.from('assignments').upsert(updates)
             console.log(error)

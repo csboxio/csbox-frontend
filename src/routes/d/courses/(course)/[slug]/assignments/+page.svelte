@@ -5,6 +5,42 @@
   import { supabaseClient } from "$lib/utilities/supabaseClient";
   import { blur } from 'svelte/transition'
   import {browser} from "$app/environment";
+  import { Datepicker } from 'svelte-calendar';
+
+
+  const theme = {
+    "calendar": {
+    "width": "400px",
+      "maxWidth": "75vw",
+      "legend": {
+      "height": "45px"
+    },
+    "shadow": "0px 10px 26px rgba(0, 0, 0, 0.1)",
+      "colors": {
+      "text": {
+        "primary": "#eee",
+          "highlight": "#fff"
+      },
+      "background": {
+        "primary": "rgb(28,35,45)",
+          "highlight": "#435bad",
+          "hover": "#242f49"
+      },
+      "border": "#222"
+    },
+    "font": {
+      "regular": "1em",
+        "large": "15em"
+    },
+    "grid": {
+      "disabledOpacity": ".5",
+        "outsiderOpacity": ".7"
+    }
+  }
+  }
+  export let due;
+  export let availablefrom;
+  export let availableuntil;
 
   let model;
   export let data;
@@ -234,10 +270,26 @@
           <div class="grid gap-4 mb-4 sm:grid-cols-2">
             <div>
               <label for="name"
-                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Assignment Name</label>
               <input type="text" name="name" id="name"
                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                     placeholder="Type assignment name" required="">
+                     placeholder="Assignment Name" required="">
+            </div>
+
+            <div class="sm:col-span-2">
+              <label for="description"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+              <textarea name="description" id="description" rows="4"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Summarize assignment description"></textarea>
+            </div>
+
+            <div>
+              <label for="points"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Points</label>
+              <input type="text" name="points" id="points"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                     placeholder="" required="">
             </div>
 
             <div>
@@ -250,13 +302,54 @@
                 <option value="Project">Project</option>
               </select>
             </div>
-            <div class="sm:col-span-2">
-              <label for="description"
-                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-              <textarea name="description" id="description" rows="4"
-                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="Write assignment description here"></textarea>
+
+
+            <div>
+              <label for="displayas" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Display Grade As</label>
+              <select name="displayas" id="displayas"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option value="Points">Points</option>
+                <option value="Percentage">Percentage</option>
+              </select>
             </div>
+
+            <div>
+              <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white w-full">Due</label>
+              <Datepicker {theme} bind:due class="w-full"/>
+            </div>
+
+            <div>
+              <label for="submissiontype" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Submission Type</label>
+              <select name="submissiontype" id="submissiontype"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option value="Points">Online</option>
+                <option value="Percentage">Physical</option>
+              </select>
+            </div>
+
+
+            <div>
+              <label for="assignto" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Assign To</label>
+              <select name="assignto" id="assignto"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm w-full rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                <option value="Everyone">Student</option>
+                <option value="Everyone">Everyone</option>
+                <option value="Empty">Empty</option>
+              </select>
+            </div>
+
+            <div>
+              <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white w-full">Available from</label>
+              <Datepicker {theme} bind:availablefrom class="w-full"/>
+            </div>
+
+            <div>
+              <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white w-full">Available Until</label>
+              <Datepicker {theme} bind:availableuntil class="w-full"/>
+            </div>
+
+
+
           </div>
           <button type="submit"
                   class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
