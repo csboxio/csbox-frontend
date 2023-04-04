@@ -122,13 +122,13 @@
                     <div
                       class="rounded-t-lg  border border-neutral-200 bg-gray-500  dark:border-neutral-600 dark:bg-neutral-800">
                         <h2 class="mb-0" id="headingOne5">
+
                             <button
                               class=" group relative flex w-full items-center rounded-t-[15px] border-0 bg-gray-500  py-4 px-5 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white [&:not([data-te-collapse-collapsed])]:bg-gray-600 [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:[&:not([data-te-collapse-collapsed])]:bg-neutral-800 dark:[&:not([data-te-collapse-collapsed])]:text-primary-400 dark:[&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]"
-                              on:click={() => {clicked_id = i;}}
+                              on:click={() => {clicked_id === i ? clicked_id = undefined : clicked_id = i;}}
                               type="button">
-                              {module_title}
-                                <span
-                                  class=" ml-auto -mr-1 h-5 w-8 shrink-0 rotate-[-180deg]">
+                              <span
+                                class=" -mr-1 h-5 shrink-0 rotate-[-180deg]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -141,7 +141,21 @@
               stroke-linejoin="round"
               d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
           </svg>
+
         </span>
+                              {module_title}
+
+                              <span
+                                class="ml-auto">
+                              <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                   xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                      clip-rule="evenodd"></path>
+                              </svg>
+                              </span>
+
+
                             </button>
                         </h2>
                         <div
