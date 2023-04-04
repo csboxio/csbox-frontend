@@ -1,153 +1,212 @@
 <script lang="ts" xmlns="http://www.w3.org/1999/html">
-    import {page} from "$app/stores";
-    import Avatar from "$lib/components/Avatar.svelte";
-    import {invalidateAll} from "$app/navigation";
-    import {applyAction, deserialize} from "$app/forms";
+	import { page } from '$app/stores';
+	import Avatar from '$lib/components/Avatar.svelte';
+	import { invalidateAll } from '$app/navigation';
+	import { applyAction, deserialize } from '$app/forms';
 
-    let session = $page.data.session;
+	let session = $page.data.session;
 
-    /** @type {import("./$types").PageData} */
-    export let data;
-    let username: string | null = null;
-    let firstName: string | null = data.user.first_name;
-    let last_name: string | null = data.user.last_name;
-    let website: string | null = data.user.website;
-    let country: string | null = data.user.country;
-    let avatarUrl: string | null = data.user.avatar_url;
+	/** @type {import("./$types").PageData} */
+	export let data;
+	let username: string | null = null;
+	let firstName: string | null = data.user.first_name;
+	let last_name: string | null = data.user.last_name;
+	let website: string | null = data.user.website;
+	let country: string | null = data.user.country;
+	let avatarUrl: string | null = data.user.avatar_url;
 
-    // TODO switch to locals.
-    let loading;
+	// TODO switch to locals.
+	let loading;
 
-    function previousPage() {
-        history.back()
-    }
+	function previousPage() {
+		history.back();
+	}
 
-    async function handleSubmit(event) {
-        loading = true;
-        const data = new FormData(this);
+	async function handleSubmit(event) {
+		loading = true;
+		const data = new FormData(this);
 
-        const response = await fetch(this.action, {
-            method: 'POST',
-            body: data,
-            headers: {
-                'x-sveltekit-action': 'true',
-                'cache-control': 'max-age=1800'
-            }
-        });
+		const response = await fetch(this.action, {
+			method: 'POST',
+			body: data,
+			headers: {
+				'x-sveltekit-action': 'true',
+				'cache-control': 'max-age=1800'
+			}
+		});
 
-        const result = deserialize(await response.text());
+		const result = deserialize(await response.text());
 
-        if (result.type === 'redirect') {
-            // re-run all `load` functions, following the successful update
-            console.log('courses made');
-            await invalidateAll();
-        }
+		if (result.type === 'redirect') {
+			// re-run all `load` functions, following the successful update
+			console.log('courses made');
+			await invalidateAll();
+		}
 
-        await applyAction(result);
-    }
+		await applyAction(result);
+	}
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
-<form action="?/updateProfile" method="POST" on:submit|preventDefault={handleSubmit}>
-    <section class="py-3">
-        <div class="container px-6 mx-auto">
-            <div class="p-8 bg-gray-500 rounded-xl">
-                <div class="flex flex-wrap items-center justify-between -mx-4 mb-8 pb-6 border-b border-gray-400 border-opacity-20">
-                    <div class="w-full sm:w-auto px-4 mb-6 sm:mb-0">
-                        <h4 class="text-2xl font-bold tracking-wide text-white mb-1">Edit Profile</h4>
-                    </div>
-                    <div class="w-full sm:w-auto px-4">
-                        <div>
-                            <!--Save and cancel buttons-->
-                            <button class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-600 hover:bg-gray-400 rounded-lg transition duration-200"
-                                    on:click={previousPage} rel="external">Cancel
-                            </button>
-                            <input class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-                                   href="/dashboard" rel="external" type="submit">
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
-                    <div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
-                        <span class="text-sm font-medium text-gray-100">Name</span>
-                    </div>
-                    <div class="w-full sm:w-2/3 px-4">
-                        <div class="max-w-xl">
-                            <div class="flex flex-wrap items-center -mx-3">
-                                <div class="w-full sm:w-1/2 px-3 mb-3 sm:mb-0">
-                                    <input bind:value={firstName} class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg" id="first"
-                                           name="first"
-                                           placeholder="" type="text">
-                                </div>
-                                <div class="w-full sm:w-1/2 px-3">
-                                    <input bind:value={last_name} class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg" id="last_name"
-                                           name="last_name"
-                                           placeholder="" type="text">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
-                    <div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
-                        <span class="text-sm font-medium text-gray-100">Email address</span>
-                    </div>
-                    <div class="w-full sm:w-2/3 px-4">
-                        <div class="max-w-xl">
-                            <input bind:value={session.user.email}
-                                   class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg" id="formInput1-3" placeholder="example@email.com"
-                                   type="text">
-                        </div>
-                    </div>
-                </div>
-                <Avatar bind:url={avatarUrl} size={10}/>
-                <div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
-                    <div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
-                        <span class="text-sm font-medium text-gray-100">Country</span>
-                    </div>
-                    <div class="w-full sm:w-2/3 px-4">
-                        <div class="max-w-xl">
-                            <div class="relative block px-3 w-full text-sm text-gray-200 placeholder-gray-100 font-medium border border-gray-400 hover:border-white focus-within:border-blue-500 rounded-lg">
-                      <span class="absolute top-1/2 right-0 mr-5 transform -translate-y-1/2">
-                        <svg fill="none" height="8" viewbox="0 0 12 8" width="12" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M10.9999 1.16994C10.8126 0.983692 10.5591 0.87915 10.2949 0.87915C10.0308 0.87915 9.77731 0.983692 9.58995 1.16994L5.99995 4.70994L2.45995 1.16994C2.27259 0.983692 2.01913 0.87915 1.75495 0.87915C1.49076 0.87915 1.23731 0.983692 1.04995 1.16994C0.95622 1.26291 0.881826 1.37351 0.831057 1.49537C0.780288 1.61723 0.75415 1.74793 0.75415 1.87994C0.75415 2.01195 0.780288 2.14266 0.831057 2.26452C0.881826 2.38638 0.95622 2.49698 1.04995 2.58994L5.28995 6.82994C5.38291 6.92367 5.49351 6.99807 5.61537 7.04883C5.73723 7.0996 5.86794 7.12574 5.99995 7.12574C6.13196 7.12574 6.26267 7.0996 6.38453 7.04883C6.50638 6.99807 6.61699 6.92367 6.70995 6.82994L10.9999 2.58994C11.0937 2.49698 11.1681 2.38638 11.2188 2.26452C11.2696 2.14266 11.2957 2.01195 11.2957 1.87994C11.2957 1.74793 11.2696 1.61723 11.2188 1.49537C11.1681 1.37351 11.0937 1.26291 10.9999 1.16994Z"
-                                fill="#3D485B"></path>
-                        </svg>
-                      </span>
-                                <select class="w-full py-4 appearance-none bg-transparent outline-none" id="country"
-                                        name="country">
-                                    <option class="bg-gray-600" value="1">United States</option>
-                                    <option class="bg-gray-600" value="1">United States</option>
-                                    <option class="bg-gray-600" value="1">United States</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
-                    <div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
-                        <span class="text-sm font-medium text-gray-100">Github</span>
-                    </div>
-                    <div class="w-full sm:w-2/3 px-4">
-                        <div class="max-w-xl">
-                            <input bind:value={website}
-                                   class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg" id="website" name="website" placeholder="" type="text">
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-wrap items-start -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
-                    <div class="w-full sm:w-1/3 px-4 mb-5 sm:mb-0">
-                        <span class="block mt-2 text-sm font-medium text-gray-100">Bio</span>
-                        <span class="text-xs text-gray-300" name="bio">Tell everyone more about yourself!</span>
-                    </div>
-                    <div class="w-full sm:w-2/3 px-4">
-                        <div class="max-w-xl"><textarea
-                                class="block h-56 py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg resize-none"
-                                id="formInput1-9" placeholder="Hello! . . ." type="text"></textarea></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</form>
+	<form action="?/updateProfile" method="POST" on:submit|preventDefault={handleSubmit}>
+		<section class="py-3">
+			<div class="container px-6 mx-auto">
+				<div class="p-8 bg-gray-500 rounded-xl">
+					<div
+						class="flex flex-wrap items-center justify-between -mx-4 mb-8 pb-6 border-b border-gray-400 border-opacity-20"
+					>
+						<div class="w-full sm:w-auto px-4 mb-6 sm:mb-0">
+							<h4 class="text-2xl font-bold tracking-wide text-white mb-1">Edit Profile</h4>
+						</div>
+						<div class="w-full sm:w-auto px-4">
+							<div>
+								<!--Save and cancel buttons-->
+								<button
+									class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-600 hover:bg-gray-400 rounded-lg transition duration-200"
+									on:click={previousPage}
+									rel="external"
+									>Cancel
+								</button>
+								<input
+									class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
+									href="/dashboard"
+									rel="external"
+									type="submit"
+								/>
+							</div>
+						</div>
+					</div>
+					<div
+						class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
+					>
+						<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
+							<span class="text-sm font-medium text-gray-100">Name</span>
+						</div>
+						<div class="w-full sm:w-2/3 px-4">
+							<div class="max-w-xl">
+								<div class="flex flex-wrap items-center -mx-3">
+									<div class="w-full sm:w-1/2 px-3 mb-3 sm:mb-0">
+										<input
+											bind:value={firstName}
+											class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
+											id="first"
+											name="first"
+											placeholder=""
+											type="text"
+										/>
+									</div>
+									<div class="w-full sm:w-1/2 px-3">
+										<input
+											bind:value={last_name}
+											class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
+											id="last_name"
+											name="last_name"
+											placeholder=""
+											type="text"
+										/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div
+						class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
+					>
+						<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
+							<span class="text-sm font-medium text-gray-100">Email address</span>
+						</div>
+						<div class="w-full sm:w-2/3 px-4">
+							<div class="max-w-xl">
+								<input
+									bind:value={session.user.email}
+									class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
+									id="formInput1-3"
+									placeholder="example@email.com"
+									type="text"
+								/>
+							</div>
+						</div>
+					</div>
+					<Avatar bind:url={avatarUrl} size={10} />
+					<div
+						class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
+					>
+						<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
+							<span class="text-sm font-medium text-gray-100">Country</span>
+						</div>
+						<div class="w-full sm:w-2/3 px-4">
+							<div class="max-w-xl">
+								<div
+									class="relative block px-3 w-full text-sm text-gray-200 placeholder-gray-100 font-medium border border-gray-400 hover:border-white focus-within:border-blue-500 rounded-lg"
+								>
+									<span class="absolute top-1/2 right-0 mr-5 transform -translate-y-1/2">
+										<svg
+											fill="none"
+											height="8"
+											viewbox="0 0 12 8"
+											width="12"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M10.9999 1.16994C10.8126 0.983692 10.5591 0.87915 10.2949 0.87915C10.0308 0.87915 9.77731 0.983692 9.58995 1.16994L5.99995 4.70994L2.45995 1.16994C2.27259 0.983692 2.01913 0.87915 1.75495 0.87915C1.49076 0.87915 1.23731 0.983692 1.04995 1.16994C0.95622 1.26291 0.881826 1.37351 0.831057 1.49537C0.780288 1.61723 0.75415 1.74793 0.75415 1.87994C0.75415 2.01195 0.780288 2.14266 0.831057 2.26452C0.881826 2.38638 0.95622 2.49698 1.04995 2.58994L5.28995 6.82994C5.38291 6.92367 5.49351 6.99807 5.61537 7.04883C5.73723 7.0996 5.86794 7.12574 5.99995 7.12574C6.13196 7.12574 6.26267 7.0996 6.38453 7.04883C6.50638 6.99807 6.61699 6.92367 6.70995 6.82994L10.9999 2.58994C11.0937 2.49698 11.1681 2.38638 11.2188 2.26452C11.2696 2.14266 11.2957 2.01195 11.2957 1.87994C11.2957 1.74793 11.2696 1.61723 11.2188 1.49537C11.1681 1.37351 11.0937 1.26291 10.9999 1.16994Z"
+												fill="#3D485B"
+											/>
+										</svg>
+									</span>
+									<select
+										class="w-full py-4 appearance-none bg-transparent outline-none"
+										id="country"
+										name="country"
+									>
+										<option class="bg-gray-600" value="1">United States</option>
+										<option class="bg-gray-600" value="1">United States</option>
+										<option class="bg-gray-600" value="1">United States</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div
+						class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
+					>
+						<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
+							<span class="text-sm font-medium text-gray-100">Github</span>
+						</div>
+						<div class="w-full sm:w-2/3 px-4">
+							<div class="max-w-xl">
+								<input
+									bind:value={website}
+									class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
+									id="website"
+									name="website"
+									placeholder=""
+									type="text"
+								/>
+							</div>
+						</div>
+					</div>
+					<div
+						class="flex flex-wrap items-start -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
+					>
+						<div class="w-full sm:w-1/3 px-4 mb-5 sm:mb-0">
+							<span class="block mt-2 text-sm font-medium text-gray-100">Bio</span>
+							<span class="text-xs text-gray-300" name="bio"
+								>Tell everyone more about yourself!</span
+							>
+						</div>
+						<div class="w-full sm:w-2/3 px-4">
+							<div class="max-w-xl">
+								<textarea
+									class="block h-56 py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg resize-none"
+									id="formInput1-9"
+									placeholder="Hello! . . ."
+									type="text"
+								/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</form>
 </body>
