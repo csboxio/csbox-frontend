@@ -15,6 +15,8 @@
 	let modules;
 	$: modules = $page.data.modules;
 
+	let assignments = $page.data.assignmentData;
+
 	function show_box() {
 		show_create_box = true;
 	}
@@ -81,17 +83,7 @@
 
 		await applyAction(result);
 	}
-
 	let clicked_id;
-	let open_modules = [];
-	function show_module(num) {
-		console.log(num, open_modules);
-		if (open_modules[num] == false) {
-			open_modules[num] == true;
-			console.log(num, open_modules);
-		} else open_modules.splice(num, 1);
-		console.log(num, open_modules);
-	}
 </script>
 
 <div class="flex flex-row">
@@ -109,29 +101,30 @@
 				</span>
 			</button>
 			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold">
-				{#each modules as { module_title }, i}
+				{#each modules as { module_title, id }, i}
 					<div transition:blur|local={{ duration: 200 }} class="mb-6 mx-6 cursor-pointer">
 						<!--Module-->
 						<div id="accordionExample5">
 							<div
-								class="rounded-t-lg border border-neutral-200 bg-gray-500 dark:border-neutral-600 dark:bg-neutral-800"
+								class="rounded-lg border border-neutral-200 bg-gray-500 dark:border-neutral-600 dark:bg-neutral-800"
 							>
 								<h2 class="mb-0" id="headingOne5">
 									<button
-										class=" group relative flex w-full items-center rounded-t-[15px] border-0 bg-gray-500 py-4 px-5 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white [&:not([data-te-collapse-collapsed])]:bg-gray-600 [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:[&:not([data-te-collapse-collapsed])]:bg-neutral-800 dark:[&:not([data-te-collapse-collapsed])]:text-primary-400 dark:[&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]"
+										class=" group relative flex w-full items-center rounded-lg border-0 bg-gray-500 py-4 px-5 text-left text-base text-neutral-800 transition  hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white [&:not([data-te-collapse-collapsed])]:bg-gray-600 [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:[&:not([data-te-collapse-collapsed])]:bg-neutral-800 dark:[&:not([data-te-collapse-collapsed])]:text-primary-400 dark:[&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]"
 										on:click={() => {
 											clicked_id === i ? (clicked_id = undefined) : (clicked_id = i);
 										}}
 										type="button"
 									>
-										<span class=" -mr-1 h-5 shrink-0 rotate-[-180deg]">
+										<!--Arrow left side of text -->
+										<span class=" mr-1 h-5 shrink-0 rotate{clicked_id === i ? '' : '-'}[-180deg] w-3">
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												fill="none"
 												viewBox="0 0 24 24"
 												stroke-width="1.5"
 												stroke="currentColor"
-												class="h-6 w-6"
+												class="h-6 w-3"
 											>
 												<path
 													stroke-linecap="round"
@@ -140,8 +133,15 @@
 												/>
 											</svg>
 										</span>
+
 										{module_title}
 
+										<button
+											type="button"
+											on:click={close_box}
+											class="text-gray-200 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+											data-modal-toggle="defaultModal"
+										>
 										<span class="ml-auto">
 											<svg
 												class="mr-1 -ml-1 w-6 h-6"
@@ -156,12 +156,24 @@
 												/>
 											</svg>
 										</span>
+											</button>
 									</button>
 								</h2>
 								<div id="collapseOne5" class="!visible {clicked_id === i ? '' : 'hidden'}">
-									<div class="py-4 px-5">
-										<strong>Things go in here</strong>
-									</div>
+
+									<!-- working on nested in_module inside of assignments, and the module-->
+
+									<!-- need to check the current module with the in_module from asisngments-->
+
+									<!-- make assignments show up from the proper module-->
+
+											<div class="py-4 px-5">
+												<strong>Things go in here</strong>
+											</div>
+
+
+
+
 								</div>
 							</div>
 						</div>
