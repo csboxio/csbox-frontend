@@ -5,7 +5,6 @@
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import { onMount, setContext } from 'svelte';
-	import Quill from 'quill';
 	import { blur } from 'svelte/transition';
 	import { writable } from 'svelte/store';
 
@@ -17,6 +16,7 @@
 	setContext('course_save', course_data);
 
 	let html;
+	let quilllib;
 
 	export let layout_course = course_data;
 
@@ -80,9 +80,14 @@
 	}
 
 	async function setupQuill() {
+		if (browser) {
+			// This actually fixes random quill import issues, ugh...
+			quilllib = (await import('quill'));
+		}
+
 		await getDocument();
 		let container = document.getElementById('editor');
-		quill = new Quill(container, options);
+		quill = new quilllib(container, options);
 		const delta = quill.clipboard.convert(content.html);
 		quill.setContents(delta, 'silent');
 	}

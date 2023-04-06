@@ -167,8 +167,10 @@
 
 									<!-- make assignments show up from the proper module-->
 
+
 											<div class="py-4 px-5">
 												<strong>Things go in here</strong>
+												{assignments}
 											</div>
 
 
