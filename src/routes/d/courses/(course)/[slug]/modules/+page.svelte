@@ -106,7 +106,7 @@
 						<!--Module-->
 						<div id="accordionExample5">
 							<div
-								class="rounded-lg border border-neutral-200 bg-gray-500 dark:border-neutral-600 dark:bg-neutral-800"
+								class="rounded-lg border border-neutral-200 bg-gray-500 dark:border-neutral-600 dark:bg-neutral-800 "
 							>
 								<h2 class="mb-0" id="headingOne5">
 									<button
@@ -160,24 +160,13 @@
 									</button>
 								</h2>
 								<div id="collapseOne5" class="!visible {clicked_id === i ? '' : 'hidden'}">
-
-									<!-- working on nested in_module inside of assignments, and the module-->
-
-									<!-- need to check the current module with the in_module from asisngments-->
-
-									<!-- make assignments show up from the proper module-->
-
 									{#each assignments as {assignment_title, in_module}}
 										{#if in_module === id}
-											<div class="py-4 px-5">
+											<div transition:blur|local={{ duration: 200 }} class="py-4 px-5">
 												{assignment_title}
 											</div>
 											{/if}
 									{/each}
-
-
-
-
 								</div>
 							</div>
 						</div>
