@@ -167,11 +167,13 @@
 
 									<!-- make assignments show up from the proper module-->
 
-
+									{#each assignments as {assignment_title, in_module}}
+										{#if in_module === id}
 											<div class="py-4 px-5">
-												<strong>Things go in here</strong>
-												{assignments}
+												{assignment_title}
 											</div>
+											{/if}
+									{/each}
 
 
 
