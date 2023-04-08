@@ -68,8 +68,10 @@ export const actions: Actions = {
         if (category == "Select category") {
             category = "";
         }
+
+
         if (user != null) {
-        const updates = {
+        let updates = {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignores
             id: Math.floor(Math.random() * 9999999999),
@@ -87,9 +89,13 @@ export const actions: Actions = {
             submission_attempts: submission_type,
             due: due,
             available_from: availableFrom,
-            available_until: availableUntil,
-            in_module: module
+            available_until: availableUntil
         }
+        // Leave out the in_module (module id) if it is blank in the update, if not include it.
+        if (module != '') {
+            updates = Object.assign(updates, {in_module: module})
+        }
+        console.log(updates)
             const {error} = await event.locals.sb.from('assignments').upsert(updates)
             console.log(error)
         }
