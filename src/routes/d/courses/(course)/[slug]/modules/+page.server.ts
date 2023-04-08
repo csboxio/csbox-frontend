@@ -70,7 +70,6 @@ export const actions: Actions = {
         user = data.user
         const id = formData.get('id')
         const module = formData.get('modules')
-        console.log(id, module)
 
         const course_id = event.params.slug
         if (user != null) {

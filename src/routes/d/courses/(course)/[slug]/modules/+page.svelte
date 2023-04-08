@@ -22,9 +22,11 @@
 	let modules;
 	$: modules = $page.data.modules;
 
-	let assignments = $page.data.assignmentData;
+	let assignments;
+	$: assignments = $page.data.assignmentData;
 
 	function create_module() {
+		close_add_item();
 		show_create_box = true;
 	}
 
@@ -33,8 +35,8 @@
 	}
 
 	function add_item(id){
+		close_create_module()
 		add_item_name = id;
-		console.log(add_item_name)
 		show_add_item = true;
 	}
 
@@ -95,10 +97,12 @@
 		});
 
 		const result = deserialize(await response.text());
+		console.log(response)
 
 		if (result.type === 'success') {
 			// re-run all `load` functions, following the successful update
 			close_create_module();
+			close_add_item();
 			await invalidateAll();
 		}
 
@@ -159,7 +163,7 @@
 										{#if in_module === id}
 											<a>
 											<div class="py-4 px-5 text-gray-200 hover:text-white hover:scale-[1.002]"on:click={()=> {handleAssignment(assignments[i].id)}}>
-												{assignment_title}
+												{assignment_title === '' ? 'No assignment title...' : assignment_title}
 											</div>
 											</a>
 											{/if}
@@ -221,7 +225,7 @@
 								id="name"
 								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								placeholder="Module Name"
-								required=""
+								required
 							/>
 						</div>
 					</div>
@@ -296,8 +300,8 @@
 								name="modules"
 								id="modules"
 								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								required
 							>
-								<option value="">No module</option>
 								{#each modules as { module_title, id }, i}
 									<option value="{id}" selected={module_title === add_item_name}>{module_title}</option>
 								{/each}
@@ -310,7 +314,7 @@
 						<label for="id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an item</label>
 						<select multiple name="id" id="id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 							{#each assignments as { id, assignment_title, inserted_at}}
-								<option value="{id}">{assignment_title} | Created: {new Date(inserted_at).toDateString()}</option>
+								<option value="{id}">{assignment_title} | Created - {new Date(inserted_at).toDateString()}</option>
 							{/each}
 						</select>
 					</div>

@@ -67,12 +67,11 @@
 	<section class="p-1">
 		<div class="container mx-1 my-8">
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Title: {assignments.assignment_title}
+				{assignments.assignment_title}
 			</h4>
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">Type: {assignments.category}</h4>
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Description: {assignments.description}
-			</h4>
+			<div class="border-gray-400 border-2 rounded p-5">
+
+			</div>
 
 			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold delay-50" />
 		</div>
