@@ -2,9 +2,6 @@
   import { supabaseClient } from "$lib/utilities/supabaseClient";
   import { goto } from "$app/navigation";
   import {page} from "$app/stores";
-  import { onDestroy, onMount } from "svelte";
-  import { userStore } from "../stores/stores";
-  import {browser} from "$app/environment";
 
   export const ssr = true;
   export let showTopRightMenuModel = false

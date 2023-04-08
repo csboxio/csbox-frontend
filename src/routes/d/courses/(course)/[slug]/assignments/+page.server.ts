@@ -19,10 +19,16 @@ export const load: PageServerLoadEvent = async (event) => {
             .select('id, inserted_at, assignment_title, category, description')
             .eq('course_id', event.params.slug)
 
+        const {data: modules, error} = await supabaseClient.from('modules')
+          .select('module_title, id')
+          .eq('user_id', session.user.id)
+          .eq('course_id', event.params.slug)
+
         return {
             courseData,
             assignmentData,
-            slug
+            slug,
+            modules
         };
     }
 };
@@ -54,6 +60,7 @@ export const actions: Actions = {
         const due = formData.get('due');
         const availableFrom = formData.get('availfrom')
         const availableUntil = formData.get('availto')
+        const module = formData.get('modules')
         const course_id = event.params.slug
 
         // if category is selected make it blank
@@ -80,9 +87,11 @@ export const actions: Actions = {
             submission_attempts: submission_type,
             due: due,
             available_from: availableFrom,
-            available_until: availableUntil
+            available_until: availableUntil,
+            in_module: module
         }
             const {error} = await event.locals.sb.from('assignments').upsert(updates)
+            console.log(error)
         }
     }
 }
