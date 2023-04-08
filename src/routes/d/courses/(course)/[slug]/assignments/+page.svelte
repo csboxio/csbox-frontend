@@ -120,7 +120,6 @@
 	}
 
 	function handleAssignment(id) {
-		console.log('test');
 		goto('/d/courses/' + data.slug + '/assignments/' + id);
 	}
 
