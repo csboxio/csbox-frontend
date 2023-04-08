@@ -24,7 +24,7 @@
 	on:click|stopPropagation={() => model.handleToggleMenuTopRight('outside')}
 >
 	<div class="">
-		<Navbar />
+		<Navbar /><s></s>
 		<div class="mx-auto lg:ml-20">
 			<section>
 				<div class="pt-5 pb-6 px-8 bg-gray-700">

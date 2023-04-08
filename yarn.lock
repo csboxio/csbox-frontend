@@ -4096,9 +4096,9 @@ sucrase@^3.29.0:
     ts-interface-checker "^0.1.9"
 
 supabase@^1.37.1:
-  version "1.48.1"
-  resolved "https://registry.npmjs.org/supabase/-/supabase-1.48.1.tgz"
-  integrity sha512-vR7UFViZd2ItMVnc9+uOo+RSIOrNsIsC0TV+r7yuhtz3AbP7WRfi6SXMvqmREmzzVEbcFb9MHVAxmK3EOFnK7g==
+  version "1.49.1"
+  resolved "https://registry.npmjs.org/supabase/-/supabase-1.49.1.tgz"
+  integrity sha512-mJDXcKgdDDDOJbNDq5fs16N4f0pNZOEOvTulvJxJ8KCOZj1KQQ9TST4xCPYj9aM8IQIHZMKaNlxVQ0avfTHdaQ==
   dependencies:
     bin-links "^4.0.1"
     node-fetch "^3.2.10"

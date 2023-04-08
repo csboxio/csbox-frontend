@@ -80,15 +80,20 @@
 	}
 
 	async function setupQuill() {
-		await getDocument();
-		let container = document.getElementById('editor');
-		quill = new Quill(container, options);
-		const delta = quill.clipboard.convert(content.html);
-		quill.setContents(delta, 'silent');
+		if (browser) {
+			await getDocument();
+			let container = document.getElementById('editor');
+			quill = new Quill(container, options);
+			const delta = quill.clipboard.convert(content.html);
+			quill.setContents(delta, 'silent');
+		}
+
 	}
 
 	onMount(async () => {
-		await setupQuill();
+		if (browser) {
+			await setupQuill();
+		}
 	});
 </script>
 
