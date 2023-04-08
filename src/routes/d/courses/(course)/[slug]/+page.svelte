@@ -96,7 +96,6 @@
 		}
 	});
 </script>
-
 <div class="flex flex-row grow max-w-full-1/2">
 	<section class="p-1 grow max-w-full-1/2">
 		<div class="flex justify-between">
