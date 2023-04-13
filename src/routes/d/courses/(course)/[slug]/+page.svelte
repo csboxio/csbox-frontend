@@ -9,6 +9,7 @@
 	import { blur } from 'svelte/transition';
 	import { writable } from 'svelte/store';
 
+
 	let quill;
 	let model;
 	export let data;
@@ -17,6 +18,8 @@
 	setContext('course_save', course_data);
 
 	let html;
+	let user = $page.data.session?.user
+	let slug = $page.params.slug
 
 	export let layout_course = course_data;
 

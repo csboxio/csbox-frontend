@@ -2,6 +2,8 @@ import { supabaseClient } from "$lib/utilities/supabaseClient";
 import type { User } from "@supabase/supabase-js";
 import { resizeFile } from "$lib/utilities/image";
 import { browser } from "$app/environment";
+import {v4 as uuidv4} from 'uuid';
+
 import { page } from "$app/stores";
 
 import {getSupabase} from "@supabase/auth-helpers-sveltekit";
@@ -71,7 +73,7 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
   }
 }
 
-export const uploadCourseImage = async (files: FileList, uploading: boolean, url: string, courseId: bigint, user: User) => {
+export const uploadCourseImage = async (files: FileList, courseId: bigint, user: User) => {
   try {
     loading = true;
     if (!files || files.length === 0) {
@@ -88,6 +90,31 @@ export const uploadCourseImage = async (files: FileList, uploading: boolean, url
     const { data } = supabaseClient.storage.from('courses').getPublicUrl(filePath)
     await updateCourse(data.publicUrl, courseId, user)
     loading = false;
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message)
+    }
+  }
+}
+
+export const uploadCourseDocumentImage = async (files: FileList, uploading: boolean, url: string, courseId: bigint, user: User) => {
+  try {
+    loading = true;
+    if (!files || files.length === 0) {
+      throw new Error('You must select an image to upload.')
+    }
+    // Delete old image from database
+    const filePath = `${courseId + "/document/" + "images/" + uuidv4 + "_courseDocumentImage"}.JPEG`
+    await deleteImage(filePath)
+
+    //const rfile = await resizedFile(files)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const { error } = await supabaseClient.storage.from('courses').upload(filePath, files)
+    const { data } = supabaseClient.storage.from('courses').getPublicUrl(filePath)
+    loading = false;
+
+    return data.publicUrl
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
