@@ -6,6 +6,16 @@
 	import { blur } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import { Datepicker } from 'svelte-calendar';
+	import {
+		Table,
+		TableBody,
+		TableBodyCell,
+		TableBodyRow,
+		TableHead,
+		TableHeadCell,
+		TableSearch
+	} from "flowbite-svelte";
+
 	import dayjs from 'dayjs';
 
 	const theme = {
@@ -55,6 +65,12 @@
 	let loading;
 	let assignments;
 	$: assignments = data.assignmentData;
+
+	let searchTerm = '';
+	$: filteredItems = assignments.filter(
+		(assignments) => assignments.assignment_title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+	);
+
 
 	let modules = data.modules;
 
@@ -178,227 +194,39 @@
 				</span>
 			</button>
 
-			<!-- <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3">
-                    Product name
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    <div class="flex items-center">
-                        Color
-                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                    </div>
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    <div class="flex items-center">
-                        Category
-                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                    </div>
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    <div class="flex items-center">
-                        Price
-                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                    </div>
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    <span class="sr-only">Edit</span>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Apple MacBook Pro 17"
-                </th>
-                <td class="px-6 py-4">
-                    Silver
-                </td>
-                <td class="px-6 py-4">
-                    Laptop
-                </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td>
-                <td class="px-6 py-4 text-right">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Microsoft Surface Pro
-                </th>
-                <td class="px-6 py-4">
-                    White
-                </td>
-                <td class="px-6 py-4">
-                    Laptop PC
-                </td>
-                <td class="px-6 py-4">
-                    $1999
-                </td>
-                <td class="px-6 py-4 text-right">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-            <tr class="bg-white dark:bg-gray-800">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Magic Mouse 2
-                </th>
-                <td class="px-6 py-4">
-                    Black
-                </td>
-                <td class="px-6 py-4">
-                    Accessories
-                </td>
-                <td class="px-6 py-4">
-                    $99
-                </td>
-                <td class="px-6 py-4 text-right">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>-->
-
-			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold delay-50">
-				{#each assignments as { id, assignment_title, category, desc }, i}
-					<a on:click={handleAssignment(id)}>
-						<div transition:blur|local={{ duration: 200 }} class="grow w-full  mb-6 mx-6 cursor-pointer">
-							<div {id} class="">
-								<div class="relative group">
-									<div
-										class="absolute  -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 {hoverID ===
-											i && open
-											? 'opacity-30 scale-105'
-											: ''} transition duration-1500 group-hover:duration-200"
-									/>
-									<div>
-										<div
-											class="relative p-5 bg-gray-700 rounded-xl transition|local duration-1500"
-										>
-											<a data-sveltekit-preload-data="hover">
-												<div class="table w-full">
-													<div class="table-header-group">
-														<div class="table-row">
-															<div class="table-cell text-left">Assignment Name</div>
-															<div class="table-cell text-left">Category</div>
-															<div class="table-cell text-left">Module</div>
-													</div>
-													</div>
-
-														<div class="table-row-group">
-															<div class="table-row">
-																<div class="table-cell">
-																	<h4 class="text-base text-white font-bold">
-																	{assignment_title === '' ? 'No title found...' : assignment_title}
-																	</h4>
-																</div>
-																<div class="table-cell">
-																	<div>{category}</div>
-																</div>
-
-													</div>
-														</div>
-
-
-
-										    </div>
-												<!--Popup-->
-												<div
-													class="inline-block absolute top-0 right-0 m-5 mr-2 text-gray-300 hover:text-gray-100 hover:scale-105"
-													href="#"
-													on:click|stopPropagation={() => {
-														hoverID = i;
-														open = true;
-													}}
-												>
-													<svg
-														width="24"
-														height="24"
-														viewbox="0 0 24 24"
-														fill="none"
-														xmlns="http://www.w3.org/2000/svg"
-													>
-														<path
-															d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
-															stroke="currentColor"
-															stroke-width="2"
-															stroke-linecap="round"
-															stroke-linejoin="round"
-														/>
-														<path
-															d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z"
-															stroke="currentColor"
-															stroke-width="2"
-															stroke-linecap="round"
-															stroke-linejoin="round"
-														/>
-														<path
-															d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z"
-															stroke="currentColor"
-															stroke-width="2"
-															stroke-linecap="round"
-															stroke-linejoin="round"
-														/>
-													</svg>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
-
-								{#if hoverID === i && open && browser}
-									<div
-										transition:blur|local={{ duration: 200 }}
-										id="edit"
-										class="relative w-1/2 bottom-16 left-[105%]"
-									>
-										<div
-											class="absolute block rounded-md bg-gray-500 z-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-										>
-											<div class="text-sm text-gray-900 dark:text-white">
-												<div class="p-2 truncate font-bold hover:underline hover:bg-gray-700 w-24">
-													Edit
-												</div>
-												<div
-													class="p-2 truncate font-bold hover:underline hover:bg-gray-700 hover:text-red-400"
-													on:click={handleDeleteAssignment(id)}
-												>
-													Delete
-												</div>
-											</div>
-											<div
-												class="inline-block absolute top-0 right-0 m-2 text-gray-300 hover:text-gray-100 hover:scale-110"
-												href="#"
-												on:click|stopPropagation={() => {
-													open = false;
-												}}
-											>
-												<svg
-													aria-hidden="true"
-													class="w-5 h-5"
-													fill="currentColor"
-													viewBox="0 0 20 20"
-													xmlns="http://www.w3.org/2000/svg"
-												>
-													<path
-														fill-rule="evenodd"
-														d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-														clip-rule="evenodd"
-													/>
-												</svg>
-											</div>
-										</div>
-									</div>
-								{/if}
-							</div>
-						</div>
-					</a>
+			<div class="py-4">
+			<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+				<TableSearch placeholder="Search by title..." hoverable={true} bind:inputValue={searchTerm}>
+				<Table shadow hoverable>
+				<TableHead>
+					<TableHeadCell>Title</TableHeadCell>
+					<TableHeadCell>Category</TableHeadCell>
+					<TableHeadCell>Due</TableHeadCell>
+					<TableHeadCell>Points</TableHeadCell>
+					<TableHeadCell>
+						<span class="sr-only ">Edit</span>
+					</TableHeadCell>
+				</TableHead>
+				<TableBody class="divide-y">
+				{#each filteredItems as { id, assignment_title, category, due, points }, i}
+						<TableBodyRow on:click={handleAssignment(id)} class="cursor-pointer">
+							<TableBodyCell>{assignment_title ? assignment_title : 'No title...'}</TableBodyCell>
+							<TableBodyCell>{category}</TableBodyCell>
+							<TableBodyCell>{due.substring(0, 10)}</TableBodyCell>
+							<TableBodyCell>{points}</TableBodyCell>
+							<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
+								<a href="/tables" class="font-medium text-blue-600 hover:underline dark:text-blue-500 px-1">
+									Edit
+								</a>
+								<a href="/tables" class="font-medium text-blue-600 hover:underline dark:text-red-500">
+									Delete
+								</a>
+							</TableBodyCell>
+						</TableBodyRow>
 				{/each}
+				</TableBody>
+			</Table>
+				</TableSearch>
 
 				<!--No courses found-->
 				{#if assignments?.length === 0}
@@ -425,6 +253,7 @@
 						</div>
 					</div>
 				{/if}
+			</div>
 			</div>
 		</div>
 	</section>

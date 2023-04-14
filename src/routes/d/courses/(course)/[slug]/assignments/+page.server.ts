@@ -16,7 +16,7 @@ export const load: PageServerLoadEvent = async (event) => {
             .single();
 
         const {data: assignmentData} = await supabaseClient.from('assignments')
-            .select('id, inserted_at, assignment_title, category, description')
+            .select('id, inserted_at, assignment_title, category, description, due, points')
             .eq('course_id', event.params.slug)
 
         const {data: modules, error} = await supabaseClient.from('modules')
