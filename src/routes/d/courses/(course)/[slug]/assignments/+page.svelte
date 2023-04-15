@@ -479,7 +479,7 @@
 {/if}
 
 {#if delete_assignment}
-	<div class="z-1000 fixed top-1/2 left-1/2">
+	<div class="fixed z-20 inset-x-0 max-w-max mx-auto">
 		<div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 			<!-- Modal content -->
 				<!-- Modal header -->
