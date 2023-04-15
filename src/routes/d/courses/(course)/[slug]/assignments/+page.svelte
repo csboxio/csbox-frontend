@@ -6,7 +6,20 @@
 	import { blur } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import { Datepicker } from 'svelte-calendar';
+	import {
+		Button,
+		Table,
+		TableBody,
+		TableBodyCell,
+		TableBodyRow,
+		TableHead,
+		TableHeadCell,
+		TableSearch
+	} from "flowbite-svelte";
+
 	import dayjs from 'dayjs';
+	import { page } from "$app/stores";
+	import { Modal } from "flowbite";
 
 	const theme = {
 		calendar: {
@@ -55,6 +68,15 @@
 	let loading;
 	let assignments;
 	$: assignments = data.assignmentData;
+
+	let searchTerm = '';
+	$: filteredItems = assignments.filter(
+		(assignments) => assignments.assignment_title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+	);
+
+	let delete_assignment;
+	let delete_assignment_id;
+
 
 	let modules = data.modules;
 
@@ -105,12 +127,21 @@
 	let hoverID;
 	$: hoverID;
 
-	async function handleDeleteAssignment(cid) {
-		console.log('clicked', cid);
-		open = false;
-		const { error, status } = await supabaseClient.from('assignments').delete().match({ id: cid });
+	function delete_model_open(id) {
+		console.log("delete")
+		delete_assignment_id = id;
+		delete_assignment = true;
+	}
+
+	function delete_model_close() {
+		delete_assignment = false;
+	}
+
+	async function handleDeleteAssignment(aid) {
+		console.log('clicked', aid);
+		const { error, status } = await supabaseClient.from('assignments').delete().match({ id: aid });
 		if (status === 204) {
-			open = false;
+			delete_model_close();
 			await invalidateAll();
 		}
 	}
@@ -159,9 +190,13 @@
 	}
 </script>
 
-<div class="flex flex-row">
+
+<div class="w-full">
+
 	<section class="p-1">
+
 		<div class="container">
+
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">Assignments</h4>
 			<button
 				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
@@ -173,118 +208,40 @@
 					Create
 				</span>
 			</button>
-			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold delay-50">
-				{#each assignments as { id, assignment_title, category, desc }, i}
-					<a on:click={handleAssignment(id)}>
-						<div transition:blur|local={{ duration: 200 }} class="mb-6 mx-6 cursor-pointer">
-							<div {id} class="max-w-2xl min-w-xl min-h-xs max-h-xs">
-								<div class="relative group">
-									<div
-										class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 {hoverID ===
-											i && open
-											? 'opacity-30 scale-105'
-											: ''} transition duration-1500 group-hover:duration-200"
-									/>
-									<div>
-										<div
-											class="relative p-5 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500"
-										>
-											<a data-sveltekit-preload-data="hover">
-												<h4 class="text-base text-white font-bold">
-													{assignment_title === '' ? 'No title found...' : assignment_title}
-												</h4>
-												<!--Popup-->
-												<div
-													class="inline-block absolute top-0 right-0 m-5 mr-2 text-gray-300 hover:text-gray-100 hover:scale-105"
-													href="#"
-													on:click|stopPropagation={() => {
-														hoverID = i;
-														open = true;
-													}}
-												>
-													<svg
-														width="24"
-														height="24"
-														viewbox="0 0 24 24"
-														fill="none"
-														xmlns="http://www.w3.org/2000/svg"
-													>
-														<path
-															d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
-															stroke="currentColor"
-															stroke-width="2"
-															stroke-linecap="round"
-															stroke-linejoin="round"
-														/>
-														<path
-															d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z"
-															stroke="currentColor"
-															stroke-width="2"
-															stroke-linecap="round"
-															stroke-linejoin="round"
-														/>
-														<path
-															d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z"
-															stroke="currentColor"
-															stroke-width="2"
-															stroke-linecap="round"
-															stroke-linejoin="round"
-														/>
-													</svg>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
 
-								{#if hoverID === i && open && browser}
-									<div
-										transition:blur|local={{ duration: 200 }}
-										id="edit"
-										class="relative w-1/2 bottom-16 left-[105%]"
-									>
-										<div
-											class="absolute block rounded-md bg-gray-500 z-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-										>
-											<div class="text-sm text-gray-900 dark:text-white">
-												<div class="p-2 truncate font-bold hover:underline hover:bg-gray-700 w-24">
-													Edit
-												</div>
-												<div
-													class="p-2 truncate font-bold hover:underline hover:bg-gray-700 hover:text-red-400"
-													on:click={handleDeleteAssignment(id)}
-												>
-													Delete
-												</div>
-											</div>
-											<div
-												class="inline-block absolute top-0 right-0 m-2 text-gray-300 hover:text-gray-100 hover:scale-110"
-												href="#"
-												on:click|stopPropagation={() => {
-													open = false;
-												}}
-											>
-												<svg
-													aria-hidden="true"
-													class="w-5 h-5"
-													fill="currentColor"
-													viewBox="0 0 20 20"
-													xmlns="http://www.w3.org/2000/svg"
-												>
-													<path
-														fill-rule="evenodd"
-														d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-														clip-rule="evenodd"
-													/>
-												</svg>
-											</div>
-										</div>
-									</div>
-								{/if}
-							</div>
-						</div>
-					</a>
+			<div class="py-4">
+			<div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
+				<TableSearch placeholder="Search by title..." hoverable={true} bind:inputValue={searchTerm}>
+				<Table shadow hoverable>
+				<TableHead>
+					<TableHeadCell>Title</TableHeadCell>
+					<TableHeadCell>Category</TableHeadCell>
+					<TableHeadCell>Due</TableHeadCell>
+					<TableHeadCell>Points</TableHeadCell>
+					<TableHeadCell>
+						<span class="sr-only ">Edit</span>
+					</TableHeadCell>
+				</TableHead>
+				<TableBody class="divide-y">
+				{#each filteredItems as { id, assignment_title, category, due, points }, i}
+						<TableBodyRow on:click={() =>  handleAssignment(id)} class="cursor-pointer">
+							<TableBodyCell>{assignment_title ? assignment_title : 'No title...'}</TableBodyCell>
+							<TableBodyCell>{category}</TableBodyCell>
+							<TableBodyCell>{due.substring(0, 10)}</TableBodyCell>
+							<TableBodyCell>{points}</TableBodyCell>
+							<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
+								<a on:click|stopPropagation={() => goto($page.url.pathname + "/" + id + "/edit")} class="font-medium text-blue-600 hover:underline dark:text-blue-500 px-1">
+									Edit
+								</a>
+								<a on:click|stopPropagation={() => delete_model_open(id)} class="font-medium text-blue-600 hover:underline dark:text-red-500">
+									Delete
+								</a>
+							</TableBodyCell>
+						</TableBodyRow>
 				{/each}
+				</TableBody>
+			</Table>
+				</TableSearch>
 
 				<!--No courses found-->
 				{#if assignments?.length === 0}
@@ -311,6 +268,7 @@
 						</div>
 					</div>
 				{/if}
+			</div>
 			</div>
 		</div>
 	</section>
@@ -519,3 +477,31 @@
 		</div>
 	</div>
 {/if}
+
+{#if delete_assignment}
+	<div class="fixed z-20 inset-x-0 max-w-max mx-auto">
+		<div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+			<!-- Modal content -->
+				<!-- Modal header -->
+
+					<div class="relative p-9 text-center bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5">
+						<button on:click={() => delete_assignment = false} type="button" class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white" data-modal-toggle="deleteModal">
+							<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+							<span class="sr-only">Close modal</span>
+						</button>
+						<svg class="text-gray-400 dark:text-gray-500 w-11 h-11 mb-3.5 mx-auto" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+						<p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to delete this item?</p>
+						<div class="flex justify-center items-center space-x-4">
+							<button on:click={() => delete_assignment = false} data-modal-toggle="deleteModal" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+								No, cancel
+							</button>
+							<button on:click={() => handleDeleteAssignment(delete_assignment_id)} type="submit" class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">
+								Yes, I'm sure
+							</button>
+						</div>
+					</div>
+				</div>
+				<!-- Modal body -->
+
+		</div>
+	{/if}

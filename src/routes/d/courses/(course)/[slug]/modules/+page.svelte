@@ -111,9 +111,9 @@
 	let open_module;
 </script>
 
-<div class="flex flex-row ">
+<div class="w-full">
 	<section class="p-1 ">
-		<div class="container ">
+		<div class="container">
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">Modules</h4>
 			<button
 				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
