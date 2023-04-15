@@ -17,6 +17,7 @@
 	} from "flowbite-svelte";
 
 	import dayjs from 'dayjs';
+	import { onMount } from "svelte";
 
 	const theme = {
 		calendar: {
@@ -51,9 +52,7 @@
 
 	// Export due dates for pager.server.js
 
-	let storeDueDate;
-	let storeAvailableDate;
-	let storeAvailableUntilDate;
+
 
 	export let dueDate;
 	export let availablefromDate;
@@ -68,6 +67,10 @@
 	let modules = data.modules;
 
 	let course_data = data.courseData;
+
+	let storeDueDate;
+	let storeAvailableDate;
+	let storeAvailableUntilDate;
 
 	let open = false;
 
@@ -141,6 +144,10 @@
 			});
 		}
 	}
+
+	onMount(() => {
+		storeDueDate = assignments.due;
+	});
 </script>
 
 
@@ -175,6 +182,8 @@
 										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Assignment Name"
 										required
+										value={assignments.assignment_title}
+
 									/>
 								</div>
 
@@ -190,7 +199,8 @@
 										rows="4"
 										class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder="Summarize assignment description"
-										required></textarea>
+										required
+										value={assignments.description}></textarea>
 								</div>
 
 								<div>
@@ -202,7 +212,7 @@
 										type="text"
 										name="points"
 										id="points"
-										value="0"
+										value={assignments.points}
 										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										placeholder=""
 										required=""
@@ -220,7 +230,8 @@
 										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 										required
 									>
-										<option selected="">Select category</option>
+										<option selected={assignments.category}>{assignments.category}</option>
+										<!--TODO make current not duplicate -->
 										<option value="Assignment">Assignment</option>
 										<option value="Quiz">Quiz</option>
 										<option value="Project">Project</option>
@@ -238,6 +249,7 @@
 										id="displayas"
 										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									>
+										<option selected={assignments.submission_type}>{assignments.submission_type}</option>
 										<option value="Points">Points</option>
 										<option value="Percentage">Percentage</option>
 									</select>

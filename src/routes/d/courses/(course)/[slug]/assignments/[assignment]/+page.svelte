@@ -67,11 +67,36 @@
 	<section class="p-1">
 		<div class="container mx-1 my-8">
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				{assignments.assignment_title}
+				Title: {assignments.assignment_title}
 			</h4>
-			<div class="border-gray-400 border-2 rounded p-5">
+			<h4 class="text-xl font-bold text-white -mx-auto my-5">
+				Inserted At: {assignments.inserted_at}
+			</h4>
+			<h4 class="text-xl font-bold text-white -mx-auto my-5">
+				Category: {assignments.category}
+			</h4>
+			<h4 class="text-xl font-bold text-white -mx-auto my-5">
+				Description: {assignments.description}
+			</h4>
+			<h4 class="text-xl font-bold text-white -mx-auto my-5">
+				Points: {assignments.points}
+			</h4>
+			<h4 class="text-xl font-bold text-white -mx-auto my-5">
+				Submission Type: {assignments.submission_type}
+			</h4>
 
-			</div>
+			<h4 class="text-xl font-bold text-white -mx-auto my-5">
+				Submission Attempts: {assignments.submission_attempts}
+			</h4>
+
+			<h4 class="text-xl font-bold text-white -mx-auto my-5">
+				Assigned to: {assignments.assign_to}
+			</h4>
+
+			<h4 class="text-xl font-bold text-white -mx-auto my-5">
+				Due: {assignments.due}
+			</h4>
+
 
 			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold delay-50" />
 		</div>
