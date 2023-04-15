@@ -17,6 +17,7 @@
 	} from "flowbite-svelte";
 
 	import dayjs from 'dayjs';
+	import { page } from "$app/stores";
 
 	const theme = {
 		calendar: {
@@ -209,13 +210,13 @@
 				</TableHead>
 				<TableBody class="divide-y">
 				{#each filteredItems as { id, assignment_title, category, due, points }, i}
-						<TableBodyRow on:click={handleAssignment(id)} class="cursor-pointer">
+						<TableBodyRow on:click={() =>  handleAssignment(id)} class="cursor-pointer">
 							<TableBodyCell>{assignment_title ? assignment_title : 'No title...'}</TableBodyCell>
 							<TableBodyCell>{category}</TableBodyCell>
 							<TableBodyCell>{due.substring(0, 10)}</TableBodyCell>
 							<TableBodyCell>{points}</TableBodyCell>
 							<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
-								<a href="/tables" class="font-medium text-blue-600 hover:underline dark:text-blue-500 px-1">
+								<a on:click|stopPropagation={() => goto($page.url.pathname + "/" + id + "/edit")} class="font-medium text-blue-600 hover:underline dark:text-blue-500 px-1">
 									Edit
 								</a>
 								<a href="/tables" class="font-medium text-blue-600 hover:underline dark:text-red-500">
