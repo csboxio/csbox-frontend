@@ -33,7 +33,7 @@
 		"prettier": "^2.8.1",
 		"prettier-plugin-svelte": "^2.8.1",
 		"prisma": "^4.8.0",
-		"supabase": "^1.37.1",
+		"supabase": "^1.50.4",
 		"svelte": "^3.54.0",
 		"svelte-check": "^2.9.2",
 		"svelte-fa": "^3.0.3",
