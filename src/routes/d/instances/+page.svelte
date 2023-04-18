@@ -132,15 +132,17 @@
 								<TableBodyCell></TableBodyCell>
 								<TableBodyCell></TableBodyCell>
 								<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
-									<a class="block font-medium inline text-green-600 hover:underline dark:text-green-500 px-1">
+									<div>
+									<a class=" font-medium inline-block text-green-600 hover:underline dark:text-green-500 px-1">
 										<PlaySolid></PlaySolid>
 									</a>
-									<a class="block font-medium inline text-blue-600 hover:underline dark:text-blue-500 px-1">
+									<a class=" font-medium inline-block text-blue-600 hover:underline dark:text-blue-500 px-1">
 										<PauseSolid></PauseSolid>
 									</a>
-									<a class="block font-medium inline text-blue-600 hover:underline dark:text-red-500">
+									<a class=" font-medium inline-block text-blue-600 hover:underline dark:text-red-500">
 										<TrashCanSolid></TrashCanSolid>
 									</a>
+									</div>
 								</TableBodyCell>
 							</TableBodyRow>
 					</TableBody>
