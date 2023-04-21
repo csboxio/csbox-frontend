@@ -8,7 +8,7 @@
 	import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from "flowbite-svelte";
 	import PauseSolid from "svelte-awesome-icons/PauseSolid.svelte";
 	import PlaySolid from "svelte-awesome-icons/PlaySolid.svelte";
-	import TrashCanSolid from "svelte-awesome-icons/PauseSolid.svelte";
+	import TrashCanSolid from "svelte-awesome-icons/TrashCanSolid.svelte";
 
 	// this is needed for the outside click div, that needs to be redone
 	let model;
@@ -127,10 +127,10 @@
 					</TableHead>
 					<TableBody class="divide-y">
 							<TableBodyRow  class="cursor-pointer">
-								<TableBodyCell></TableBodyCell>
-								<TableBodyCell></TableBodyCell>
-								<TableBodyCell></TableBodyCell>
-								<TableBodyCell></TableBodyCell>
+								<TableBodyCell>Python Assignment #1</TableBodyCell>
+								<TableBodyCell>T2D-1</TableBodyCell>
+								<TableBodyCell>4/20/2023</TableBodyCell>
+								<TableBodyCell>Running</TableBodyCell>
 								<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
 									<div>
 									<a class=" font-medium inline-block text-green-600 hover:underline dark:text-green-500 px-1">
