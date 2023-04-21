@@ -8,6 +8,9 @@ const config = {
 	ssr: {
 		noExternal: ['svelte-lazyimage-cache', 'react-image-file-resizer.js'],
 		external: ['quill']
+	},
+	define: {
+		__PROJECT_PATH__: `"${process.cwd()}/"`,
 	}
 
 };

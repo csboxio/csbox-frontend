@@ -93,7 +93,7 @@
   resolved "https://registry.npmjs.org/@floating-ui/core/-/core-1.2.5.tgz"
   integrity sha512-qrcbyfnRVziRlB6IYwjCopYhO7Vud750JlJyuljruIXcPxr22y8zdckcJGsuOdnQ639uVD1tTXddrcH3t3QYIQ==
 
-"@floating-ui/dom@^1.1.0", "@floating-ui/dom@^1.2.1":
+"@floating-ui/dom@^1.0.1", "@floating-ui/dom@^1.1.0", "@floating-ui/dom@^1.2.1":
   version "1.2.5"
   resolved "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.2.5.tgz"
   integrity sha512-+sAUfpQ3Frz+VCbPCqj+cZzvEESy3fjSeT/pDWkYCWOBXYNNKZfuVsHuv8/JO2zze8+Eb/Q7a6hZVgzS81fLbQ==
@@ -158,6 +158,21 @@
   version "3.0.0-beta.13"
   resolved "https://registry.npmjs.org/@linaria/core/-/core-3.0.0-beta.13.tgz"
   integrity sha512-3zEi5plBCOsEzUneRVuQb+2SAx3qaC1dj0FfFAI6zIJQoDWu0dlSwKijMRack7oO9tUWrchfj3OkKQAd1LBdVg==
+
+"@locator/runtime@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.npmjs.org/@locator/runtime/-/runtime-0.2.4.tgz"
+  integrity sha512-bdTCvwAAjOG+aHFhcDnQeiWeze8BQDmaF2PHGqy/WjVdI3trH3RNxFjnFYFVDKcX2AIHPk4KhfgTN2De3sbcGw==
+  dependencies:
+    "@floating-ui/dom" "^1.0.1"
+    "@locator/shared" "^0.2.2"
+    solid-js "^1.6.9"
+    tailwindcss "^3.1.6"
+
+"@locator/shared@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.npmjs.org/@locator/shared/-/shared-0.2.2.tgz"
+  integrity sha512-T0hTha5VioTL1M0tF2QmxbBbaZ3JgmQ2kmh1msNc+Yse7KY7wbPaBDBi8w/kWvf+lR2KA9rw/BJphS7fJzwUIw==
 
 "@miniflare/cache@2.13.0":
   version "2.13.0"
@@ -1410,6 +1425,11 @@ cssesc@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/cssesc/-/cssesc-3.0.0.tgz"
   integrity sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==
+
+csstype@^3.1.0:
+  version "3.1.2"
+  resolved "https://registry.npmjs.org/csstype/-/csstype-3.1.2.tgz"
+  integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
 d@^1.0.1, d@1:
   version "1.0.1"
@@ -3967,6 +3987,11 @@ semver@^7.0.0, semver@^7.3.7:
   dependencies:
     lru-cache "^6.0.0"
 
+seroval@^0.5.0:
+  version "0.5.1"
+  resolved "https://registry.npmjs.org/seroval/-/seroval-0.5.1.tgz"
+  integrity sha512-ZfhQVB59hmIauJG5Ydynupy8KHyr5imGNtdDhbZG68Ufh1Ynkv9KOYOAABf71oVbQxJ8VkWnMHAjEHE7fWkH5g==
+
 set-cookie-parser@^2.4.8, set-cookie-parser@^2.5.1:
   version "2.6.0"
   resolved "https://registry.npmjs.org/set-cookie-parser/-/set-cookie-parser-2.6.0.tgz"
@@ -4002,6 +4027,14 @@ slash@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/slash/-/slash-3.0.0.tgz"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
+
+solid-js@^1.6.9:
+  version "1.7.3"
+  resolved "https://registry.npmjs.org/solid-js/-/solid-js-1.7.3.tgz"
+  integrity sha512-4hwaF/zV/xbNeBBIYDyu3dcReOZBECbO//mrra6GqOrKy4Soyo+fnKjpZSa0nODm6j1aL0iQRh/7ofYowH+jzw==
+  dependencies:
+    csstype "^3.1.0"
+    seroval "^0.5.0"
 
 sorcery@^0.10.0:
   version "0.10.0"
@@ -4135,6 +4168,16 @@ svelte-apexcharts@^1.0.2:
   dependencies:
     apexcharts "^3.19.2"
 
+svelte-awesome-icons@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.npmjs.org/svelte-awesome-icons/-/svelte-awesome-icons-0.4.3.tgz"
+  integrity sha512-RngTZoRRfnyNEkF7ZXDvYgHPZiJY0firSao6XDooR5FlgWdaSUUd9n2pHDbO60WDtyKbHWxyA1L9elMJKNouNQ==
+
+svelte-awesome@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/svelte-awesome/-/svelte-awesome-3.2.0.tgz"
+  integrity sha512-A9gqgRDs/6EjUgMHIBHz88vJIiY4fVI7e2X9uu43O7J2EYqdVVSnHHH49TxMnNinbq6K9Z/1kMD9LCZhX7ysUQ==
+
 svelte-calendar@^3.1.6:
   version "3.1.6"
   resolved "https://registry.npmjs.org/svelte-calendar/-/svelte-calendar-3.1.6.tgz"
@@ -4246,7 +4289,7 @@ svelte-waypoint@^0.1.0:
   resolved "https://registry.npmjs.org/svelte-waypoint/-/svelte-waypoint-0.1.4.tgz"
   integrity sha512-UEqoXZjJeKj2sWlAIsBOFjxjMn+KP8aFCc/zjdmZi1cCOE59z6T2C+I6ZaAf8EmNQqNzfZVB/Lci4Ci9spzXAw==
 
-svelte@^3.2.0, svelte@^3.23.0, svelte@^3.24.0, svelte@^3.54.0, svelte@>=3.19.0, svelte@3.x:
+svelte@^3.2.0, svelte@^3.23.0, svelte@^3.24.0, svelte@^3.43.1, svelte@^3.54.0, svelte@>=3.19.0, svelte@3.x:
   version "3.58.0"
   resolved "https://registry.npmjs.org/svelte/-/svelte-3.58.0.tgz"
   integrity sha512-brIBNNB76mXFmU/Kerm4wFnkskBbluBDCjx/8TcpYRb298Yh2dztS2kQ6bhtjMcvUhd5ynClfwpz5h2gnzdQ1A==
@@ -4311,7 +4354,7 @@ tailwind-editor@^0.2.2:
   resolved "https://registry.npmjs.org/tailwind-editor/-/tailwind-editor-0.2.2.tgz"
   integrity sha512-t+LHpMQ6ZHVxfXuLb94gHmU6u80+8yyFvJK+K4aQMAhvqNRukl+wfPJstIQpbpmxt/ihYntULifJWsV4ir0phg==
 
-tailwindcss@^3.2.4:
+tailwindcss@^3.1.6, tailwindcss@^3.2.4:
   version "3.3.1"
   resolved "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.3.1.tgz"
   integrity sha512-Vkiouc41d4CEq0ujXl6oiGFQ7bA3WEhUZdTgXAhtKxSy49OmKs8rEfQmupsfF0IGW8fv2iQkp1EVUuapCFrZ9g==
@@ -4495,10 +4538,20 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@*, "typescript@^3.9.5 || ^4.0.0", typescript@^4.9.5, "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta":
+typescript@*, "typescript@^3.9.5 || ^4.0.0":
   version "4.9.5"
   resolved "https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz"
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
+
+typescript@^5.0.0-beta:
+  version "5.0.0-beta"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-5.0.0-beta.tgz"
+  integrity sha512-+SSabbSXG5mtF+QGdV9uXXt9Saq1cSyI6hSG7znhaLoquleJpnmfkwSxFngK9c2fWWi1W/263TuzXQOsIcdjjA==
+
+"typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta":
+  version "5.0.4"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-5.0.4.tgz"
+  integrity sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.6"

@@ -8,6 +8,9 @@ const config = {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 
+	vitePlugin: {
+		prebundleSvelteLibraries: false
+	},
 	kit: {
 		adapter: adapter()
 	}
