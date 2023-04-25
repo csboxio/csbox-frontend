@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { applyAction, deserialize } from '$app/forms';
 	import { goto, invalidateAll } from '$app/navigation';
-	import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 	import { supabaseClient } from '$lib/utilities/supabaseClient';
-	import { blur } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import { Datepicker } from 'svelte-calendar';
+	import { dragMe } from '$lib/utilities/dragMe.ts'
+
 	import {
 		Button,
 		Table,
@@ -19,78 +19,48 @@
 
 	import dayjs from 'dayjs';
 	import { page } from "$app/stores";
-	import { Modal } from "flowbite";
+	import { theme } from "$lib/dates/theme.js";
 
-	const theme = {
-		calendar: {
-			width: '400px',
-			maxWidth: '75vw',
-			legend: {
-				height: '45px'
-			},
-			shadow: '0px 10px 26px rgba(0, 0, 0, 0.1)',
-			colors: {
-				text: {
-					primary: '#eee',
-					highlight: '#fff'
-				},
-				background: {
-					primary: 'rgb(28,35,45)',
-					highlight: '#435bad',
-					hover: '#242f49'
-				},
-				border: '#222'
-			},
-			font: {
-				regular: '1em',
-				large: '15em'
-			},
-			grid: {
-				disabledOpacity: '.5',
-				outsiderOpacity: '.7'
-			}
-		}
-	};
-
-	// Export due dates for pager.server.js
-
-	let storeDueDate;
-	let storeAvailableDate;
-	let storeAvailableUntilDate;
-
+	export let data;
+	export let show_create_box;
 	export let dueDate;
 	export let availablefromDate;
 	export let availableuntilDate;
 
+	// Page Data
+	$: assignments = data.assignmentData;
+	let course_data = data.courseData;
+	let modules = data.modules;
+
+	// Outside click div.
 	let model;
-	export let data;
-	export let show_create_box;
+
 	let loading;
 	let assignments;
-	$: assignments = data.assignmentData;
+	let open = false;
+	let delete_assignment;
+	let delete_assignment_id;
 
+	// TODO Dates
+	let storeDueDate;
+	let storeAvailableDate;
+	let storeAvailableUntilDate;
+
+	// For search box on assignments
 	let searchTerm = '';
 	$: filteredItems = assignments.filter(
 		(assignments) => assignments.assignment_title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
 	);
 
-	let delete_assignment;
-	let delete_assignment_id;
-
-
-	let modules = data.modules;
-
+	// Draggable box
 	function show_box() {
 		show_create_box = true;
 	}
 
+	// Draggable box
 	function close_box() {
 		show_create_box = false;
 	}
-
-	let course_data = data.courseData;
-
-	let open = false;
 
 	async function handleSubmit(event) {
 		if (browser) {
@@ -128,7 +98,6 @@
 	$: hoverID;
 
 	function delete_model_open(id) {
-		console.log("delete")
 		delete_assignment_id = id;
 		delete_assignment = true;
 	}
@@ -138,7 +107,6 @@
 	}
 
 	async function handleDeleteAssignment(aid) {
-		console.log('clicked', aid);
 		const { error, status } = await supabaseClient.from('assignments').delete().match({ id: aid });
 		if (status === 204) {
 			delete_model_close();
@@ -154,40 +122,11 @@
 		goto('/d/courses/' + data.slug + '/assignments/' + id);
 	}
 
+	// For drag me
 	let left = 600;
 	let top = 200;
 
-	function dragMe(node) {
-		let moving = false;
 
-		if (browser) {
-			// Window scrolling Y changing saves state when close and open.
-			top = top + window.scrollY;
-			node.style.position = 'absolute';
-			node.style.top = `${top}px`;
-			node.style.left = `${left}px`;
-			node.style.cursor = 'move';
-			node.style.userSelect = 'none';
-
-			node.addEventListener('mousedown', () => {
-				moving = true;
-			});
-
-			window.addEventListener('mousemove', (e) => {
-				if (moving) {
-					// devicePixelRatio fixes zoomed in browser movement.
-					left += e.movementX;
-					top += e.movementY;
-					node.style.top = `${top}px`;
-					node.style.left = `${left}px`;
-				}
-			});
-
-			window.addEventListener('mouseup', () => {
-				moving = false;
-			});
-		}
-	}
 </script>
 
 
@@ -199,12 +138,14 @@
 
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">Assignments</h4>
 			<button
-				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-				on:click={show_box}
-			>
+				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+				on:click={show_box}>
 				<span
-					class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0"
-				>
+					class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
 					Create
 				</span>
 			</button>
@@ -230,10 +171,12 @@
 							<TableBodyCell>{due.substring(0, 10)}</TableBodyCell>
 							<TableBodyCell>{points}</TableBodyCell>
 							<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
-								<a on:click|stopPropagation={() => goto($page.url.pathname + "/" + id + "/edit")} class="font-medium text-blue-600 hover:underline dark:text-blue-500 px-1">
+								<a on:click|stopPropagation={() => goto($page.url.pathname + "/" + id + "/edit")} class="font-medium
+								text-blue-600 hover:underline dark:text-blue-500 px-1">
 									Edit
 								</a>
-								<a on:click|stopPropagation={() => delete_model_open(id)} class="font-medium text-blue-600 hover:underline dark:text-red-500">
+								<a on:click|stopPropagation={() => delete_model_open(id)} class="font-medium text-blue-600
+								hover:underline dark:text-red-500">
 									Delete
 								</a>
 							</TableBodyCell>
@@ -246,7 +189,8 @@
 				<!--No courses found-->
 				{#if assignments?.length === 0}
 					<div
-						class="flex p-4 mb-6 mt-4 ml-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
+						class="flex p-4 mb-6 mt-4 ml-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50
+						dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
 						role="alert"
 					>
 						<svg
@@ -258,7 +202,8 @@
 						>
 							<path
 								fill-rule="evenodd"
-								d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+								d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1
+								 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
 								clip-rule="evenodd"
 							/>
 						</svg>
@@ -288,7 +233,8 @@
 					<button
 						type="button"
 						on:click={close_box}
-						class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+						class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto
+						 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
 						data-modal-toggle="defaultModal"
 					>
 						<svg
@@ -300,7 +246,8 @@
 						>
 							<path
 								fill-rule="evenodd"
-								d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+								d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0
+								 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
 								clip-rule="evenodd"
 							/>
 						</svg>
@@ -318,7 +265,9 @@
 								type="text"
 								name="name"
 								id="name"
-								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600
+								 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+								  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								placeholder="Assignment Name"
 								required
 							/>
@@ -334,7 +283,9 @@
 								name="description"
 								id="description"
 								rows="4"
-								class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300
+								 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600
+								  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								placeholder="Summarize assignment description"
 								required></textarea>
 						</div>
@@ -349,7 +300,9 @@
 								name="points"
 								id="points"
 								value="0"
-								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600
+								 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+								  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								placeholder=""
 								required=""
 							/>
@@ -363,7 +316,9 @@
 							<select
 								name="category"
 								id="category"
-								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500
+								 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+								 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								required
 							>
 								<option selected="">Select category</option>
@@ -382,7 +337,9 @@
 							<select
 								name="displayas"
 								id="displayas"
-								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500
+								 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+								  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 							>
 								<option value="Points">Points</option>
 								<option value="Percentage">Percentage</option>
@@ -398,7 +355,9 @@
 							<select
 								name="submissiontype"
 								id="submissiontype"
-								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500
+								 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+								  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 							>
 								<option value="Points">Online</option>
 								<option value="Percentage">Physical</option>
@@ -414,7 +373,9 @@
 							<select
 								name="modules"
 								id="modules"
-								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500
+								focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+								 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 							>
 								<option value="">No module</option>
 								{#each modules as { module_title, id }, i}
@@ -433,7 +394,10 @@
 						<!--<div>
               <label for="assignto" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Assign To</label>
               <select name="assignto" id="assignto"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm w-full rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm w-full rounded-lg
+                       focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700
+                        dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500
+                         dark:focus:border-primary-500">
                 <option value="Everyone">Student</option>
                 <option value="Everyone">Everyone</option>
                 <option value="Empty">Empty</option>
@@ -456,19 +420,18 @@
 					</div>
 					<button
 						type="submit"
-						class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-					>
+						class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4
+						focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
+						dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
 						<svg
 							class="mr-1 -ml-1 w-6 h-6"
 							fill="currentColor"
 							viewBox="0 0 20 20"
-							xmlns="http://www.w3.org/2000/svg"
-						>
+							xmlns="http://www.w3.org/2000/svg">
 							<path
 								fill-rule="evenodd"
 								d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-								clip-rule="evenodd"
-							/>
+								clip-rule="evenodd" />
 						</svg>
 						Add new assignment
 					</button>
@@ -478,17 +441,24 @@
 	</div>
 {/if}
 
+<!-- Delete Assignment -->
 {#if delete_assignment}
 	<div class="fixed z-20 inset-x-0 max-w-max mx-auto">
 		<div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-			<!-- Modal content -->
-				<!-- Modal header -->
-
 					<div class="relative p-9 text-center bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5">
-						<button on:click={() => delete_assignment = false} type="button" class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white" data-modal-toggle="deleteModal">
-							<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+
+						<button on:click={() => delete_assignment = false} type="button" class="text-gray-400 absolute top-2.5
+						 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex
+						  items-center dark:hover:bg-gray-700 dark:hover:text-white" data-modal-toggle="deleteModal">
+							<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+									 xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414
+									  0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10
+									   11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd">
+							</path>
+							</svg>
 							<span class="sr-only">Close modal</span>
 						</button>
+
 						<svg class="text-gray-400 dark:text-gray-500 w-11 h-11 mb-3.5 mx-auto" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
 						<p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to delete this item?</p>
 						<div class="flex justify-center items-center space-x-4">
@@ -501,7 +471,5 @@
 						</div>
 					</div>
 				</div>
-				<!-- Modal body -->
-
 		</div>
-	{/if}
+{/if}
