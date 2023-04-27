@@ -29,6 +29,11 @@
         <p class="px-4">Grades</p>
       </div>
       </a>
+      <a href={route + "people"}>
+        <div class="space-y-8 py-4 hover:bg-gray-800 rounded-xl">
+          <p class="px-4">People</p>
+        </div>
+      </a>
       <a href={route + "settings"}>
       <div class="space-y-8 py-4 hover:bg-gray-800 rounded-xl">
         <p class="px-4">Settings</p>

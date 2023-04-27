@@ -9,26 +9,13 @@ export const load: PageServerLoadEvent = async (event) => {
     const {session, supabaseClient} = await getSupabase(event);
     const slug = event.params.slug
     if (session) {
-        const {data: courseData} = await supabaseClient.from('courses')
-            .select('course_image_url, course_title, course_prefix, course_number, course_term')
-            .eq('created_by', session.user.id)
-            .eq('id', event.params.slug)
-            .single();
-
         const {data: assignmentData} = await supabaseClient.from('assignments')
-            .select('id, inserted_at, assignment_title, category, description, due, points')
-            .eq('course_id', event.params.slug)
-
-        const {data: modules, error} = await supabaseClient.from('modules')
-          .select('module_title, id')
-          .eq('user_id', session.user.id)
+          .select('id, inserted_at, assignment_title, category, description, due, points')
           .eq('course_id', event.params.slug)
 
         return {
-            courseData,
             assignmentData,
             slug,
-            modules
         };
     }
 };

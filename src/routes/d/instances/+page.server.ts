@@ -15,7 +15,6 @@ export const load: PageServerLoadEvent = async (event) => {
       .select('id, assignment_id, inserted_at, type, assignments ( id, assignment_title )')
       .eq('user_id', session.user.id)
 
-    console.log(instanceData)
     return {
       assignmentData,
       instanceData
