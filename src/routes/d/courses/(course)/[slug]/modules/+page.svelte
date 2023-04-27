@@ -19,11 +19,11 @@
 	let add_item_name;
 	$: add_item_name;
 
-	let modules;
-	$: modules = $page.data.modules;
+	let assignmentPageData;
+	$: assignmentPageData = $page.data.assignmentPageData
 
 	let assignments;
-	$: assignments = $page.data.assignmentData;
+	$: assignmentData = $page.data.assignmentData
 
 	function create_module() {
 		close_add_item();
@@ -126,7 +126,8 @@
 				</span>
 			</button>
 			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold ">
-				{#each modules as { module_title, id }, i}
+
+				{#each assignmentPageData as { module_title, id, assignments }, i}
 					<div transition:blur|local={{ duration: 200 }} class="mb-6 mx-6 cursor-pointer">
 						<!--Module-->
 						<Accordion
@@ -302,7 +303,7 @@
 								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 								required
 							>
-								{#each modules as { module_title, id }, i}
+								{#each assignmentPageData as { module_title, id }, i}
 									<option value="{id}" selected={module_title === add_item_name}>{module_title}</option>
 								{/each}
 							</select>
@@ -313,9 +314,9 @@
 					<div>
 						<label for="id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an item</label>
 						<select multiple name="id" id="id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-							{#each assignments as { id, assignment_title, inserted_at}}
+								{#each assignmentData as {id, assignment_title, inserted_at}}
 								<option value="{id}">{assignment_title} | Created - {new Date(inserted_at).toDateString()}</option>
-							{/each}
+									{/each}
 						</select>
 					</div>
 					<button

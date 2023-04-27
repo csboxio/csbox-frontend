@@ -18,10 +18,8 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
-
 	let assignments = data.assignmentData;
 	let instances = data.instanceData;
-	console.log(assignments)
 
 	export let show_create_box;
 
@@ -158,7 +156,7 @@
 							<TableBodyRow  class="cursor-pointer">
 								<TableBodyCell>{assignments.assignment_title}</TableBodyCell>
 								<TableBodyCell>{type}</TableBodyCell>
-								<TableBodyCell>{inserted_at}</TableBodyCell>
+								<TableBodyCell>{inserted_at.substring(0,10)}</TableBodyCell>
 								<TableBodyCell>Running</TableBodyCell>
 								<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
 									<div>

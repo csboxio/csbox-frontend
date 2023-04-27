@@ -158,7 +158,6 @@
 		<div class=" my-6 rounded-lg">
 			<div
 				class="flex flex space-x-4 grow mr-4 rounded-lg"
-				transition:blur|local={{ duration: 200 }}
 			>
 				<div
 					class="flex-1 w-1/2 bg-white min-h-screen border-0 rounded-lg"
