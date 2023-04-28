@@ -4,7 +4,10 @@
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import { blur } from 'svelte/transition';
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from "$app/navigation";
+	import { dragMe } from '$lib/utilities/dragMe.ts'
+	import { deserialize } from "$app/forms";
+
 
 	// this is needed for the outside click div, that needs to be redone
 	let model;
@@ -17,6 +20,31 @@
 	let hoverID;
 	$: hoverID;
 	let open = false;
+	export let show_create_box;
+
+	// Draggable box
+	function show_box() {
+		show_create_box = true;
+	}
+
+	// Draggable box
+	function close_box() {
+		show_create_box = false;
+	}
+
+	async function handleSubmit(event) {
+		const data = new FormData(this);
+		const response = await fetch(this.action, {
+			method: 'POST',
+			body: data
+		});
+		const result = deserialize(await response.text());
+		if (result.type === 'success') {
+			// re-run all `load` functions, following the successful update
+			close_box();
+			await invalidateAll();
+		}
+	}
 </script>
 
 <body
@@ -31,6 +59,7 @@
 					<div class="flex flex-wrap items-center justify-between -mx-2">
 						<div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
 							<h4 class="text-2xl font-bold text-white tracking-wide leading-7 mb-1">Courses</h4>
+
 						</div>
 						<div class="w-full lg:w-auto px-2">
 							<div class="sm:flex items-center">
@@ -96,7 +125,21 @@
 				</div>
 			</section>
 			<section class="flex flex-col p-8">
+				<div>
+					<button
+						class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">
+				<span
+					class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0" on:click={show_box}>
+					Join Course
+				</span>
+					</button>
+				</div>
 				<div class="container m-6">
+
 					<div class="flex flex-wrap -mx-12 -mb-2">
 						<!--Each course-->
 						{#each course_data as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term }, i}
@@ -240,7 +283,9 @@
 							</div>
 						{/if}
 					</div>
+
 				</div>
+
 				<!--Create Course button at the bottom of the screen.-->
 				<a href="/d/courses/create">
 					<button
@@ -253,7 +298,75 @@
 						</span>
 					</button>
 				</a>
+
+
+
 			</section>
 		</div>
+		{#if show_create_box}
+			<!-- Main modal -->
+			<div use:dragMe class="z-1000 fixed top-1/2 left-1/2">
+				<div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+					<!-- Modal content -->
+					<div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5">
+						<!-- Modal header -->
+						<div
+							class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600"
+						>
+							<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Join Course</h3>
+							<button
+								type="button"
+								on:click={close_box}
+								class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+								data-modal-toggle="defaultModal"
+							>
+								<svg
+									aria-hidden="true"
+									class="w-5 h-5"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										fill-rule="evenodd"
+										d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+										clip-rule="evenodd"
+									/>
+								</svg>
+								<span class="sr-only">Close modal</span>
+							</button>
+						</div>
+						<!-- Modal body -->
+						<form method="POST" action="?/joinCourse" on:submit|preventDefault={handleSubmit}>
+							<div class="grid gap-4 mb-4 sm:grid-cols-2">
+
+								<div class="sm:col-span-2">
+								<div>
+									<label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+									>Enroll Code</label
+									>
+									<input
+										type="text"
+										name="code"
+										id="code"
+										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600
+								 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+								  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+										placeholder="Code"
+										required
+									/>
+								</div>
+								</div>
+								<div class="sm:col-span-2">
+									<button type="submit" class="px-3 py-2 text-sm font-medium text-center text-white
+									 bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+									  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		{/if}
 	</div>
 </body>
