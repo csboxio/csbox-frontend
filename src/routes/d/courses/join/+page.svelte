@@ -7,16 +7,20 @@
 	import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 	async function handleSubmit(event) {
-		console.log('sdf')
 		const data = new FormData(this);
 		const response = await fetch(this.action, {
 			method: 'POST',
 			body: data
 		});
 		const result = deserialize(await response.text());
-		if (result.type === 'success') {
+		console.log(result)
+		if (result.status === 200 && result?.data != undefined) {
 			// re-run all `load` functions, following the successful update
+			alert("Joined")
 			await invalidateAll();
+		}
+		else {
+			alert("Failed")
 		}
 	}
 </script>
@@ -37,7 +41,7 @@
 							id="code"
 							class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600
 								 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-100 dark:border-gray-500
-								  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								  dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
 							placeholder="Code"
 							required
 						/>

@@ -1,9 +1,14 @@
 <script lang="ts">
 	import { supabaseClient } from '$lib/utilities/supabaseClient';
 	import { invalidateAll } from '$app/navigation';
-	import { onMount } from 'svelte';
+	import { getContext, onMount, setContext } from "svelte";
 	import '../app.css';
+	import { courseStore } from "../lib/stores/stores.js";
+	import { page } from "$app/stores";
 
+
+	setContext($page.data.user, courseStore)
+	export let courses = getContext($page.data.user)
 
 	onMount(() => {
 		const {

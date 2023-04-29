@@ -36,7 +36,7 @@
 	let model;
 
 	let loading;
-	let assignments;
+	let assignments = data.assignmentData;
 	let open = false;
 	let delete_assignment;
 	let delete_assignment_id;
@@ -54,6 +54,7 @@
 
 	// Draggable box
 	function show_box() {
+		console.log('here')
 		show_create_box = true;
 	}
 
@@ -378,9 +379,11 @@
 								 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 							>
 								<option value="">No module</option>
+								{#if modules !== undefined}
 								{#each modules as { module_title, id }, i}
 								<option value="{id}">{module_title}</option>
 								{/each}
+								{/if}
 							</select>
 						</div>
 

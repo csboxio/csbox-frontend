@@ -96,6 +96,7 @@
 
 	onMount(async () => {
 		if (browser) {
+
 			await setupQuill();
 		}
 	});

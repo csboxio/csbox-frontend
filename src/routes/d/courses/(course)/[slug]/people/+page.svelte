@@ -33,6 +33,7 @@
 	}
 	async function handleGenerateCode() {
 		const { error, data, status } = await supabaseClient.rpc('new_enroll_code', {course_id: $page.data.slug, created_by: $page.data.session?.user.id})
+		console.log(error, data, status)
 		if (status === 200) {
 			code = data;
 		}
