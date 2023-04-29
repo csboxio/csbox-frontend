@@ -15,6 +15,8 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 	let course_data;
+
+	//TODO this is bad
 	$: course_data = $page.data.courses.courseData;
 
 	let hoverID;
@@ -126,6 +128,7 @@
 			</section>
 			<section class="flex flex-col p-8">
 				<div>
+					<a href="/d/courses/join">
 					<button
 						class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
@@ -133,10 +136,22 @@
 				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">
 				<span
 					class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0" on:click={show_box}>
-					Join Course
+					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+					Join
 				</span>
 					</button>
+					</a>
+					<a href="/d/courses/create">
+						<button
+							class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-300 to-blue-500 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+						>
+						<span
+							class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0"
+						>
+							Create
+						</span>
+						</button>
+					</a>
 				</div>
 				<div class="container m-6">
 
@@ -285,22 +300,6 @@
 					</div>
 
 				</div>
-
-				<!--Create Course button at the bottom of the screen.-->
-				<a href="/d/courses/create">
-					<button
-						class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-300 to-blue-500 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-					>
-						<span
-							class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0"
-						>
-							Create Course
-						</span>
-					</button>
-				</a>
-
-
-
 			</section>
 		</div>
 		{#if show_create_box}
@@ -335,6 +334,8 @@
 								</svg>
 								<span class="sr-only">Close modal</span>
 							</button>
+
+							f
 						</div>
 						<!-- Modal body -->
 						<form method="POST" action="?/joinCourse" on:submit|preventDefault={handleSubmit}>
