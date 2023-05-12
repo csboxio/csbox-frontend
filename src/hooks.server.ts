@@ -15,7 +15,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
   }
 
-  if (event.url.pathname.startsWith('/dashboard')) {
+  if (event.url.pathname.startsWith('/d')) {
     const { session } = await getSupabase(event)
     if (!session) {
       throw redirect(303, '/');

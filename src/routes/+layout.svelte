@@ -8,7 +8,6 @@
 
 
 	setContext($page.data.user, courseStore)
-	export let courses = getContext($page.data.user)
 
 	onMount(() => {
 		const {

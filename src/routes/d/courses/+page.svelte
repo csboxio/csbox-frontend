@@ -67,7 +67,7 @@
 								<div class="flex flex-wrap items-center -mb-2">
 									<a
 										class="inline-flex items-center justify-center w-12 h-12 mb-2 mr-4 p-1 text-gray-300 bg-gray-500 hover:bg-gray-400 hover:bg-opacity-40 transition|local duration-150 rounded-full"
-										href="#"
+										href="{'#'}"
 									>
 										<svg
 											fill="none"
@@ -84,7 +84,7 @@
 									</a>
 									<a
 										class="inline-flex items-center justify-center w-12 h-12 mb-2 mr-4 p-1 text-gray-300 bg-gray-500 hover:bg-gray-400 hover:bg-opacity-40 transition|local duration-150 rounded-full"
-										href="#"
+										href="{'#'}"
 									>
 										<svg
 											fill="none"
@@ -101,7 +101,7 @@
 									</a>
 									<a
 										class="inline-flex items-center justify-center w-12 h-12 mb-2 p-1 text-gray-300 bg-gray-500 hover:bg-gray-400 hover:bg-opacity-40 transition|local duration-150 rounded-full"
-										href="#"
+										href="{'#'}"
 									>
 										<svg
 											fill="none"
@@ -161,8 +161,7 @@
 								<div class="relative group">
 									<a on:click={() => goto(`/d/courses/${id}`)}>
 										<div
-											class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200"
-										/>
+											class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200"></div>
 										<div>
 											<div
 												class="relative p-6 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500"
@@ -170,6 +169,7 @@
 												<img
 													src={course_image_url + '?t=' + inserted_at}
 													class="relative inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl bg-gray-600"
+													alt=""
 												/>
 												<a
 													on:click|stopPropagation={() => {
@@ -239,14 +239,12 @@
 										</div>
 										<div
 											class="p-2 truncate font-bold hover:underline hover:bg-gray-700 hover:text-red-400 cursor-pointer"
-											on:click={handleDeleteAssignment(id)}
 										>
 											Delete
 										</div>
 									</div>
 									<div
 										class="inline-block absolute top-0 right-0 m-2 text-gray-300 hover:text-gray-100 hover:scale-110 cursor-pointer"
-										href="#"
 										on:click|stopPropagation={() => {
 												open = false;
 											}}
