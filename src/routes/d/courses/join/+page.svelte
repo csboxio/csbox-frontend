@@ -14,7 +14,7 @@
 		});
 		const result = deserialize(await response.text());
 		console.log(result)
-		if (result.status === 200 && result?.data != undefined) {
+		if (result.status === 200 && result?.data == 'Enrollment successful') {
 			// re-run all `load` functions, following the successful update
 			alert("Joined")
 			await invalidateAll();

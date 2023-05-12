@@ -26,6 +26,9 @@ export const actions: Actions = {
       if (status === 200) {
         return data;
       }
+      else {
+        console.log(error, data)
+      }
     }
   }
 }

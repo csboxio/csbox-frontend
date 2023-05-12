@@ -6,6 +6,7 @@
 	import { dragMe } from '$lib/utilities/dragMe.ts'
 
 	let course_data = data.courseData;
+	let enrollment_data = data.enrollmentData
 	import {
 		Button,
 		Table,
@@ -21,6 +22,8 @@
 	let searchTerm = '';
 	let code = '';
 	$: code;
+
+
 
 	export let show_create_box;
 
@@ -72,11 +75,12 @@
 								</TableHeadCell>
 							</TableHead>
 							<TableBody class="divide-y">
+								{#each enrollment_data as {user_id, enrolled, enrollment_date }}
 
-									<TableBodyRow  class="cursor-pointer">
-										<TableBodyCell>Name</TableBodyCell>
-										<TableBodyCell>True</TableBodyCell>
-										<TableBodyCell>Date</TableBodyCell>
+								<TableBodyRow  class="cursor-pointer">
+										<TableBodyCell>{user_id}</TableBodyCell>
+										<TableBodyCell>{enrolled}</TableBodyCell>
+										<TableBodyCell>{enrollment_date}</TableBodyCell>
 										<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
 											<a class="font-medium
 								text-blue-600 hover:underline dark:text-blue-500 px-1">
@@ -88,7 +92,7 @@
 											</a>
 										</TableBodyCell>
 									</TableBodyRow>
-
+									{/each}
 							</TableBody>
 						</Table>
 					</TableSearch>
