@@ -6,6 +6,8 @@
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
+	let code_invalid = false;
+
 	async function handleSubmit(event) {
 		const data = new FormData(this);
 		const response = await fetch(this.action, {
@@ -16,11 +18,15 @@
 		console.log(result)
 		if (result.status === 200 && result?.data == 'Enrollment successful') {
 			// re-run all `load` functions, following the successful update
-			alert("Joined")
+			goto("/d/courses")
+			await invalidateAll();
+		}
+		else if (result == 'Already Enrolled') {
+			goto("/d/courses")
 			await invalidateAll();
 		}
 		else {
-			alert("Failed")
+			code_invalid = true;
 		}
 	}
 </script>
@@ -34,7 +40,8 @@
 		<div class="max-w-md mx-auto bg-gray-500 rounded-lg overflow-hidden shadow-md">
 			<div class="px-6 py-4">
 				<h2 class="text-2xl font-bold mb-2 text-white p-2">Join Course</h2>
-					<div class="mb-4 p-2">
+
+					<div class="mb-8 p-2">
 						<input
 							type="text"
 							name="code"
@@ -45,7 +52,18 @@
 							placeholder="Code"
 							required
 						/>
+
 					</div>
+				{#if code_invalid}
+				<div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+					<svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+					<span class="sr-only">Info</span>
+					<div>
+						<span class="font-medium">Failed!</span> Code invalid.
+					</div>
+				</div>
+				{/if}
+
 					<div class="flex items-center justify-between p-2">
 						<button class="bg-gray-600 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" on:click={() => history.back()}>
 							Cancel
@@ -56,6 +74,7 @@
 					</div>
 			</div>
 		</div>
+
 	</form>
 </div>
 </body>

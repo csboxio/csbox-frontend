@@ -15,7 +15,6 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 	let course_data = $page.data.courses.courseData;
-	console.log(course_data)
 
 	let hoverID;
 	$: hoverID;

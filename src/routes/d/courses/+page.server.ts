@@ -23,7 +23,6 @@ export const actions: Actions = {
     user = data.user
 
     const code = formData.get('code')
-
     if (user != null) {
       const { error, data, status } = await supabaseClient.rpc('enroll_user',
         {user_id: user.id, enroll_code: code})

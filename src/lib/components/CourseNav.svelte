@@ -4,7 +4,7 @@
   let route = '/d/courses/' + $page.params.slug + '/'
 </script>
 
-<section class="fixed inset-y-0 z-1 flex-shrink-0 mr-5 bg-gray-600 border-r dark:border-primary-darker dark:bg-darker lg:static focus:outline-none">
+<section class="sticky inset-y-0 z-1 flex-shrink-0 mr-5 bg-gray-600 border-r dark:border-primary-darker dark:bg-darker lg:static focus:outline-none">
   <div class="flex flex-col h-screen">
     <!-- Panel content -->
     <div class="flex-1 p-1 py-7 overflow-y-hidden font-semibold text-white ">

@@ -9,26 +9,14 @@ export const actions: Actions = {
     const {supabaseClient} = await getSupabase(event)
     const formData = await request.formData()
 
-    const {data} = await event.locals.sb.auth.refreshSession()
-    let user;
-    if (data == null) {
-      const {data} = await supabaseClient.auth.refreshSession()
-      user = data.user
-    }
 
-    user = data.user
-
+    const {data} = await supabaseClient.auth.refreshSession()
+    const user = data.user
     const code = formData.get('code')
     if (user != null) {
       const { error, data, status } = await supabaseClient.rpc('enroll_user',
         {_user_id: user.id, code: code})
-      console.log(error, data, status)
-      if (status === 200) {
-        return data;
-      }
-      else {
-        console.log(error, data)
-      }
+      return data;
     }
   }
 }

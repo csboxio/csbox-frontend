@@ -4,15 +4,9 @@
 	import Settings from '$lib/components/Settings.svelte';
 	import Navbar from '$lib/components/Navbar.svelte';
 
-	let session = $page.data.session;
-	let email = $page.data.session?.user.email;
 	let user = $page.data.user;
 	let updated;
 
-	/** @type {import("./$types").PageLoadEvent} */
-	export let data;
-	let first_name = user?.first_name;
-	let last_name = user?.last_name;
 	let avatarUrl;
 	updated = $page.data.user.updated_at;
 	avatarUrl = user.avatar_url + '?t=' + updated;

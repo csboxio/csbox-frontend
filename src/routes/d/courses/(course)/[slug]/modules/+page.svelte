@@ -97,7 +97,6 @@
 		});
 
 		const result = deserialize(await response.text());
-		console.log(response)
 
 		if (result.type === 'success') {
 			// re-run all `load` functions, following the successful update

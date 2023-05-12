@@ -54,7 +54,6 @@
 
 	// Draggable box
 	function show_box() {
-		console.log('here')
 		show_create_box = true;
 	}
 
