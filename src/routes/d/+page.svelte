@@ -14,6 +14,7 @@
 	let model;
 </script>
 
+
 <body
 	class=" bg-gray-600 antialiased bg-body text-body font-body"
 	on:click|stopPropagation={() => model.handleToggleMenuTopRight('outside')}

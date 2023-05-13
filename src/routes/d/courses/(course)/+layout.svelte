@@ -19,7 +19,7 @@
 </script>
 
 <body
-	class="bg-gray-600 antialiased bg-body text-body font-body"
+	class="bg-gray-600 antialiased bg-body text-body font-body overscroll-none"
 	on:click|stopPropagation={() => model.handleToggleMenuTopRight('outside')}
 >
 	<div class={show_create_box ? '' : 'filter blur-[1px]'}>
@@ -96,9 +96,14 @@
 					</div>
 				</div>
 			</section>
-			<div class="flex flex-row">
-				<CourseNav />
-				<slot />
+			<div class="flex flex-row ">
+				<aside class="h-screen sticky top-0">
+					<CourseNav />
+				</aside>
+
+
+					<slot />
+
 			</div>
 		</div>
 	</div>

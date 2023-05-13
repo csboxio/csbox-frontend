@@ -15,7 +15,6 @@ export const load: PageServerLoadEvent = async (event) => {
           .select('user_id,  course_id, enrolled, enrollment_date, users ( first_name, last_name )')
           .eq('course_id', event.params.slug)
 
-        console.log(error, enrollmentData)
         return {
             courseData,
             enrollmentData
