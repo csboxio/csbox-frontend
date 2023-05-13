@@ -239,7 +239,7 @@
 										<div
 											class="p-2 truncate font-bold hover:underline hover:bg-gray-700 hover:text-red-400 cursor-pointer"
 										>
-											Delete
+											Hide
 										</div>
 									</div>
 									<div

@@ -75,12 +75,12 @@
 								</TableHeadCell>
 							</TableHead>
 							<TableBody class="divide-y">
-								{#each enrollment_data as {user_id, enrolled, enrollment_date }}
+								{#each enrollment_data as {user_id, enrolled, enrollment_date, users }}
 
 								<TableBodyRow  class="cursor-pointer">
-										<TableBodyCell>{user_id}</TableBodyCell>
+										<TableBodyCell>{users.first_name} {users.last_name}</TableBodyCell>
 										<TableBodyCell>{enrolled}</TableBodyCell>
-										<TableBodyCell>{enrollment_date}</TableBodyCell>
+										<TableBodyCell>{enrollment_date.substring(0, 10)}</TableBodyCell>
 										<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
 											<a class="font-medium
 								text-blue-600 hover:underline dark:text-blue-500 px-1">
@@ -88,7 +88,7 @@
 											</a>
 											<a class="font-medium text-blue-600
 								hover:underline dark:text-red-500">
-												Delete
+												Remove
 											</a>
 										</TableBodyCell>
 									</TableBodyRow>
