@@ -6,10 +6,6 @@ export const prerender = false;
 export const load: PageServerLoadEvent = async (event) => {
     const {session, supabaseClient} = await getSupabase(event);
     if (session) {
-
-
-        //console.log(assignmentData, assignementError)
-
         const {data: assignmentPageData } = await supabaseClient.from('modules')
           .select('module_title, id, ' +
             'assignments ( id, inserted_at, assignment_title, category, description, in_module )')
@@ -51,7 +47,6 @@ export const actions: Actions = {
                 module_title: name
             }
             const {error} = await event.locals.sb.from('modules').upsert(updates)
-            console.log(error)
         }
     },
 
@@ -81,7 +76,6 @@ export const actions: Actions = {
               .eq('user_id', user.id)
               .eq('course_id', course_id)
               .eq('id', id)
-            console.log(error)
         }
     }
 }

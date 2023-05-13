@@ -1,5 +1,6 @@
 import type {Actions, PageServerLoadEvent} from "./$types";
 import {getSupabase} from '@supabase/auth-helpers-sveltekit'
+import { invalidateAll } from "$app/navigation";
 
 
 export const prerender = false;
@@ -29,10 +30,10 @@ export const actions: Actions = {
 
         const {data} = await event.locals.sb.auth.refreshSession()
         let user;
-        console.log(data)
-        if (data == null) {
-            const {data} = await supabaseClient.auth.refreshSession()
-            user = data.user
+        //console.log(data)
+        if (data.user == null) {
+            //const {data} = await supabaseClient.auth.refreshSession()
+            //user = data.user
         }
 
         user = data.user

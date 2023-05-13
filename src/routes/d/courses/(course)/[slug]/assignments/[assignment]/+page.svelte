@@ -53,7 +53,6 @@
 	$: hoverID;
 
 	async function handleDeleteAssignment(cid) {
-		console.log('clicked', cid);
 		open = false;
 		const { error, status } = await supabaseClient.from('assignments').delete().match({ id: cid });
 		if (status === 204) {

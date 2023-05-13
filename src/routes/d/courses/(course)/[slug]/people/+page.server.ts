@@ -10,9 +10,14 @@ export const load: PageServerLoadEvent = async (event) => {
             .select('course_image_url, course_title, course_prefix, course_number, course_term')
             .eq('created_by', session.user.id)
             .eq('id', event.params.slug)
-            .single();
+
+        const {data: enrollmentData, error} = await supabaseClient.from('enrollment')
+          .select('user_id,  course_id, enrolled, enrollment_date, users ( first_name, last_name )')
+          .eq('course_id', event.params.slug)
+
         return {
-            courseData
+            courseData,
+            enrollmentData
         };
     }
 };

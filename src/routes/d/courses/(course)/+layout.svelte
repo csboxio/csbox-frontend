@@ -6,18 +6,20 @@
 	import show_create_box from './[slug]/assignments/+page.svelte';
 
 	import '$lib/quilljs.css';
-	import { invalidateAll } from '$app/navigation';
+	import {goto, invalidateAll} from '$app/navigation';
 	import { getContext, onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { browser } from '$app/environment';
+	import {redirect} from "@sveltejs/kit";
 	let model;
 	let error = false;
 	let course_data = $page.data.courses.courseData;
+
 	let course = course_data.filter((course) => course.id === parseInt($page.data.slug))[0];
 </script>
 
 <body
-	class="bg-gray-600 antialiased bg-body text-body font-body"
+	class="bg-gray-600 antialiased bg-body text-body font-body overscroll-none"
 	on:click|stopPropagation={() => model.handleToggleMenuTopRight('outside')}
 >
 	<div class={show_create_box ? '' : 'filter blur-[1px]'}>
@@ -94,9 +96,14 @@
 					</div>
 				</div>
 			</section>
-			<div class="flex flex-row">
-				<CourseNav />
-				<slot />
+			<div class="flex flex-row ">
+				<aside class="h-screen sticky top-0">
+					<CourseNav />
+				</aside>
+
+
+					<slot />
+
 			</div>
 		</div>
 	</div>
