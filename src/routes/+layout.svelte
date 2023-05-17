@@ -1,10 +1,8 @@
 <script lang="ts">
 	import { supabaseClient } from '$lib/utilities/supabaseClient';
-	import { invalidateAll } from '$app/navigation';
-	import { getContext, onMount, setContext } from "svelte";
+	import { goto, invalidateAll } from "$app/navigation";
+	import { onMount } from "svelte";
 	import '../app.css';
-	import { courseStore } from "../lib/stores/stores.js";
-	import { page } from "$app/stores";
 
 
 	onMount(() => {
@@ -12,11 +10,32 @@
 			data: { subscription }
 		} = supabaseClient.auth.onAuthStateChange(() => {
 			invalidateAll();
+			goto("/login");
 		});
 		return () => {
 			subscription.unsubscribe();
 		};
+
+		const channel = supabaseClient
+			.channel('schema-db-changes')
+			.on(
+				'postgres_changes',
+				{
+					event: 'UPDATE',
+					schema: 'public',
+					table: 'enrollment'
+				},
+				(payload) => console.log(payload)
+			)
+			.subscribe()
+
+		channel;
+
+
 	});
+	console.log("ger")
+
+	//filter: `course_id=(SELECT id FROM courses WHERE created_by=eq.${$page.data.session?.user.id})`
 </script>
 <svelte:head>
 	<meta charset="utf-8" />

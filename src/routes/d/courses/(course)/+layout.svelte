@@ -19,7 +19,7 @@
 </script>
 
 <body
-	class="bg-gray-600 antialiased bg-body text-body font-body overscroll-none"
+	class="bg-gray-600 antialiased bg-body text-body font-body"
 	on:click|stopPropagation={() => model.handleToggleMenuTopRight('outside')}
 >
 	<div class={show_create_box ? '' : 'filter blur-[1px]'}>

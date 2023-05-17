@@ -48,8 +48,9 @@
 			body: data
 		});
 		const result = deserialize(await response.text());
+		invalidateAll();
 		if (result?.data.data === "Enrollment successful") {
-			await invalidate("/d/courses");
+			invalidateAll();
 			defaultModel = false;
 		}
 		if (result?.data.error !== null) {
@@ -208,6 +209,7 @@
 
 				<div class="flex flex-wrap -mx-12 -mb-2">
 					<!--Each course-->
+					{#key course_data}
 					{#each course_data as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term }, i}
 						<div class="relative mb-8 mx-4 cursor-pointer">
 							<div class=" min-w-xs max-w-xs">
@@ -320,6 +322,7 @@
 							</div>
 						{/if}
 					{/each}
+					{/key}
 
 					<!--No courses found-->
 					{#if course_data.length === 0}
