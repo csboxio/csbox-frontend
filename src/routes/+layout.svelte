@@ -33,7 +33,6 @@
 
 
 	});
-	console.log("ger")
 
 	//filter: `course_id=(SELECT id FROM courses WHERE created_by=eq.${$page.data.session?.user.id})`
 </script>

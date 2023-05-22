@@ -73,6 +73,20 @@
 		}
 	}
 
+	async function handleAcceptUser(pid) {
+		const { error, data, status } = await supabaseClient.rpc('accept_into_course',
+			{_sender_id: $page.data.session?.user.id, _user_id: pid, _course_id: $page.params.slug})
+		console.log(error, data, status)
+		if (status === 200) {
+			console.log(error, data, status)
+			await invalidateAll();
+		}
+		if (status === 400) {
+			console.log(error, data, status)
+			await invalidateAll();
+		}
+	}
+
 
 </script>
 
@@ -113,7 +127,22 @@
 
 								<TableBodyRow  class="cursor-pointer">
 										<TableBodyCell>{users.first_name} {users.last_name}</TableBodyCell>
-										<TableBodyCell>{enrolled}</TableBodyCell>
+										<TableBodyCell>
+											{#if !enrolled}
+												<button on:click={() => handleAcceptUser(user_id)} class="{enrolled ? 'hidden' : 'block'}relative inline-flex items-center justify-center p-0.5 mb-1
+										 	mr-1 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400
+										 	to-green-600  hover:text-white dark:text-white
+											focus:ring-4 focus:outline-none ">
+											<span
+												class="relative px-3 py-2.5 transition-all|local ease-in duration-75 bg-white
+											dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+											Accept
+											</span>
+												</button>
+												{:else }
+												TRUE
+											{/if}
+										</TableBodyCell>
 										<TableBodyCell>{enrollment_date.substring(0, 10)}</TableBodyCell>
 										<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
 											<a class="font-medium
