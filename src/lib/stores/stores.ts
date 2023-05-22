@@ -10,4 +10,5 @@ export const courseStore = writable();
 export const courseImageStore = writable();
 export const courseDocument = writable();
 
+export const notificationStore = writable();
 

@@ -2,12 +2,15 @@
   import { supabaseClient } from "$lib/utilities/supabaseClient";
   import { goto } from "$app/navigation";
   import {page} from "$app/stores";
+  import { get, readable } from "svelte/store";
 
   export const ssr = true;
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
   }
+
+
 
   let email;
   let avatarUrl;
@@ -32,6 +35,10 @@
     }
     await goto('/login')
   }
+
+  /** @type {import('./$types').LayoutData} */
+  export let notifications;
+  console.log(notifications)
 </script>
 
 <div class="w-full sm:w-auto">
@@ -48,6 +55,12 @@
       </button>
 
       {#if showTopRightMenuModel}
+        {$notifications}
+        {#if $notifications}
+          {#each $notifications as {id, content, title}}
+            {id} {content} {title}
+          {/each}
+        {/if}
         <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-gray-500 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
           <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
             <div class="truncate font-bold">{email}</div>
