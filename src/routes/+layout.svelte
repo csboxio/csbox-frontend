@@ -25,18 +25,18 @@
 
 		const notificationsStored = notificationStore.subscribe(value => {
 			store_notification = value;
-			console.log(store_notification)
 		});
 
 		// Get the courses that the user created.
 		supabaseClient
 			.from('courses')
-			.select('id')
+			.select('id, course_title')
 			.eq('created_by', $page.data.session?.user.id)
-			.then(({ data: courseIDs }) => {
-				const courseIDsList = courseIDs.map(course => course.id);
-				console.log(courseIDsList)
+			.then(({ data: courses }) => {
+				const courseIDsList = courses.map(course => course.id);
+				const courseMap = new Map(courses.map(course => [course.id, course.course_title]));
 
+				console.log(courses)
 				// Get the notifications table
 				notifications =
 					supabaseClient
@@ -44,24 +44,30 @@
 						.select('*')
 						.then(({error, data}) => notificationStore.set(data))
 
-				// Add the subscription to the supabase client
+				// If the course id has something in it.
 				if (courseIDsList) {
+					// Add the subscription to the supabase client
 					const channel = supabaseClient
 						.channel('schema-db-changes')
 						.on(
 							'postgres_changes',
 							{
-								event: '*',
+								event: 'INSERT',
 								schema: 'public',
 								table: 'enrollment',
 								// Filter only the courses that the user created.
 								filter: `course_id=in.(${courseIDsList})`
 							},
 							(payload) => {
-								// Update the notification store with the new information.
-								notificationStore.update(notifications => [...notifications, payload.new])
-								console.log(payload.new)
-								console.log(notificationStore)
+								const courseTitle = courseMap.get(payload.new.course_id);
+								if (courseTitle) {
+									// Update the notification store with the new information.
+									const newNotification = { ...payload.new, course_title: courseTitle, message: "New student has enrolled." };
+
+									notificationStore.update(notifications => [...notifications, newNotification])
+									console.log(payload.new)
+									console.log(newNotification)
+								}
 							}
 						)
 						.subscribe()
@@ -91,6 +97,6 @@
 <slot />
 {#if store_notification}
 	{#each store_notification as notification}
-	<Notification title="{notification.course_id}" content="{notification.enrolled}"/>
+	<Notification title="{notification.course_title}" content="{notification.message}"/>
 	{/each}
 {/if}
