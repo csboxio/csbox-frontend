@@ -17,9 +17,12 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
+	export const ssr = false;
+
 	let course_data;
 	$: course_data = $page.data.courses.courseData;
 
+	console.log(course_data)
 	let hoverID;
 	$: hoverID;
 	let open = false;

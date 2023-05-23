@@ -39,11 +39,11 @@
 
 				console.log(courses)
 				// Get the notifications table
-				/*notifications =
+				notifications =
 					supabaseClient
 						.from('notifications')
 						.select('*')
-						.then(({error, data}) => notificationStore.set(data))*/
+						.then(({error, data}) => notificationStore.set(data))
 
 				// If the course id has something in it.
 				if (courseIDsList) {

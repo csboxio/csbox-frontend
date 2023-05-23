@@ -15,6 +15,7 @@ export const load: LayoutServerLoad = async (event) => {
     if (session) {
             const {data: courseData, error} = await supabaseClient.from('courses')
               .select('id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term');
+
         return {
             courses: {
                 courseData: courseData
