@@ -28,6 +28,7 @@ export const actions: Actions = {
                 course_term: term,
             }
             const {error} = await supabaseClient.from('courses').insert(updates)
+            console.log(error)
             if (!error) {
                 return {success: true, course_id: updates.id};
             }

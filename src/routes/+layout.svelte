@@ -28,6 +28,7 @@
 		});
 
 		// Get the courses that the user created.
+		// TODO Optimization this runs on each page.
 		supabaseClient
 			.from('courses')
 			.select('id, course_title')
@@ -38,11 +39,11 @@
 
 				console.log(courses)
 				// Get the notifications table
-				notifications =
+				/*notifications =
 					supabaseClient
 						.from('notifications')
 						.select('*')
-						.then(({error, data}) => notificationStore.set(data))
+						.then(({error, data}) => notificationStore.set(data))*/
 
 				// If the course id has something in it.
 				if (courseIDsList) {
