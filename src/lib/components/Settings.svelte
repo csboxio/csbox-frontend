@@ -2,12 +2,15 @@
   import { supabaseClient } from "$lib/utilities/supabaseClient";
   import { goto } from "$app/navigation";
   import {page} from "$app/stores";
+  import { get, readable } from "svelte/store";
 
   export const ssr = true;
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
   }
+
+
 
   let email;
   let avatarUrl;
@@ -32,6 +35,7 @@
     }
     await goto('/login')
   }
+
 </script>
 
 <div class="w-full sm:w-auto">
