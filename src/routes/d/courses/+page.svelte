@@ -9,6 +9,7 @@
 	import { deserialize } from "$app/forms";
 
 	import { Button, Modal } from 'flowbite-svelte'
+	import { supabaseClient } from "../../../lib/utilities/supabaseClient.js";
 	let defaultModel = false;
 
 
@@ -67,6 +68,19 @@
 			}
 		}
 	}
+
+	async function handleHideCourse(course_id, pid) {
+		console.log($page.data.session?.user.id, pid)
+		const { error, data, status } = await supabaseClient.rpc('hide_course',
+			{_user_id: pid, _course_id: course_id})
+		console.log(error, data, status)
+		if (status === 200) {
+			//delete_model_close();
+			await invalidateAll();
+		}
+		invalidateAll();
+	}
+
 
 </script>
 
@@ -212,8 +226,12 @@
 
 				<div class="flex flex-wrap -mx-12 -mb-2">
 					<!--Each course-->
+
+					{#await data.courses.courseData then course_data}
+
 					{#key course_data}
-					{#each course_data as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term }, i}
+					{#each course_data as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden }, i}
+						{#if !hidden}
 						<div class="relative mb-8 mx-4 cursor-pointer">
 							<div class=" min-w-xs max-w-xs">
 								<div class="relative group">
@@ -283,7 +301,6 @@
 								</div>
 							</div>
 						</div>
-
 						{#if hoverID === i && open && browser}
 							<div transition:blur|local={{ duration: 200 }} id="edit" class="relative z-10">
 								<div
@@ -296,9 +313,10 @@
 											Edit
 										</div>
 										<div
+											on:click={() => handleHideCourse(id, $page.data.session.user.id)}
 											class="p-2 truncate font-bold hover:underline hover:bg-gray-700 hover:text-red-400 cursor-pointer"
 										>
-											Hide
+											Delete
 										</div>
 									</div>
 									<div
@@ -323,9 +341,11 @@
 									</div>
 								</div>
 							</div>
+							{/if}
 						{/if}
 					{/each}
 					{/key}
+					{/await}
 
 					<!--No courses found-->
 					{#if course_data.length === 0}

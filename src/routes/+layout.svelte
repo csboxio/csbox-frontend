@@ -9,11 +9,21 @@
 	import Notification from '$lib/components/Notification.svelte';
 	import { each } from "svelte/internal";
 
+	type Notification = {
+		course_id: any,
+		course_title: unknown,
+		message: string
+	}
+
 	/** @type {import('./$types').LayoutData} */
 	export let data;
 	export let notifications;
 	// Create a store and update it when necessary...
 	let store_notification;
+
+	function addNotification(notification: Notification) {
+		console.log(notification)
+	}
 
 	onMount(() => {
 		const {
@@ -63,9 +73,15 @@
 								const courseTitle = courseMap.get(payload.new.course_id);
 								if (courseTitle) {
 									// Update the notification store with the new information.
-									const newNotification = { ...payload.new, course_title: courseTitle, message: "New student has enrolled." };
+									const newNotification: Notification =
+										{ course_id: payload.new.course_id,
+											course_title: courseTitle,
+											message: "New student has enrolled."
+										};
 
+									//console.log(newNotification)
 									notificationStore.update(notifications => [...notifications, newNotification])
+									addNotification(newNotification)
 									invalidateAll();
 								}
 							}
