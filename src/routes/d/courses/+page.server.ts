@@ -2,30 +2,9 @@ import type { Actions } from "./$types.js";
 import { getSupabase } from "@supabase/auth-helpers-sveltekit";
 import { supabaseClient } from "../../../lib/utilities/supabaseClient.js";
 import { page } from "$app/stores";
-import { browser } from "$app/environment";
 
 export {}
 export const prerender = false;
-
-async function getCourses(event) {
-  if(!browser)
-  {
-    const {data: courseData, error} = await event.locals.sb.from('courses')
-      .select('id, inserted_at, course_image_url, course_title,' +
-        ' course_prefix, course_number, course_term');
-    console.log(courseData)
-    return courseData
-  }
-
-}
-
-export const load = (event) => ({
-  courses: {
-    courseData: getCourses(event)
-  }
-
-})
-
 export const actions: Actions = {
   joinCourse: async (event) => {
     const {request, cookies, url} = event

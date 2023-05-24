@@ -226,9 +226,6 @@
 
 				<div class="flex flex-wrap -mx-12 -mb-2">
 					<!--Each course-->
-
-					{#await data.courses.courseData then course_data}
-
 					{#key course_data}
 					{#each course_data as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden }, i}
 						{#if !hidden}
@@ -345,7 +342,6 @@
 						{/if}
 					{/each}
 					{/key}
-					{/await}
 
 					<!--No courses found-->
 					{#if course_data.length === 0}
