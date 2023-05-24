@@ -14,9 +14,6 @@
   export let files;
   let user = $page.data.session?.user;
   let loading = false;
-
-  console.log("CourseImage.svelte")
-  console.log(courseID)
 </script>
 
 <div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">

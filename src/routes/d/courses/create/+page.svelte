@@ -53,7 +53,6 @@
 			step = 2;
 			try {
 				currentCourseId = JSON.stringify(result['data'].course_id);
-				console.log(currentCourseId)
 			} catch {
 				console.log('ERROR: No course ID found');
 				alert('Please sign out, and sign back in.');
