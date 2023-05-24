@@ -225,9 +225,9 @@
 												class="relative p-6 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500"
 											>
 												<img
-													src={course_image_url + '?t=' + inserted_at}
+													src={course_image_url === null ? 'https://dummyimage.com/150x150/000/fff' : course_image_url + '?t=' + inserted_at}
 													class="relative inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl bg-gray-600"
-													alt=""
+													alt='Course Image'
 												/>
 												<a
 													on:click|stopPropagation={() => {

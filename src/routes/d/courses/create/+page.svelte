@@ -5,6 +5,8 @@
 	import { applyAction, deserialize } from '$app/forms';
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+	import { StepIndicator } from 'flowbite-svelte';
+	let steps = ['Step 1', 'Step 2', 'Step 3'];
 
 	let session = $page.data.session;
 	let loading;
@@ -51,9 +53,10 @@
 			step = 2;
 			try {
 				currentCourseId = JSON.stringify(result['data'].course_id);
+				console.log(currentCourseId)
 			} catch {
 				console.log('ERROR: No course ID found');
-				alert('ERROR: Try logging out, and logging back in.');
+				alert('Please sign out, and sign back in.');
 			}
 			await invalidateAll();
 		}
@@ -144,20 +147,18 @@
 						<div class="flex w-2/3 justify-around i items-center md:w-2/3">
 							<div class="p-9 bg-gray-600 rounded-xl">
 								<!--Header-->
+								<div class="mb-8">
+									<StepIndicator {step} {steps} glow/>
+								</div>
 								<div
 									class="flex flex-wrap items-center justify-between -mx-4 mb-8 pb-6 border-b border-gray-400 border-opacity-20"
 								>
+
 									<div class="w-full sm:w-auto px-4 mb-6 sm:mb-0">
 										<h4 class="text-2xl font-bold tracking-wide text-white mb-1">Create Course</h4>
 									</div>
 								</div>
 
-								<!--Progress stepper-->
-								<div class="pb-12">
-									<div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-										<div class="bg-blue-600 h-2.5 rounded-full" style="width: {step * 33}%" />
-									</div>
-								</div>
 
 								<!--Create course form-->
 								{#if step === 1}
@@ -178,6 +179,7 @@
 															class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
 															placeholder="Software Development I"
 															bind:value={course_title}
+															required
 														/>
 													</div>
 												</div>
@@ -202,6 +204,7 @@
 															class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
 															placeholder="CS100"
 															bind:value={course_prefix}
+															required
 														/>
 													</div>
 												</div>
@@ -226,6 +229,7 @@
 															class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
 															placeholder="12345"
 															bind:value={course_number}
+															required
 														/>
 													</div>
 												</div>
@@ -250,6 +254,7 @@
 															class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
 															placeholder="Spring 2023"
 															bind:value={course_term}
+															required
 														/>
 													</div>
 												</div>

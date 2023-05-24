@@ -66,8 +66,7 @@
 									const newNotification = { ...payload.new, course_title: courseTitle, message: "New student has enrolled." };
 
 									notificationStore.update(notifications => [...notifications, newNotification])
-									console.log(payload.new)
-									console.log(newNotification)
+									invalidateAll();
 								}
 							}
 						)

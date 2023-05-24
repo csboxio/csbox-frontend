@@ -15,6 +15,8 @@
   let user = $page.data.session?.user;
   let loading = false;
 
+  console.log("CourseImage.svelte")
+  console.log(courseID)
 </script>
 
 <div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
@@ -47,7 +49,7 @@
               id="course_image"
               accept="image/*"
               bind:files
-              on:change={uploadCourseImage(files, uploading, url, courseID, user)}
+              on:change={uploadCourseImage(files, courseID, user)}
               disabled={uploading}>
             <div class="flex items-center justify-center h-14 w-14 bg-blue-500 group-hover:bg-blue-600 rounded-full">
 

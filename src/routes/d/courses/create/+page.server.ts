@@ -8,8 +8,13 @@ export const actions: Actions = {
         const {request} = event
         const {supabaseClient} = await getSupabase(event)
 
-        const {data} = await supabaseClient.auth.refreshSession()
-        const {session, user} = data
+        const { data } = await event.locals.sb.auth.refreshSession()
+        let user;
+        if (data == null) {
+          const { data } = await supabaseClient.auth.refreshSession()
+          user = data.user
+        }
+        user = data.user
 
         const formData = await request.formData()
 
@@ -18,20 +23,20 @@ export const actions: Actions = {
         const number = formData.get('course_number') as string
         const term = formData.get('course_term') as string
         if (user != null) {
-            const updates = {
-                id: Math.floor(Math.random() * 9999999999),
-                inserted_at: new Date(),
-                created_by: user.id,
-                course_title: title,
-                course_prefix: prefix,
-                course_number: number,
-                course_term: term,
-            }
-            const {error} = await supabaseClient.from('courses').insert(updates)
-            console.log(error)
+            const course_id = Math.floor(Math.random() * 9999999999);
+            const { error } = await supabaseClient.rpc('create_course',
+              {_course_id: course_id,
+                    _inserted_at: new Date(),
+                    _created_by: user.id,
+                    _course_title: title,
+                    _course_prefix: prefix,
+                    _course_number: number,
+                    _course_term: term});
+
             if (!error) {
-                return {success: true, course_id: updates.id};
+                return {success: true, course_id: course_id};
             }
+
         }
     }
 }
