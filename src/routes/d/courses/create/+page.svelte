@@ -21,10 +21,11 @@
 	let course_image_url;
 
 	//Progress bar step
-	let step = 1;
+	let currentStep = 1;
+	$: currentStep;
 
 	function handleSteps(num, event) {
-		step = num;
+		currentStep = num;
 	}
 
 	export let files;
@@ -50,7 +51,7 @@
 
 		if (result.type === 'success') {
 			// re-run all `load` functions, following the successful update
-			step = 2;
+			currentStep = 2;
 			try {
 				currentCourseId = JSON.stringify(result['data'].course_id);
 			} catch {
@@ -147,7 +148,7 @@
 							<div class="p-9 bg-gray-600 rounded-xl">
 								<!--Header-->
 								<div class="mb-8">
-									<StepIndicator {step} {steps} glow/>
+									<StepIndicator {currentStep} {steps} glow/>
 								</div>
 								<div
 									class="flex flex-wrap items-center justify-between -mx-4 mb-8 pb-6 border-b border-gray-400 border-opacity-20"
@@ -160,7 +161,7 @@
 
 
 								<!--Create course form-->
-								{#if step === 1}
+								{#if currentStep === 1}
 									<div
 										class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
 									>
@@ -286,7 +287,7 @@
 										</button>
 									</div>
 									<!--Step 2-->
-								{:else if step === 2}
+								{:else if currentStep === 2}
 									<form>
 										<CourseImage bind:courseID={currentCourseId} />
 									</form>
@@ -305,7 +306,7 @@
 										</button>
 									</div>
 									<!--Step 3-->
-								{:else if step === 3}
+								{:else if currentStep === 3}
 									<button
 										class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
 										on:click|preventDefault={goto('/d/courses')}

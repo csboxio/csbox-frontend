@@ -24,6 +24,7 @@
 
 	let assignmentPageData;
 	$: assignmentPageData = $page.data.assignmentPageData
+	console.log(assignmentPageData)
 
 	let assignments;
 	$: assignmentData = $page.data.assignmentData
