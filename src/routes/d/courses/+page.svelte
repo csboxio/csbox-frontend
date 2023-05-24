@@ -9,6 +9,7 @@
 	import { deserialize } from "$app/forms";
 
 	import { Button, Modal } from 'flowbite-svelte'
+	import { supabaseClient } from "../../../lib/utilities/supabaseClient.js";
 	let defaultModel = false;
 
 
@@ -17,9 +18,12 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
+	export const ssr = false;
+
 	let course_data;
 	$: course_data = $page.data.courses.courseData;
 
+	console.log(course_data)
 	let hoverID;
 	$: hoverID;
 	let open = false;
@@ -64,6 +68,19 @@
 			}
 		}
 	}
+
+	async function handleHideCourse(course_id, pid) {
+		console.log($page.data.session?.user.id, pid)
+		const { error, data, status } = await supabaseClient.rpc('hide_course',
+			{_user_id: pid, _course_id: course_id})
+		console.log(error, data, status)
+		if (status === 200) {
+			//delete_model_close();
+			await invalidateAll();
+		}
+		invalidateAll();
+	}
+
 
 </script>
 
@@ -210,7 +227,8 @@
 				<div class="flex flex-wrap -mx-12 -mb-2">
 					<!--Each course-->
 					{#key course_data}
-					{#each course_data as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term }, i}
+					{#each course_data as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden }, i}
+						{#if !hidden}
 						<div class="relative mb-8 mx-4 cursor-pointer">
 							<div class=" min-w-xs max-w-xs">
 								<div class="relative group">
@@ -222,9 +240,9 @@
 												class="relative p-6 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500"
 											>
 												<img
-													src={course_image_url + '?t=' + inserted_at}
+													src={course_image_url === null ? 'https://dummyimage.com/150x150/000/fff' : course_image_url + '?t=' + inserted_at}
 													class="relative inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl bg-gray-600"
-													alt=""
+													alt='Course Image'
 												/>
 												<a
 													on:click|stopPropagation={() => {
@@ -280,7 +298,6 @@
 								</div>
 							</div>
 						</div>
-
 						{#if hoverID === i && open && browser}
 							<div transition:blur|local={{ duration: 200 }} id="edit" class="relative z-10">
 								<div
@@ -293,9 +310,10 @@
 											Edit
 										</div>
 										<div
+											on:click={() => handleHideCourse(id, $page.data.session.user.id)}
 											class="p-2 truncate font-bold hover:underline hover:bg-gray-700 hover:text-red-400 cursor-pointer"
 										>
-											Hide
+											Delete
 										</div>
 									</div>
 									<div
@@ -320,6 +338,7 @@
 									</div>
 								</div>
 							</div>
+							{/if}
 						{/if}
 					{/each}
 					{/key}

@@ -71,6 +71,7 @@
 			delete_model_close();
 			alert("Cannot remove yourself.")
 		}
+		invalidateAll();
 	}
 
 	async function handleAcceptUser(pid) {

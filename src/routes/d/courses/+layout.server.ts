@@ -13,11 +13,18 @@ export const load: LayoutServerLoad = async (event) => {
 
     const {session, supabaseClient} = await getSupabase(event);
     if (session) {
-            const {data: courseData, error} = await supabaseClient.from('courses')
-              .select('id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term');
+        const {data: courseData, error} = await supabaseClient.from('courses')
+          .select('id, inserted_at, course_image_url, course_title,' +
+            ' course_prefix, course_number, course_term');
+
+        const {data: enrolled} = await supabaseClient.from('enrollment')
+          .select('hidden')
+          .eq('user_id', session.user.id)
+
         return {
             courses: {
-                courseData: courseData
+                courseData: courseData,
+                enrolledData: enrolled
             },
         };
     }

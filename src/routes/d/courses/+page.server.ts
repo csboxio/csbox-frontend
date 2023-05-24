@@ -5,7 +5,6 @@ import { page } from "$app/stores";
 
 export {}
 export const prerender = false;
-
 export const actions: Actions = {
   joinCourse: async (event) => {
     const {request, cookies, url} = event

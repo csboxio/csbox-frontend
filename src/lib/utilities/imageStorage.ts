@@ -79,6 +79,8 @@ export const uploadCourseImage = async (files: FileList, courseId: bigint, user:
     if (!files || files.length === 0) {
       throw new Error('You must select an image to upload.')
     }
+    console.log("uploadCourseImage")
+    console.log(courseId)
     // Delete old image from database
     const filePath = `${courseId + "/" + "icon" + "_courseImage"}.JPEG`
     await deleteImage(filePath)

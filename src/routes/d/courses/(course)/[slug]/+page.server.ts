@@ -18,19 +18,19 @@ export const load: PageServerLoadEvent = async (event) => {
             .eq('user_id', session.user.id)
             .single();
 
-        if (enrolled) {
+
             const {data: courseData} = await supabaseClient.from('courses')
                 .select('inserted_at, course_image_url, course_title, course_prefix, course_number, course_term')
                 .eq('created_by', session.user.id)
                 .eq('id', event.params.slug)
                 .single();
-            return {
-                courseData
-            };
-        }
-        else {
-            throw redirect(302, "/d")
-        }
+
+        return {
+            courseData
+        };
+
+
     }
+
 };
 
