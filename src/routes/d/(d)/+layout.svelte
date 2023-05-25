@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { supabaseClient } from '$lib/utilities/supabaseClient';
 	import { goto, invalidateAll } from "$app/navigation";
-	import { onMount, setContext } from "svelte";
-	import { get, readable, writable } from "svelte/store";
+	import { onMount } from "svelte";
 	import { page } from "$app/stores";
-	import { notificationStore } from "$lib/stores/stores.js";
 	import Notification from '$lib/components/Notification.svelte';
-	import { each } from "svelte/internal";
+	import { fetchCourses } from "$lib/utilities/utils"
+	import { error } from "@sveltejs/kit";
 
 	type Notification = {
 		course_id: any,
@@ -14,12 +13,9 @@
 		message: string
 	}
 
-	/** @type {import('./$types').LayoutData} */
-	export let data;
 	// Create a store and update it when necessary...
 	let notifications: any[] = [];
 	$: notifications;
-
 	let show_notification = false;
 
 	function addNotification(notification: Notification) {
@@ -27,7 +23,7 @@
 		invalidateAll()
 	}
 
-	onMount(() => {
+	onMount(async () => {
 		const {
 			data: { subscription }
 		} = supabaseClient.auth.onAuthStateChange(() => {
@@ -35,16 +31,17 @@
 			goto("/login");
 		});
 
-		// Get the courses that the user created.
-		// TODO Optimization this runs on each page.
-		supabaseClient
-			.from('courses')
-			.select('id, course_title')
-			.eq('created_by', $page.data.session?.user.id)
-			.then(({ data: courses }) => {
+		// TODO Optimization
+
+		// Get the courses that the user created from browser store.
+		const result = await fetchCourses(fetch)
+		let courses;
+		const subscribe = result.subscribe(value => {
+			courses = value;
+		})
+
 				const courseIDsList = courses.map(course => course.id);
 				const courseMap = new Map(courses.map(course => [course.id, course.course_title]));
-
 
 				// If the course id has something in it.
 				if (courseIDsList) {
@@ -65,7 +62,8 @@
 								if (courseTitle) {
 									// Update the notification store with the new information.
 									const newNotification: Notification =
-										{ course_id: payload.new.course_id,
+										{
+											course_id: payload.new.course_id,
 											course_title: courseTitle,
 											message: "New student has enrolled."
 										};
@@ -89,11 +87,6 @@
 				};
 
 			});
-
-
-	});
-
-	//filter: `course_id=(SELECT id FROM courses WHERE created_by=eq.${$page.data.session?.user.id})`
 </script>
 <svelte:head>
 	<meta charset="utf-8" />
