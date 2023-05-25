@@ -47,13 +47,6 @@
 				const courseIDsList = courses.map(course => course.id);
 				const courseMap = new Map(courses.map(course => [course.id, course.course_title]));
 
-				console.log(courses)
-				// Get the notifications table
-				notifications =
-					supabaseClient
-						.from('notifications')
-						.select('*')
-						.then(({error, data}) => notificationStore.set(data))
 
 				// If the course id has something in it.
 				if (courseIDsList) {
@@ -80,7 +73,7 @@
 										};
 
 									//console.log(newNotification)
-									notificationStore.update(notifications => [...notifications, newNotification])
+									notificationStore.update(notifications => [...get(notificationStore), newNotification])
 									addNotification(newNotification)
 									invalidateAll();
 								}
