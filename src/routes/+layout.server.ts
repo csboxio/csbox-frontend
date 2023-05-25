@@ -14,6 +14,7 @@ export const load: LayoutServerLoad = async (event) => {
           .eq('id', event.locals.session.user.id)
           .single()
 
+        console.log(tableData)
         return {
             session: event.locals.session,
             user: {
