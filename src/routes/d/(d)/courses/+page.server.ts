@@ -1,6 +1,6 @@
 import type { Actions } from "./$types.js";
 import { getSupabase } from "@supabase/auth-helpers-sveltekit";
-import { supabaseClient } from "../../../lib/utilities/supabaseClient.js";
+import { supabaseClient } from "$lib/utilities/supabaseClient.js";
 import { page } from "$app/stores";
 
 export {}

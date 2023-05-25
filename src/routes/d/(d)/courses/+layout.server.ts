@@ -1,9 +1,8 @@
 import {redirect} from "@sveltejs/kit";
 import {browser} from "$app/environment";
-import {courseStore} from "../../../lib/stores/stores";
+import {courseStore} from "$lib/stores/stores";
 import { getContext, setContext } from "svelte";
 import { page } from "$app/stores";
-import courses from "../../+layout.svelte"
 import { getSupabase } from "@supabase/auth-helpers-sveltekit";
 export const prerender = false;
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
