@@ -13,10 +13,7 @@
 	let quill;
 	let model;
 	export let data;
-	let course_data = data.courseData;
-	const course_save = writable('course_save');
-	setContext('course_save', course_data);
-
+	let course_data = $page.data.courses.courseData;
 	let html;
 	let user = $page.data.session?.user
 	let slug = $page.params.slug

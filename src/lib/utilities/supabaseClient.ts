@@ -15,5 +15,8 @@ export const supabaseClient = createClient(PUBLIC_SUPABASE_URL!, PUBLIC_SUPABASE
     params: {
       eventsPerSecond: 5
     }
-  }});
+  }},
+  {
+    secure: true
+  });
 

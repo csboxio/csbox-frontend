@@ -155,6 +155,7 @@ export async function updateCourse(courseUrl: string, courseId: bigint, user: Us
       created_by: user.id,
       course_image_url: courseUrl,
     }
+    console.log("?")
     const { error } = await supabaseClient.from('courses')
         .upsert(updates)
         .eq('created_by', user.id)

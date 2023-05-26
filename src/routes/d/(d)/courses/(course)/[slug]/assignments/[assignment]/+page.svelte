@@ -21,8 +21,6 @@
 		show_create_box = false;
 	}
 
-	let course_data = data.courseData;
-
 	let open = false;
 
 	async function handleSubmit(event) {

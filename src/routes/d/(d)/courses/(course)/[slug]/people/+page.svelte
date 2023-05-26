@@ -5,7 +5,7 @@
 	export let data;
 	import { dragMe } from '$lib/utilities/dragMe.ts'
 
-	let course_data = data.courseData;
+	let course_data = $page.data.courses.courseData;
 	let enrollment_data = data.enrollmentData
 	import {
 		Button, Modal,

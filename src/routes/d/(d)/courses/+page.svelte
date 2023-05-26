@@ -1,15 +1,17 @@
 <script lang="ts">
-	import Settings from '$lib/components/Settings.svelte';
-	import Navbar from '$lib/components/Navbar.svelte';
-	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
-	import { blur } from 'svelte/transition';
-	import {goto, invalidate, invalidateAll} from "$app/navigation";
-	import { dragMe } from '$lib/utilities/dragMe.ts'
+	import Settings from "$lib/components/Settings.svelte";
+	import Navbar from "$lib/components/Navbar.svelte";
+	import { page } from "$app/stores";
+	import { browser } from "$app/environment";
+	import { blur } from "svelte/transition";
+	import { goto, invalidateAll } from "$app/navigation";
 	import { deserialize } from "$app/forms";
 
-	import { Button, Modal } from 'flowbite-svelte'
+	import { Modal } from "flowbite-svelte";
 	import { supabaseClient } from "$lib/utilities/supabaseClient.js";
+	import { onMount } from "svelte";
+	import { fetchCourses } from "../../../../lib/utilities/utils.js";
+
 	let defaultModel = false;
 
 
@@ -18,32 +20,20 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
-	export const ssr = false;
 
 	let course_data;
 	$: course_data = $page.data.courses.courseData;
 
 	console.log(course_data)
+
 	let hoverID;
 	$: hoverID;
 	let open = false;
 	export let show_create_box;
 
-
 	let code_invalid = false;
 	$: code_invalid;
 	let error_message = "Code Invalid.";
-
-
-	// Draggable box
-	function show_box() {
-		show_create_box = true;
-	}
-
-	// Draggable box
-	function close_box() {
-		show_create_box = false;
-	}
 
 	async function handleSubmit(event) {
 		const data = new FormData(this);
@@ -225,6 +215,9 @@
 			<div class="container m-6">
 
 				<div class="flex flex-wrap -mx-12 -mb-2">
+
+
+
 					<!--Each course-->
 					{#key course_data}
 					{#each course_data as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden }, i}
