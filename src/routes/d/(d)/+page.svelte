@@ -1,8 +1,15 @@
+<script context="module">
+	export async function load({ stuff }) {
+		return { props: stuff };
+	}
+</script>
+
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Chart from '$lib/components/Charts.svelte';
 	import Settings from '$lib/components/Settings.svelte';
 	import Navbar from '$lib/components/Navbar.svelte';
+	import { fetchCourses } from "$lib/utilities/utils.js";
 
 	let user = $page.data.user;
 	let updated;
@@ -12,8 +19,11 @@
 	avatarUrl = user.avatar_url + '?t=' + updated;
 	// this is needed for the outside click div, that needs to be redone
 	let model;
-</script>
 
+	export let fetchedCourses;
+	$: courses = $fetchedCourses;
+	console.log(courses)
+</script>
 
 <body
 	class=" bg-gray-600 antialiased bg-body text-body font-body"

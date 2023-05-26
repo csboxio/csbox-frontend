@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { supabaseClient } from "../../../../../../lib/utilities/supabaseClient.js";
+	import { supabaseClient } from "$lib/utilities/supabaseClient.js";
 
 	let model;
 	export let data;

@@ -9,7 +9,7 @@
 	import { deserialize } from "$app/forms";
 
 	import { Button, Modal } from 'flowbite-svelte'
-	import { supabaseClient } from "../../../lib/utilities/supabaseClient.js";
+	import { supabaseClient } from "$lib/utilities/supabaseClient.js";
 	let defaultModel = false;
 
 

@@ -45,7 +45,7 @@
               id="menu-button" aria-expanded="true" aria-haspopup="true"
               on:click|stopPropagation={() => handleToggleMenuTopRight("inside")}>
         <img class="h-8 w-8 mr-3 rounded-full object-cover" src="{avatarUrl}" alt="{avatarUrl}">
-        <h4 class="text-white font-bold tracking-wide mr-5">{full_name}</h4>
+        <h4 id="fullname" class="text-white font-bold tracking-wide mr-5">{full_name}</h4>
         <svg width="10" height="6" viewbox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1 1L5 5L9 1" stroke="#3D485B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>

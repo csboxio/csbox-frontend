@@ -2,8 +2,6 @@
   import { uploadAvatar } from "$lib/utilities/imageStorage";
   import { page } from "$app/stores";
 
-  /** @type {import("./$types").PageData} */
-  export let data;
   export let url;
   let size = 5;
   let avatarUrl;
