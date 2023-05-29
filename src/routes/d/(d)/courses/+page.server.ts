@@ -3,7 +3,6 @@ import { getSupabase } from "@supabase/auth-helpers-sveltekit";
 
 export {}
 export const prerender = false;
-export const ssr = false;
 export const actions: Actions = {
   joinCourse: async (event) => {
     const {request, cookies, url} = event

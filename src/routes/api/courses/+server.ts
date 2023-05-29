@@ -1,6 +1,7 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import { getSupabase } from "@supabase/auth-helpers-sveltekit";
 import { error, json, redirect } from "@sveltejs/kit";
+import { browser } from "$app/environment";
 
 // TODO UNKNOWN IF TRULY SECURE
 // https://github.com/supabase/auth-helpers/issues/408
@@ -13,11 +14,10 @@ export const GET: RequestHandler = async (event) => {
     }
     const { data, error } = await supabaseClient.from('courses')
       .select('id, course_image_url, course_title, course_prefix, course_number, course_term')
-      .eq('created_by', session.user?.id);
 
-    event.setHeaders({
-        'cache-control': 'public, max-age=60, s-maxage=60'
-    })
+    //event.setHeaders({
+    //    'cache-control': 'public, max-age=60, s-maxage=60'
+    //})
 
     return json(data)
 }

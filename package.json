@@ -19,8 +19,10 @@
 	"devDependencies": {
 		"@fortawesome/free-solid-svg-icons": "^6.2.1",
 		"@locator/runtime": "^0.2.4",
+		"@originjs/vite-plugin-commonjs": "^1.0.3",
 		"@playwright/test": "^1.34.3",
 		"@prisma/client": "^4.8.0",
+		"@rollup/plugin-node-resolve": "^15.0.2",
 		"@supabase/auth-helpers-sveltekit": "^0.8.6",
 		"@supabase/supabase-js": "^2.22.0",
 		"@sveltejs/adapter-auto": "^2.0.0",

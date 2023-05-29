@@ -7,15 +7,14 @@ export const prerender = false;
 //@ts-ignore
 
 export const load = (async (  event ) => {
-    const {session } = await getSupabase(event);
-    if (session) {
-        const response = await event.fetch('/api/courses')
-        console.log(response.json)
-        return {
-            courses: {
-                courseData: await response.json()
-                //enrolledData: enrolled
-            },
-        };
-    }
+  const {session } = await getSupabase(event);
+  if (session) {
+    const response = await event.fetch('/api/courses')
+    return {
+      props: {
+        initialData: await response.json()
+        //enrolledData: enrolled
+      },
+    };
+  }
 });

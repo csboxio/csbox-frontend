@@ -1,10 +1,17 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import { esbuildCommonjs, viteCommonjs } from "@originjs/vite-plugin-commonjs";
 
 
 const config = {
 	plugins: [
-		sveltekit()
+		sveltekit(),
+		viteCommonjs()
 	],
+	esbuildOptions:{
+		plugins:[
+			esbuildCommonjs(['sswr'])
+		]
+	},
 	test: {
 		globals: true,
 		environment: 'jsdom',

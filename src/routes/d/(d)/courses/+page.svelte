@@ -1,3 +1,4 @@
+
 <script lang="ts">
 	import Settings from "$lib/components/Settings.svelte";
 	import Navbar from "$lib/components/Navbar.svelte";
@@ -9,8 +10,10 @@
 
 	import { Modal } from "flowbite-svelte";
 	import { supabaseClient } from "$lib/utilities/supabaseClient.js";
-	import { onMount } from "svelte";
-	import { fetchCourses } from "../../../../lib/utilities/utils.js";
+
+	//import { useSWR } from "sswr";
+
+
 
 	let defaultModel = false;
 
@@ -21,10 +24,11 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 
-	let course_data;
-	$: course_data = $page.data.courses.courseData;
+	let courses = $page.data.props.initialData
 
-	console.log(course_data)
+
+		//const { data: coursesa } = useSWR('/api/courses')
+
 
 	let hoverID;
 	$: hoverID;
@@ -217,11 +221,9 @@
 
 				<div class="flex flex-wrap -mx-12 -mb-2">
 
-
-
 					<!--Each course-->
-					{#key course_data}
-					{#each course_data as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden }, i}
+					{#if courses}
+					{#each courses as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden }, i}
 						{#if !hidden}
 						<div class="relative mb-8 mx-4 cursor-pointer">
 							<div class=" min-w-xs max-w-xs">
@@ -335,10 +337,10 @@
 							{/if}
 						{/if}
 					{/each}
-					{/key}
+					{/if}
 
 					<!--No courses found-->
-					{#if course_data.length === 0}
+					{#if courses.length === 0}
 						<div
 							class="flex p-4 ml-6 mb-6 mt-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
 							role="alert"
