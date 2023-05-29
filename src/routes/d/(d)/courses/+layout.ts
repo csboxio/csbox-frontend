@@ -8,7 +8,7 @@ export const prerender = false;
 
 export const load = (async (  event ) => {
     const {session } = await getSupabase(event);
-    if (session && browser) {
+    if (session) {
         console.log('ran')
         const response = await event.fetch('/api/courses')
         console.log(response.json)

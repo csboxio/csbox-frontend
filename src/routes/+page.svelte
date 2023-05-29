@@ -29,11 +29,3 @@
 
 {/if}
 
-{notifications}
-{#if notifications}
-	{#each notifications as {id, content, title}}
-		{id} {content} {title}
-	{/each}
-{:else}
-	Loading
-{/if}
