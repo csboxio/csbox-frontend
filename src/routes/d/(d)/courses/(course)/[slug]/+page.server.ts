@@ -12,22 +12,6 @@ export const ssr = false;
 export const load: PageServerLoadEvent = async (event) => {
     const {session, supabaseClient} = await getSupabase(event);
     if (session) {
-        const {data: enrolled} = await supabaseClient.from('enrollment')
-            .select('user_id')
-            .eq('course_id', event.params.slug)
-            .eq('user_id', session.user.id)
-            .single();
-
-
-            const {data: courseData} = await supabaseClient.from('courses')
-                .select('inserted_at, course_image_url, course_title, course_prefix, course_number, course_term')
-                .eq('id', event.params.slug)
-                .single();
-
-        return {
-            courseData
-        };
-
 
     }
 

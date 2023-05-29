@@ -1,6 +1,5 @@
-import type {LayoutServerLoad} from './$types';
 import { getContext } from "svelte";
-
+export const ssr = false;
 export const load = (async ({ params,parent }) => {
     const {courses} = await parent();
     const { slug } = params
@@ -11,5 +10,5 @@ export const load = (async ({ params,parent }) => {
         courses,
         slug
     };
-}) satisfies LayoutServerLoad;
+});
 

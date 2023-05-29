@@ -1,30 +1,55 @@
-import { courseStore } from "$lib/stores/stores.ts"
 import { browser } from "$app/environment";
 import { get, readable } from "svelte/store";
 import { getSupabase } from "@supabase/auth-helpers-sveltekit";
 import { supabaseClient } from '$lib/utilities/supabaseClient';
+import { userStore, courseStore } from "../stores/stores.js";
+import type { User } from "@supabase/supabase-js";
 
 
 
 export async function fetchCourses(fetch) {
-  const courses = browser && get(courseStore)
+
+  const courses = get(courseStore)
 
   // noinspection TypeScriptValidateTypes
-  if (courses && Object.values(courses).length > 0) {
+  if (courses && courses.length > 0) {
     return courseStore;
   }
 
-  const {data: courseData} = await supabaseClient.from('courses')
-    .select('id, inserted_at, course_image_url, course_title,' +
-      ' course_prefix, course_number, course_term');
+  if (browser) {
+    const {data: courseData} = await supabaseClient.from('courses')
+      .select('id, inserted_at, course_image_url, course_title,' +
+        ' course_prefix, course_number, course_term');
+    courseStore.set(courseData);
+    return courseStore;
+  }
+}
 
-  const fetchedCourses = courseData
+export async function fetchUsers(fetch, _user) {
+  const user = browser && get(userStore)
+
+  // noinspection TypeScriptValidateTypes
+  if (user && Object.values(user).length > 0) {
+    return userStore;
+  }
+  console.log(_user)
+
+  const {data: userData, error} = await supabaseClient.from('users')
+    .select('updated_at, username, first_name, last_name, website, country, avatar_url')
+    .eq('id', _user)
+    .single()
+
+  console.log(userData, error)
+
+  const fetchedUser = userData
 
   if (browser) {
-    courseStore.set(fetchedCourses);
-    return courseStore;
+    console.log("here1")
+    courseStore.set(fetchedUser);
+    return userStore;
   } else {
-    return readable(fetchedCourses);
+    console.log("here2")
+    return (fetchedUser);
   }
 
 }

@@ -29,7 +29,7 @@
 
 	// Page Data
 	$: assignments = data.assignmentData;
-	let course_data = data.courseData;
+	//let course_data = $page.data.courses.courseData;
 	let modules = data.modules;
 
 	// Outside click div.

@@ -1,15 +1,20 @@
+
 <script lang="ts">
-	import Settings from '$lib/components/Settings.svelte';
-	import Navbar from '$lib/components/Navbar.svelte';
-	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
-	import { blur } from 'svelte/transition';
-	import {goto, invalidate, invalidateAll} from "$app/navigation";
-	import { dragMe } from '$lib/utilities/dragMe.ts'
+	import Settings from "$lib/components/Settings.svelte";
+	import Navbar from "$lib/components/Navbar.svelte";
+	import { page } from "$app/stores";
+	import { browser } from "$app/environment";
+	import { blur } from "svelte/transition";
+	import { goto, invalidateAll } from "$app/navigation";
 	import { deserialize } from "$app/forms";
 
-	import { Button, Modal } from 'flowbite-svelte'
+	import { Modal } from "flowbite-svelte";
 	import { supabaseClient } from "$lib/utilities/supabaseClient.js";
+
+	//import { useSWR } from "sswr";
+
+
+
 	let defaultModel = false;
 
 
@@ -18,32 +23,21 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
-	export const ssr = false;
 
-	let course_data;
-	$: course_data = $page.data.courses.courseData;
+	let courses = $page.data.props.initialData
 
-	console.log(course_data)
+
+		//const { data: coursesa } = useSWR('/api/courses')
+
+
 	let hoverID;
 	$: hoverID;
 	let open = false;
 	export let show_create_box;
 
-
 	let code_invalid = false;
 	$: code_invalid;
 	let error_message = "Code Invalid.";
-
-
-	// Draggable box
-	function show_box() {
-		show_create_box = true;
-	}
-
-	// Draggable box
-	function close_box() {
-		show_create_box = false;
-	}
 
 	async function handleSubmit(event) {
 		const data = new FormData(this);
@@ -88,15 +82,14 @@
 	class="bg-gray-600 antialiased bg-body text-body font-body"
 	on:click|stopPropagation={() => model.handleToggleMenuTopRight('outside')}
 >
-<div class="">
-	<Navbar /><s></s>
+
+	<Navbar />
 	<div class="mx-auto lg:ml-20">
 		<section>
 			<div class="pt-5 pb-6 px-8 bg-gray-700">
 				<div class="flex flex-wrap items-center justify-between -mx-2">
 					<div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
 						<h4 class="text-2xl font-bold text-white tracking-wide leading-7 mb-1">Courses</h4>
-
 					</div>
 					<div class="w-full lg:w-auto px-2">
 						<div class="sm:flex items-center">
@@ -161,7 +154,9 @@
 				</div>
 			</div>
 		</section>
-		<section class="flex flex-col p-8">
+
+		<!-- For some reason needs h-screen I think something with the flexbox -->
+		<section class="flex flex-col p-8 h-screen">
 			<div>
 				<!-- Join course button-->
 					<button on:click={() => defaultModel = true}
@@ -225,9 +220,10 @@
 			<div class="container m-6">
 
 				<div class="flex flex-wrap -mx-12 -mb-2">
+
 					<!--Each course-->
-					{#key course_data}
-					{#each course_data as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden }, i}
+					{#if courses}
+					{#each courses as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden }, i}
 						{#if !hidden}
 						<div class="relative mb-8 mx-4 cursor-pointer">
 							<div class=" min-w-xs max-w-xs">
@@ -341,10 +337,10 @@
 							{/if}
 						{/if}
 					{/each}
-					{/key}
+					{/if}
 
 					<!--No courses found-->
-					{#if course_data.length === 0}
+					{#if courses.length === 0}
 						<div
 							class="flex p-4 ml-6 mb-6 mt-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
 							role="alert"
@@ -373,5 +369,5 @@
 			</div>
 		</section>
 	</div>
-</div>
+
 </body>

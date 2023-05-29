@@ -66,7 +66,6 @@
 	$: assignments = data.assignmentData;
 	let modules = data.modules;
 
-	let course_data = data.courseData;
 
 	let storeDueDate;
 	let storeAvailableDate;

@@ -26,7 +26,7 @@
 </script>
 
 <body
-	class=" bg-gray-600 antialiased bg-body text-body font-body"
+	class="bg-gray-600 antialiased bg-body text-body font-body"
 	on:click|stopPropagation={() => model.handleToggleMenuTopRight('outside')}
 >
 	<div>
@@ -102,7 +102,7 @@
 				</div>
 			</section>
 
-			<section class="py-3">
+			<section class="py-3 h-screen">
 				<div class="container px-4 mx-auto">
 					<div class="mb-6">
 						<div class="flex flex-wrap -mx-3 -mb-6">
