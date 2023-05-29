@@ -11,8 +11,8 @@ export const load = (async (  event ) => {
   if (session) {
     const response = await event.fetch('/api/courses')
     return {
-      props: {
-        initialData: await response.json()
+      courses: {
+        courseData: await response.json()
         //enrolledData: enrolled
       },
     };

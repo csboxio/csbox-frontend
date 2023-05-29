@@ -1,5 +1,5 @@
 import { getContext } from "svelte";
-export const ssr = false;
+
 export const load = (async ({ params,parent }) => {
     const {courses} = await parent();
     const { slug } = params
