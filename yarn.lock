@@ -198,6 +198,14 @@
     "@babel/helper-plugin-utils" "^7.21.5"
     "@babel/helper-simple-access" "^7.21.5"
 
+"@babel/runtime-corejs3@^7.16.5":
+  version "7.22.3"
+  resolved "https://registry.npmjs.org/@babel/runtime-corejs3/-/runtime-corejs3-7.22.3.tgz"
+  integrity sha512-6bdmknScYKmt8I9VjsJuKKGr+TwUb555FTf6tT1P/ANlCjTHCiYLhiQ4X/O7J731w5NOqu8c1aYHEVuOwPz7jA==
+  dependencies:
+    core-js-pure "^3.30.2"
+    regenerator-runtime "^0.13.11"
+
 "@babel/runtime@^7.21.0":
   version "7.21.5"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.21.5.tgz"
@@ -751,6 +759,49 @@
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
 
+"@supabase-cache-helpers/postgrest-fetcher@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/@supabase-cache-helpers/postgrest-fetcher/-/postgrest-fetcher-1.0.7.tgz"
+  integrity sha512-BpggLwhJEk4O1dpd739QwgBHsa4/IVR7uEdTjLXrzxyiJxqI2tnc8gRSzSyPll8oyyrVU6jTnhTn09wLA6mzpA==
+  dependencies:
+    "@supabase-cache-helpers/postgrest-filter" "1.0.6"
+    "@supabase-cache-helpers/postgrest-shared" "1.0.3"
+    lodash "^4.17.21"
+
+"@supabase-cache-helpers/postgrest-filter@1.0.6":
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/@supabase-cache-helpers/postgrest-filter/-/postgrest-filter-1.0.6.tgz"
+  integrity sha512-U9UM+Rv/kAyHW3r731NxBhkNRHmZjbk9DrEPr7Ra1Fgzymlb+lxpZz1itnX4p4Q612nGUQsDHq/eotWc81ID5g==
+  dependencies:
+    lodash "^4.17.21"
+    xregexp "^5.1.1"
+
+"@supabase-cache-helpers/postgrest-mutate@1.0.9":
+  version "1.0.9"
+  resolved "https://registry.npmjs.org/@supabase-cache-helpers/postgrest-mutate/-/postgrest-mutate-1.0.9.tgz"
+  integrity sha512-CtACA7DBHNtyZC+cRxw12Q8BG9ETiKIGSo2pySWkt3ouZhStZBbow5RnqBbLvzP/cM7KVHdls8cVgHhjpJLcjw==
+  dependencies:
+    "@supabase-cache-helpers/postgrest-filter" "1.0.6"
+    "@supabase-cache-helpers/postgrest-shared" "1.0.3"
+    lodash "^4.17.21"
+
+"@supabase-cache-helpers/postgrest-shared@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@supabase-cache-helpers/postgrest-shared/-/postgrest-shared-1.0.3.tgz"
+  integrity sha512-aUeFkup0ujNjmZx0igipc/RChVfjHsE5fDBQizpmkYMlT94fNVUklxmtDL6JqTf12JECDaIwO9fqeRxvgm0WGw==
+
+"@supabase-cache-helpers/postgrest-swr@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.npmjs.org/@supabase-cache-helpers/postgrest-swr/-/postgrest-swr-1.0.10.tgz"
+  integrity sha512-fiVLCMY8k9FNwIokPF5t9L7kEpMFmYO+DoTUgzXtCkDPKunLrDOLb8uVGly8pJZ6HI8PgOXN5Of0OIb3BhVT8g==
+  dependencies:
+    "@supabase-cache-helpers/postgrest-fetcher" "1.0.7"
+    "@supabase-cache-helpers/postgrest-filter" "1.0.6"
+    "@supabase-cache-helpers/postgrest-mutate" "1.0.9"
+    "@supabase-cache-helpers/postgrest-shared" "1.0.3"
+    lodash "^4.17.21"
+    xregexp "^5.1.1"
+
 "@supabase/auth-helpers-shared@0.2.4":
   version "0.2.4"
   resolved "https://registry.npmjs.org/@supabase/auth-helpers-shared/-/auth-helpers-shared-0.2.4.tgz"
@@ -777,7 +828,7 @@
   dependencies:
     cross-fetch "^3.1.5"
 
-"@supabase/postgrest-js@^1.1.1":
+"@supabase/postgrest-js@^1.0.0", "@supabase/postgrest-js@^1.1.1":
   version "1.6.1"
   resolved "https://registry.npmjs.org/@supabase/postgrest-js/-/postgrest-js-1.6.1.tgz"
   integrity sha512-WDBUPOCOwcZonaCwEodwdA8hwWYOiXroDF9vWGxZxKAnuSVE2Ieci/kvhR4EsWvgGST2h90LRowgO+msXe8+fA==
@@ -800,7 +851,7 @@
   dependencies:
     cross-fetch "^3.1.5"
 
-"@supabase/supabase-js@^2.0.4", "@supabase/supabase-js@^2.22.0":
+"@supabase/supabase-js@^2.0.0", "@supabase/supabase-js@^2.0.4", "@supabase/supabase-js@^2.22.0":
   version "2.22.0"
   resolved "https://registry.npmjs.org/@supabase/supabase-js/-/supabase-js-2.22.0.tgz"
   integrity sha512-omkgSWL1HwnpXZZy+yshFLx/qqxwk9kx9jbRM6IHNEylKrH/sz6JX7rGyIOmN9niDxMRjsCu1nwuBhD6IiF2xg==
@@ -1739,6 +1790,11 @@ cookie@^0.5.0:
   version "0.5.0"
   resolved "https://registry.npmjs.org/cookie/-/cookie-0.5.0.tgz"
   integrity sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==
+
+core-js-pure@^3.30.2:
+  version "3.30.2"
+  resolved "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.30.2.tgz"
+  integrity sha512-p/npFUJXXBkCCTIlEGBdghofn00jWG6ZOtdoIXSJmAu2QBvN0IqpZXWweOytcwE6cfx8ZvVUy1vw8zxhe4Y2vg==
 
 crelt@^1.0.0:
   version "1.0.6"
@@ -2877,7 +2933,7 @@ jiti@^1.18.2:
   resolved "https://registry.npmjs.org/jiti/-/jiti-1.18.2.tgz"
   integrity sha512-QAdOptna2NYiSSpv0O/BwoHBSmz4YhpzJHyi+fnMRTXFjp7B8i/YG5Z8IfusxB1ufjcD2Sre1F3R+nX3fvy7gg==
 
-js-tokens@^4.0.0:
+"js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
@@ -3010,10 +3066,22 @@ lodash.merge@^4.6.2:
   resolved "https://registry.npmjs.org/lodash.merge/-/lodash.merge-4.6.2.tgz"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
+lodash@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+
 longest-streak@^3.0.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/longest-streak/-/longest-streak-3.1.0.tgz"
   integrity sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g==
+
+loose-envify@^1.1.0:
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz"
+  integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
+  dependencies:
+    js-tokens "^3.0.0 || ^4.0.0"
 
 loupe@^2.3.1:
   version "2.3.6"
@@ -4259,6 +4327,13 @@ react-image-file-resizer@^0.4.8:
   resolved "https://registry.npmjs.org/react-image-file-resizer/-/react-image-file-resizer-0.4.8.tgz"
   integrity sha512-Ue7CfKnSlsfJ//SKzxNMz8avDgDSpWQDOnTKOp/GNRFJv4dO9L5YGHNEnj40peWkXXAK2OK0eRIoXhOYpUzUTQ==
 
+"react@^16.11.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0":
+  version "18.2.0"
+  resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
+  integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
+  dependencies:
+    loose-envify "^1.1.0"
+
 read-cache@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/read-cache/-/read-cache-1.0.0.tgz"
@@ -4880,6 +4955,13 @@ svg.select.js@^3.0.1:
   dependencies:
     svg.js "^2.6.5"
 
+swr@^2.0.0:
+  version "2.1.5"
+  resolved "https://registry.npmjs.org/swr/-/swr-2.1.5.tgz"
+  integrity sha512-/OhfZMcEpuz77KavXST5q6XE9nrOBOVcBLWjMT+oAE/kQHyE3PASrevXCtQDZ8aamntOfFkbVJp7Il9tNBQWrw==
+  dependencies:
+    use-sync-external-store "^1.2.0"
+
 symbol-tree@^3.2.4:
   version "3.2.4"
   resolved "https://registry.npmjs.org/symbol-tree/-/symbol-tree-3.2.4.tgz"
@@ -5223,6 +5305,11 @@ urlpattern-polyfill@^4.0.3:
   resolved "https://registry.npmjs.org/urlpattern-polyfill/-/urlpattern-polyfill-4.0.3.tgz"
   integrity sha512-DOE84vZT2fEcl9gqCUTcnAw5ZY5Id55ikUcziSUntuEFL3pRvavg5kwDmTEUJkeCHInTlV/HexFomgYnzO5kdQ==
 
+use-sync-external-store@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz"
+  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
+
 utf-8-validate@^5.0.2, utf-8-validate@>=5.0.2:
   version "5.0.10"
   resolved "https://registry.npmjs.org/utf-8-validate/-/utf-8-validate-5.0.10.tgz"
@@ -5466,6 +5553,13 @@ xmlchars@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/xmlchars/-/xmlchars-2.2.0.tgz"
   integrity sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==
+
+xregexp@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.npmjs.org/xregexp/-/xregexp-5.1.1.tgz"
+  integrity sha512-fKXeVorD+CzWvFs7VBuKTYIW63YD1e1osxwQ8caZ6o1jg6pDAbABDG54LCIq0j5cy7PjRvGIq6sef9DYPXpncg==
+  dependencies:
+    "@babel/runtime-corejs3" "^7.16.5"
 
 xxhash-wasm@^1.0.1:
   version "1.0.2"

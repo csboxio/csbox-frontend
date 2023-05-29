@@ -60,6 +60,7 @@
 		"@fortawesome/free-solid-svg-icons": "^6.2.1",
 		"@popperjs/core": "^2.11.6",
 		"@prisma/client": "^4.8.0",
+		"@supabase-cache-helpers/postgrest-swr": "^1.0.10",
 		"@supabase/auth-helpers-sveltekit": "^0.8.6",
 		"@sveltejs/adapter-node": "^1.0.0",
 		"@tinymce/tinymce-svelte": "^1.0.0",

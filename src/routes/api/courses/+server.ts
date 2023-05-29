@@ -16,8 +16,7 @@ export const GET: RequestHandler = async (event) => {
       .eq('created_by', session.user?.id);
 
     event.setHeaders({
-        'Cache-Control': 'public, max-age=60, s-maxage=60',
-        'Age': '30'
+        'cache-control': 'public, max-age=60, s-maxage=60'
     })
 
     return json(data)

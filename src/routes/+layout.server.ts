@@ -7,6 +7,9 @@ export const prerender = false;
 // @ts-ignore
 export const load: LayoutServerLoad = async (event) => {
   if (event.locals.session && !browser) {
+
+
+
     return {
       session: event.locals.session
     };

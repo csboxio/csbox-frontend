@@ -1,0 +1,21 @@
+import {browser} from "$app/environment";
+import { getSupabase } from "@supabase/auth-helpers-sveltekit";
+import type { LayoutLoad } from "./$types.js";
+export const prerender = false;
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+
+export const load = (async (  event ) => {
+  const {session } = await getSupabase(event);
+  if (session) {
+    const response = await event.fetch('/api/users')
+    console.log(response.json)
+    return {
+      user: {
+        userData: await response.json()
+      },
+      session: session
+    };
+  }
+});
