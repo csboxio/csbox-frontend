@@ -1,27 +1,16 @@
 <script lang="ts">
 	import { supabaseClient } from '$lib/utilities/supabaseClient';
-	import { goto, invalidateAll } from "$app/navigation";
+	import { goto } from "$app/navigation";
 	import { onMount } from "svelte";
 	import { page } from "$app/stores";
-	import Notification from '$lib/components/Notification.svelte';
+	import Notification from '$lib/components/NotificationBuilder.svelte';
 	import { fetchCourses } from "$lib/utilities/utils"
-	import { error } from "@sveltejs/kit";
+	import { invalidateAll } from "$app/navigation";
+	import { notifications } from "../../../lib/utilities/notifications.ts";
+	import { addNotification } from "../../../lib/utilities/notifications.ts";
 
-	type Notification = {
-		course_id: any,
-		course_title: unknown,
-		message: string
-	}
 
-	// Create a store and update it when necessary...
-	let notifications: any[] = [];
-	$: notifications;
-	let show_notification = false;
 
-	function addNotification(notification: Notification) {
-		show_notification = true;
-		invalidateAll()
-	}
 
 	onMount(async () => {
 		const {
@@ -61,16 +50,14 @@
 								const courseTitle = courseMap.get(payload.new.course_id);
 								if (courseTitle) {
 									// Update the notification store with the new information.
-									const newNotification: Notification =
+									const newNotification =
 										{
-											course_id: payload.new.course_id,
-											course_title: courseTitle,
+											title: courseTitle.toString(),
 											message: "New student has enrolled."
 										};
 
 									//console.log(newNotification)
-									notifications.push(newNotification)
-									notifications = notifications;
+
 									addNotification(newNotification)
 								}
 							}
@@ -96,11 +83,10 @@
 </svelte:head>
 <slot />
 
-{#if show_notification}
-	{#key notifications}
-	{#each notifications as notification}
-	<Notification title="{notification.course_title}" content="{notification.message}"/>
+
+	{#each $notifications as notification}
+	<Notification title="{notification.title}" content="{notification.message}"/>
 	{/each}
-		{/key}
-{/if}
+
+
 

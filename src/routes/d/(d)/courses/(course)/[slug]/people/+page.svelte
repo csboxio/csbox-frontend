@@ -6,7 +6,6 @@
 	import { dragMe } from '$lib/utilities/dragMe.ts'
 
 	let course_data = $page.data.courses.courseData;
-	let enrollment_data = data.enrollmentData
 	import {
 		Button, Modal,
 		Table,
@@ -18,7 +17,8 @@
 		TableSearch
 	} from "flowbite-svelte";
 	import { page } from "$app/stores";
-	import { invalidateAll } from "$app/navigation";
+	import { goto, invalidateAll } from "$app/navigation";
+	import { addNotification } from "../../../../../../../lib/utilities/notifications.js";
 	let searchTerm = '';
 	let code = '';
 	$: code;
@@ -26,6 +26,8 @@
 	let peopleModel = false;
 	let removeModel = false;
 	let editModel = false;
+
+	let enrollment_data = data.enrollmentData;
 
 	$: filteredItems = enrollment_data.filter(
 			(enrollment_data) => enrollment_data.users.first_name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
@@ -71,7 +73,7 @@
 			delete_model_close();
 			alert("Cannot remove yourself.")
 		}
-		invalidateAll();
+		await invalidateAll();
 	}
 
 	async function handleAcceptUser(pid) {
@@ -80,10 +82,19 @@
 		console.log(error, data, status)
 		if (status === 200) {
 			console.log(error, data, status)
+			const newNotification =
+				{
+					title: "Success! 👏",
+					message: "New person enrolled."
+				};
+
+			addNotification(newNotification)
 			await invalidateAll();
+			goto(window.location.pathname)
 		}
 		if (status === 400) {
 			console.log(error, data, status)
+
 			await invalidateAll();
 		}
 	}
@@ -129,8 +140,7 @@
 								<TableBodyRow  class="cursor-pointer">
 										<TableBodyCell>{users.first_name} {users.last_name}</TableBodyCell>
 										<TableBodyCell>
-											{#if !enrolled}
-												<button on:click={() => handleAcceptUser(user_id)} class="{enrolled ? 'hidden' : 'block'}relative inline-flex items-center justify-center p-0.5 mb-1
+												<button on:click={() => handleAcceptUser(user_id)} class="{enrolled ? 'hidden' : 'block'} relative inline-flex items-center justify-center p-0.5 mb-1
 										 	mr-1 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400
 										 	to-green-600  hover:text-white dark:text-white
 											focus:ring-4 focus:outline-none ">
@@ -140,7 +150,7 @@
 											Accept
 											</span>
 												</button>
-												{:else }
+											{#if enrolled}
 												TRUE
 											{/if}
 										</TableBodyCell>

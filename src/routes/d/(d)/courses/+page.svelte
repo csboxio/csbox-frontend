@@ -11,7 +11,7 @@
 	import { Modal } from "flowbite-svelte";
 	import { supabaseClient } from "$lib/utilities/supabaseClient.js";
 	import Courses from "$lib/blocks/Courses.svelte";
-
+	import { addNotification } from "../../../../lib/utilities/notifications.js";
 	//import { useSWR } from "sswr";
 
 
@@ -52,6 +52,14 @@
 		if (result?.data.data === "Enrollment successful") {
 			invalidateAll();
 			defaultModel = false;
+
+			const newNotification =
+				{
+					title: "Enrolled! 🥳",
+					message: "Wait for your instructor to accept you."
+				};
+
+			addNotification(newNotification)
 		}
 		if (result?.data.error !== null) {
 			if (result?.data.error.message === "Already Enrolled") {
@@ -64,6 +72,14 @@
 			}
 		}
 	}
+
+	// Create a store and update it when necessary...
+
+	let show_notification = false;
+
+
+
+
 
 
 
@@ -161,6 +177,7 @@
 							Join
 						</span>
 					</button>
+
 				<!-- Model for join course -->
 				<Modal title="Join Course" bind:open={defaultModel}>
 					<form method="POST" action="?/joinCourse" on:submit|preventDefault={handleSubmit}
