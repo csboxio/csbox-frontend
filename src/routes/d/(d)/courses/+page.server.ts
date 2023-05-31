@@ -16,7 +16,7 @@ export const actions: Actions = {
     if (user != null) {
       const { error, data, status } = await supabaseClient.rpc('enroll_user',
           {_user_id: user.id, code: code})
-      console.log(error, data, status)
+      //console.log(error, data, status)
       return { error, data}
     }
   }

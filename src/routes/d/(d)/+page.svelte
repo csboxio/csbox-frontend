@@ -22,7 +22,7 @@
 
 	export let fetchedCourses;
 	$: courses = $fetchedCourses;
-	console.log(courses)
+	//console.log(courses)
 </script>
 
 <body

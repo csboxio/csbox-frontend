@@ -81,7 +81,7 @@
 			{_sender_id: $page.data.session?.user.id, _user_id: pid, _course_id: $page.params.slug})
 		console.log(error, data, status)
 		if (status === 200) {
-			console.log(error, data, status)
+			//console.log(error, data, status)
 			const newNotification =
 				{
 					title: "Success! 👏",
@@ -93,7 +93,7 @@
 			goto(window.location.pathname)
 		}
 		if (status === 400) {
-			console.log(error, data, status)
+			//console.log(error, data, status)
 
 			await invalidateAll();
 		}

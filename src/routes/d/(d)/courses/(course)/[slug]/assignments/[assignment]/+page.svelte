@@ -5,6 +5,7 @@
 	import { supabaseClient } from '$lib/utilities/supabaseClient';
 	import { blur } from 'svelte/transition';
 	import { browser } from '$app/environment';
+	import { page } from "$app/stores";
 
 	let model;
 	export let data;
@@ -12,6 +13,8 @@
 	let loading;
 	let assignments;
 	$: assignments = data.assignmentData;
+
+	console.log(assignments)
 
 	function show_box() {
 		show_create_box = true;
@@ -58,40 +61,42 @@
 			await invalidateAll();
 		}
 	}
+	console.log("1" + $page.data.assignmentData)
+	console.log("2" + $page.data.assignmentDataInfo)
 </script>
 
 <div class="flex flex-row">
 	<section class="p-1">
 		<div class="container mx-1 my-8">
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Title: {assignments.assignment_title}
+				Title: {assignments}
 			</h4>
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Inserted At: {assignments.inserted_at}
+				Due: {assignments}
 			</h4>
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Category: {assignments.category}
+				Category: {assignments}
 			</h4>
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Description: {assignments.description}
+				Description: {assignments}
 			</h4>
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Points: {assignments.points}
+				Points: {assignments}
 			</h4>
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Submission Type: {assignments.submission_type}
-			</h4>
-
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Submission Attempts: {assignments.submission_attempts}
+				Submission Type: {assignments}
 			</h4>
 
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Assigned to: {assignments.assign_to}
+				Submission Attempts: {assignments}
 			</h4>
 
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Due: {assignments.due}
+				Assigned to: {assignments}
+			</h4>
+
+			<h4 class="text-xl font-bold text-white -mx-auto my-5">
+
 			</h4>
 
 

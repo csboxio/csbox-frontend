@@ -10,9 +10,9 @@ export const load: PageServerLoadEvent = async (event) => {
     const slug = event.params.slug
     if (session) {
         const {data: assignmentData} = await supabaseClient.from('assignments')
-            .select('id, inserted_at, assignment_title, category, submission_type, description, due, points')
+            .select('assignment_id, inserted_at, assignment_title, category, submission_type, description, due, points')
             .eq('course_id', event.params.slug)
-            .eq('id', event.params.assignment)
+            .eq('assignment_id', event.params.assignment)
             .single()
 
         const {data: modules, error} = await supabaseClient.from('modules')
@@ -37,7 +37,7 @@ export const actions: Actions = {
 
         const {data} = await event.locals.sb.auth.refreshSession()
         let user;
-        console.log(data)
+        //console.log(data)
         if (data == null) {
             const {data} = await supabaseClient.auth.refreshSession()
             user = data.user
@@ -90,9 +90,9 @@ export const actions: Actions = {
         if (module != '') {
             updates = Object.assign(updates, {in_module: module})
         }
-        console.log(updates)
+        //console.log(updates)
             const {error} = await event.locals.sb.from('assignments').upsert(updates)
-            console.log(error)
+            //console.log(error)
         }
     }
 }

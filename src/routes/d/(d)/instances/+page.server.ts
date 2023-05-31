@@ -51,9 +51,9 @@ export const actions: Actions = {
         assignment_id: assignment
       }
       // Leave out the in_module (module id) if it is blank in the update, if not include it.
-      console.log(updates)
+      //console.log(updates)
       const {error} = await event.locals.sb.from('instances').upsert(updates)
-      console.log(error)
+      //console.log(error)
     }
   }
 }

@@ -15,9 +15,10 @@ export const GET: RequestHandler = async (event) => {
     const { data, error } = await supabaseClient.from('courses')
       .select('id, course_image_url, course_title, course_prefix, course_number, course_term')
 
-    //event.setHeaders({
-    //    'cache-control': 'public, max-age=60, s-maxage=60'
-    //})
+    event.setHeaders({
+        'cache-control': 'public, max-age=60, s-maxage=60'
+    })
+
 
     return json(data)
 }

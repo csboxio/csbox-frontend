@@ -28,7 +28,6 @@
 	export let availableuntilDate;
 
 	// Page Data
-	$: assignments = data.assignmentData;
 	//let course_data = $page.data.courses.courseData;
 	let modules = data.modules;
 
@@ -36,7 +35,9 @@
 	let model;
 
 	let loading;
-	let assignments = data.assignmentData;
+	let assignments = data.assignments.assignmentData;
+	$: assignments;
+	//console.log(assignments)
 	let open = false;
 	let delete_assignment;
 	let delete_assignment_id;
@@ -49,8 +50,9 @@
 	// For search box on assignments
 	let searchTerm = '';
 	$: filteredItems = assignments.filter(
-		(assignments) => assignments.assignment_title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+		(assignments) => assignments.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
 	);
+
 
 	// For assignment delete
 	let deleteModel = false;
@@ -167,18 +169,18 @@
 					</TableHeadCell>
 				</TableHead>
 				<TableBody class="divide-y">
-				{#each filteredItems as { id, assignment_title, category, due, points }, i}
-						<TableBodyRow on:click={() =>  handleAssignment(id)} class="cursor-pointer">
-							<TableBodyCell>{assignment_title ? assignment_title : 'No title...'}</TableBodyCell>
-							<TableBodyCell>{category}</TableBodyCell>
-							<TableBodyCell>{due.substring(0, 10)}</TableBodyCell>
-							<TableBodyCell>{points}</TableBodyCell>
+				{#each filteredItems as { assignment_id, title, category, due, points }, i}
+						<TableBodyRow on:click={() =>  handleAssignment(assignment_id)} class="cursor-pointer">
+							<TableBodyCell>{title ? title : 'No title'}</TableBodyCell>
+							<TableBodyCell>{category ? category : "No category" }</TableBodyCell>
+							<TableBodyCell>{due ? due.substring(0, 10) : "No date" }</TableBodyCell>
+							<TableBodyCell>{points ? points : "No Points" }</TableBodyCell>
 							<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
-								<a on:click|stopPropagation={() => goto($page.url.pathname + "/" + id + "/edit")} class="font-medium
+								<a on:click|stopPropagation={() => goto($page.url.pathname + "/" + assignment_id + "/edit")} class="font-medium
 								text-blue-600 hover:underline dark:text-blue-500 px-1">
 									Edit
 								</a>
-								<a on:click|stopPropagation={() => delete_model_open(id)} class="font-medium text-blue-600
+								<a on:click|stopPropagation={() => delete_model_open(assignment_id)} class="font-medium text-blue-600
 								hover:underline dark:text-red-500">
 									Delete
 								</a>

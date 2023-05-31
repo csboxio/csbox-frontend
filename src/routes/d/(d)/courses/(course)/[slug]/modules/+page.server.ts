@@ -6,18 +6,13 @@ export const prerender = false;
 export const load: PageServerLoadEvent = async (event) => {
     const {session, supabaseClient} = await getSupabase(event);
     if (session) {
-        const {data: assignmentPageData, error } = await supabaseClient.from('modules')
+        const {data: modules } = await supabaseClient.from('modules')
           .select('module_title, id, ' +
-            'assignments ( id, inserted_at, assignment_title, category, description, in_module )')
-          .eq('course_id', event.params.slug)
-
-        const {data: assignmentData, error: assignementError} = await supabaseClient.from('assignments')
-          .select('id, inserted_at, assignment_title, category, description, in_module')
+            'assignments ( assignment_id, title, category, in_module )')
           .eq('course_id', event.params.slug)
 
         return {
-            assignmentData,
-            assignmentPageData,
+            modules
         };
     }
 };

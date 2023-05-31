@@ -9,9 +9,9 @@
 
 	if (browser) {
 
-		onCLS(console.log);
-		onFID(console.log);
-		onLCP(console.log);
+		//onCLS(console.log);
+		//onFID(console.log);
+		//onLCP(console.log);
 	}
 
 

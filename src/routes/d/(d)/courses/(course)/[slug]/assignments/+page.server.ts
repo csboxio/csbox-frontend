@@ -10,14 +10,7 @@ export const load: PageServerLoadEvent = async (event) => {
     const {session, supabaseClient} = await getSupabase(event);
     const slug = event.params.slug
     if (session) {
-        const {data: assignmentData} = await supabaseClient.from('assignments')
-          .select('id, inserted_at, assignment_title, category, description, due, points')
-          .eq('course_id', event.params.slug)
 
-        return {
-            assignmentData,
-            slug,
-        };
     }
 };
 
@@ -83,9 +76,9 @@ export const actions: Actions = {
         if (module != '') {
             updates = Object.assign(updates, {in_module: module})
         }
-        console.log(updates)
+        //console.log(updates)
             const {error} = await event.locals.sb.from('assignments').upsert(updates)
-            console.log(error)
+            //console.log(error)
         }
     }
 }
