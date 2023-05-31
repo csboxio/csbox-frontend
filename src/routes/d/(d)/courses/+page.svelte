@@ -3,21 +3,13 @@
 	import Settings from "$lib/components/Settings.svelte";
 	import Navbar from "$lib/components/Navbar.svelte";
 	import { page } from "$app/stores";
-	import { browser } from "$app/environment";
-	import { blur } from "svelte/transition";
-	import { goto, invalidateAll } from "$app/navigation";
+	import { invalidateAll } from "$app/navigation";
 	import { deserialize } from "$app/forms";
-
 	import { Modal } from "flowbite-svelte";
-	import { supabaseClient } from "$lib/utilities/supabaseClient.js";
 	import Courses from "$lib/blocks/Courses.svelte";
 	import { addNotification } from "../../../../lib/utilities/notifications.js";
-	//import { useSWR } from "sswr";
-
-
 
 	let defaultModel = false;
-
 
 	// this is needed for the outside click div, that needs to be redone
 	let model;
@@ -27,10 +19,6 @@
 
 	let courses;
 	$: courses = $page.data.courses.courseData;
-
-
-		//const { data: coursesa } = useSWR('/api/courses')
-
 
 	let hoverID;
 	$: hoverID;
@@ -72,17 +60,6 @@
 			}
 		}
 	}
-
-	// Create a store and update it when necessary...
-
-	let show_notification = false;
-
-
-
-
-
-
-
 </script>
 
 <body

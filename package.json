@@ -95,6 +95,7 @@
 		"svelte-steps": "^2.4.1",
 		"tailwind-editor": "^0.2.2",
 		"uuid": "^9.0.0",
+		"web-vitals": "^3.3.2",
 		"wrangler": "^2.1.6"
 	}
 }

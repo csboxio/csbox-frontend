@@ -9,9 +9,6 @@
 	import { notifications } from "../../../lib/utilities/notifications.ts";
 	import { addNotification } from "../../../lib/utilities/notifications.ts";
 
-
-
-
 	onMount(async () => {
 		const {
 			data: { subscription }
@@ -55,9 +52,6 @@
 											title: courseTitle.toString(),
 											message: "New student has enrolled."
 										};
-
-									//console.log(newNotification)
-
 									addNotification(newNotification)
 								}
 							}
@@ -68,11 +62,9 @@
 						channel.unsubscribe();
 					};
 				}
-
 				return () => {
 					subscription.unsubscribe();
 				};
-
 			});
 </script>
 <svelte:head>

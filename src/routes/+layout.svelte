@@ -3,6 +3,17 @@
 	import { goto, invalidateAll } from "$app/navigation";
 	import { onMount, setContext } from "svelte";
 	import '../app.css';
+	import { browser } from "$app/environment";
+	import {onLCP, onFID, onCLS} from 'web-vitals';
+
+
+	if (browser) {
+
+		onCLS(console.log);
+		onFID(console.log);
+		onLCP(console.log);
+	}
+
 
 	onMount(async () => {
 		const {
