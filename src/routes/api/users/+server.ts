@@ -11,14 +11,15 @@ export const GET: RequestHandler = async (event) => {
   if (!session) {
     throw redirect(303, '/');
   }
-  const {data} = await event.locals.sb.from('users')
-    .select('updated_at, username, first_name, last_name, website, country, avatar_url')
+  const {data, error} = await event.locals.sb.from('users')
+    .select('updated_at, username, first_name, last_name, website, county, avatar_url')
     .eq('id', session.user?.id)
     .single()
 
   event.setHeaders({
     'cache-control': 'public, max-age=300, s-maxage=300'
   })
+
 
   return json(data)
 }
