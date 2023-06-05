@@ -152,9 +152,9 @@
 						</TableHeadCell>
 					</TableHead>
 					<TableBody class="divide-y">
-						{#each instances as {id, assignment_id, type, inserted_at, assignments }}
+						{#each instances as { assignment_id, type, inserted_at, assignments }}
 							<TableBodyRow  class="cursor-pointer">
-								<TableBodyCell>{assignments.assignment_title}</TableBodyCell>
+								<TableBodyCell>{assignments.title}</TableBodyCell>
 								<TableBodyCell>{type}</TableBodyCell>
 								<TableBodyCell>{inserted_at.substring(0,10)}</TableBodyCell>
 								<TableBodyCell>Running</TableBodyCell>

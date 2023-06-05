@@ -11,10 +11,11 @@ export const load: PageServerLoadEvent = async (event) => {
     const {data: assignmentData} = await supabaseClient.from('assignments')
       .select('id, assignment_title')
 
-    const {data: instanceData} = await supabaseClient.from('instances')
-      .select('id, assignment_id, inserted_at, type, assignments ( id, assignment_title )')
+    const {data: instanceData, error} = await supabaseClient.from('instances')
+      .select('id, assignment_id, inserted_at, type, assignments ( assignment_id, title )')
       .eq('user_id', session.user.id)
 
+    console.log(error)
     return {
       assignmentData,
       instanceData
