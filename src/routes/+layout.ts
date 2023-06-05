@@ -10,7 +10,6 @@ export const load = (async (  event ) => {
   const {session } = await getSupabase(event);
   if (session) {
     const response = await event.fetch('/api/users')
-    console.log(response.json)
     return {
       user: {
         userData: await response.json()

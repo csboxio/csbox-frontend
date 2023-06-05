@@ -2,6 +2,7 @@ import type { Actions, PageServerLoadEvent } from "./$types";
 import {getSupabase} from '@supabase/auth-helpers-sveltekit'
 
 export const prerender = false;
+export const ssr = false
 // @ts-ignore
 export const load: PageServerLoadEvent = async (event) => {
     const {session, supabaseClient} = await getSupabase(event);

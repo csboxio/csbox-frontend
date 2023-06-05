@@ -12,7 +12,7 @@ export const GET: RequestHandler = async (event) => {
     throw redirect(303, '/');
   }
   const {data, error} = await event.locals.sb.from('users')
-    .select('updated_at, username, first_name, last_name, website, county, avatar_url')
+    .select('updated_at, username, first_name, last_name, website, avatar_url')
     .eq('id', session.user?.id)
     .single()
 

@@ -6,7 +6,6 @@
     import { page } from "$app/stores";
     export let session;
     let loading = false;
-    let username = $page.data.user.userData.username;
     let first_name = $page.data.user.userData.first_name;
     let website = $page.data.user.userData.website;
     let avatarUrl = $page.data.user.userData.avatar_url;

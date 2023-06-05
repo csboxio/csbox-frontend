@@ -14,7 +14,7 @@
 	let assignments;
 	$: assignments = data.assignmentData;
 
-	console.log(assignments)
+	//console.log(assignments)
 
 	function show_box() {
 		show_create_box = true;
@@ -61,8 +61,8 @@
 			await invalidateAll();
 		}
 	}
-	console.log("1" + $page.data.assignmentData)
-	console.log("2" + $page.data.assignmentDataInfo)
+	//console.log("1" + $page.data.assignmentData)
+	//console.log("2" + $page.data.assignmentDataInfo)
 </script>
 
 <div class="flex flex-row">

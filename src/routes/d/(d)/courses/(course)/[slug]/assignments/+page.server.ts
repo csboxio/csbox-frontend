@@ -6,13 +6,6 @@ import { invalidateAll } from "$app/navigation";
 export const prerender = false;
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export const load: PageServerLoadEvent = async (event) => {
-    const {session, supabaseClient} = await getSupabase(event);
-    const slug = event.params.slug
-    if (session) {
-
-    }
-};
 
 export const actions: Actions = {
     createAssignment: async (event) => {

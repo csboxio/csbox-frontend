@@ -7,31 +7,25 @@ import { supabaseClient } from "$lib/utilities/supabaseClient";
 import { browser } from "$app/environment";
 
 
+
 // TODO UNKNOWN IF TRULY SECURE
 // https://github.com/supabase/auth-helpers/issues/408
 /** @type {import('./$types').RequestHandler} */
 // @ts-ignore
-export async function GET({ url } : RequestEvent) {
+export const GET : RequestHandler = async (event) => {
 
-console.log(url.searchParams.get('course'))
-  // Get path url from database
-  // TODO server side user check this is insecure
-
+  const { session, supabaseClient } = await getSupabase(event)
+  if (!session) {
+    throw redirect(303, '/');
+  }
+  const course = event.url.searchParams.get('course')
   const {data, error} = await supabaseClient.from('assignments')
     .select('assignment_id, title, category, due, points')
-    .eq('course_id', url.searchParams.get('course'))
+    .eq('course_id', course)
 
+  event.setHeaders({
+    'cache-control': 'public, max-age=60, s-maxage=60'
+  })
 
-  console.log("api" + error)
-
-  const responseInit : ResponseInit =
-    {
-      headers :
-        {
-          'cache-control' : 'public, max-age=3600'
-        }
-    }
-
-  return new Response(data,responseInit);
-
+  return json(data)
 }
