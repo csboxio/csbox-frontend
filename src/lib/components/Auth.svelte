@@ -1,5 +1,5 @@
 <script lang="ts">
-
+    import { Turnstile } from 'svelte-turnstile';
     export let form;
     let loading = false;
 </script>
@@ -35,6 +35,7 @@
                             </div>
                             <div class="w-full p-2">
                                 <div class="group relative">
+                                    <Turnstile siteKey="SITE_KEY" />
                                     <div class="absolute top-0 left-0 w-full h-full bg-gradient-blue opacity-0 group-hover:opacity-50 rounded-lg transition ease-out duration-300"></div>
                                     <button class="p-1 w-full font-heading font-medium text-base text-white overflow-hidden rounded-md">
                                         <div class="relative py-4 px-9 bg-gradient-blue overflow-hidden rounded-md">

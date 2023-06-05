@@ -54,6 +54,33 @@ export const uploadCourseDocument = async (files: FileList, courseId: bigint, us
   loading = false;
 };
 
+export const createPlaceHolderCourseDocument = async (courseId: bigint, user: any) => {
+  const file = new File(["<p>Welcome to this course's Home Page!</p> <b>Click edit</b> to start!"], 'home.HTML');
+  const dataTransfer = new DataTransfer();
+  dataTransfer.items.add(file);
+  console.log("HERE", file, courseId, user)
+  // Delete old html from block storage
+  const filePath = `${courseId + "/" + "document/" + "home"}.HTML`;
+  //await deleteCourseDocument(filePath)
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const { error } = await supabaseClient.storage.from("courses").update(filePath, file);
+  console.log(error)
+  if (error) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const { errors } = await supabaseClient.storage.from("courses").remove(filePath);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const { error } = await supabaseClient.storage.from("courses").upload(filePath, file);
+  }
+  const { data } = supabaseClient.storage.from("courses").getPublicUrl(filePath);
+
+  await updateCourseInsert(courseId, user)
+
+  loading = false;
+};
+
 async function updateCourseInsert(courseId: bigint, user: User) {
   try {
     const updates = {

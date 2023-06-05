@@ -50,6 +50,7 @@
 		"svelte-lazyimage-cache": "^1.0.9-remake",
 		"svelte-outclick": "^3.3.3",
 		"svelte-select": "^5.5.2",
+		"svelte-turnstile": "^0.4.1",
 		"tailwindcss": "^3.2.4",
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0-beta",

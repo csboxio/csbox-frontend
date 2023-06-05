@@ -6,12 +6,12 @@
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 	import { StepIndicator } from 'flowbite-svelte';
+	import { createPlaceHolderCourseDocument, uploadCourseDocument } from "../../../../../lib/utilities/course.js";
 	let steps = ['Step 1', 'Step 2', 'Step 3'];
 
 	let session = $page.data.session;
 	let loading;
 
-	/** @type {import("./$types").PageData} */
 	export let data;
 	// TODO error handling
 	let course_title;
@@ -52,12 +52,10 @@
 		if (result.type === 'success') {
 			// re-run all `load` functions, following the successful update
 			currentStep = 2;
-			try {
-				currentCourseId = JSON.stringify(result['data'].course_id);
-			} catch {
-				console.log('ERROR: No course ID found');
-				alert('Please sign out, and sign back in.');
-			}
+
+			currentCourseId = JSON.stringify(result['data'].course_id);
+
+			 createPlaceHolderCourseDocument(currentCourseId, $page.data.session.user.id);
 			await invalidateAll();
 		}
 

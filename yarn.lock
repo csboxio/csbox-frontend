@@ -4957,12 +4957,19 @@ svelte-steps@^2.4.1:
   resolved "https://registry.npmjs.org/svelte-steps/-/svelte-steps-2.4.1.tgz"
   integrity sha512-2Xq2lLcGJf3PaEY46f1w5s+/O+tLl4U2V+Z+sCeoUm/kEPFXeZP/aFr2JVKwdzSlXCT+raz75xqXtnZrPWJ0zA==
 
+svelte-turnstile@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.npmjs.org/svelte-turnstile/-/svelte-turnstile-0.4.1.tgz"
+  integrity sha512-KAfgjY8/8uhndgv2c+ZMlMv3Xv+vZZW0v8wCIHw3ylp8Z3yxOUqlFyjedFwhD4fhxXINdjraekxWDPopRJ7UgQ==
+  dependencies:
+    turnstile-types "^1.1.2"
+
 svelte-waypoint@^0.1.0:
   version "0.1.4"
   resolved "https://registry.npmjs.org/svelte-waypoint/-/svelte-waypoint-0.1.4.tgz"
   integrity sha512-UEqoXZjJeKj2sWlAIsBOFjxjMn+KP8aFCc/zjdmZi1cCOE59z6T2C+I6ZaAf8EmNQqNzfZVB/Lci4Ci9spzXAw==
 
-"svelte@^3.19.0 || ^4.0.0-next.0", svelte@^3.2.0, "svelte@^3.2.0 || ^4.0.0-next.0", svelte@^3.23.0, svelte@^3.24.0, svelte@^3.43.1, svelte@^3.54.0, "svelte@^3.54.0 || ^4.0.0-next.0", svelte@3.x:
+"svelte@^3.19.0 || ^4.0.0-next.0", svelte@^3.2.0, "svelte@^3.2.0 || ^4.0.0-next.0", svelte@^3.23.0, svelte@^3.24.0, svelte@^3.43.1, svelte@^3.54.0, "svelte@^3.54.0 || ^4.0.0-next.0", svelte@^3.58.0, svelte@3.x:
   version "3.59.1"
   resolved "https://registry.npmjs.org/svelte/-/svelte-3.59.1.tgz"
   integrity sha512-pKj8fEBmqf6mq3/NfrB9SLtcJcUvjYSWyePlfCqN9gujLB25RitWK8PvFzlwim6hD/We35KbPlRteuA6rnPGcQ==
@@ -5204,6 +5211,11 @@ tsutils@^3.21.0:
   integrity sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==
   dependencies:
     tslib "^1.8.1"
+
+turnstile-types@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/turnstile-types/-/turnstile-types-1.1.2.tgz"
+  integrity sha512-MJXbAeRPpORqPViZbHrpu8LWOHv1dp9i5GYSfoedu7GUmkUZpHWlAVLCFAhWlpRA5PQLBRworOGCEu4o6Ks7Zw==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
