@@ -9,13 +9,13 @@ export const load: PageServerLoadEvent = async (event) => {
     if (session) {
 
         const {data: assignmentDataInfo, error} = await supabaseClient.from('assignments_info')
-            .select('title, creator_id, description, submission_type,' +
+            .select('description, submission_type,' +
               ' submission_attempts, display_as, available_start, available_end,' +
               ' inserted_at, assign_to')
             .eq('assignment', event.params.assignment)
             .single()
 
-        //console.log(error)
+        console.log(error)
 
         return {
             assignmentDataInfo

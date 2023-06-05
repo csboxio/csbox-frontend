@@ -8,13 +8,7 @@ export const actions: Actions = {
         const {request} = event
         const {supabaseClient} = await getSupabase(event)
 
-        const { data } = await event.locals.sb.auth.refreshSession()
-        let user;
-        if (data == null) {
-          const { data } = await supabaseClient.auth.refreshSession()
-          user = data.user
-        }
-        user = data.user
+      const {session } = await getSupabase(event);
 
         const formData = await request.formData()
 
@@ -22,12 +16,12 @@ export const actions: Actions = {
         const prefix = formData.get('course_prefix') as string
         const number = formData.get('course_number') as string
         const term = formData.get('course_term') as string
-        if (user != null) {
+        if (session) {
             const course_id = Math.floor(Math.random() * 9999999999);
             const { error } = await supabaseClient.rpc('create_course',
               {_course_id: course_id,
                     _inserted_at: new Date(),
-                    _created_by: user.id,
+                    _created_by: session.user.id,
                     _course_title: title,
                     _course_prefix: prefix,
                     _course_number: number,

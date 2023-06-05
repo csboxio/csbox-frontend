@@ -171,17 +171,18 @@
 				<TableBody class="divide-y">
 				{#each filteredItems as { assignment_id, title, category, due, points }, i}
 						<TableBodyRow on:click={() =>  handleAssignment(assignment_id)} class="cursor-pointer">
-							<TableBodyCell>{title ? title : 'No title'}</TableBodyCell>
-							<TableBodyCell>{category ? category : "No category" }</TableBodyCell>
-							<TableBodyCell>{due ? due.substring(0, 10) : "No date" }</TableBodyCell>
-							<TableBodyCell>{points ? points : "No Points" }</TableBodyCell>
-							<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
+							<TableBodyCell >{title ? title : 'No title'}</TableBodyCell>
+							<TableBodyCell >{category ? category : "No category" }</TableBodyCell>
+							<TableBodyCell >{due ? due.substring(0, 10) : "No date" }</TableBodyCell>
+							<TableBodyCell >{points ? points : "No Points" }</TableBodyCell>
+
+							<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium"  >
 								<a on:click|stopPropagation={() => goto($page.url.pathname + "/" + assignment_id + "/edit")} class="font-medium
-								text-blue-600 hover:underline dark:text-blue-500 px-1">
+								text-blue-600 hover:underline dark:text-blue-500">
 									Edit
 								</a>
 								<a on:click|stopPropagation={() => delete_model_open(assignment_id)} class="font-medium text-blue-600
-								hover:underline dark:text-red-500">
+								hover:underline dark:text-red-500 ">
 									Delete
 								</a>
 							</TableBodyCell>

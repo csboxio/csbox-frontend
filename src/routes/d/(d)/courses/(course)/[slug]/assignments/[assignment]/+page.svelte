@@ -12,7 +12,7 @@
 	export let show_create_box;
 	let loading;
 	let assignments;
-	$: assignments = data.assignmentData;
+	$: assignments = data.assignmentDataInfo;
 
 	//console.log(assignments)
 
@@ -69,38 +69,35 @@
 	<section class="p-1">
 		<div class="container mx-1 my-8">
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Title: {assignments}
+				Title: {assignments.title}
 			</h4>
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Due: {assignments}
+				Creator: {assignments.creator_id}
 			</h4>
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Category: {assignments}
+				Description: {assignments.description}
 			</h4>
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Description: {assignments}
+				Submission Type: {assignments.submission_type}
 			</h4>
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Points: {assignments}
+				Submission Attempts: {assignments.submission_attempts}
 			</h4>
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Submission Type: {assignments}
+				Display as: {assignments.display_as}
 			</h4>
-
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Submission Attempts: {assignments}
+				Available Start: {assignments.available_start}
 			</h4>
-
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Assigned to: {assignments}
+				Available End: {assignments.available_end}
 			</h4>
-
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-
+				Inserted At: {assignments.inserted_at}
 			</h4>
-
-
-			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold delay-50" />
+			<h4 class="text-xl font-bold text-white -mx-auto my-5">
+				Assign To: {assignments.assign_to}
+			</h4>
 		</div>
 	</section>
 </div>
