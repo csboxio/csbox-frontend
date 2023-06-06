@@ -1,7 +1,12 @@
 <script lang="ts">
     import { Turnstile } from 'svelte-turnstile';
+    import { enhance } from '$app/forms';
+
+
+    /** @type {import('./$types').ActionData} */
     export let form;
     let loading = false;
+    export let Token;
 </script>
 
 <body class="antialiased bg-body text-body font-body">
@@ -19,38 +24,44 @@
                         {/if}
                         <p class="mb-11 text-lg text-gray-200">Welcome back!</p>
 
-                        <form class="row flex-center flex" method="POST" action="?/signin">
+                        <form class="row flex-center flex" method="POST" action="?/signin"
+                              >
                             {#if form?.missing}<p class="error">The email field is required</p>{/if}
                             {#if form?.incorrect}<p class="error">Invalid credentials!</p>{/if}
-                        <div class="flex flex-wrap max-w-md mx-auto -m-2 mb-5">
-                            <div class="w-full p-2">
-                                <!--Email-->
-                                <input class="w-full px-5 py-3.5 text-gray-500 placeholder-gray-500 bg-white outline-none focus:ring-4 focus:ring-indigo-500 border border-gray-200 rounded-lg"
-                                       type="email" placeholder="Email address" name="email" autocomplete="username" value={form?.values?.email ?? ''}>
-                            </div>
-                            <div class="w-full p-2">
-                                <!--Password-->
-                                <input class="w-full px-5 py-3.5 text-gray-500 placeholder-gray-500 bg-white outline-none focus:ring-4 focus:ring-indigo-500 border border-gray-200 rounded-lg"
-                                       id="password" type="password" placeholder="Password" name="password" autocomplete="current-password" required>
-                            </div>
-                            <div class="w-full p-2">
-                                <div class="group relative">
-                                    <Turnstile siteKey="SITE_KEY" />
-                                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-blue opacity-0 group-hover:opacity-50 rounded-lg transition ease-out duration-300"></div>
-                                    <button class="p-1 w-full font-heading font-medium text-base text-white overflow-hidden rounded-md">
-                                        <div class="relative py-4 px-9 bg-gradient-blue overflow-hidden rounded-md">
-                                            <input type="submit"
-                                                   class="absolute top-0 left-0 transform -translate-y-full group-hover:-translate-y-0 h-full w-full bg-gray-900 transition ease-in-out duration-500"
-                                                   disabled={loading}
-                                                   value = ""
+                            <div class="flex flex-wrap max-w-md mx-auto -m-2 mb-5">
+                                <div class="w-full p-2">
+                                    <!--Email-->
+                                    <input class="w-full px-5 py-3.5 text-gray-500 placeholder-gray-500 bg-white outline-none focus:ring-4 focus:ring-indigo-500 border border-gray-200 rounded-lg"
+                                           type="email" placeholder="Email address" name="email" autocomplete="username" value={form?.values?.email ?? ''}>
+                                </div>
+                                <div class="w-full p-2">
+                                    <!--Password-->
+                                    <input class="w-full px-5 py-3.5 text-gray-500 placeholder-gray-500 bg-white outline-none focus:ring-4 focus:ring-indigo-500 border border-gray-200 rounded-lg"
+                                           id="password" type="password" placeholder="Password" name="password" autocomplete="current-password" required>
+                                </div>
 
-                                            />
-                                            <p class="relative z-10">{loading ? 'Loading' : 'Login'}</p>
-                                        </div>
-                                    </button>
+                                <div class="w-full p-2">
+
+                                    <Turnstile siteKey="0x4AAAAAAAFpCF8-h1TYQKHV" on:turnstile-callback={(e) => Token = e.detail.token }/>
+
+                                    <input hidden="hidden" id="token" name="token" bind:value={Token}>
+
+                                    <div class="group relative">
+                                        <div class="absolute top-0 left-0 w-full h-full bg-gradient-blue opacity-0 group-hover:opacity-50 rounded-lg transition ease-out duration-300"></div>
+                                        <button class="p-1 w-full font-heading font-medium text-base text-white overflow-hidden rounded-md">
+                                            <div class="relative py-4 px-9 bg-gradient-blue overflow-hidden rounded-md">
+                                                <input type="submit"
+                                                       class="absolute top-0 left-0 transform -translate-y-full group-hover:-translate-y-0 h-full w-full bg-gray-900 transition ease-in-out duration-500"
+                                                       disabled={loading}
+                                                       value = ""
+
+                                                />
+                                                <p class="relative z-10">{loading ? 'Loading' : 'Login'}</p>
+                                            </div>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </form>
 
                         <p class="text-base text-gray-200">

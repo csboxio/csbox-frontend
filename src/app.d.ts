@@ -4,17 +4,16 @@
 
 import type { TypedSupabaseClient } from "@supabase/auth-helpers-sveltekit/dist/types";
 import type { Session } from "@supabase/supabase-js";
+import { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "./schema.js";
 
 declare global {
     declare namespace App {
 
         interface Locals {
-            sb: TypedSupabaseClient
-            session: Session | null;
+            supabase: SupabaseClient<Database>
+            getSession(): Promise<Session | null>
 
-            user: Database.users
-
-            course: Database.courses
 
         }
         interface Supabase {
@@ -23,7 +22,7 @@ declare global {
             SchemaName: 'public';
         }
         interface PageData {
-            session: import('@supabase/supabase-js').Session | null
+            session: Session | null
         }
 
         declare module '@fortawesome/pro-solid-svg-icons/index.es' {

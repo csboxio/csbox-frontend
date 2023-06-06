@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { supabaseClient } from '$lib/utilities/supabaseClient';
-	import { goto, invalidateAll } from "$app/navigation";
+	import { goto, invalidate, invalidateAll } from "$app/navigation";
 	import { onMount, setContext } from "svelte";
 	import '../app.css';
 	import { browser } from "$app/environment";
@@ -14,18 +13,21 @@
 		//onLCP(console.log);
 	}
 
+	export let data
 
-	onMount(async () => {
+	let { supabase, session, user } = data
+	$: ({ supabase, session, user } = data)
+
+	onMount(() => {
 		const {
-			data: { subscription }
-		} = supabaseClient.auth.onAuthStateChange(() => {
-			invalidateAll();
-			goto("/login");
-		});
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange((event, _session) => {
+			if (_session?.expires_at !== session?.expires_at) {
+				invalidate('supabase:auth')
+			}
+		})
 
-		return () => {
-			subscription.unsubscribe();
-		};
+		return () => subscription.unsubscribe()
 	});
 
 </script>

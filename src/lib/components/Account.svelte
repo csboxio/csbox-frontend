@@ -1,28 +1,17 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import { supabaseClient } from '$lib/utilities/supabaseClient'
     import Avatar from './Avatar.svelte'
     import { goto } from "$app/navigation";
     import { page } from "$app/stores";
-    export let session;
     let loading = false;
-    let first_name = $page.data.user.userData.first_name;
-    let website = $page.data.user.userData.website;
-    let avatarUrl = $page.data.user.userData.avatar_url;
+    export let session;
+    export let supabase;
 
-    async function signOut() {
-        try {
-            loading = true
-            let { error } = await supabaseClient.auth.signOut()
-            if (error) throw error
-        } catch (error) {
-            if (error instanceof Error) {
-                alert(error.message)
-            }
-        } finally {
-            loading = false
-        }
-    }
+
+    let first_name = null
+    let website = null
+    let avatarUrl = null
+
 
 </script>
 
@@ -50,7 +39,7 @@
     </div>
 </form>
 <div>
-    <button class="button block" on:click={signOut} disabled={loading}> Sign Out </button>
+    <button class="button block" disabled={loading}> Sign Out </button>
 </div>
 <div>
     <button class="button block" on:click|preventDefault={() => goto('/d')}> Dashboard </button>
