@@ -244,9 +244,11 @@
 										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 									>
 										<option value="">No assignment</option>
-										{#each assignments as { assignment_title, id }, i}
-											<option value="{id}">{assignment_title}</option>
-										{/each}
+										{#if assignments}
+											{#each assignments as { title, assignment_id }, i}
+												<option value="{assignment_id}">{title}</option>
+											{/each}
+										{/if}
 
 									</select>
 								</div>

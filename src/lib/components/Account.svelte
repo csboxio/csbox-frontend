@@ -5,7 +5,6 @@
     import { page } from "$app/stores";
     let loading = false;
     export let session;
-    export let supabase;
 
 
     let first_name = null
@@ -38,9 +37,6 @@
         />
     </div>
 </form>
-<div>
-    <button class="button block" disabled={loading}> Sign Out </button>
-</div>
 <div>
     <button class="button block" on:click|preventDefault={() => goto('/d')}> Dashboard </button>
 </div>

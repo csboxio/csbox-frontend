@@ -1,13 +1,8 @@
 import { browser } from "$app/environment";
 import { get, readable } from "svelte/store";
-import { getSupabase } from "@supabase/auth-helpers-sveltekit";
-import { supabaseClient } from '$lib/utilities/supabaseClient';
 import { userStore, courseStore } from "../stores/stores.js";
-import type { User } from "@supabase/supabase-js";
 
-
-
-export async function fetchCourses(fetch) {
+export async function fetchCourses(fetch, supabase) {
 
   const courses = get(courseStore)
 
@@ -17,15 +12,14 @@ export async function fetchCourses(fetch) {
   }
 
   if (browser) {
-    const {data: courseData} = await supabaseClient.from('courses')
+    const {data: courseData} = await supabase.from('courses')
       .select('id, inserted_at, course_image_url, course_title,' +
         ' course_prefix, course_number, course_term');
     courseStore.set(courseData);
     return courseStore;
   }
 }
-
-export async function fetchUsers(fetch, _user) {
+export async function fetchUsers(fetch, _user, supabase) {
   const user = browser && get(userStore)
 
   // noinspection TypeScriptValidateTypes
@@ -34,7 +28,7 @@ export async function fetchUsers(fetch, _user) {
   }
   console.log(_user)
 
-  const {data: userData, error} = await supabaseClient.from('users')
+  const {data: userData, error} = await supabase.from('users')
     .select('updated_at, username, first_name, last_name, website, country, avatar_url')
     .eq('id', _user)
     .single()
@@ -44,11 +38,9 @@ export async function fetchUsers(fetch, _user) {
   const fetchedUser = userData
 
   if (browser) {
-    console.log("here1")
     courseStore.set(fetchedUser);
     return userStore;
   } else {
-    console.log("here2")
     return (fetchedUser);
   }
 

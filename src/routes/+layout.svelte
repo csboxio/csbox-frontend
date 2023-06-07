@@ -4,6 +4,7 @@
 	import '../app.css';
 	import { browser } from "$app/environment";
 	import {onLCP, onFID, onCLS} from 'web-vitals';
+	import { page } from "$app/stores";
 
 
 	if (browser) {
@@ -18,7 +19,10 @@
 	let { supabase, session, user } = data
 	$: ({ supabase, session, user } = data)
 
-	onMount(() => {
+	onMount(async () => {
+
+		const { data, error } = await supabase.auth.getSession()
+
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((event, _session) => {
@@ -37,4 +41,5 @@
 
 	<title>CSBOX</title>
 </svelte:head>
+
 <slot />

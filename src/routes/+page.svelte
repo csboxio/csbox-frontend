@@ -11,7 +11,6 @@
 	$: ({ supabase } = data)
 
 	const handleSignOut = async () => {
-		console.log("sign out")
 		await supabase.auth.signOut()
 	}
 
@@ -29,9 +28,6 @@
 
 </script>
 
-<div>
-	<button class="button block" on:click={handleSignOut}> Sign Out </button>
-</div>
 {#if !data.session}
 	<Auth />
 {:else}
@@ -40,6 +36,8 @@
 
 	<Account session={data.session} supabase={supabase}/>
 
-
+	<div>
+		<button class="button block" on:click={handleSignOut}> Sign Out </button>
+	</div>
 {/if}
 

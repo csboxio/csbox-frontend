@@ -22,6 +22,8 @@ export async function validateToken(token: string, secret: string) {
     },
   );
 
+  console.log(response)
+
   const data: TokenValidateResponse = await response.json();
 
   return {
@@ -36,6 +38,7 @@ export async function validateToken(token: string, secret: string) {
 export async function checkToken(token) {
   const { success, error } = await validateToken(token, SECRET_KEY)
 
+  console.log(success)
   if (!success) {
     console.log(error)
     return {

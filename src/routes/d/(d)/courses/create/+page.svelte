@@ -6,7 +6,7 @@
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 	import { StepIndicator } from 'flowbite-svelte';
-	import { createPlaceHolderCourseDocument, uploadCourseDocument } from "../../../../../lib/utilities/course.js";
+	import { createPlaceHolderCourseDocument } from "../../../../../lib/utilities/course.js";
 	let steps = ['Step 1', 'Step 2', 'Step 3'];
 
 	let session = $page.data.session;
@@ -55,7 +55,7 @@
 
 			currentCourseId = JSON.stringify(result['data'].course_id);
 
-			 createPlaceHolderCourseDocument(currentCourseId, $page.data.session.user.id);
+			 createPlaceHolderCourseDocument(currentCourseId, $page.data.session.user.id, $page.data.supabase);
 			await invalidateAll();
 		}
 

@@ -1,15 +1,12 @@
 import type {Actions} from "./$types";
 import {redirect} from '@sveltejs/kit'
-import {getSupabase} from '@supabase/auth-helpers-sveltekit'
 
 export const prerender = false;
 export const actions: Actions = {
-    updateProfile: async (event) => {
-        const {request} = event
-        const {supabaseClient} = await getSupabase(event)
+    updateProfile: async ({ request, url, locals: { supabase } }) => {
         const formData = await request.formData()
 
-        const {data} = await supabaseClient.auth.refreshSession()
+        const {data} = await supabase.auth.refreshSession()
         const {session, user} = data
 
         if (!session || !user) {
@@ -27,7 +24,7 @@ export const actions: Actions = {
             updated_at: new Date()
         }
 
-        const {error} = await supabaseClient.from('users').upsert(updates)
+        const {error} = await supabase.from('users').upsert(updates)
         //console.log(error)
 
         throw redirect(303, '/d')

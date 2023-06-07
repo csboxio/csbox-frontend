@@ -1,73 +1,49 @@
 import type { Actions, PageServerLoadEvent } from "./$types";
-import {getSupabase} from '@supabase/auth-helpers-sveltekit'
 
 export const prerender = false;
 export const ssr = false
 // @ts-ignore
-export const load: PageServerLoadEvent = async (event) => {
-    const {session, supabaseClient} = await getSupabase(event);
-    if (session) {
-        const {data: modules } = await supabaseClient.from('modules')
-          .select('module_title, id, ' +
-            'assignments ( assignment_id, title, category, in_module )')
-          .eq('course_id', event.params.slug)
-
-        return {
-            modules
-        };
-    }
-};
 
 export const actions: Actions = {
-    createModule: async (event) => {
-
-        const {request, cookies, url} = event
-        const {supabaseClient} = await getSupabase(event)
+    createModule: async ({ request, url, params, locals: { supabase } }) => {
         const formData = await request.formData()
-
-        const {data} = await event.locals.sb.auth.refreshSession()
+        const {data} = await supabase.auth.refreshSession()
         let user;
-
         if (data == null) {
-            const {data} = await supabaseClient.auth.refreshSession()
+            const {data} = await supabase.auth.refreshSession()
             user = data.user
         }
         user = data.user
         const name = formData.get('name')
-        const course_id = event.params.slug
+        const course_id = params.slug
         if (user != null) {
             const updates = {
                 user_id: user.id,
                 course_id: course_id,
                 module_title: name
             }
-            const {error} = await event.locals.sb.from('modules').upsert(updates)
+            const {error} = await supabase.from('modules').upsert(updates)
         }
     },
 
-    addItemToModule: async (event) => {
-
-        const {request, cookies, url} = event
-        const {supabaseClient} = await getSupabase(event)
+    addItemToModule: async ({ request, url, params, locals: { supabase } }) => {
         const formData = await request.formData()
-
-        const {data} = await event.locals.sb.auth.refreshSession()
+        const {data} = await supabase.auth.refreshSession()
         let user;
-
         if (data == null) {
-            const {data} = await supabaseClient.auth.refreshSession()
+            const {data} = await supabase.auth.refreshSession()
             user = data.user
         }
         user = data.user
         const id = formData.get('id')
         const module = formData.get('modules')
 
-        const course_id = event.params.slug
+        const course_id = params.slug
         if (user != null) {
             const updates = {
                 in_module: module
             }
-            const {error} = await event.locals.sb.from('assignments').update(updates)
+            const {error} = await supabase.from('assignments').update(updates)
               .eq('user_id', user.id)
               .eq('course_id', course_id)
               .eq('id', id)

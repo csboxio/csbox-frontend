@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { applyAction, deserialize } from '$app/forms';
 	import { goto, invalidateAll } from '$app/navigation';
-	import { supabaseClient } from '$lib/utilities/supabaseClient';
 	import { browser } from '$app/environment';
 	import { Datepicker } from 'svelte-calendar';
 	import { dragMe } from '$lib/utilities/dragMe.ts'
@@ -112,7 +111,8 @@
 	}
 
 	async function handleDeleteAssignment(aid) {
-		const { error, status } = await supabaseClient.from('assignments').delete().match({ id: aid });
+		const { error, status } = await $page.data.supabase.from('assignments').delete().match({ assignment_id: aid });
+		console.log(status)
 		if (status === 204) {
 			delete_model_close();
 			await invalidateAll();

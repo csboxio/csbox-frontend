@@ -1,12 +1,13 @@
 <script lang="ts">
     import { Turnstile } from 'svelte-turnstile';
     import { enhance } from '$app/forms';
+    import { browser } from "$app/environment";
 
 
     /** @type {import('./$types').ActionData} */
     export let form;
     let loading = false;
-    export let Token;
+
 </script>
 
 <body class="antialiased bg-body text-body font-body">
@@ -41,10 +42,10 @@
                                 </div>
 
                                 <div class="w-full p-2">
+                                    {#if browser}
+                                    <Turnstile siteKey="0x4AAAAAAAFpCF8-h1TYQKHV" />
+                                        {/if}
 
-                                    <Turnstile siteKey="0x4AAAAAAAFpCF8-h1TYQKHV" on:turnstile-callback={(e) => Token = e.detail.token }/>
-
-                                    <input hidden="hidden" id="token" name="token" bind:value={Token}>
 
                                     <div class="group relative">
                                         <div class="absolute top-0 left-0 w-full h-full bg-gradient-blue opacity-0 group-hover:opacity-50 rounded-lg transition ease-out duration-300"></div>

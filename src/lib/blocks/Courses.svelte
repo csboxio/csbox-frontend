@@ -3,7 +3,6 @@
   import { browser } from "$app/environment";
   import { blur } from "svelte/transition";
   import { page } from "$app/stores";
-  import { supabaseClient } from "../utilities/supabaseClient.js";
 
   export let courses
   export let hoverID
@@ -11,7 +10,7 @@
 
   async function handleHideCourse(course_id, pid) {
     console.log($page.data.session?.user.id, pid)
-    const { error, data, status } = await supabaseClient.rpc('hide_course',
+    const { error, data, status } = await $page.data.supabase.rpc('hide_course',
       {_user_id: pid, _course_id: course_id})
     console.log(error, data, status)
     if (status === 200) {

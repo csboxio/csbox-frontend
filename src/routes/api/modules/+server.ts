@@ -12,8 +12,9 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
     throw redirect(303, '/');
   }
   const course = url.searchParams.get('course')
-  const {data, error} = await supabase.from('assignments')
-    .select('assignment_id, title, category, due, points')
+  const {data } = await supabase.from('modules')
+    .select('module_title, id, ' +
+      'assignments ( assignment_id, title, category, in_module )')
     .eq('course_id', course)
 
   //event.setHeaders({
