@@ -4,28 +4,14 @@
 	import { invalidateAll } from '$app/navigation';
 	import { applyAction, deserialize } from '$app/forms';
 
-	let session = $page.data.session;
-
-	/** @type {import("./$types").PageData} */
-	export let data;
-	let username: string | null = null;
-	let firstName: string | null = data.user.first_name;
-	let last_name: string | null = data.user.last_name;
-	let website: string | null = data.user.website;
-	let country: string | null = data.user.country;
-	let avatarUrl: string | null = data.user.avatar_url;
-
-	// TODO switch to locals.
+	const { session, user } = $page.data;
 	let loading;
-
 	function previousPage() {
 		history.back();
 	}
-
 	async function handleSubmit(event) {
 		loading = true;
 		const data = new FormData(this);
-
 		const response = await fetch(this.action, {
 			method: 'POST',
 			body: data,
@@ -34,14 +20,11 @@
 				'cache-control': 'max-age=1800'
 			}
 		});
-
 		const result = deserialize(await response.text());
-
 		if (result.type === 'redirect') {
 			// re-run all `load` functions, following the successful update
 			await invalidateAll();
 		}
-
 		await applyAction(result);
 	}
 </script>
@@ -86,7 +69,7 @@
 								<div class="flex flex-wrap items-center -mx-3">
 									<div class="w-full sm:w-1/2 px-3 mb-3 sm:mb-0">
 										<input
-											bind:value={firstName}
+											bind:value={user.first_name}
 											class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
 											id="first"
 											name="first"
@@ -96,7 +79,7 @@
 									</div>
 									<div class="w-full sm:w-1/2 px-3">
 										<input
-											bind:value={last_name}
+											bind:value={user.last_name}
 											class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
 											id="last_name"
 											name="last_name"
@@ -126,7 +109,7 @@
 							</div>
 						</div>
 					</div>
-					<Avatar bind:url={avatarUrl} size={10} />
+					<Avatar bind:url={user.avatar_url} size={10} />
 					<div
 						class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
 					>
@@ -174,7 +157,7 @@
 						<div class="w-full sm:w-2/3 px-4">
 							<div class="max-w-xl">
 								<input
-									bind:value={website}
+									bind:value={user.website}
 									class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
 									id="website"
 									name="website"

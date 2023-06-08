@@ -5,13 +5,16 @@
 	import { supabaseClient } from '$lib/utilities/supabaseClient';
 	import { blur } from 'svelte/transition';
 	import { browser } from '$app/environment';
+	import { page } from "$app/stores";
 
 	let model;
 	export let data;
 	export let show_create_box;
 	let loading;
 	let assignments;
-	$: assignments = data.assignmentData;
+	$: assignments = data.assignmentDataInfo;
+
+	//console.log(assignments)
 
 	function show_box() {
 		show_create_box = true;
@@ -58,44 +61,43 @@
 			await invalidateAll();
 		}
 	}
+	//console.log("1" + $page.data.assignmentData)
+	//console.log("2" + $page.data.assignmentDataInfo)
 </script>
 
 <div class="flex flex-row">
 	<section class="p-1">
 		<div class="container mx-1 my-8">
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Title: {assignments.assignment_title}
+				Title: {assignments.title}
 			</h4>
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Inserted At: {assignments.inserted_at}
-			</h4>
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Category: {assignments.category}
+				Creator: {assignments.creator_id}
 			</h4>
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
 				Description: {assignments.description}
 			</h4>
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Points: {assignments.points}
-			</h4>
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
 				Submission Type: {assignments.submission_type}
 			</h4>
-
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
 				Submission Attempts: {assignments.submission_attempts}
 			</h4>
-
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Assigned to: {assignments.assign_to}
+				Display as: {assignments.display_as}
 			</h4>
-
 			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Due: {assignments.due}
+				Available Start: {assignments.available_start}
 			</h4>
-
-
-			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold delay-50" />
+			<h4 class="text-xl font-bold text-white -mx-auto my-5">
+				Available End: {assignments.available_end}
+			</h4>
+			<h4 class="text-xl font-bold text-white -mx-auto my-5">
+				Inserted At: {assignments.inserted_at}
+			</h4>
+			<h4 class="text-xl font-bold text-white -mx-auto my-5">
+				Assign To: {assignments.assign_to}
+			</h4>
 		</div>
 	</section>
 </div>

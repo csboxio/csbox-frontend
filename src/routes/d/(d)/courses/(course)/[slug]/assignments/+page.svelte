@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { applyAction, deserialize } from '$app/forms';
-	import { goto, invalidateAll } from '$app/navigation';
-	import { supabaseClient } from '$lib/utilities/supabaseClient';
+	import { goto, invalidate, invalidateAll } from "$app/navigation";
 	import { browser } from '$app/environment';
 	import { Datepicker } from 'svelte-calendar';
 	import { dragMe } from '$lib/utilities/dragMe.ts'
@@ -20,6 +19,7 @@
 	import dayjs from 'dayjs';
 	import { page } from "$app/stores";
 	import { theme } from "$lib/dates/theme.js";
+	import { addNotification } from "../../../../../../../lib/utilities/notifications.js";
 
 	export let data;
 	export let show_create_box;
@@ -28,7 +28,6 @@
 	export let availableuntilDate;
 
 	// Page Data
-	$: assignments = data.assignmentData;
 	//let course_data = $page.data.courses.courseData;
 	let modules = data.modules;
 
@@ -36,7 +35,9 @@
 	let model;
 
 	let loading;
-	let assignments = data.assignmentData;
+	let assignments;
+	$: assignments = data.assignments.assignmentData;
+
 	let open = false;
 	let delete_assignment;
 	let delete_assignment_id;
@@ -49,8 +50,9 @@
 	// For search box on assignments
 	let searchTerm = '';
 	$: filteredItems = assignments.filter(
-		(assignments) => assignments.assignment_title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+		(assignments) => assignments.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
 	);
+
 
 	// For assignment delete
 	let deleteModel = false;
@@ -90,10 +92,26 @@
 
 		if (result.type === 'success') {
 			// re-run all `load` functions, following the successful update
-			close_box();
-			await invalidateAll();
-		}
+			const newNotification =
+				{
+					title: "Success! 🥳",
+					message: `Created Assignment: ${data.get('name')}`
+				};
 
+			addNotification(newNotification)
+
+		}
+		else {
+			const newNotification =
+				{
+					title: "Failed! 😞",
+					message: `Error: Type: ${result.type} Status: ${result.status}}`
+				};
+
+			addNotification(newNotification)
+		}
+		close_box();
+		await invalidateAll();
 		await applyAction(result);
 	}
 
@@ -110,8 +128,15 @@
 	}
 
 	async function handleDeleteAssignment(aid) {
-		const { error, status } = await supabaseClient.from('assignments').delete().match({ id: aid });
+		const { error, status } = await $page.data.supabase.from('assignments').delete().match({ assignment_id: aid });
+		console.log(status)
 		if (status === 204) {
+			const newNotification =
+				{
+					title: "Success! 🥳",
+					message: `Deleted Assignment!`
+				};
+			addNotification(newNotification)
 			delete_model_close();
 			await invalidateAll();
 		}
@@ -167,24 +192,27 @@
 					</TableHeadCell>
 				</TableHead>
 				<TableBody class="divide-y">
-				{#each filteredItems as { id, assignment_title, category, due, points }, i}
-						<TableBodyRow on:click={() =>  handleAssignment(id)} class="cursor-pointer">
-							<TableBodyCell>{assignment_title ? assignment_title : 'No title...'}</TableBodyCell>
-							<TableBodyCell>{category}</TableBodyCell>
-							<TableBodyCell>{due.substring(0, 10)}</TableBodyCell>
-							<TableBodyCell>{points}</TableBodyCell>
-							<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
-								<a on:click|stopPropagation={() => goto($page.url.pathname + "/" + id + "/edit")} class="font-medium
-								text-blue-600 hover:underline dark:text-blue-500 px-1">
+					{#key assignments}
+				{#each filteredItems as { assignment_id, title, category, due, points }, i}
+						<TableBodyRow on:click={() =>  handleAssignment(assignment_id)} class="cursor-pointer">
+							<TableBodyCell >{title ? title : 'No title'}</TableBodyCell>
+							<TableBodyCell >{category ? category : "No category" }</TableBodyCell>
+							<TableBodyCell >{due ? due.substring(0, 10) : "No date" }</TableBodyCell>
+							<TableBodyCell >{points ? points : "No Points" }</TableBodyCell>
+
+							<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium"  >
+								<a on:click|stopPropagation={() => goto($page.url.pathname + "/" + assignment_id + "/edit")} class="font-medium
+								text-blue-600 hover:underline dark:text-blue-500">
 									Edit
 								</a>
-								<a on:click|stopPropagation={() => delete_model_open(id)} class="font-medium text-blue-600
-								hover:underline dark:text-red-500">
+								<a on:click|stopPropagation={() => delete_model_open(assignment_id)} class="font-medium text-blue-600
+								hover:underline dark:text-red-500 ">
 									Delete
 								</a>
 							</TableBodyCell>
 						</TableBodyRow>
 				{/each}
+						{/key}
 				</TableBody>
 			</Table>
 				</TableSearch>

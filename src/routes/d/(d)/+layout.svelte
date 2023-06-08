@@ -1,40 +1,48 @@
 <script lang="ts">
-	import { supabaseClient } from '$lib/utilities/supabaseClient';
-	import { goto, invalidateAll } from "$app/navigation";
+	import { goto } from "$app/navigation";
 	import { onMount } from "svelte";
 	import { page } from "$app/stores";
-	import Notification from '$lib/components/Notification.svelte';
-	import { fetchCourses } from "$lib/utilities/utils"
-	import { error } from "@sveltejs/kit";
+	import Notification from '$lib/components/NotificationBuilder.svelte';
+	import { invalidateAll } from "$app/navigation";
+	import { notifications } from "../../../lib/utilities/notifications.ts";
+	import { addNotification } from "../../../lib/utilities/notifications.ts";
+	import { get } from "svelte/store";
+	import { courseStore } from "../../../lib/stores/stores.js";
+	import { browser } from "$app/environment";
 
-	type Notification = {
-		course_id: any,
-		course_title: unknown,
-		message: string
-	}
+	export let data
 
-	// Create a store and update it when necessary...
-	let notifications: any[] = [];
-	$: notifications;
-	let show_notification = false;
-
-	function addNotification(notification: Notification) {
-		show_notification = true;
-		invalidateAll()
-	}
+	let { supabase, session, user } = data
+	$: ({ supabase, session, user } = data)
 
 	onMount(async () => {
 		const {
 			data: { subscription }
-		} = supabaseClient.auth.onAuthStateChange(() => {
+		} = supabase.auth.onAuthStateChange(() => {
 			invalidateAll();
 			goto("/login");
 		});
 
+
 		// TODO Optimization
 
 		// Get the courses that the user created from browser store.
-		const result = await fetchCourses(fetch)
+
+		const _courses = get(courseStore)
+
+		// noinspection TypeScriptValidateTypes
+		if (_courses && _courses.length > 0) {
+			return courseStore;
+		}
+
+		if (browser) {
+			const {data: courseData} = await supabase.from('courses')
+				.select('id, inserted_at, course_image_url, course_title,' +
+					' course_prefix, course_number, course_term');
+			courseStore.set(courseData);
+		}
+
+		const result = courseStore
 		let courses;
 		const subscribe = result.subscribe(value => {
 			courses = value;
@@ -46,7 +54,7 @@
 				// If the course id has something in it.
 				if (courseIDsList) {
 					// Add the subscription to the supabase client
-					const channel = supabaseClient
+					const channel = supabase
 						.channel('schema-db-changes')
 						.on(
 							'postgres_changes',
@@ -61,17 +69,13 @@
 								const courseTitle = courseMap.get(payload.new.course_id);
 								if (courseTitle) {
 									// Update the notification store with the new information.
-									const newNotification: Notification =
+									const newNotification =
 										{
-											course_id: payload.new.course_id,
-											course_title: courseTitle,
+											title: courseTitle.toString(),
 											message: "New student has enrolled."
 										};
-
-									//console.log(newNotification)
-									notifications.push(newNotification)
-									notifications = notifications;
 									addNotification(newNotification)
+									invalidateAll()
 								}
 							}
 						)
@@ -81,11 +85,9 @@
 						channel.unsubscribe();
 					};
 				}
-
 				return () => {
 					subscription.unsubscribe();
 				};
-
 			});
 </script>
 <svelte:head>
@@ -96,11 +98,10 @@
 </svelte:head>
 <slot />
 
-{#if show_notification}
-	{#key notifications}
-	{#each notifications as notification}
-	<Notification title="{notification.course_title}" content="{notification.message}"/>
+
+	{#each $notifications as notification}
+	<Notification title="{notification.title}" content="{notification.message}"/>
 	{/each}
-		{/key}
-{/if}
+
+
 

@@ -7,25 +7,18 @@
 	import { onMount, setContext } from 'svelte';
 	import Quill from 'quill';
 	import { blur } from 'svelte/transition';
-	import { writable } from 'svelte/store';
-
-
 	let quill;
 	let model;
 	export let data;
-	let course_data = $page.data.courses.courseData;
+	let courses = $page.data.courses.data;
 	let html;
 	let user = $page.data.session?.user
 	let slug = $page.params.slug
-
-	export let layout_course = course_data;
-
+	export let layout_course = courses;
 	const mode = {
 		edit: false,
 		view: true
 	};
-
-
 	const options = {
 		modules: {
 			toolbar: [
@@ -42,7 +35,6 @@
 		placeholder: 'Type something...',
 		theme: 'snow'
 	};
-
 	let content = { html: '', text: '' };
 
 	function handleEdit() {
@@ -52,7 +44,7 @@
 
 	function handleSave() {
 		if (browser) {
-			uploadCourseDocument(quill.root.innerHTML, $page.params.slug, data.session.user.id);
+			uploadCourseDocument(quill.root.innerHTML, $page.params.slug, data.session.user.id, $page.data.supabase);
 			//invalidateAll()
 			mode.view = true;
 			mode.edit = false;
@@ -74,9 +66,9 @@
 	async function getDocument() {
 		if (browser) {
 			const filePath = `${$page.params.slug + '/' + 'document/' + 'home'}.HTML?t=${
-				course_data.inserted_at
+				courses.inserted_at
 			}`;
-			content.html = await downloadCourseDocument(filePath);
+			content.html = await downloadCourseDocument(filePath, $page.data.supabase);
 		}
 	}
 

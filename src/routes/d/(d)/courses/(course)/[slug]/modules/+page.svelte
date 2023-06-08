@@ -1,33 +1,26 @@
 <script lang="ts">
 	import { blur } from 'svelte/transition';
-	import { browser } from '$app/environment';
-	import dayjs from 'dayjs';
 	import { applyAction, deserialize } from '$app/forms';
 	import { goto, invalidateAll } from "$app/navigation";
 	import { page } from '$app/stores';
 	import { AccordionItem, Accordion, Modal } from "flowbite-svelte";
 
-
-
 	export let data;
-
 	let model;
 	let loading;
 	let show_create_box;
-
 	let addModuleModel = false;
 	let addAssignmentModel = false;
-
 	let show_add_item;
-	let add_item_name;
-	$: add_item_name;
-
-	let assignmentPageData;
-	$: assignmentPageData = $page.data.assignmentPageData
-	console.log(assignmentPageData)
-
+	let item_id;
+	let modules;
 	let assignments;
-	$: assignmentData = $page.data.assignmentData
+
+	//TODO WHEN MOVING ITEMS IT SHOULD NOT CLOSE THAT ONES THAT ARE OPEN
+
+	$: item_id;
+	$: modules = $page.data.modules
+	$: assignments = $page.data.assignments
 
 	function create_module() {
 		close_add_item();
@@ -40,7 +33,7 @@
 
 	function add_item(id){
 		addAssignmentModel = true
-		add_item_name = id;
+		item_id = id;
 	}
 
 	function close_add_item(){
@@ -57,7 +50,6 @@
 	async function handle_module_submit(event) {
 		loading = true;
 		const data = new FormData(this);
-
 		const response = await fetch(this.action, {
 			method: 'POST',
 			body: data,
@@ -66,19 +58,15 @@
 				'cache-control': 'max-age=3600'
 			}
 		});
-
 		const result = deserialize(await response.text());
-
 		if (result.type === 'success') {
-			// re-run all `load` functions, following the successful update
 			addModuleModel = false;
 			addAssignmentModel = false;
 			await invalidateAll();
 		}
-
+		console.log(result)
 		await applyAction(result);
 	}
-	let open_module;
 </script>
 
 <div class="w-full">
@@ -96,7 +84,8 @@
 			</button>
 			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold ">
 
-				{#each assignmentPageData as { module_title, id, assignments }, i}
+				{#key modules}
+				{#each modules as { module_title, id, assignments }, i}
 					<div transition:blur|local={{ duration: 200 }} class="mb-6 mx-6 cursor-pointer">
 						<!--Module-->
 						<Accordion
@@ -129,21 +118,24 @@
 										</span>
 									</a>
 									<!-- End of plus symbol -->
-									{#each assignments as {assignment_title, in_module}, i}
+									{#key assignments}
+									{#each assignments as {title, in_module}, i}
 										{#if in_module === id}
 											<a>
-											<div class="py-4 px-2 text-gray-200 hover:text-white hover:scale-[1.002]"on:click={()=> {handleAssignment(assignments[i].id)}}>
-												{assignment_title === '' ? 'No assignment title...' : assignment_title}
+											<div class="py-4 px-2 text-gray-200 hover:text-white hover:scale-[1.002]"on:click={()=> {handleAssignment(assignments[i].assignment_id)}}>
+												{title === '' ? 'Assignment Error..' : title}
 											</div>
 											</a>
 											{/if}
 									{/each}
+									{/key}
 								</AccordionItem>
 
 						</Accordion>
 						</div>
 						<!--End of module-->
 				{/each}
+					{/key}
 			</div>
 		</div>
 	</section>
@@ -205,8 +197,8 @@
 					class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 					required
 				>
-					{#each assignmentPageData as { module_title, id }, i}
-						<option value="{id}" selected={module_title === add_item_name}>{module_title}</option>
+					{#each modules as { module_title, id }, i}
+						<option value="{id}" selected={id === add_item}>{module_title}</option>
 					{/each}
 				</select>
 			</div>
@@ -216,8 +208,8 @@
 		<div>
 			<label for="id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an item</label>
 			<select multiple name="id" id="id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-				{#each assignmentData as {id, assignment_title, inserted_at}}
-					<option value="{id}">{assignment_title} | Created - {new Date(inserted_at).toDateString()}</option>
+				{#each assignments as {assignment_id, title, due}}
+					<option value="{assignment_id}">{title} | Due - {new Date(due).toDateString()}</option>
 				{/each}
 			</select>
 		</div>
@@ -243,91 +235,3 @@
 </Modal>
 
 
-{#if show_add_item}
-	<!-- Main modal -->
-	<div use:dragMe class="z-1000 fixed top-1/2 left-1/2">
-		<div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-			<!-- Modal content -->
-			<div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5">
-				<!-- Modal header -->
-				<div
-					class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600"
-				>
-					<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Add Item to {add_item_name}</h3>
-					<button
-						type="button"
-						on:click={close_add_item}
-						class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-						data-modal-toggle="defaultModal"
-					>
-						<svg
-							aria-hidden="true"
-							class="w-5 h-5"
-							fill="currentColor"
-							viewBox="0 0 20 20"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								fill-rule="evenodd"
-								d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-								clip-rule="evenodd"
-							/>
-						</svg>
-						<span class="sr-only">Close modal</span>
-					</button>
-				</div>
-				<!-- Modal body -->
-				<form method="POST" action="?/addItemToModule" on:submit|preventDefault={handle_module_submit}>
-					<div class="grid gap-4 mb-4 sm:grid-cols-2">
-
-						<div>
-							<label
-								for="modules"
-								class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-							>Module</label
-							>
-							<select
-								name="modules"
-								id="modules"
-								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-								required
-							>
-								{#each assignmentPageData as { module_title, id }, i}
-									<option value="{id}" selected={module_title === add_item_name}>{module_title}</option>
-								{/each}
-							</select>
-						</div>
-
-
-					</div>
-					<div>
-						<label for="id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an item</label>
-						<select multiple name="id" id="id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-								{#each assignmentData as {id, assignment_title, inserted_at}}
-								<option value="{id}">{assignment_title} | Created - {new Date(inserted_at).toDateString()}</option>
-									{/each}
-						</select>
-					</div>
-					<button
-						type="submit"
-						class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-					>
-						<svg
-							class="mr-1 -ml-1 w-6 h-6"
-							fill="currentColor"
-							viewBox="0 0 20 20"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								fill-rule="evenodd"
-								d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-								clip-rule="evenodd"
-							/>
-						</svg>
-						Add new item
-					</button>
-				</form>
-			</div>
-		</div>
-	</div>
-{/if}

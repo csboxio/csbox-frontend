@@ -8,14 +8,17 @@ export const load: PageServerLoadEvent = async (event) => {
     const {session, supabaseClient} = await getSupabase(event);
     if (session) {
 
-        const {data: assignmentData} = await supabaseClient.from('assignments')
-            .select('id, inserted_at, assignment_title, category, description, points, submission_type, submission_attempts, assign_to, due')
-            .eq('course_id', event.params.slug)
-            .eq('id', event.params.assignment)
+        const {data: assignmentDataInfo, error} = await supabaseClient.from('assignments_info')
+            .select('description, submission_type,' +
+              ' submission_attempts, display_as, available_start, available_end,' +
+              ' inserted_at, assign_to')
+            .eq('assignment', event.params.assignment)
             .single()
 
+        console.log(error)
+
         return {
-            assignmentData
+            assignmentDataInfo
         };
     }
 };

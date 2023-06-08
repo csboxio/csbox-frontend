@@ -1,20 +1,37 @@
 <script lang="ts">
-	import { supabaseClient } from '$lib/utilities/supabaseClient';
-	import { goto, invalidateAll } from "$app/navigation";
+	import { goto, invalidate, invalidateAll } from "$app/navigation";
 	import { onMount, setContext } from "svelte";
 	import '../app.css';
+	import { browser } from "$app/environment";
+	import {onLCP, onFID, onCLS} from 'web-vitals';
+	import { page } from "$app/stores";
+
+
+	if (browser) {
+
+		//onCLS(console.log);
+		//onFID(console.log);
+		//onLCP(console.log);
+	}
+
+	export let data
+
+	let { supabase, session, user } = data
+	$: ({ supabase, session, user } = data)
 
 	onMount(async () => {
-		const {
-			data: { subscription }
-		} = supabaseClient.auth.onAuthStateChange(() => {
-			invalidateAll();
-			goto("/login");
-		});
 
-		return () => {
-			subscription.unsubscribe();
-		};
+		const { data, error } = await supabase.auth.getSession()
+
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange((event, _session) => {
+			if (_session?.expires_at !== session?.expires_at) {
+				invalidate('supabase:auth')
+			}
+		})
+
+		return () => subscription.unsubscribe()
 	});
 
 </script>
@@ -24,4 +41,5 @@
 
 	<title>CSBOX</title>
 </svelte:head>
+
 <slot />

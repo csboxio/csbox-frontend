@@ -1,12 +1,7 @@
 <script lang="ts">
-	import { supabaseClient } from "$lib/utilities/supabaseClient.js";
-
 	let model;
 	export let data;
-	import { dragMe } from '$lib/utilities/dragMe.ts'
 
-	let course_data = $page.data.courses.courseData;
-	let enrollment_data = data.enrollmentData
 	import {
 		Button, Modal,
 		Table,
@@ -18,21 +13,23 @@
 		TableSearch
 	} from "flowbite-svelte";
 	import { page } from "$app/stores";
-	import { invalidateAll } from "$app/navigation";
+	import { goto, invalidateAll } from "$app/navigation";
+	import { addNotification } from "../../../../../../../lib/utilities/notifications.js";
 	let searchTerm = '';
 	let code = '';
 	$: code;
 
 	let peopleModel = false;
 	let removeModel = false;
-	let editModel = false;
 
-	$: filteredItems = enrollment_data.filter(
+	let people;
+	$: people = data.people
+
+	$: filteredItems = people.filter(
 			(enrollment_data) => enrollment_data.users.first_name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
 	);
 
 	let delete_people_id;
-	let delete_people;
 	function delete_model_open(id) {
 		removeModel = true;
 		delete_people_id = id;
@@ -52,40 +49,51 @@
 		show_create_box = false;
 	}
 	async function handleGenerateCode() {
-		const { error, data, status } = await supabaseClient.rpc('new_enroll_code', {course_id: $page.data.slug, created_by: $page.data.session?.user.id})
-		console.log(error, data, status)
-		if (status === 200) {
-			code = data;
-		}
+		const url = new URL('/api/people/code/', window.location.origin);
+		url.searchParams.append('course', data.slug);
+		const response = await fetch(url);
+		const { res, error, status } = await response.json();
+		code = res;
 	}
 
-	async function handleDeletePeople(pid) {
-		const { error, data, status } = await supabaseClient.rpc('unenroll_user',
-				{_sender_id: $page.data.session?.user.id, _user_id: pid, _course_id: $page.params.slug})
-		console.log(error, data, status)
+	async function handleDeletePeople(_user_id) {
+		const url = new URL('/api/people/delete/', window.location.origin);
+		url.searchParams.append('course', data.slug);
+		url.searchParams.append('user', _user_id);
+		const response = await fetch(url);
+		const { res, error, status } = await response.json();
 		if (status === 200) {
 			delete_model_close();
 			await invalidateAll();
 		}
 		if (status === 400) {
 			delete_model_close();
-			alert("Cannot remove yourself.")
+			alert("Cannot remove yourself.");
 		}
-		invalidateAll();
+		await invalidateAll();
+
 	}
 
-	async function handleAcceptUser(pid) {
-		const { error, data, status } = await supabaseClient.rpc('accept_into_course',
-			{_sender_id: $page.data.session?.user.id, _user_id: pid, _course_id: $page.params.slug})
-		console.log(error, data, status)
+	async function handleAcceptUser(_user_id) {
+		const url = new URL('/api/people/accept/', window.location.origin);
+		url.searchParams.append('course', data.slug);
+		url.searchParams.append('user', _user_id);
+		const response = await fetch(url);
+		const { res, error, status } = await response.json();
+		console.log(res, error, status);
 		if (status === 200) {
-			console.log(error, data, status)
-			await invalidateAll();
+			const newNotification =
+				{
+					title: "Success! 👏",
+					message: "New person enrolled."
+				};
+		addNotification(newNotification)
+			goto(window.location.pathname)
 		}
 		if (status === 400) {
-			console.log(error, data, status)
-			await invalidateAll();
+		console.log(error, data, status)
 		}
+		await invalidateAll();
 	}
 
 
@@ -129,8 +137,7 @@
 								<TableBodyRow  class="cursor-pointer">
 										<TableBodyCell>{users.first_name} {users.last_name}</TableBodyCell>
 										<TableBodyCell>
-											{#if !enrolled}
-												<button on:click={() => handleAcceptUser(user_id)} class="{enrolled ? 'hidden' : 'block'}relative inline-flex items-center justify-center p-0.5 mb-1
+												<button on:click={() => handleAcceptUser(user_id)} class="{enrolled ? 'hidden' : 'block'} relative inline-flex items-center justify-center p-0.5 mb-1
 										 	mr-1 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400
 										 	to-green-600  hover:text-white dark:text-white
 											focus:ring-4 focus:outline-none ">
@@ -140,7 +147,7 @@
 											Accept
 											</span>
 												</button>
-												{:else }
+											{#if enrolled}
 												TRUE
 											{/if}
 										</TableBodyCell>

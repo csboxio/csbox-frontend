@@ -1,32 +1,20 @@
 <script lang="ts">
-  import { supabaseClient } from "$lib/utilities/supabaseClient";
-  import { goto } from "$app/navigation";
   import {page} from "$app/stores";
-  import { get, readable } from "svelte/store";
-
+  import { goto } from "$app/navigation";
   export const ssr = true;
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
   }
-
-
-
-  let email;
-  let avatarUrl;
-  let full_name;
-  let user;
-  let updated;
-
-  user = $page.data.user.userData
-  email = $page.data.session?.user.email
-  updated = $page.data.user.updated_at
-  avatarUrl = user.avatar_url + "?t=" + user.updated_at;
-  full_name = user.first_name + " " + user.last_name;
+  const { data: user } = $page.data.user;
+  const { email } = $page.data.session?.user;
+  const { updated_at: updated } = $page.data.user;
+  const avatarUrl = `${user.avatar_url}?t=${updated}`;
+  const full_name = `${user.first_name} ${user.last_name}`;
 
   async function signOut() {
     try {
-      let { error } = await supabaseClient.auth.signOut()
+      let { error } = await  $page.data.supabase.auth.signOut()
       if (error) throw error
     } catch (error) {
       if (error instanceof Error) {
@@ -35,7 +23,6 @@
     }
     await goto('/login')
   }
-
 </script>
 
 <div class="w-full sm:w-auto">

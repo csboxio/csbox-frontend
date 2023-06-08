@@ -1,6 +1,6 @@
 <script>
   import {page} from "$app/stores";
-
+  export const ssr = false
   let route = '/d/courses/' + $page.params.slug + '/'
 </script>
 

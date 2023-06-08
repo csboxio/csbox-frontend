@@ -1,21 +1,26 @@
-import {browser} from "$app/environment";
-import { getSupabase } from "@supabase/auth-helpers-sveltekit";
-import type { LayoutLoad } from "./$types.js";
-export const prerender = false;
+// src/routes/+layout.ts
+import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public'
+import { createSupabaseLoadClient } from '@supabase/auth-helpers-sveltekit'
+import type { Database } from '../schema.ts'
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
+export const load = async ({ fetch, data, depends }) => {
+  depends('supabase:auth')
 
-export const load = (async (  event ) => {
-  const {session } = await getSupabase(event);
+  const supabase = createSupabaseLoadClient<Database>({
+    supabaseUrl: PUBLIC_SUPABASE_URL,
+    supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
+    event: { fetch },
+    serverSession: data.session,
+  })
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
   if (session) {
-    const response = await event.fetch('/api/users')
-    console.log(response.json)
-    return {
-      user: {
-        userData: await response.json()
-      },
-      session: session
-    };
+    const response = await fetch('/api/users')
+    return { user: await response.json() , supabase, session }
   }
-});
+
+  return { supabase, session }
+}

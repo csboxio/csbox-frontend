@@ -1,12 +1,9 @@
-import { supabaseClient } from "$lib/utilities/supabaseClient";
 import type { User } from "@supabase/supabase-js";
 import { resizeFile } from "$lib/utilities/image";
 import { browser } from "$app/environment";
 import {v4 as uuidv4} from 'uuid';
 
 import { page } from "$app/stores";
-
-import {getSupabase} from "@supabase/auth-helpers-sveltekit";
 
 export let loading: boolean = false;
 

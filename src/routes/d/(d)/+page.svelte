@@ -11,7 +11,8 @@
 	import Navbar from '$lib/components/Navbar.svelte';
 	import { fetchCourses } from "$lib/utilities/utils.js";
 
-	let user = $page.data.user;
+
+	let user = $page.data.user.data;
 	let updated;
 
 	let avatarUrl;
@@ -22,7 +23,7 @@
 
 	export let fetchedCourses;
 	$: courses = $fetchedCourses;
-	console.log(courses)
+	//console.log(courses)
 </script>
 
 <body

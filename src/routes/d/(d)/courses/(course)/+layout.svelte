@@ -7,8 +7,8 @@
 	import '$lib/quilljs.css';
 	let model;
 	let error = false;
-	let course_data = $page.data.courses.courseData;
-	let course = course_data.filter((course) => course.id === parseInt($page.data.slug))[0];
+	let courses = $page.data.courses.data;
+	let course = courses.filter((course) => course.id === parseInt($page.data.slug))[0];
 </script>
 
 <body
