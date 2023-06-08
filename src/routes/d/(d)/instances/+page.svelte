@@ -18,8 +18,10 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
-	let assignments = data.assignmentData;
-	let instances = data.instanceData;
+	let assignments;
+	let instances;
+	$: instances = data.instanceData;
+	$: assignments = data.assignmentData;
 
 	export let show_create_box;
 

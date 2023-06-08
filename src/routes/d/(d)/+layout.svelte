@@ -75,6 +75,7 @@
 											message: "New student has enrolled."
 										};
 									addNotification(newNotification)
+									invalidateAll()
 								}
 							}
 						)

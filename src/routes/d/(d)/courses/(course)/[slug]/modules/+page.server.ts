@@ -44,9 +44,11 @@ export const actions: Actions = {
                 in_module: module
             }
             const {error} = await supabase.from('assignments').update(updates)
-              .eq('user_id', user.id)
+              .eq('creator_id', user.id)
               .eq('course_id', course_id)
-              .eq('id', id)
+              .eq('assignment_id', id)
+
+            console.log(error)
         }
     }
 }

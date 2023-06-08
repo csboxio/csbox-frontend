@@ -18,7 +18,7 @@
 	export let data;
 
 	let courses;
-	$: courses = $page.data.courses.data;
+	$: courses = data.courses.data;
 
 	let hoverID;
 	$: hoverID;

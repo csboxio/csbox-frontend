@@ -6,7 +6,7 @@
 
   export let courses
   export let hoverID
-
+  $: courses
 
   async function handleHideCourse(course_id, pid) {
     console.log($page.data.session?.user.id, pid)
@@ -25,6 +25,7 @@
   <div class="flex flex-wrap -mx-12 -mb-2">
 
     <!--Each course-->
+    {#key courses}
     {#if courses}
       {#each courses as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden }, i}
         {#if !hidden}
@@ -141,6 +142,7 @@
         {/if}
       {/each}
     {/if}
+    {/key}
 
     <!--No courses found-->
     {#if courses.length === 0}

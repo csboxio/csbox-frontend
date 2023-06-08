@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { applyAction, deserialize } from '$app/forms';
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto, invalidate, invalidateAll } from "$app/navigation";
 	import { browser } from '$app/environment';
 	import { Datepicker } from 'svelte-calendar';
 	import { dragMe } from '$lib/utilities/dragMe.ts'
@@ -19,6 +19,7 @@
 	import dayjs from 'dayjs';
 	import { page } from "$app/stores";
 	import { theme } from "$lib/dates/theme.js";
+	import { addNotification } from "../../../../../../../lib/utilities/notifications.js";
 
 	export let data;
 	export let show_create_box;
@@ -34,9 +35,9 @@
 	let model;
 
 	let loading;
-	let assignments = data.assignments.assignmentData;
-	$: assignments;
-	//console.log(assignments)
+	let assignments;
+	$: assignments = data.assignments.assignmentData;
+
 	let open = false;
 	let delete_assignment;
 	let delete_assignment_id;
@@ -91,10 +92,26 @@
 
 		if (result.type === 'success') {
 			// re-run all `load` functions, following the successful update
-			close_box();
-			await invalidateAll();
-		}
+			const newNotification =
+				{
+					title: "Success! 🥳",
+					message: `Created Assignment: ${data.get('name')}`
+				};
 
+			addNotification(newNotification)
+
+		}
+		else {
+			const newNotification =
+				{
+					title: "Failed! 😞",
+					message: `Error: Type: ${result.type} Status: ${result.status}}`
+				};
+
+			addNotification(newNotification)
+		}
+		close_box();
+		await invalidateAll();
 		await applyAction(result);
 	}
 
@@ -114,6 +131,12 @@
 		const { error, status } = await $page.data.supabase.from('assignments').delete().match({ assignment_id: aid });
 		console.log(status)
 		if (status === 204) {
+			const newNotification =
+				{
+					title: "Success! 🥳",
+					message: `Deleted Assignment!`
+				};
+			addNotification(newNotification)
 			delete_model_close();
 			await invalidateAll();
 		}
@@ -169,6 +192,7 @@
 					</TableHeadCell>
 				</TableHead>
 				<TableBody class="divide-y">
+					{#key assignments}
 				{#each filteredItems as { assignment_id, title, category, due, points }, i}
 						<TableBodyRow on:click={() =>  handleAssignment(assignment_id)} class="cursor-pointer">
 							<TableBodyCell >{title ? title : 'No title'}</TableBodyCell>
@@ -188,6 +212,7 @@
 							</TableBodyCell>
 						</TableBodyRow>
 				{/each}
+						{/key}
 				</TableBody>
 			</Table>
 				</TableSearch>

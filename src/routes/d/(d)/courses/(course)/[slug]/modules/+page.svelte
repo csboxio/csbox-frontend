@@ -1,34 +1,26 @@
 <script lang="ts">
 	import { blur } from 'svelte/transition';
-	import { browser } from '$app/environment';
-	import dayjs from 'dayjs';
 	import { applyAction, deserialize } from '$app/forms';
 	import { goto, invalidateAll } from "$app/navigation";
 	import { page } from '$app/stores';
 	import { AccordionItem, Accordion, Modal } from "flowbite-svelte";
 
-
-
 	export let data;
-
 	let model;
 	let loading;
 	let show_create_box;
-
 	let addModuleModel = false;
 	let addAssignmentModel = false;
-
 	let show_add_item;
-	let add_item_name;
-	$: add_item_name;
-
+	let item_id;
 	let modules;
-	$: modules = $page.data.modules
-	//console.log(modules)
-
 	let assignments;
+
+	//TODO WHEN MOVING ITEMS IT SHOULD NOT CLOSE THAT ONES THAT ARE OPEN
+
+	$: item_id;
+	$: modules = $page.data.modules
 	$: assignments = $page.data.assignments
-	console.log($page.data)
 
 	function create_module() {
 		close_add_item();
@@ -41,7 +33,7 @@
 
 	function add_item(id){
 		addAssignmentModel = true
-		add_item_name = id;
+		item_id = id;
 	}
 
 	function close_add_item(){
@@ -58,7 +50,6 @@
 	async function handle_module_submit(event) {
 		loading = true;
 		const data = new FormData(this);
-
 		const response = await fetch(this.action, {
 			method: 'POST',
 			body: data,
@@ -67,19 +58,15 @@
 				'cache-control': 'max-age=3600'
 			}
 		});
-
 		const result = deserialize(await response.text());
-
 		if (result.type === 'success') {
-			// re-run all `load` functions, following the successful update
 			addModuleModel = false;
 			addAssignmentModel = false;
 			await invalidateAll();
 		}
-
+		console.log(result)
 		await applyAction(result);
 	}
-	let open_module;
 </script>
 
 <div class="w-full">
@@ -97,6 +84,7 @@
 			</button>
 			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold ">
 
+				{#key modules}
 				{#each modules as { module_title, id, assignments }, i}
 					<div transition:blur|local={{ duration: 200 }} class="mb-6 mx-6 cursor-pointer">
 						<!--Module-->
@@ -130,6 +118,7 @@
 										</span>
 									</a>
 									<!-- End of plus symbol -->
+									{#key assignments}
 									{#each assignments as {title, in_module}, i}
 										{#if in_module === id}
 											<a>
@@ -139,12 +128,14 @@
 											</a>
 											{/if}
 									{/each}
+									{/key}
 								</AccordionItem>
 
 						</Accordion>
 						</div>
 						<!--End of module-->
 				{/each}
+					{/key}
 			</div>
 		</div>
 	</section>
@@ -207,7 +198,7 @@
 					required
 				>
 					{#each modules as { module_title, id }, i}
-						<option value="{id}" selected={module_title === add_item_name}>{module_title}</option>
+						<option value="{id}" selected={id === add_item}>{module_title}</option>
 					{/each}
 				</select>
 			</div>
@@ -217,8 +208,8 @@
 		<div>
 			<label for="id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an item</label>
 			<select multiple name="id" id="id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-				{#each assignments as {id, assignment_title, inserted_at}}
-					<option value="{id}">{assignment_title} | Created - {new Date(inserted_at).toDateString()}</option>
+				{#each assignments as {assignment_id, title, due}}
+					<option value="{assignment_id}">{title} | Due - {new Date(due).toDateString()}</option>
 				{/each}
 			</select>
 		</div>
