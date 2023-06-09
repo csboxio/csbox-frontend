@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation';
 
 	onMount(async () => {
-		goto('/login');
+		goto('/');
 	});
 </script>
 

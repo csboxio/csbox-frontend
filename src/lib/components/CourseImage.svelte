@@ -1,9 +1,5 @@
 <script lang="ts" xmlns="http://www.w3.org/1999/html">
-  import { uploadAvatar } from "$lib/utilities/imageStorage";
   import { page } from "$app/stores";
-  import { browser } from "$app/environment";
-  import { onMount } from "svelte";
-  import { supabaseClient } from "$lib/utilities/supabaseClient";
   import { uploadCourseImage } from "$lib/utilities/imageStorage.js";
   import Fa from 'svelte-fa/src/fa.svelte';
   import { faSpinner } from '@fortawesome/free-solid-svg-icons';

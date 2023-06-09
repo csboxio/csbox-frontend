@@ -1,16 +1,14 @@
-import { supabaseClient } from "$lib/utilities/supabaseClient";
-import { json } from "@sveltejs/kit";
-import { getSupabase } from "@supabase/auth-helpers-sveltekit";
+import { json, RequestHandler } from "@sveltejs/kit";
 
 /** @type {import('./$types').RequestHandler} */
 // @ts-ignore
-export async function POST({ request }) {
+export const POST: RequestHandler = async ({ request, url, locals: { supabase, getSession }, event }) => {
   // Get path url from database
   // TODO server side user check this is insecure
   const { user } = await request.json();
   let avatar_url;
   try {
-    const { data, error, status } = await supabaseClient
+    const { data, error, status } = await supabase
       .from("users")
       .select(`avatar_url`)
       // @ts-ignore
