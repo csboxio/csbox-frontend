@@ -21,7 +21,7 @@
         alert(error.message)
       }
     }
-    await goto('/login')
+    await goto('/')
   }
 </script>
 
