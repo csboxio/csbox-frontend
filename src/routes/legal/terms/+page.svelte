@@ -183,22 +183,22 @@ Third-Party Providers and Cloud Services
 
 Data Security and Breach Notification
 41.1 CSBOX implements reasonable security measures to protect the data and information stored within its systems from unauthorized access, breaches, or misuse.
-41.2 In the event of a data breach that may affect high school student data, CSBOX will comply with applicable data breach notification laws, promptly notifying affected parties as required by law.
+41.2 In the event of a data breach that may affect data, CSBOX will comply with applicable data breach notification laws, promptly notifying affected parties as required by law.
 
 State and Local Laws
-42.1 CSBOX recognizes the importance of complying with state and local laws regarding the protection of high school student data.
+42.1 CSBOX recognizes the importance of complying with state and local laws regarding the protection of data.
 42.2 CSBOX will make reasonable efforts to comply with any additional requirements or restrictions imposed by state and local laws where it operates or provides services.
 
 Limitation of Liability
-43.1 CSBOX shall not be held liable for any damages, losses, or claims arising from the unauthorized access, breach, or misuse of high school student data, including but not limited to incidents resulting from hacking, cyberattacks, or other unauthorized activities.
+43.1 CSBOX shall not be held liable for any damages, losses, or claims arising from the unauthorized access, breach, or misuse of data, including but not limited to incidents resulting from hacking, cyberattacks, or other unauthorized activities.
 
 Privacy and Consent
-44.1 CSBOX respects the privacy of high school students and obtains necessary consents and permissions as required by applicable laws.
+44.1 CSBOX respects the privacy of users and obtains necessary consents and permissions as required by applicable laws.
 44.2 By using the Service, Users acknowledge and consent to the collection, use, and processing of their data in accordance with CSBOX's Privacy Policy.
 
 User Responsibilities
 45.1 Users of the Service, including teachers, students, parents, administrators, and any other individuals involved, are responsible for complying with applicable laws, regulations, and CSBOX's terms and conditions.
-45.2 Users shall not misuse or share high school student data in violation of privacy laws or the rights of others.
+45.2 Users shall not misuse or share user data in violation of privacy laws or the rights of others.
 
 
 `;

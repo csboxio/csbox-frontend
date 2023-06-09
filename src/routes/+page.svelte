@@ -5,6 +5,7 @@
 	import { notificationStore } from "../lib/stores/stores.js";
 	import Auth from "$lib/components/Auth/Auth.svelte";
 	import { goto, invalidateAll } from "$app/navigation";
+	import Code from "$lib/components/OAuth/Code.svelte";
 
 
 	export let data
@@ -24,11 +25,18 @@
 		const unsubscribe = notificationStore.subscribe(value => {
 			notifications = value;
 		});
+		console.log($page.data.url.searchParams.size)
 
 		return unsubscribe;
 	});
-
+	let code
+	$: code = $page.data.url.searchParams.get('code')
 </script>
+
+
+{#if code}
+	<Code bind:code={code}/>
+	{:else}
 
 {#if !data.session}
 	<Auth bind:data={data} />
@@ -41,5 +49,6 @@
 	<div>
 		<button class="button block" on:click={handleSignOut}> Sign Out </button>
 	</div>
+{/if}
 {/if}
 
