@@ -25,12 +25,15 @@
 		const unsubscribe = notificationStore.subscribe(value => {
 			notifications = value;
 		});
-		console.log($page.data.url.searchParams.size)
 
 		return unsubscribe;
 	});
 	let code
-	$: code = $page.data.url.searchParams.get('code')
+
+	if ($page.data.url)
+	{
+		$: code = $page.data.url.searchParams.get('code')
+	}
 </script>
 
 
