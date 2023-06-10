@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { applyAction, deserialize } from '$app/forms';
 	import { goto, invalidateAll } from '$app/navigation';
-	import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 	import { supabaseClient } from '$lib/utilities/supabaseClient';
 	import { blur } from 'svelte/transition';
 	import { browser } from '$app/environment';

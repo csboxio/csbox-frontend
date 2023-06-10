@@ -13,7 +13,7 @@ test('Dashboard', async ({  }) => {
 	// Create a new page in the context
 	const page = await context.newPage();
 
-	await page.goto('/login');
+	await page.goto('/');
 
 	await page.waitForNavigation();
 

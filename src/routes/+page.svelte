@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Account from '$lib/components/Account.svelte';
-	import Auth from '$lib/components/Auth.svelte';
 	import { getContext, onMount } from "svelte";
 	import { notificationStore } from "../lib/stores/stores.js";
+	import Auth from "$lib/components/Auth/Auth.svelte";
+	import { goto, invalidateAll } from "$app/navigation";
+	import Code from "$lib/components/OAuth/Code.svelte";
+
 
 	export let data
 
@@ -28,10 +31,11 @@
 
 </script>
 
+
 {#if !data.session}
-	<Auth />
+	<Auth bind:data={data} />
 {:else}
-	<h1>Welcome {$page.data.session.user.email}</h1>
+	<h1>Welcome {data.session.user.email}</h1>
 	<p>Edit account</p>
 
 	<Account session={data.session} supabase={supabase}/>
@@ -40,4 +44,5 @@
 		<button class="button block" on:click={handleSignOut}> Sign Out </button>
 	</div>
 {/if}
+
 

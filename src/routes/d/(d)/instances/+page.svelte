@@ -54,7 +54,7 @@
 	class="bg-gray-600 antialiased bg-body text-body font-body"
 	on:click|stopPropagation={() => model.handleToggleMenuTopRight('outside')}
 >
-	<div class="">
+	<div class="h-screen">
 		<Navbar /><s></s>
 		<div class="mx-auto lg:ml-20">
 			<section>

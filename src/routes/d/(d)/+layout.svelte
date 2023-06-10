@@ -20,7 +20,7 @@
 			data: { subscription }
 		} = supabase.auth.onAuthStateChange(() => {
 			invalidateAll();
-			goto("/login");
+			goto("/");
 		});
 
 
