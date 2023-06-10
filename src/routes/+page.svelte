@@ -6,6 +6,7 @@
 	import Auth from "$lib/components/Auth/Auth.svelte";
 	import { goto, invalidateAll } from "$app/navigation";
 	import Code from "$lib/components/OAuth/Code.svelte";
+	import { DarkMode } from "flowbite-svelte";
 
 
 	export let data
