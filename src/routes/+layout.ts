@@ -2,6 +2,7 @@
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public'
 import { createSupabaseLoadClient } from '@supabase/auth-helpers-sveltekit'
 import type { Database } from '../schema.ts'
+import { goto } from "$app/navigation";
 
 export const load = async ({ fetch, data, depends, url }) => {
   depends('supabase:auth')
@@ -19,6 +20,9 @@ export const load = async ({ fetch, data, depends, url }) => {
 
   if (session) {
     const response = await fetch('/api/users')
+    if (url.searchParams.get('code')) {
+      goto('/')
+    }
     return { user: await response.json() , supabase, session }
   }
 
