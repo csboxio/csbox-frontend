@@ -3,6 +3,7 @@
   import { browser } from "$app/environment";
   import { blur } from "svelte/transition";
   import { page } from "$app/stores";
+  import tilt from '$lib/fun/tilt.js';
 
   export let courses
   export let hoverID
@@ -29,6 +30,7 @@
     {#if courses}
       {#each courses as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden }, i}
         {#if !hidden}
+          <div use:tilt>
           <div class="relative mb-8 mx-4 cursor-pointer">
             <div class=" min-w-xs max-w-xs">
               <div class="relative group">
@@ -97,6 +99,7 @@
                 </a>
               </div>
             </div>
+          </div>
           </div>
           {#if hoverID === i && open && browser}
             <div transition:blur|local={{ duration: 200 }} id="edit" class="relative z-10">
