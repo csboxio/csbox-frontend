@@ -97,8 +97,8 @@
 								variables: {
 									default: {
 										colors: {
-											brand: 'rgb(85,186,226)',
-											brandAccent: `white`
+											brand: 'rgb(72,159,194)',
+											brandAccent: `rgb(94,187,224)`
 										},
 										radii: {
 											borderRadiusButton: '10px',
@@ -108,11 +108,11 @@
 									}
 								}
 							}}
-                              providers={['google', 'github', 'apple', 'azure']}
+                              providers={['google', 'github']}
                               queryParams={{
                                 access_type: 'offline',
                                 prompt: 'consent',
-                                hd: 'domain.com',
+                                hd: 'csbox.io',
                               }}
                               captchaToken={token}
                               {socialLayout}

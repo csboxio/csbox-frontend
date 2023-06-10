@@ -29,7 +29,8 @@
 
 	// Page Data
 	//let course_data = $page.data.courses.courseData;
-	let modules = data.modules;
+	let modules;
+	$: modules = data.modules;
 
 	// Outside click div.
 	let model;
