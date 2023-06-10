@@ -1,12 +1,15 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import { Turnstile } from "svelte-turnstile";
+  import { goto } from "$app/navigation";
   let token;
   $: token;
   export let code;
 
   async function codeForSession(_token) {
     await fetch(`auth/callback/?code=${code}`)
+    goto('/')
+    console.log('code.svelte')
   }
 </script>
 <body class="antialiased bg-body text-body font-body bg-gray-600 h-screen">

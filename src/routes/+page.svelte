@@ -28,18 +28,9 @@
 
 		return unsubscribe;
 	});
-	let code
 
-	if ($page.data.url)
-	{
-		$: code = $page.data.url.searchParams.get('code')
-	}
 </script>
 
-
-{#if code}
-	<Code bind:code={code}/>
-	{:else}
 
 {#if !data.session}
 	<Auth bind:data={data} />
@@ -53,5 +44,5 @@
 		<button class="button block" on:click={handleSignOut}> Sign Out </button>
 	</div>
 {/if}
-{/if}
+
 
