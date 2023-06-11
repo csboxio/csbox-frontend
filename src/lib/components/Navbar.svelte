@@ -111,7 +111,6 @@
               >
                 {@html item.svg}
               </a>
-
             </li>
           {/each}
         </ul>
