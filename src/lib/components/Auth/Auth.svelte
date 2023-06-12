@@ -70,7 +70,7 @@
     let token;
     $: token;
 </script>
-<body class="antialiased bg-body text-body font-body bg-gray-600 h-screen">
+<body class="antialiased bg-body text-body font-body bg-gray-600 h-full">
 <div class="">
     <div class="dark:bg-scale-200 bg-scale-100 relative py-2 pb-16">
         <div

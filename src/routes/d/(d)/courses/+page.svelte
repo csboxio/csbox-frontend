@@ -139,7 +139,6 @@
 			</div>
 		</section>
 
-		<!-- For some reason needs h-screen I think something with the flexbox -->
 		<section class="flex flex-col p-8 h-screen">
 			<div>
 				<!-- Join course button-->
