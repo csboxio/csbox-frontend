@@ -13,6 +13,7 @@ export const load = async ({ fetch, data, request, url, parent }) => {
   }
   const instances = await fetch(`/api/instances`)
   const ide = await fetch(`/api/instances/ide?v=1`)
+  console.log(ide)
   return {
     instances: await instances.json(),
     ide: await ide.json()

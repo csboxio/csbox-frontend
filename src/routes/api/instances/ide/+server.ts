@@ -14,10 +14,8 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   const version = url.searchParams.get('v')
 
   const {data, error } = await supabase.from('ide')
-    .select('version, status_codes, configuration, types')
+    .select('version, status_codes, configuration, types, languages')
     .eq('version', version)
-
-  console.log(data)
 
   //event.setHeaders({
   //  'cache-control': 'public, max-age=60, s-maxage=60'

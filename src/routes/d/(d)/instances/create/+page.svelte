@@ -14,6 +14,18 @@
 
 
   let selectedConfig = null;
+  $: selectedConfig;
+  let hoverConfig = null;
+
+  const programmingLanguages = [
+    { name: 'JavaScript', image: 'javascript.png' },
+    { name: 'Python', image: 'python.png' },
+    { name: 'Java', image: 'java.png' },
+    { name: 'C++', image: 'cpp.png' },
+    { name: 'Ruby', image: 'ruby.png' },
+    { name: 'Go', image: 'go.png' },
+    // Add more programming languages as needed
+  ];
 
   function selectConfig(config) {
     selectedConfig = config;
@@ -36,13 +48,13 @@
 </script>
 <body class="bg-gray-600 antialiased h-screen">
 <div class="p-4">
-  <h2 class="text-white text-center text-xl font-bold mb-4">Create Instance</h2>
+  <h2 class="text-white text-center text-xl font-bold mb-4 pt-6">Create Instance</h2>
 
   <form method="POST" action="?/createInstance" on:submit|preventDefault={handleSubmit}>
 
-
+    <div class="grid gap-4 mb-6 px-24 sm:grid-cols-2 py-12">
     <div>
-      <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+      <label for="title" class="block mb-2 text-sm font-medium text-white dark:text-white"
       >Title</label
       >
       <input
@@ -56,11 +68,10 @@
         required
       />
     </div>
-
     <div>
       <label
         for="configuration"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Configuration</label
+        class="block mb-2 text-sm font-medium text-white dark:text-white">Configuration</label
       >
       <select
         name="configuration"
@@ -77,55 +88,54 @@
       </select>
     </div>
 
-    <div>
-      <h2 class="text-white text-center text-xl font-bold mb-4">4th Gen Intel Xeon Scalable processor </h2>
+      <div class="container mx-auto p-4">
+        <div class="grid grid-cols-3 gap-4">
+          {#each Object.entries(ide[0].languages.languages) as [key, config]}
+            <button type="button" class="p-4 border rounded-lg flex flex-col items-center justify-center">
+              <img src="icons/languages/{config}" class="w-12 h-12 mb-2" />
+              <span class="text-sm text-white">{config.name}</span>
+            </button>
+          {/each}
+        </div>
+      </div>
 
-      <div class="grid grid-cols-5 gap-4">
+    <div>
+      <h2 class="text-white text-center text-xl font-bold mb-4">Type</h2>
+
+      <div class="grid grid-cols-5 gap-0">
       {#each Object.entries(ide[0].types.configurations) as [key, config]}
         <div
-          class="p-4 rounded-lg cursor-pointer transition-colors duration-300 relative w-3/5"
-          class:bg-gray-400={selectedConfig === config}
-          class:selected={selectedConfig === config}
-          on:click={() => selectConfig(config)}
+                class="object-contain rounded-lg cursor-pointer transition-colors duration-300 relative w-4/5 border p-1 hover:bg-gray-400"
+                class:border-blue-300={selectedConfig === config}
+                class:selected={selectedConfig === config}
+                on:click={() => selectConfig(config)}
+                on:hover={() => hoverConfig = config}
         >
-          <h3 class="text-lg font-bold mb-2">{config.name}</h3>
+          <h3 class="text-lg font-bold text-white text-center">{config.name}</h3>
           <div class="relative aspect-w-1 aspect-h-1">
-            <img src="/instances/{config.name}.jfif" alt="Configuration Image" class="object-cover rounded-lg hover:filter-blur-md h-32 h-32">
-            <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-75">
+            <div class="absolute inset-0 top-8 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-75"
+                 class:opacity-100={selectedConfig === config || hoverConfig === config}
+            >
               <div class="text-white text-center">
-                <p class="font-bold">CPU: {config.cpu} vCPU</p>
-                <p class="font-bold">Memory: {config.memory}</p>
-                <p class="font-bold">Tokens per hour: {config.tokens}</p>
+                <p class="font-bold">{config.cpu} vCPU</p>
+                <p class="font-bold">{config.memory}</p>
+                <!--<p class="font-bold">Tokens per hour: {config.tokens}</p>-->
               </div>
             </div>
           </div>
         </div>
+
       {/each}
+
+      </div>
     </div>
     </div>
 
-
-
-
-
-    <button
-      type="submit"
-      class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-    >
-      <svg
-        class="mr-1 -ml-1 w-6 h-6"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-          clip-rule="evenodd"
-        />
-      </svg>
-      Add new instance
-    </button>
+    <div class="fixed bottom-0 left-0 right-0 p-4 flex justify-between bg-white">
+      <p class="text-gray-600 text-sm">Monthly Rate: {selectedConfig?.tokens == null ? 0 : selectedConfig?.tokens * 100} Tokens</p>
+      <div class="text-gray-600">Hourly Rate: {selectedConfig?.tokens == null ? 0 : selectedConfig?.tokens} Tokens</div>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create</button>
+    </div>
 </form>
 </div>
 </body>
