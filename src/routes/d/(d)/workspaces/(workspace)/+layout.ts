@@ -11,11 +11,11 @@ export const load = async ({ fetch, data, request, url, parent }) => {
   if (!session) {
     throw redirect(303, '/');
   }
-  const instances = await fetch(`/api/instances`)
-  const ide = await fetch(`/api/instances/ide?v=1`)
+  const workspaces = await fetch(`/api/workspace`)
+  const ide = await fetch(`/api/workspace/ide?v=1`)
   console.log(ide)
   return {
-    instances: await instances.json(),
+    workspaces: await workspaces.json(),
     ide: await ide.json()
   };
 };
