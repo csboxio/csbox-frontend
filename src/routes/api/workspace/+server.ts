@@ -15,6 +15,8 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
     .select('id, inserted_at, instance_config, instance_title, instance_state')
     .eq('creator_id', session.user.id)
 
+
+
   //event.setHeaders({
   //  'cache-control': 'public, max-age=60, s-maxage=60'
   //})

@@ -17,16 +17,6 @@
   $: selectedConfig;
   let hoverConfig = null;
 
-  const programmingLanguages = [
-    { name: 'JavaScript', image: 'javascript.png' },
-    { name: 'Python', image: 'python.png' },
-    { name: 'Java', image: 'java.png' },
-    { name: 'C++', image: 'cpp.png' },
-    { name: 'Ruby', image: 'ruby.png' },
-    { name: 'Go', image: 'go.png' },
-    // Add more programming languages as needed
-  ];
-
   function selectConfig(config) {
     selectedConfig = config;
   }
@@ -48,11 +38,11 @@
 </script>
 <body class="bg-gray-600 antialiased h-screen">
 <div class="p-4">
-  <h2 class="text-white text-center text-xl font-bold mb-4 pt-6">Create Instance</h2>
+  <h2 class="text-white  text-xl font-bold mb-4 pt-6">Create Workspace</h2>
 
   <form method="POST" action="?/createInstance" on:submit|preventDefault={handleSubmit}>
 
-    <div class="grid gap-4 mb-6 px-24 sm:grid-cols-2 py-12">
+    <div class="grid gap-4 mb-6 px-2 sm:grid-cols-2 py-12">
     <div>
       <label for="title" class="block mb-2 text-sm font-medium text-white dark:text-white"
       >Title</label
@@ -68,36 +58,27 @@
         required
       />
     </div>
-    <div>
-      <label
-        for="configuration"
-        class="block mb-2 text-sm font-medium text-white dark:text-white">Configuration</label
-      >
-      <select
-        name="configuration"
-        id="configuration"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500
-								 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-								 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-        required
-      >
-        <option selected="">Select category</option>
-        {#each Object.entries(ide[0].configuration) as [key, config]}
-          <option value={key}>{config.name}</option>
-        {/each}
-      </select>
-    </div>
+      <!--
+<div>
+<label
+  for="configuration"
+  class="block mb-2 text-sm font-medium text-white dark:text-white">Configuration</label
+>
+<select
+  name="configuration"
+  id="configuration"
+  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500
+           focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+           dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+  required
+>
+  <option selected="">Select category</option>
+  {#each Object.entries(ide[0].configuration) as [key, config]}
+    <option value={key}>{config.name}</option>
+  {/each}
+</select>
+    </div>-->
 
-      <div class="container mx-auto p-4">
-        <div class="grid grid-cols-3 gap-4">
-          {#each Object.entries(ide[0].languages.languages) as [key, config]}
-            <button type="button" class="p-4 border rounded-lg flex flex-col items-center justify-center">
-              <img src="icons/languages/{config}" class="w-12 h-12 mb-2" />
-              <span class="text-sm text-white">{config.name}</span>
-            </button>
-          {/each}
-        </div>
-      </div>
 
     <div>
       <h2 class="text-white text-center text-xl font-bold mb-4">Type</h2>
@@ -129,11 +110,22 @@
 
       </div>
     </div>
+      <div class="container mx-auto p-4">
+        <div class="grid grid-cols-3 gap-4">
+          {#each Object.entries(ide[0].languages.languages) as [key, config]}
+            <button type="button" class="p-4 border rounded-lg flex flex-col items-center justify-center">
+              <img src="/icons/languages/{config.name}.png" class="w-12 h-12 mb-2" />
+              <span class="text-sm text-white">{config.name}</span>
+            </button>
+          {/each}
+        </div>
+      </div>
+
     </div>
 
-    <div class="fixed bottom-0 left-0 right-0 p-4 flex justify-between bg-white">
-      <p class="text-gray-600 text-sm">Monthly Rate: {selectedConfig?.tokens == null ? 0 : selectedConfig?.tokens * 100} Tokens</p>
-      <div class="text-gray-600">Hourly Rate: {selectedConfig?.tokens == null ? 0 : selectedConfig?.tokens} Tokens</div>
+    <div class="fixed bottom-0 left-20 right-0 p-4 flex justify-between bg-white">
+      <p class="text-gray-600 text-lg">Monthly Rate: {selectedConfig?.tokens == null ? 0 : selectedConfig?.tokens * 100} Tokens</p>
+      <div class="text-gray-600 text-lg">Hourly Rate: {selectedConfig?.tokens == null ? 0 : selectedConfig?.tokens} Tokens</div>
       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create</button>
     </div>
 </form>

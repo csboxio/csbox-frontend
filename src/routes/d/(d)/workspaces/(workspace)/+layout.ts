@@ -13,9 +13,11 @@ export const load = async ({ fetch, data, request, url, parent }) => {
   }
   const workspaces = await fetch(`/api/workspace`)
   const ide = await fetch(`/api/workspace/ide?v=1`)
-  console.log(ide)
+  const instances = await fetch("http://ide.csbox.io/api/theia/all")
+
   return {
     workspaces: await workspaces.json(),
-    ide: await ide.json()
+    ide: await ide.json(),
+    instances: await instances.json()
   };
 };

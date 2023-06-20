@@ -10,3 +10,5 @@ export const courseDocument = writable();
 
 export const notificationStore = writable();
 
+export const navStore = writable();
+

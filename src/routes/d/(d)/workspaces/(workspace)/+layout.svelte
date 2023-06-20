@@ -1,12 +1,18 @@
 <script>
     import WorkspaceNav from "$lib/components/WorkspaceNav.svelte";
-    import {Navbar} from "flowbite-svelte";
+    import Navbar from '$lib/components/Navbar.svelte';
     import Settings from "$lib/components/Settings.svelte";
+
+    /** @type {import('./$types').PageData} */
+    export let data;
+    let instances;
+    $: instances = data.instances.data;
 </script>
 
 
 
 <div class="mx-auto lg:ml-20">
+    <Navbar />
     <section>
         <div class="pt-5 pb-6 px-8 bg-gray-700">
             <div class="flex flex-wrap items-center justify-between -mx-2">
@@ -28,7 +34,7 @@
 
 <div class="flex">
     <div class="lg:ml-20">
-        <WorkspaceNav/>
+        <WorkspaceNav {instances}/>
     </div>
     <div class="w-full">
         <slot/>
