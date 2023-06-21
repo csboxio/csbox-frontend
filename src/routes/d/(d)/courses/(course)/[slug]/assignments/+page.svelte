@@ -20,6 +20,8 @@
 	import { page } from "$app/stores";
 	import { theme } from "$lib/dates/theme.js";
 	import { addNotification } from "../../../../../../../lib/utilities/notifications.js";
+	import {onMount} from "svelte";
+	import {navStore} from "../../../../../../../lib/stores/stores.js";
 
 	export let data;
 	export let show_create_box;
@@ -155,7 +157,10 @@
 	let left = 600;
 	let top = 200;
 
-
+	onMount(() => {
+		// Set the selected item when the page is mounted
+		navStore.set('courses');
+	});
 </script>
 
 

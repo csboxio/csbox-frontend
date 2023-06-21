@@ -1,14 +1,21 @@
 <script lang="ts">
 	import { applyAction, deserialize } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
+	import {page} from "$app/stores";
 	let model;
 	export let data;
 	export let show_create_box;
 	let loading;
 	let assignments;
-	$: assignments = data.assignmentDataInfo;
+	$: assignments = data.assignments.assignmentData;
 
-	//console.log(assignments)
+	const assignmentSlug = data.assignmentSlug;
+	let assignment;
+	$: {
+		assignment = assignments.find(
+				assignment => assignment.assignment_id == assignmentSlug
+		)
+	}
 
 	function show_box() {
 		show_create_box = true;
@@ -61,37 +68,6 @@
 
 <div class="flex flex-row">
 	<section class="p-1">
-		<div class="container mx-1 my-8">
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Title: {assignments.title}
-			</h4>
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Creator: {assignments.creator_id}
-			</h4>
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Description: {assignments.description}
-			</h4>
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Submission Type: {assignments.submission_type}
-			</h4>
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Submission Attempts: {assignments.submission_attempts}
-			</h4>
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Display as: {assignments.display_as}
-			</h4>
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Available Start: {assignments.available_start}
-			</h4>
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Available End: {assignments.available_end}
-			</h4>
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Inserted At: {assignments.inserted_at}
-			</h4>
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">
-				Assign To: {assignments.assign_to}
-			</h4>
-		</div>
+
 	</section>
 </div>

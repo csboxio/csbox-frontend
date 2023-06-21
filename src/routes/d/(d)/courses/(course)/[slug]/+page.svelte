@@ -7,6 +7,7 @@
 	import { onMount, setContext } from 'svelte';
 	import Quill from 'quill';
 	import { blur } from 'svelte/transition';
+	import {navStore} from "../../../../../../lib/stores/stores.js";
 	let quill;
 	let model;
 	export let data;
@@ -84,6 +85,8 @@
 	}
 
 	onMount(async () => {
+		// Set the selected item when the page is mounted
+		navStore.set('courses');
 		if (browser) {
 
 			await setupQuill();

@@ -4,6 +4,8 @@
 	import { goto, invalidateAll } from "$app/navigation";
 	import { page } from '$app/stores';
 	import { AccordionItem, Accordion, Modal } from "flowbite-svelte";
+	import {onMount} from "svelte";
+	import {navStore} from "../../../../../../../lib/stores/stores.js";
 
 	export let data;
 	let model;
@@ -67,6 +69,11 @@
 		console.log(result)
 		await applyAction(result);
 	}
+
+	onMount(() => {
+		// Set the selected item when the page is mounted
+		navStore.set('courses');
+	});
 </script>
 
 <div class="w-full">
