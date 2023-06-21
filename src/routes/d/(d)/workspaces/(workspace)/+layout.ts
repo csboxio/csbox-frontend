@@ -13,7 +13,7 @@ export const load = async ({ fetch, data, request, url, parent }) => {
   }
   const workspaces = await fetch(`/api/workspace`)
   const ide = await fetch(`/api/workspace/ide?v=1`)
-  const instances = await fetch("http://ide.csbox.io/api/theia/all")
+  const instances = await fetch("http://ide.csbox.io/api/workspace/all")
 
   return {
     workspaces: await workspaces.json(),

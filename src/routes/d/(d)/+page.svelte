@@ -10,22 +10,38 @@
 	import Settings from '$lib/components/Settings.svelte';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import { fetchCourses } from "$lib/utilities/utils.js";
+	import Auth from "$lib/components/Auth/Auth.svelte";
 
-
-	let user = $page.data.user.data;
-	let updated;
-
+	let user;
 	let avatarUrl;
-	updated = $page.data.user.updated_at;
-	avatarUrl = user.avatar_url + '?t=' + updated;
-	// this is needed for the outside click div, that needs to be redone
+	let updated;
 	let model;
 
+
+	export let data
+
+	let { supabase } = data
+	$: ({ supabase } = data)
+
+	console.log($page.data.session != null)
+	if ($page.data.session) {
+		user = $page.data.user.data;
+
+		avatarUrl;
+		updated = $page.data.user.updated_at;
+		avatarUrl = user.avatar_url + '?t=' + updated;
+		// this is needed for the outside click div, that needs to be redone
+
+
+		//console.log(courses)
+	}
 	export let fetchedCourses;
 	$: courses = $fetchedCourses;
-	//console.log(courses)
-</script>
 
+</script>
+{#if !$page.data.session}
+	<Auth bind:data={data} />
+{:else}
 <body
 	class="dark:bg-gray-600 bg-gray-100 antialiased bg-body text-body font-body"
 	on:click|stopPropagation={() => model.handleToggleMenuTopRight('outside')}
@@ -718,3 +734,4 @@
 		</div>
 	</div>
 </body>
+{/if}
