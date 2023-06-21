@@ -21,6 +21,8 @@
   function selectNav(route) {
     navStore.set(route);
   }
+
+
 </script>
 
 <div class="z-1 relative">
@@ -49,11 +51,12 @@
         <ul>
           {#each navItems as item}
             <li>
-              <a  class="flex items-center justify-center w-12 h-12 rounded-xl hover:bg-gray-800 mb-2"
-                 class:active={$page.url.pathname === item.id}
-                  class:text-gray-400={true}
-                 class:text-blue-500={$navStore === item.id}
+            <li class:active={$navStore === item.id} on:click={() => $navStore = item.id}>
 
+            <a  class="flex items-center justify-center w-12 h-12 rounded-xl hover:bg-gray-800 mb-2"
+                 on:click={() => $navStore = item.id}
+                 class:text-gray-400={$navStore !== item.id}
+                 class:text-blue-500={$navStore === item.id}
                  href={item.url}
                  sveltekit:prefetch
               >

@@ -11,6 +11,8 @@
 	import Navbar from '$lib/components/Navbar.svelte';
 	import { fetchCourses } from "$lib/utilities/utils.js";
 	import Auth from "$lib/components/Auth/Auth.svelte";
+	import {onMount} from "svelte";
+	import {navStore} from "../../../lib/stores/stores.js";
 
 	let user;
 	let avatarUrl;
@@ -37,6 +39,11 @@
 	}
 	export let fetchedCourses;
 	$: courses = $fetchedCourses;
+
+	onMount(() => {
+		// Set the selected item when the page is mounted
+		navStore.set('d');
+	});
 
 </script>
 {#if !$page.data.session}

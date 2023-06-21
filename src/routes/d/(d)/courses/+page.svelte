@@ -8,6 +8,8 @@
 	import { Modal } from "flowbite-svelte";
 	import Courses from "$lib/blocks/Courses.svelte";
 	import { addNotification } from "../../../../lib/utilities/notifications.js";
+	import {onMount} from "svelte";
+	import {navStore} from "../../../../lib/stores/stores.js";
 
 	let defaultModel = false;
 
@@ -60,6 +62,11 @@
 			}
 		}
 	}
+
+	onMount(() => {
+		// Set the selected item when the page is mounted
+		navStore.set('courses');
+	});
 </script>
 
 <body

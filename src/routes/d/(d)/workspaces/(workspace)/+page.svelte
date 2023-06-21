@@ -15,6 +15,8 @@
 	} from "flowbite-svelte";
 	import { applyAction, deserialize } from "$app/forms";
 	import WorkspaceNav from "$lib/components/WorkspaceNav.svelte";
+	import {onMount} from "svelte";
+	import {navStore} from "../../../../../lib/stores/stores.js";
 
 
 	// this is needed for the outside click div, that needs to be redone
@@ -63,6 +65,11 @@
 
 		await applyAction(result);
 	}
+
+	onMount(() => {
+		// Set the selected item when the page is mounted
+		navStore.set('workspaces');
+	});
 </script>
 
 
