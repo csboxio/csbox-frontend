@@ -11,13 +11,23 @@ export const load = async ({ fetch, data, request, url, parent }) => {
   if (!session) {
     throw redirect(303, '/');
   }
-  const workspaces = await fetch(`/api/workspace`)
-  const ide = await fetch(`/api/workspace/ide?v=1`)
-  const instances = await fetch("http://ide.csbox.io/api/workspace/all")
 
-  return {
-    workspaces: await workspaces.json(),
-    ide: await ide.json(),
-    instances: await instances.json()
-  };
+  try {
+    const workspaces = await fetch(`/api/workspace`)
+    const ide = await fetch(`/api/workspace/ide?v=1`)
+    const instances = await fetch("http://ide.csbox.io/api/workspace/all")
+    if (!workspaces.ok || !ide.ok || !instances.ok) {
+      redirect(303, '/');
+      //throw Error(workspaces.statusText + ide.statusText + instances.statusText);
+    }
+    return {
+      workspaces: await workspaces.json(),
+      ide: await ide.json(),
+      instances: await instances.json()
+    };
+  }
+  catch (error) {
+    console.log("Workspace error");
+    redirect(303, '/');
+  }
 };

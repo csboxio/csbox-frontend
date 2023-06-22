@@ -1,6 +1,8 @@
 <script lang="ts">
   import {page} from "$app/stores";
   import { goto } from "$app/navigation";
+  import {Button, Dropdown, DropdownItem, DropdownDivider, DropdownHeader, Chevron, Avatar} from 'flowbite-svelte'
+
   export const ssr = true;
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s) {
@@ -25,31 +27,56 @@
   }
 </script>
 
-<div class="w-full sm:w-auto">
-  <div class="relative inline-block text-left">
-    <div>
-      <button type="button" class="inline-flex items-center justify-center py-2 pl-2 pr-3 bg-gray-500 hover:bg-gray-400 hover:bg-opacity-40 transition duration-150 rounded-full"
-              id="menu-button" aria-expanded="true" aria-haspopup="true"
-              on:click|stopPropagation={() => handleToggleMenuTopRight("inside")}>
-        <img class="h-8 w-8 mr-3 rounded-full object-cover" src="{avatarUrl}" alt="{avatarUrl}">
-        <h4 id="fullname" class="text-white font-bold tracking-wide mr-5">{full_name}</h4>
-        <svg width="10" height="6" viewbox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L5 5L9 1" stroke="#3D485B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-        </svg>
-      </button>
+<div class="w-full lg:w-auto px-2">
+  <div class="sm:flex items-center">
+    <div class="w-full sm:w-auto mb-6 sm:mb-0 sm:mr-4 z-10">
+      <div class="flex flex-wrap items-center -mb-2 z-10">
 
-      {#if showTopRightMenuModel}
-        <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-gray-500 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-          <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-            <div class="truncate font-bold">{email}</div>
-          </div>
-          <div class="py-1" role="none">
-            <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-            <a href="/d/profile" class="font-semibold text-gray-100 block px-4 py-2 text-sm hover:bg-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">Account settings</a>
-            <button type="submit" on:click={signOut} class="font-semibold text-gray-100 block w-full px-4 py-2 text-left text-sm hover:bg-gray-700" role="menuitem" tabindex="-1" id="menu-item-3">Sign out</button>
+        <div id="bell" class="inline-flex items-center text-sm font-medium z-10 text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400">
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg>
+          <div class="flex relative">
+            <div class="inline-flex relative z-10 -top-2 right-3 w-3 h-3 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"></div>
           </div>
         </div>
-      {/if}
+        <Dropdown triggeredBy="#bell" class="w-full max-w-sm rounded divide-y divide-gray-100 z-10 shadow dark:bg-gray-800 dark:divide-gray-700">
+          <div slot="header" class="text-center py-2 font-bold z-10">Notifications</div>
+          <DropdownItem class="flex space-x-4 z-10">
+            <Avatar src="/images/profile-picture-1.webp" dot={{color:'bg-gray-300'}} rounded />
+            <div class="pl-3 w-full">
+              <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400">New message from <span class="font-semibold text-gray-900 dark:text-white">Jese Leos</span>: "Hey, what's up? All set for the presentation?"</div>
+              <div class="text-xs text-primary-600 dark:text-primary-500">a few moments ago</div>
+            </div>
+          </DropdownItem>
+          <a slot="footer" href="/" class="block py-2 -my-1 text-sm font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
+            <div class="inline-flex items-center">
+              <svg class="mr-2 w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path></svg>
+              View all
+            </div>
+          </a>
+        </Dropdown>
+
+      </div>
+    </div>
+    <div class="w-full sm:w-auto">
+      <div class="relative inline-block text-left z-10">
+        <div>
+          <Button pill color="light" id="avatar_with_name" class="!p-1.5 ">
+            <Avatar src="{avatarUrl}" alt="{avatarUrl}" class="mr-4"/>
+            <div class="mr-1">{full_name}</div>
+          </Button>
+          <Dropdown inline triggeredBy="#avatar_with_name" class="z-10">
+            <div slot="header" class="px-4 py-2">
+              <span class="block text-sm text-gray-900 dark:text-white"> {full_name} </span>
+              <span class="block truncate text-sm font-medium"> {email} </span>
+            </div>
+            <DropdownItem on:click={() => {goto('/d/profile')}}>Settings</DropdownItem>
+            <DropdownItem on:click={signOut} slot="footer">Sign out</DropdownItem>
+          </Dropdown>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+
+

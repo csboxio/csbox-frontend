@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Settings from '$lib/components/Settings.svelte';
-	import Navbar from '$lib/components/Navbar.svelte';
 	import { goto, invalidateAll } from "$app/navigation";
 	import {
 		Button,
@@ -22,15 +20,40 @@
 	// this is needed for the outside click div, that needs to be redone
 	let model;
 
-	/** @type {import('./$types').PageData} */
-	export let data;
-	let workspaces;
-	$: workspaces = data.workspaces;
-	let ide;
-	$: ide = data.ide;
+	/** @type {import('./$types').PageData | null} */
+	export let data = null;
 
-	let instances;
-	$: instances = data.instances.data;
+	let workspaces = [];
+	let ide;
+	let instances = [];
+
+	$: {
+		if (data && data.workspaces) {
+			workspaces = data.workspaces;
+		} else {
+			workspaces = [];
+		}
+
+		if (data && data.ide) {
+			ide = data.ide;
+		} else {
+			ide = null;
+		}
+
+		if (data && data.instances && data.instances.data) {
+			instances = data.instances.data;
+		} else {
+			instances = [];
+		}
+	}
+
+	$: {
+		if (data === null) {
+			// Handle error case when data is null
+			console.error('Error: Data is null.');
+			// Display an error message to the user or take any other necessary actions
+		}
+	}
 
 
 	export let show_create_box;

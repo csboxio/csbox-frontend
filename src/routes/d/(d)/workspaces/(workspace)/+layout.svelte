@@ -2,11 +2,27 @@
     import WorkspaceNav from "$lib/components/WorkspaceNav.svelte";
     import Navbar from '$lib/components/Navbar.svelte';
     import Settings from "$lib/components/Settings.svelte";
+    import {redirect} from "@sveltejs/kit";
 
     /** @type {import('./$types').PageData} */
-    export let data;
-    let instances;
-    $: instances = data.instances.data;
+    export let data = null;
+
+    let instances = [];
+    $: {
+        if (data && data.instances && data.instances.data) {
+            instances = data.instances.data;
+        } else {
+            instances = [];
+        }
+    }
+
+    $: {
+        if (data === null) {
+            // Handle error case when data is null
+            console.error('Error: Data is null.');
+            // Display an error message to the user or take any other necessary actions
+        }
+    }
 </script>
 
 
