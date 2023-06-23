@@ -1,6 +1,10 @@
 <script lang="ts">
+	import {onMount} from "svelte";
+
 	let model;
 	export let data;
+	let { supabase } = data
+	$: ({ supabase } = data)
 
 	import {
 		Button, Modal,
@@ -15,6 +19,7 @@
 	import { page } from "$app/stores";
 	import { goto, invalidateAll } from "$app/navigation";
 	import { addNotification } from "../../../../../../../lib/utilities/notifications.js";
+	import {navStore} from "../../../../../../../lib/stores/stores.js";
 	let searchTerm = '';
 	let code = '';
 	$: code;
@@ -87,7 +92,7 @@
 					title: "Success! 👏",
 					message: "New person enrolled."
 				};
-		addNotification(newNotification)
+		addNotification(newNotification, supabase, $page.data.session.user)
 			goto(window.location.pathname)
 		}
 		if (status === 400) {
@@ -96,7 +101,10 @@
 		await invalidateAll();
 	}
 
-
+	onMount(() => {
+		// Set the selected item when the page is mounted
+		navStore.set('courses');
+	});
 </script>
 
 <div class="w-full">
@@ -174,7 +182,7 @@
 	<div>
 
 		<!-- Model for add people -->
-		<Modal title="Add People" bind:open={peopleModel}>
+		<Modal title="Add People" class="max-w-xs" bind:open={peopleModel}>
 			<form method="POST">
 				<div class="grid gap-4 mb-6 px-6 sm:grid-cols-1">
 
@@ -216,7 +224,7 @@
 		</Modal>
 
 		<!-- Model for remove people -->
-		<Modal title="Remove person" bind:open={removeModel}>
+		<Modal title="Remove person" class="max-w-xs" bind:open={removeModel}>
 			<p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to delete this item?</p>
 			<div class="flex justify-center items-center space-x-4">
 				<button on:click={() => removeModel = false} data-modal-toggle="deleteModal" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">

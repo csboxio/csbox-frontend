@@ -74,7 +74,7 @@
 											title: courseTitle.toString(),
 											message: "New student has enrolled."
 										};
-									addNotification(newNotification)
+									addNotification(newNotification, supabase, $page.data.session.user)
 									invalidateAll()
 								}
 							}

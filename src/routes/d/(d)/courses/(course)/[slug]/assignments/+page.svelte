@@ -20,6 +20,8 @@
 	import { page } from "$app/stores";
 	import { theme } from "$lib/dates/theme.js";
 	import { addNotification } from "../../../../../../../lib/utilities/notifications.js";
+	import {onMount} from "svelte";
+	import {navStore} from "../../../../../../../lib/stores/stores.js";
 
 	export let data;
 	export let show_create_box;
@@ -67,8 +69,10 @@
 	function close_box() {
 		show_create_box = false;
 	}
+	let { supabase } = data
+	$: ({ supabase } = data)
 
-	async function handleSubmit(event) {
+	async function handleSubmit() {
 		if (browser) {
 			dueDate = dayjs(storeDueDate?.selected);
 			availablefromDate = dayjs(storeAvailableDate?.selected);
@@ -99,7 +103,7 @@
 					message: `Created Assignment: ${data.get('name')}`
 				};
 
-			addNotification(newNotification)
+			addNotification(newNotification, supabase, $page.data.session.user)
 
 		}
 		else {
@@ -109,7 +113,7 @@
 					message: `Error: Type: ${result.type} Status: ${result.status}}`
 				};
 
-			addNotification(newNotification)
+			addNotification(newNotification, supabase, $page.data.session.user)
 		}
 		close_box();
 		await invalidateAll();
@@ -128,6 +132,7 @@
 		deleteModel = false;
 	}
 
+
 	async function handleDeleteAssignment(aid) {
 		const { error, status } = await $page.data.supabase.from('assignments').delete().match({ assignment_id: aid });
 		console.log(status)
@@ -137,7 +142,7 @@
 					title: "Success! 🥳",
 					message: `Deleted Assignment!`
 				};
-			addNotification(newNotification)
+			addNotification(newNotification, supabase, $page.data.session.user)
 			delete_model_close();
 			await invalidateAll();
 		}
@@ -155,7 +160,10 @@
 	let left = 600;
 	let top = 200;
 
-
+	onMount(() => {
+		// Set the selected item when the page is mounted
+		navStore.set('courses');
+	});
 </script>
 
 
@@ -287,7 +295,7 @@
 					</button>
 				</div>
 				<!-- Modal body -->
-				<form method="POST" action="?/createAssignment" on:submit|preventDefault={handleSubmit}>
+				<form method="POST" action="?/createAssignment" on:submit|preventDefault={handleSubmit(supabase)}>
 					<div class="grid gap-4 mb-4 sm:grid-cols-2">
 						<div>
 							<label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -471,7 +479,7 @@
 {/if}
 
 <!-- Model for removing assignment -->
-<Modal title="Remove assignment" bind:open={deleteModel}>
+<Modal title="Remove assignment" class="max-w-xs" bind:open={deleteModel}>
 	<p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to delete this item?</p>
 	<div class="flex justify-center items-center space-x-4">
 		<button on:click={() => deleteModel = false} data-modal-toggle="deleteModal" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">

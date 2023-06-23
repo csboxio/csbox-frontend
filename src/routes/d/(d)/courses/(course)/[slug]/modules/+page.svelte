@@ -4,6 +4,8 @@
 	import { goto, invalidateAll } from "$app/navigation";
 	import { page } from '$app/stores';
 	import { AccordionItem, Accordion, Modal } from "flowbite-svelte";
+	import {onMount} from "svelte";
+	import {navStore} from "../../../../../../../lib/stores/stores.js";
 
 	export let data;
 	let model;
@@ -67,6 +69,11 @@
 		console.log(result)
 		await applyAction(result);
 	}
+
+	onMount(() => {
+		// Set the selected item when the page is mounted
+		navStore.set('courses');
+	});
 </script>
 
 <div class="w-full">
@@ -141,7 +148,7 @@
 	</section>
 </div>
 
-<Modal title="Add module" bind:open={addModuleModel}>
+<Modal title="Add module" class="max-w-xs" bind:open={addModuleModel}>
 		<!-- Modal body -->
 		<form method="POST" action="?/createModule" on:submit|preventDefault={handle_module_submit}>
 			<div class="grid gap-4 mb-4 sm:grid-cols-1">
@@ -181,7 +188,7 @@
 </Modal>
 
 <!-- Add assignment to module -->
-<Modal title="Add assignment to module" bind:open={addAssignmentModel}>
+<Modal title="Add assignment to module" class="max-w-xs" bind:open={addAssignmentModel}>
 	<form method="POST" action="?/addItemToModule" on:submit|preventDefault={handle_module_submit}>
 		<div class="grid gap-4 mb-4 sm:grid-cols-2">
 

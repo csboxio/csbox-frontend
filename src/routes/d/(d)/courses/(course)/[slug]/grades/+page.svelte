@@ -1,7 +1,15 @@
 <script lang="ts">
+	import {onMount} from "svelte";
+	import {navStore} from "../../../../../../../lib/stores/stores.js";
+
 	let model;
 	export let data;
 	let course_data = data.courseData;
+
+	onMount(() => {
+		// Set the selected item when the page is mounted
+		navStore.set('courses');
+	});
 </script>
 
 <div class="flex flex-row">
