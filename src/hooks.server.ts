@@ -4,10 +4,17 @@ import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit'
 import { redirect } from "@sveltejs/kit";
 
 export const handle = async ({ event, resolve }) => {
+
+
+
   event.locals.supabase = createSupabaseServerClient({
     supabaseUrl: PUBLIC_SUPABASE_URL,
     supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
     event,
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true
+    }
   })
 
   /**
