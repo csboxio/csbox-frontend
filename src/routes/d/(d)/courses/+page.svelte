@@ -14,6 +14,8 @@
 
     /** @type {import('./$types').PageData} */
     export let data;
+    let { supabase } = data
+    $: ({ supabase } = data)
 
     let courses;
     $: courses = data.courses.data;
@@ -45,7 +47,7 @@
                     message: "Wait for your instructor to accept you."
                 };
 
-            addNotification(newNotification)
+            addNotification(newNotification, supabase, $page.data.session.user)
         }
         if (result?.data.error !== null) {
             if (result?.data.error.message === "Already Enrolled") {
@@ -96,7 +98,7 @@
             </button>
 
             <!-- Model for join course -->
-            <Modal title="Join Course" bind:open={defaultModel} class="max-w-xs" autoclose outsideclose>
+            <Modal title="Join Course" bind:open={defaultModel} class="max-w-xs" >
                 <form method="POST" action="?/joinCourse" on:submit|preventDefault={handleSubmit}
                       class="flex flex-col items-center justify-center h-full">
                     <div class="mb-6 p-2">

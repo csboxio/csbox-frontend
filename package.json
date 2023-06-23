@@ -18,6 +18,7 @@
 	},
 	"devDependencies": {
 		"@event-calendar/core": "^1.5.0",
+		"@event-calendar/day-grid": "^1.5.0",
 		"@event-calendar/time-grid": "^1.5.0",
 		"@fortawesome/free-solid-svg-icons": "^6.2.1",
 		"@fullcalendar/core": "^6.1.8",
@@ -49,6 +50,7 @@
 		"svelte-calendar": "^3.1.6",
 		"svelte-check": "^2.9.2",
 		"svelte-fa": "^3.0.3",
+		"svelte-fullcalendar": "^2.0.0-beta.0",
 		"svelte-image": "^0.0.1",
 		"svelte-lazyimage-cache": "^1.0.9-remake",
 		"svelte-outclick": "^3.3.3",

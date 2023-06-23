@@ -3,6 +3,8 @@
 
 	let model;
 	export let data;
+	let { supabase } = data
+	$: ({ supabase } = data)
 
 	import {
 		Button, Modal,
@@ -90,7 +92,7 @@
 					title: "Success! 👏",
 					message: "New person enrolled."
 				};
-		addNotification(newNotification)
+		addNotification(newNotification, supabase, $page.data.session.user)
 			goto(window.location.pathname)
 		}
 		if (status === 400) {

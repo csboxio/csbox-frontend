@@ -69,8 +69,10 @@
 	function close_box() {
 		show_create_box = false;
 	}
+	let { supabase } = data
+	$: ({ supabase } = data)
 
-	async function handleSubmit(event) {
+	async function handleSubmit() {
 		if (browser) {
 			dueDate = dayjs(storeDueDate?.selected);
 			availablefromDate = dayjs(storeAvailableDate?.selected);
@@ -101,7 +103,7 @@
 					message: `Created Assignment: ${data.get('name')}`
 				};
 
-			addNotification(newNotification)
+			addNotification(newNotification, supabase, $page.data.session.user)
 
 		}
 		else {
@@ -111,7 +113,7 @@
 					message: `Error: Type: ${result.type} Status: ${result.status}}`
 				};
 
-			addNotification(newNotification)
+			addNotification(newNotification, supabase, $page.data.session.user)
 		}
 		close_box();
 		await invalidateAll();
@@ -130,6 +132,7 @@
 		deleteModel = false;
 	}
 
+
 	async function handleDeleteAssignment(aid) {
 		const { error, status } = await $page.data.supabase.from('assignments').delete().match({ assignment_id: aid });
 		console.log(status)
@@ -139,7 +142,7 @@
 					title: "Success! 🥳",
 					message: `Deleted Assignment!`
 				};
-			addNotification(newNotification)
+			addNotification(newNotification, supabase, $page.data.session.user)
 			delete_model_close();
 			await invalidateAll();
 		}
@@ -292,7 +295,7 @@
 					</button>
 				</div>
 				<!-- Modal body -->
-				<form method="POST" action="?/createAssignment" on:submit|preventDefault={handleSubmit}>
+				<form method="POST" action="?/createAssignment" on:submit|preventDefault={handleSubmit(supabase)}>
 					<div class="grid gap-4 mb-4 sm:grid-cols-2">
 						<div>
 							<label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
