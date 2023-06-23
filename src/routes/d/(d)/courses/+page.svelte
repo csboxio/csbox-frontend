@@ -12,9 +12,6 @@
 
     let defaultModel = false;
 
-    // this is needed for the outside click div, that needs to be redone
-    let model;
-
     /** @type {import('./$types').PageData} */
     export let data;
 
@@ -67,11 +64,7 @@
     });
 </script>
 
-<body
-        class="bg-gray-600 antialiased bg-body text-body font-body"
-        on:click|stopPropagation={() => model.handleToggleMenuTopRight('outside')}
->
-
+<body class="bg-gray-600 antialiased bg-body text-body font-body">
 <Navbar/>
 <div class="mx-auto lg:ml-20">
     <section>
@@ -103,7 +96,7 @@
             </button>
 
             <!-- Model for join course -->
-            <Modal title="Join Course" bind:open={defaultModel} class="">
+            <Modal title="Join Course" bind:open={defaultModel} class="max-w-xs" autoclose outsideclose>
                 <form method="POST" action="?/joinCourse" on:submit|preventDefault={handleSubmit}
                       class="flex flex-col items-center justify-center h-full">
                     <div class="mb-6 p-2">

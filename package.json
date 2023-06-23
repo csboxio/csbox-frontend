@@ -17,7 +17,11 @@
 		"test:webkit": "playwright test --browser webkit"
 	},
 	"devDependencies": {
+		"@event-calendar/core": "^1.5.0",
+		"@event-calendar/time-grid": "^1.5.0",
 		"@fortawesome/free-solid-svg-icons": "^6.2.1",
+		"@fullcalendar/core": "^6.1.8",
+		"@fullcalendar/daygrid": "^6.1.8",
 		"@locator/runtime": "^0.2.4",
 		"@originjs/vite-plugin-commonjs": "^1.0.3",
 		"@playwright/test": "^1.34.3",
@@ -59,6 +63,9 @@
 	"type": "module",
 	"dependencies": {
 		"@bytemd/plugin-gfm": "^1.20.2",
+		"@event-calendar/interaction": "^1.5.0",
+		"@event-calendar/list": "^1.5.0",
+		"@event-calendar/resource-time-grid": "^1.5.0",
 		"@fortawesome/free-solid-svg-icons": "^6.2.1",
 		"@popperjs/core": "^2.11.6",
 		"@prisma/client": "^4.8.0",

@@ -50,10 +50,7 @@
 {#if !$page.data.session}
 	<Auth bind:data={data} />
 {:else}
-<body
-	class="dark:bg-gray-600 bg-gray-100 antialiased bg-body text-body font-body"
-	on:click|stopPropagation={() => model.handleToggleMenuTopRight('outside')}
->
+<body class="dark:bg-gray-600 bg-gray-100 antialiased bg-body text-body font-body">
 	<div>
 		<Navbar />
 		<div class="mx-auto lg:ml-20">

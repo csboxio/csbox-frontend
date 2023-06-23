@@ -62,7 +62,7 @@
         <div>
           <Button pill color="light" id="avatar_with_name" class="!p-1.5 ">
             <Avatar src="{avatarUrl}" alt="{avatarUrl}" class="mr-4"/>
-            <div class="mr-1">{full_name}</div>
+            <div class="mr-2">{full_name}</div>
           </Button>
           <Dropdown inline triggeredBy="#avatar_with_name" class="z-10">
             <div slot="header" class="px-4 py-2">

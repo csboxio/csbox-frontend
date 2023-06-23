@@ -13,9 +13,11 @@ export const handle = async ({ event, resolve }) => {
     event,
     auth: {
       autoRefreshToken: true,
-      persistSession: true
+      persistSession: false
     }
   })
+
+
 
   /**
    * a little helper that is written for convenience so that instead

@@ -11,10 +11,7 @@
 	let course = courses.filter((course) => course.id === parseInt($page.data.slug))[0];
 </script>
 
-<body
-	class="bg-gray-600 antialiased bg-body text-body font-body"
-	on:click|stopPropagation={() => model.handleToggleMenuTopRight('outside')}
->
+<body class="bg-gray-600 antialiased bg-body text-body font-body">
 	<div class={show_create_box ? '' : 'filter blur-[1px]'}>
 		<Navbar />
 		<div class="mx-auto lg:ml-20">

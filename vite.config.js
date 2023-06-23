@@ -1,11 +1,13 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { esbuildCommonjs, viteCommonjs } from "@originjs/vite-plugin-commonjs";
+import postcss from "postcss";
 
 
 const config = {
 	plugins: [
 		sveltekit(),
-		viteCommonjs()
+		viteCommonjs(),
+		postcss()
 	],
 	esbuildOptions:{
 		plugins:[
@@ -18,7 +20,7 @@ const config = {
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
 	ssr: {
-		noExternal: ['svelte-lazyimage-cache', 'react-image-file-resizer.js', 'svelte-awesome-icons'],
+		noExternal: ['svelte-lazyimage-cache', 'react-image-file-resizer.js', 'svelte-awesome-icons', '@event-calendar'],
 		external: ['quill']
 	},
 	define: {
