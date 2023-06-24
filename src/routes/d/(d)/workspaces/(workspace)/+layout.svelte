@@ -5,7 +5,10 @@
     import {redirect} from "@sveltejs/kit";
 
     /** @type {import('./$types').PageData} */
-    export let data = null;
+    export let data
+
+    let { supabase, session, user } = data
+    $: ({ supabase, session, user } = data)
 
     let instances = [];
     $: {
@@ -40,7 +43,7 @@
                         <div class="w-full sm:w-auto mb-6 sm:mb-0 sm:mr-4">
 
                         </div>
-                        <Settings />
+                        <Settings bind:data={data}/>
                     </div>
                 </div>
             </div>

@@ -2,6 +2,15 @@
   import {page} from "$app/stores";
   export const ssr = false
   let route = '/d/courses/' + $page.params.slug + '/'
+
+  const menuItems = [
+    { name: "Home", route: route },
+    { name: "Assignments", route: route + "assignments" },
+    { name: "Modules", route: route + "modules" },
+    { name: "Grades", route: route + "grades" },
+    { name: "People", route: route + "people" },
+    { name: "Settings", route: route + "settings" },
+  ];
 </script>
 
 <section class="sticky inset-y-0 z-1 flex-shrink-0 mr-5 bg-gray-600 border-r dark:border-primary-darker dark:bg-darker lg:static focus:outline-none">
@@ -9,37 +18,13 @@
     <!-- Panel content -->
     <div class="flex-1 pl-1.5 pr-1 mr-0.5 py-6 overflow-y-hidden font-semibold text-white ">
       <!-- Content -->
-      <a href= {route}>
-        <div class="space-y-8 py-4 hover:bg-gray-800 rounded-xl">
-          <p class="px-4">Home</p>
-        </div>
-      </a>
-      <a href= {route + "assignments"}>
-        <div class="space-y-8 py-4 hover:bg-gray-800 rounded-xl">
-          <p class="px-4">Assignments</p>
-        </div>
-      </a>
-      <a href={route + "modules"}>
-      <div class="space-y-8 py-4 hover:bg-gray-800 rounded-xl">
-        <p class="px-4">Modules</p>
-      </div>
-      </a>
-      <a href={route + "grades"}>
-      <div class="space-y-8 py-4 hover:bg-gray-800 rounded-xl">
-        <p class="px-4">Grades</p>
-      </div>
-      </a>
-      <a href={route + "people"}>
-        <div class="space-y-8 py-4 hover:bg-gray-800 rounded-xl">
-          <p class="px-4">People</p>
-        </div>
-      </a>
-      <a href={route + "settings"}>
-      <div class="space-y-8 py-4 hover:bg-gray-800 rounded-xl">
-        <p class="px-4">Settings</p>
-      </div>
-      </a>
-
+      {#each menuItems as menuItem, index}
+        <a href="{menuItem.route}" each="{menuItem, index} in menuItems" key="{index}">
+          <div class="space-y-8 py-4 hover:bg-gray-800 rounded-xl">
+            <p class="px-4">{menuItem.name}</p>
+          </div>
+        </a>
+        {/each}
     </div>
   </div>
 </section>

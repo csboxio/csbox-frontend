@@ -13,7 +13,7 @@ export const load = async ({ fetch, data, depends, url }) => {
     supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
     event: { fetch },
     serverSession: data.session,
-    autoRefreshToken: false,
+    autoRefreshToken: true,
   })
 
   const {

@@ -76,7 +76,7 @@
                     <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Courses</h4>
                 </div>
                 <div class="w-full lg:w-auto px-2">
-                    <Settings />
+                    <Settings bind:data={data} />
                 </div>
             </div>
         </div>

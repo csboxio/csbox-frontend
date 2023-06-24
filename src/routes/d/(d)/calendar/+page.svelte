@@ -8,7 +8,10 @@
     import TimeGrid from '@event-calendar/time-grid';
     import Interaction from '@event-calendar/interaction'
     import DayGrid from '@event-calendar/day-grid';
+    export let data
 
+    let { supabase, session, user } = data
+    $: ({ supabase, session, user } = data)
 
     let plugins = [TimeGrid, Interaction, DayGrid];
     let options = {
@@ -35,7 +38,7 @@
                     <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Courses</h4>
                 </div>
                 <div class="w-full lg:w-auto px-2">
-                    <Settings />
+                    <Settings bind:data={data}/>
                 </div>
             </div>
         </div>

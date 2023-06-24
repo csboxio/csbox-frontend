@@ -2,6 +2,8 @@
   import {page} from "$app/stores";
   import { goto } from "$app/navigation";
   import {Button, Dropdown, DropdownItem, DropdownDivider, DropdownHeader, Chevron, Avatar} from 'flowbite-svelte'
+  import {notifications} from "$lib/utilities/notifications.js";
+  import {onMount} from "svelte";
 
   export const ssr = true;
   export let showTopRightMenuModel = false
@@ -14,6 +16,14 @@
   const avatarUrl = `${user.avatar_url}?t=${updated}`;
   const full_name = `${user.first_name} ${user.last_name}`;
 
+  export let data
+
+  let { supabase } = data
+  $: ({ supabase } = data)
+
+  let notificationsReceived
+  $: notificationsReceived;
+
   async function signOut() {
     try {
       let { error } = await  $page.data.supabase.auth.signOut()
@@ -25,6 +35,23 @@
     }
     await goto('/')
   }
+
+  async function getNotifications() {
+    const { data, error } = await supabase
+            .from("notifications")
+            .select("new")
+            .eq('id', $page.data.session.user.id)
+
+    if (!error) {
+      return data;
+    }
+  }
+
+  onMount(async () => {
+    notificationsReceived = await getNotifications()
+    notificationsReceived = JSON.parse(notificationsReceived[0].new)
+    console.log(notificationsReceived)
+  });
 </script>
 
 <div class="w-full lg:w-auto px-2">
@@ -32,6 +59,7 @@
     <div class="w-full sm:w-auto mb-6 sm:mb-0 sm:mr-4 z-10">
       <div class="flex flex-wrap items-center -mb-2 z-10">
 
+        <!--Notifications-->
         <div id="bell" class="inline-flex items-center text-sm font-medium z-10 text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400">
           <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg>
           <div class="flex relative">
@@ -40,14 +68,23 @@
         </div>
         <Dropdown triggeredBy="#bell" class="w-full max-w-sm rounded divide-y divide-gray-100 z-10 shadow dark:bg-gray-800 dark:divide-gray-700">
           <div slot="header" class="text-center py-2 font-bold z-10">Notifications</div>
+          {#key notificationsReceived}
+          {#if notificationsReceived}
+          {#each notificationsReceived.notifications as notification, id}
           <DropdownItem class="flex space-x-4 z-10">
-            <Avatar src="/images/profile-picture-1.webp" dot={{color:'bg-gray-300'}} rounded />
             <div class="pl-3 w-full">
-              <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400">New message from <span class="font-semibold text-gray-900 dark:text-white">Jese Leos</span>: "Hey, what's up? All set for the presentation?"</div>
-              <div class="text-xs text-primary-600 dark:text-primary-500">a few moments ago</div>
-            </div>
+              <span class="font-semibold text-gray-900 dark:text-white">{notification.title}</span>: {notification.message}</div>
+
           </DropdownItem>
-          <a slot="footer" href="/" class="block py-2 -my-1 text-sm font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
+            {/each}
+            {:else}
+            <DropdownItem class="flex space-x-4 z-10">
+              <div class="pl-3 w-full">
+                <span class="font-semibold text-gray-900 dark:text-white">No notifications found...</span></div>
+            </DropdownItem>
+          {/if}
+          {/key}
+          <a slot="footer" href="" class="block py-2 -my-1 text-sm font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
             <div class="inline-flex items-center">
               <svg class="mr-2 w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path></svg>
               View all
