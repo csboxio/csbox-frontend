@@ -24,14 +24,26 @@ async function appendDataToNotifications(newNotification, supabase, user) {
 
   const existingValue = data.new;
 
-  const existingData = JSON.parse(existingValue);
+  let existingData = null;
+
+  try {
+    existingData = JSON.parse(existingValue);
+  } catch (error) {
+    // Handle JSON parsing error
+    console.error('Error parsing existingData:', error);
+  }
+
+  if (!existingData || !Array.isArray(existingData.notifications)) {
+    existingData = {
+      notifications: [],
+    };
+  }
 
   //const existingData = JSON.parse(existingValue);
 
   const newData = {
     ...existingData,
-    newNotification,
-    timestamp: new Date().toISOString(),
+    notifications: [...existingData.notifications, newNotification],
   };
 
   const updatedValue = JSON.stringify(newData);

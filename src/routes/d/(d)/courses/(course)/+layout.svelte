@@ -9,6 +9,10 @@
 	let error = false;
 	let courses = $page.data.courses.data;
 	let course = courses.filter((course) => course.id === parseInt($page.data.slug))[0];
+	export let data
+
+	let { supabase } = data
+	$: ({ supabase } = data)
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
@@ -22,7 +26,7 @@
 							<h4 class="text-xl font-bold dark:text-white  tracking-wide leading-7 mb-1">{course.course_title}</h4>
 						</div>
 						<div class="w-full lg:w-auto px-2">
-							<Settings />
+							<Settings bind:data={data} />
 						</div>
 					</div>
 				</div>
