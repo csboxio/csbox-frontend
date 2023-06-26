@@ -8,6 +8,12 @@
 	import Quill from 'quill';
 	import { blur } from 'svelte/transition';
 	import {navStore} from "../../../../../../lib/stores/stores.js";
+	import RichTextComposer from "$lib/editor/RichTextComposer.svelte";
+	import PlaygroundEditorTheme from '$lib/editor/themes/PlaygroundEditorTheme';
+	import EditorSettings from "$lib/editor/settings/EditorSettings.svelte";
+	import {createSettingsStore} from "../../../../../../lib/editor/settings/settingsStore.js";
+	import '$lib/editor/themes/editor.css'
+
 	let quill;
 	let model;
 	export let data;
@@ -16,6 +22,10 @@
 	let user = $page.data.session?.user
 	let slug = $page.params.slug
 	export let layout_course = courses;
+
+	const settings = createSettingsStore();
+	setContext('settings', settings);
+
 	const mode = {
 		edit: false,
 		view: true
@@ -149,10 +159,14 @@
 		{/if}
 
 		<div class=" my-6 rounded-lg">
-			<div
-				class="flex flex space-x-4 grow mr-4 rounded-lg"
-			>
-				<div
+			<div class="">
+
+					<RichTextComposer theme={PlaygroundEditorTheme} />
+					<EditorSettings />
+
+
+
+				<!--<div
 					class="flex-1 w-1/2 bg-white min-h-screen border-0 rounded-lg"
 					hidden={mode.edit === true ? '' : 'hidden'}
 					transition:blur|local={{ duration: 200 }}
@@ -169,7 +183,7 @@
 					hidden={mode.edit === false ? '' : 'hidden'}
 				>
 					{@html content.html}
-				</div>
+				</div>-->
 			</div>
 		</div>
 	</section>
