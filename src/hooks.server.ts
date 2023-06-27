@@ -4,9 +4,6 @@ import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit'
 import { redirect } from "@sveltejs/kit";
 
 export const handle = async ({ event, resolve }) => {
-
-
-
   event.locals.supabase = createSupabaseServerClient({
     supabaseUrl: PUBLIC_SUPABASE_URL,
     supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
@@ -16,8 +13,6 @@ export const handle = async ({ event, resolve }) => {
       persistSession: true
     }
   })
-
-
 
   /**
    * a little helper that is written for convenience so that instead

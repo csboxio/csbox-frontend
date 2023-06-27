@@ -20,13 +20,13 @@ export const load = async ({ fetch, data, depends, url }) => {
     data: { session, error },
   } = await supabase.auth.getSession()
 
-  if (session) {
+  /*if (session) {
     const response = await fetch('/api/users')
     if (url.searchParams.get('code')) {
       throw redirect(303,  '/')
     }
     return { user: await response.json() , supabase, session }
-  }
+  }*/
 
   return { supabase, session, url }
 }

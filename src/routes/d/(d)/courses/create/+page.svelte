@@ -5,7 +5,7 @@
 	import { applyAction, deserialize } from '$app/forms';
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-	import { StepIndicator } from 'flowbite-svelte';
+	import {Checkbox, FloatingLabelInput, Range, StepIndicator} from 'flowbite-svelte';
 	import { createPlaceHolderCourseDocument } from "../../../../../lib/utilities/course.js";
 	let steps = ['Step 1', 'Step 2', 'Step 3'];
 
@@ -19,6 +19,18 @@
 	let course_number;
 	let course_term;
 	let course_image_url;
+	let days_per_week = 1;
+	$: days_per_week;
+	let class_length_weeks = 1;
+	$: class_length_weeks;
+	let hours_per_week = 1;
+	$: hours_per_week;
+	let number_of_students = 1;
+	$: number_of_students;
+
+	let resources_low = false;
+	let resources_medium = false;
+	let resources_high = false;
 
 	//Progress bar step
 	let currentStep = 1;
@@ -61,6 +73,8 @@
 
 		await applyAction(result);
 	}
+
+	$: cost = (((hours_per_week) * 4) * number_of_students) * 0.13382
 </script>
 
 <!--Svelte-kit preloading doesn't like me changing the body background color between pages-->
@@ -69,85 +83,13 @@
 		<form action="?/createCourse" method="POST" on:submit|preventDefault={handleSubmit}>
 			<section class="py-3">
 				<div class="container px-6 mx-auto">
-					<div class="min-h-screen gap-4 flex min-w-2/3">
-						<div class="flex w-2/3 justify-around i items-center md:w-2/3">
-							<div class="min-w-xs max-w-xs">
-								<div class="relative group">
-									<div
-										class="absolute -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-10 group-hover:opacity-75 transition duration-1500 group-hover:duration-200 animate-tilt"
-									/>
-									<div>
-										<div class="relative p-6 bg-gray-700 rounded-xl">
-											<img
-												class="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl"
-												src={course_image_url === undefined || course_image_url === ''
-													? 'https://dummyimage.com/150x150/000/fff'
-													: course_image_url}
-											/>
-											<a
-												class="inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200"
-												href="#"
-											>
-												<svg
-													fill="none"
-													height="24"
-													viewbox="0 0 24 24"
-													width="24"
-													xmlns="http://www.w3.org/2000/svg"
-												>
-													<path
-														d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
-														stroke="currentColor"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-														stroke-width="2"
-													/>
-													<path
-														d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z"
-														stroke="currentColor"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-														stroke-width="2"
-													/>
-													<path
-														d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z"
-														stroke="currentColor"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-														stroke-width="2"
-													/>
-												</svg>
-											</a>
-											<h4 class="text-xl text-white font-bold mb-3">
-												{course_title === undefined || course_title === ''
-													? 'Software Development'
-													: course_title}
-											</h4>
-											<h4 class="text-xl text-white font-bold mb-1">
-												{course_prefix === undefined || course_prefix === ''
-													? 'CS100'
-													: course_prefix}
-												{course_number === undefined || course_number === ''
-													? '12345'
-													: course_number}
-											</h4>
-											<h4 class="text-gray-300 mb-1">
-												{course_term === undefined || course_term === ''
-													? 'Spring 2023'
-													: course_term}
-											</h4>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div class="min-h-screen gap-4 flex justify-center items-center">
 
-						<div class="flex w-2/3 justify-around i items-center md:w-2/3">
-							<div class="p-9 bg-gray-600 rounded-xl">
+						<div class="flex justify-around i items-center w-full">
+
+							<div class="p-9 bg-gray-600 rounded-xl w-full">
+
 								<!--Header-->
-								<div class="mb-8">
-									<StepIndicator {currentStep} {steps} glow/>
-								</div>
 								<div
 									class="flex flex-wrap items-center justify-between -mx-4 mb-8 pb-6 border-b border-gray-400 border-opacity-20"
 								>
@@ -156,13 +98,112 @@
 										<h4 class="text-2xl font-bold tracking-wide text-white mb-1">Create Course</h4>
 									</div>
 								</div>
+								<div class="mb-8">
+									<StepIndicator {currentStep} {steps} hideLabel color="blue"/>
+								</div>
 
 
-								<!--Create course form-->
 								{#if currentStep === 1}
-									<div
-										class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
-									>
+									<p class="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose Class Type:</p>
+									<div class="grid gap-6 w-full md:grid-cols-3 mb-6">
+										<Checkbox custom>
+											<div class="font-normal p-5 w-full text-gray-500 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-gray-400 hover:text-gray-600 dark:peer-checked:text-gray-100 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700">
+												<div class="w-full text-lg font-semibold">
+													Online</div>
+												<div class="w-full text-sm">An exclusively online classroom, providing cloud-based virtual learning experiences and interactive education for fully remote students.</div>
+											</div>
+										</Checkbox>
+
+										<Checkbox custom>
+											<div class="font-normal p-5 w-full text-gray-500 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-gray-400 hover:text-gray-600 dark:peer-checked:text-gray-100 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700">
+												<div class="w-full text-lg font-semibold">Hybrid</div>
+												<div class="w-full text-sm">A hybrid classroom combining online and in-person instruction, offering a blended learning environment for students to engage both virtually and physically.</div>
+											</div>
+										</Checkbox>
+
+										<Checkbox custom>
+											<div class="font-normal p-5 w-full text-gray-500 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-gray-400 hover:text-gray-600 dark:peer-checked:text-gray-100 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700">
+												<div class="w-full text-lg font-semibold">In-Person</div>
+												<div class="w-full text-sm">A traditional in-person classroom setting where students physically attend classes, fostering face-to-face interactions and hands-on learning experiences.</div>
+											</div>
+										</Checkbox>
+
+									</div>
+									<hr>
+									<div class="mt-2 grid grid-cols-1 gap-6 md:grid-cols-2 mb-6">
+
+										<p class="my-2 text-lg font-medium text-gray-900 dark:text-white w-full">Contact:</p><br>
+										<div>
+											<label for="contact_email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+												Contact Email
+											</label>
+											<input type="text" name="contact_email" id="contact_email" class="bg-gray-50 border border-gray-300
+											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
+											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+												   placeholder="example@csbox.io"
+												   required/>
+										</div>
+										<div>
+											<label for="contact_email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+												Contact Phone (optional)
+											</label>
+											<input type="text" name="contact_phone" id="contact_phone" class="bg-gray-50 border border-gray-300
+											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
+											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+												   placeholder="000-000-0000"/>
+										</div>
+									</div>
+									<hr>
+									<div class="mt-2 grid grid-cols-1 gap-6 md:grid-cols-2">
+
+										<p class="my-2 text-lg font-medium text-gray-900 dark:text-white w-full">Workspaces:</p><br>
+
+										<div>
+											<div>
+												<label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+													Estimated Total Students
+												</label>
+												<Range id="range-steps" min="1" max="100" bind:value={number_of_students} step="0.5"/>
+												<p class="text-white">Students: {number_of_students}</p>
+											</div>
+										</div>
+
+										<div>
+											<label for="contact_email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+												Estimate Weekly hours / student
+											</label>
+											<Range id="range-steps" min="1" max="60" bind:value={hours_per_week} step="0.5"/>
+											<p class="text-white">Hours Per Week: {hours_per_week}</p>
+										</div>
+
+									</div>
+
+									<p class="mt-4 text-md font-medium text-gray-900 dark:text-white w-full">For all users per month (excluding other costs)</p>
+									<p class="my-2 text-lg font-medium text-gray-900 dark:text-white w-full">${cost}</p>
+									<br>
+
+									<div class="flex justify-between w-full sm:w-auto">
+										<div>
+											<!--Save and cancel buttons-->
+											<!--TODO cancel delete row-->
+											<a
+													class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
+													href="/d/courses">Cancel</a
+											>
+										</div>
+
+										<button
+												class="inline-block py-2 px-4 text-sm text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200">
+
+											Next
+										</button>
+									</div>
+								{/if}
+								<!--Create course form-->
+								{#if currentStep === 2}
+									<div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
 										<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
 											<span class="text-sm font-medium text-gray-100">Course Title</span>
 										</div>
@@ -186,8 +227,7 @@
 									</div>
 
 									<div
-										class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
-									>
+										class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
 										<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
 											<span class="text-sm font-medium text-gray-100">Course Prefix</span>
 										</div>
@@ -202,17 +242,14 @@
 															class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
 															placeholder="CS100"
 															bind:value={course_prefix}
-															required
-														/>
+															required />
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 
-									<div
-										class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
-									>
+									<div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
 										<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
 											<span class="text-sm font-medium text-gray-100">Course Number</span>
 										</div>
@@ -235,9 +272,7 @@
 										</div>
 									</div>
 
-									<div
-										class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
-									>
+									<div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
 										<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
 											<span class="text-sm font-medium text-gray-100">Course Term</span>
 										</div>
@@ -285,7 +320,7 @@
 										</button>
 									</div>
 									<!--Step 2-->
-								{:else if currentStep === 2}
+								{:else if currentStep === 3}
 									<form>
 										<CourseImage bind:courseID={currentCourseId} />
 									</form>
