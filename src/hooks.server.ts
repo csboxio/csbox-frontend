@@ -9,7 +9,7 @@ export const handle = async ({ event, resolve }) => {
     supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
     event,
     auth: {
-      autoRefreshToken: true,
+      autoRefreshToken: false,
       persistSession: false
     }
   })

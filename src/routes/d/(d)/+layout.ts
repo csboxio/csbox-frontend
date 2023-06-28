@@ -12,17 +12,16 @@ export const load = async ({ fetch, data, depends, url, parent }) => {
     const supabase = parentData.supabase
 
     if (session) {
-      const response = await fetch('/api/users',
-          {
-              headers: {
-                  Authorization: `Bearer ${session?.access_token}`
-              }
-          })
-      if (url.searchParams.get('code')) {
-        throw redirect(303,  '/')
-      }
-      return { user: await response.json() , supabase, session }
-    }
+        const response = await fetch('/api/users', {
+            headers: {
+                Authorization: `Bearer ${session?.access_token}`,
+                UserID: session.user.id
+            }
+        });
 
-    return { session, url }
+        if (url.searchParams.get('code')) {
+            throw redirect(303,  '/')
+        }
+        return { user: await response.json() , supabase, session }
+    }
 }

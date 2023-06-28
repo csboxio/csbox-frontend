@@ -10,22 +10,18 @@ import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$env/static/public"
 // @ts-ignore
 export const GET: RequestHandler = async ({ request, url, locals: { getSession }, event }) => {
   const [_, access_token] = request.headers.get('Authorization')?.split(' ') ?? [];
+  const userID = request.headers.get('UserID')
   const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
     auth: { autoRefreshToken: false, persistSession: false }
   });
   await supabase.auth.setSession({access_token, refresh_token: ''});
 
-
-  const session = await getSession()
-  if (!session) {
-    throw redirect(303, '/');
-  }
   const {data, error} = await supabase.from('users')
     .select('updated_at, username, first_name, last_name, website, avatar_url')
-    .eq('id', session.user?.id)
+    .eq('id', userID)
     .single()
 
-  console.log(error, session.user?.id)
+
 
 
   return json({data})

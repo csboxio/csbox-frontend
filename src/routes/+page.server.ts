@@ -37,4 +37,4 @@ export const actions: Actions = {
         const {error} = await supabase.from('users').upsert(updates)
         throw redirect(303, '/')
     }
-}
+} satisfies Actions;
