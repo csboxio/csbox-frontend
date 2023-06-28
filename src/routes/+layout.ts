@@ -5,6 +5,7 @@ import type { Database } from '../schema.ts'
 import { goto, invalidateAll } from "$app/navigation";
 import { redirect } from "@sveltejs/kit";
 
+export const ssr = false;
 export const load = async ({ fetch, data, depends, url }) => {
   depends('supabase:auth')
 
@@ -18,6 +19,8 @@ export const load = async ({ fetch, data, depends, url }) => {
   const {
     data: { session, error },
   } = await supabase.auth.getSession()
+
+  console.log(session, error)
 
   /*if (session) {
     const response = await fetch('/api/users')

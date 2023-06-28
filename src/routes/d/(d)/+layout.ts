@@ -1,27 +1,27 @@
 // src/routes/+layout.ts
-import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public'
-import { createSupabaseLoadClient } from '@supabase/auth-helpers-sveltekit'
-import { goto, invalidateAll } from "$app/navigation";
+
 import { redirect } from "@sveltejs/kit";
-import type {Database} from "../../../schema.js";
 
-export const load = async ({ fetch, data, depends, url, parent }) => {
-    depends('supabase:auth')
+export const load = async ({ fetch, url, locals: { getSession }, parent }) => {
     const parentData = await parent();
-    const session = parentData.session
-    const supabase = parentData.supabase
 
-    if (session) {
-        const response = await fetch('/api/users', {
-            headers: {
-                Authorization: `Bearer ${session?.access_token}`,
-                UserID: session.user.id
+    const session = parentData.session;
+
+    const loadUsers = async () => {
+        if (session) {
+            const response = await fetch('/api/users', {
+                headers: {
+                    Authorization: `Bearer ${session?.access_token}`,
+                    UserID: session.user.id
+                }
+            });
+
+            if (url.searchParams.get('code')) {
+                throw redirect(303,  '/')
             }
-        });
-
-        if (url.searchParams.get('code')) {
-            throw redirect(303,  '/')
+            return await response.json();
         }
-        return { user: await response.json() , supabase, session }
     }
+
+    return { user: loadUsers(), session }
 }

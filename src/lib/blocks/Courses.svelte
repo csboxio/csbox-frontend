@@ -4,6 +4,7 @@
   import { blur } from "svelte/transition";
   import { page } from "$app/stores";
   import tilt from '$lib/fun/tilt.js';
+  import {courseNavStore} from "$lib/stores/stores.ts";
 
   export let courses
   export let hoverID
@@ -34,7 +35,10 @@
           <div class="relative mb-8 mx-4 cursor-pointer">
             <div class=" min-w-xs max-w-xs">
               <div class="relative group">
-                <a on:click={() => goto(`/d/courses/${id}`)}>
+                <a on:click={() => {
+                   $courseNavStore = "Home"
+                   goto(`/d/courses/${id}`)
+                }}>
                   <div
                     class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200"></div>
                   <div>

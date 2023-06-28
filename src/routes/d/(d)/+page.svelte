@@ -53,9 +53,9 @@
 <body class="dark:bg-gray-600 bg-gray-100 antialiased bg-body text-body font-body">
 	<div>
 		<Navbar />
-		<div class="mx-auto lg:ml-20">
+		<div class="mx-auto lg:ml-16">
 			<section>
-				<div class="pt-5 pb-6 px-8 dark:bg-gray-700 bg-white">
+				<div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
 					<div class="flex flex-wrap items-center justify-between -mx-2">
 						<div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
 							<h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Dashboard</h4>

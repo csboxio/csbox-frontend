@@ -43,7 +43,7 @@
   </nav>
   <div class="hidden lg:block navbar-menu relative z-10">
     <div class="lg:hidden navbar-backdrop fixed top-0 left-0 w-full h-full bg-gray-800 opacity-50"></div>
-    <nav class="fixed top-0 left-0 bottom-0 max-w-max flex flex-col h-full py-6 px-4 dark:bg-gray-700 bg-white overflow-auto">
+    <nav class="fixed top-0 left-0 bottom-0 max-w-max flex flex-col h-full py-6 px-2 dark:bg-gray-700 bg-white overflow-auto">
       <a class="inline-block mb-4" href={'#'}>
         <img class="object-contain h-7 my-2 mx-auto" src="/cloud.png" alt="">
       </a>

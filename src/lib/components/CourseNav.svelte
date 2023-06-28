@@ -1,5 +1,6 @@
 <script>
   import {page} from "$app/stores";
+  import {courseNavStore} from "$lib/stores/stores.ts";
   export const ssr = false
   let route = '/d/courses/' + $page.params.slug + '/'
 
@@ -19,9 +20,14 @@
     <div class="flex-1 pl-1.5 pr-1 mr-0.5 py-6 overflow-y-hidden font-semibold text-white ">
       <!-- Content -->
       {#each menuItems as menuItem, index}
-        <a href="{menuItem.route}" each="{menuItem, index} in menuItems" key="{index}">
-          <div class="space-y-8 py-4 hover:bg-gray-800 rounded-xl">
-            <p class="px-4">{menuItem.name}</p>
+        <a href="{menuItem.route}" each="{menuItem, index} in menuItems" key="{index}"
+           on:click={() => $courseNavStore = menuItem.name}>
+          <div class="space-y-8 py-4 hover:bg-gray-800 rounded-xl"
+               class:bg-gray-500={$courseNavStore === menuItem.name}>
+            <p class="px-4 text-gray-200"
+               class:text-white={$courseNavStore === menuItem.name}>
+              {menuItem.name}
+            </p>
           </div>
         </a>
         {/each}
