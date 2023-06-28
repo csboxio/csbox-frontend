@@ -14,6 +14,8 @@ export const load = async ({ fetch, data, request, url, parent }) => {
   }
   const response = await fetch('/api/courses')
   return {
-    courses: await response.json()
+    lazy: {
+      courses: await response.json()
+    }
   };
 };

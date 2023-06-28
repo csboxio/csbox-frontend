@@ -10,7 +10,7 @@ export const handle = async ({ event, resolve }) => {
     event,
     auth: {
       autoRefreshToken: true,
-      persistSession: true
+      persistSession: false
     }
   })
 
