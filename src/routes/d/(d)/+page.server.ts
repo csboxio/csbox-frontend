@@ -16,6 +16,8 @@ export const actions: Actions = {
                 password,
                 options: { captchaToken },
             })
+
+            console.log(loginError, data)
         }
 
         throw redirect(303, '/')

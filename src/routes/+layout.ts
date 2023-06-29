@@ -20,7 +20,7 @@ export const load = async ({ fetch, data, depends, url }) => {
     data: { session, error },
   } = await supabase.auth.getSession()
 
-  console.log(session, error)
+  console.log(session, supabase)
 
   /*if (session) {
     const response = await fetch('/api/users')

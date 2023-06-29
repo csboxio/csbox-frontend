@@ -18,7 +18,7 @@
 	onMount(async () => {
 		const {
 			data: { subscription }
-		} = await supabase.auth.onAuthStateChange(() => {
+		} = supabase.auth.onAuthStateChange(() => {
 			invalidateAll();
 			//goto("/");
 		});
