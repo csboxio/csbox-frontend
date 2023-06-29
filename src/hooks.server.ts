@@ -1,7 +1,6 @@
 // src/hooks.server.js
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public'
 import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit'
-import { redirect } from "@sveltejs/kit";
 
 export const handle = async ({ event, resolve }) => {
   event.locals.supabase = createSupabaseServerClient({
@@ -10,7 +9,7 @@ export const handle = async ({ event, resolve }) => {
     event,
     auth: {
       autoRefreshToken: true,
-      persistSession: false
+      persistSession: true,
     }
   })
 

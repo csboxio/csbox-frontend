@@ -12,11 +12,7 @@ export const load = async ({ fetch, data, request, url, parent }) => {
   if (!session) {
     throw redirect(303, '/');
   }
-  const response = await fetch('/api/courses', {
-    headers: {
-      Authorization: `Bearer ${session?.access_token}`
-    }
-  })
+  const response = await fetch('/api/courses')
   return {
       courses: await response.json()
   };

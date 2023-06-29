@@ -8,21 +8,19 @@ import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$env/static/public"
 // https://github.com/supabase/auth-helpers/issues/408
 /** @type {import('./$types').RequestHandler} */
 // @ts-ignore
-export const GET: RequestHandler = async ({ request, url, locals: { getSession }, event }) => {
-  const [_, access_token] = request.headers.get('Authorization')?.split(' ') ?? [];
-  const userID = request.headers.get('UserID')
-  const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
-    auth: { autoRefreshToken: false, persistSession: false }
-  });
-  await supabase.auth.setSession({access_token, refresh_token: ''});
+export const GET: RequestHandler = async ({ request, url, locals: { getSession, supabase }, event }) => {
 
-  const {data, error} = await supabase.from('users')
-    .select('updated_at, username, first_name, last_name, website, avatar_url')
-    .eq('id', userID)
-    .single()
+  const session = await getSession()
 
+  if (session) {
+    const {data, error} = await supabase.from('users')
+        .select('updated_at, username, first_name, last_name, website, avatar_url')
+        .eq('id', session.user.id)
+        .single()
 
+    console.log(data, error)
+    return json({data})
+  }
 
-
-  return json({data})
+  return
 }

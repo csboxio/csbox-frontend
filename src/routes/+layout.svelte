@@ -21,14 +21,12 @@
 
 	onMount(() => {
 
-		const { data: { subscription } } = supabase.auth.onAuthStateChange((event, _session) => {
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange((event, _session) => {
 			if (_session?.expires_at !== session?.expires_at) {
 				invalidate('supabase:auth')
 			}
-			if (event === 'TOKEN_REFRESHED') {
-				invalidate('supabase:auth');
-			}
-
 		})
 
 		return () => subscription.unsubscribe()

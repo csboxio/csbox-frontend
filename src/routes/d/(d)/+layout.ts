@@ -5,24 +5,15 @@ import {browser} from "$app/environment";
 
 export const load = async ({ fetch, url, parent }) => {
     const parentData = await parent();
-
     const session = parentData.session;
 
-    const loadUsers = async () => {
-        if (session && browser) {
-            const response = await fetch('/api/users', {
-                headers: {
-                    Authorization: `Bearer ${session?.access_token}`,
-                    UserID: session.user.id
-                }
-            });
+    if (session) {
+        const response = await fetch('/api/users');
 
-            if (url.searchParams.get('code')) {
-                throw redirect(303,  '/')
-            }
-            return await response.json();
-        }
+        return {
+            user: await response.json(),
+            session
+        };
     }
 
-    return { user: loadUsers(), session }
 }

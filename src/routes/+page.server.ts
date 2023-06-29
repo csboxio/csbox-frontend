@@ -5,7 +5,6 @@ import { browser } from "$app/environment";
 export const prerender = false;
 export const actions: Actions = {
     signin: async ({ request, url, locals: { supabase } }) => {
-        if (!browser) {
             const formData = await request.formData()
             const captchaToken = formData.get('cf-turnstile-response') as string
             const email = formData.get('email') as string
@@ -16,7 +15,6 @@ export const actions: Actions = {
                 password,
                 options: { captchaToken },
             })
-        }
 
         throw redirect(303, '/')
     },
