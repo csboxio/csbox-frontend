@@ -15,7 +15,7 @@ export const actions: Actions = {
 
       if (data.session) {
         const course_id = Math.floor(Math.random() * 9999999999);
-        const { error } = await supabase.rpc('create_course',
+        const { data, error } = await supabase.rpc('create_course',
           {_course_id: course_id,
             _inserted_at: new Date(),
             _created_by: user.id,
@@ -23,6 +23,8 @@ export const actions: Actions = {
             _course_prefix: prefix,
             _course_number: number,
             _course_term: term});
+
+        console.log(error, data)
 
         if (!error) {
             return {success: true, course_id: course_id};

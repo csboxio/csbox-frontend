@@ -33,7 +33,7 @@
 	let resources_high = false;
 
 	//Progress bar step
-	let currentStep = 3;
+	let currentStep = 1;
 	$: currentStep;
 
 	function handleSteps(num, event) {

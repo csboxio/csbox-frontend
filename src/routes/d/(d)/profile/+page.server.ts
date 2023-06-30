@@ -1,9 +1,10 @@
 import type {Actions} from "./$types";
 import {redirect} from '@sveltejs/kit'
+import {DEV} from "../../../../lib/dev/mode.js";
 
 export const prerender = false;
 export const actions: Actions = {
-    updateProfile: async ({ request, url, locals: { supabase } }) => {
+    updateProfile: async ({ request, url, fetch, locals: { supabase } }) => {
         const formData = await request.formData()
 
         const {data} = await supabase.auth.refreshSession()
@@ -24,8 +25,28 @@ export const actions: Actions = {
             updated_at: new Date()
         }
 
-        const {error} = await supabase.from('users').upsert(updates)
-        //console.log(error)
+        const headers = new Headers()
+        headers.append('Content-Type', 'application/json');
+
+        const requestOptions = {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(updates)
+        }
+
+        fetch('/api/users/update', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        //const {error} = await supabase.from('users').upsert(updates)
+        if (DEV) {
+            //console.log(url.pathname, error)
+        }
 
         throw redirect(303, '/d')
     }

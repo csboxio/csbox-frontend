@@ -4,8 +4,13 @@
 	import { invalidateAll } from '$app/navigation';
 	import { applyAction, deserialize } from '$app/forms';
 
-	const { session, user } = $page.data;
 	let loading;
+
+	export let data
+
+	let { supabase, session, user } = data
+	$: ({ supabase, session, user } = data)
+
 	function previousPage() {
 		history.back();
 	}
@@ -109,7 +114,7 @@
 							</div>
 						</div>
 					</div>
-					<Avatar bind:url={user.avatar_url} size={10} />
+					<Avatar bind:url={user.avatar_url} bind:data={data} size={10} />
 					<div
 						class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
 					>

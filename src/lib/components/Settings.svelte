@@ -98,7 +98,7 @@
       <div class="relative inline-block text-left z-10">
         <div>
           <Button pill color="light"  id="avatar_with_name" class="!p-1.5 ">
-            <Avatar src="{avatarUrl}" alt="{avatarUrl}" class="mr-4"/>
+            <Avatar src="{avatarUrl === 'null?t=undefined' ? '' : avatarUrl}" alt=" {avatarUrl}" class="mr-4"/>
             <div class="mr-3 font-medium">{full_name}</div>
           </Button>
           <Dropdown inline triggeredBy="#avatar_with_name" class="z-10">
