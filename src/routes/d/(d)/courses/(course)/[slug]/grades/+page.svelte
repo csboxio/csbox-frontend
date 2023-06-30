@@ -29,9 +29,8 @@
 </script>
 
 <div class="w-full">
-	<section class="p-1">
+	<section class="p-1 mt-4">
 		<div class="container">
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">Grades</h4>
 				<div>
 					<div class="relative overflow-x-auto sm:rounded-lg w-full">
 						<TableSearch placeholder="Search by title..." hoverable={true} bind:inputValue={searchTerm}>

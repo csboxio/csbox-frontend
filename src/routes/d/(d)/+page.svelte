@@ -14,6 +14,8 @@
 	import {onMount} from "svelte";
 	import {navStore} from "../../../lib/stores/stores.js";
 	import {Avatar, Dropdown, DropdownItem} from "flowbite-svelte";
+	import { fade, fly } from 'svelte/transition';
+
 
 	let user;
 	let avatarUrl;
@@ -46,6 +48,43 @@
 		navStore.set('d');
 	});
 
+	let blurred = true;
+	$: blurred
+
+	let blurClass
+	$: blurClass
+
+	$: {
+		blurClass = blurred ? 'blur-sm' : '';
+	}
+
+	function toggleBlur() {
+		blurred = !blurred;
+	}
+
+	function blur() {
+		if(blurred) {
+			return "blur-sm"
+		}
+		else {
+			return ""
+		}
+	}
+
+	let buttonClass = '';
+	$: {
+		buttonClass = blurButton()
+	}
+
+	function blurButton() {
+		if (blurred) {
+			return 'absolute top-0 left-0';
+		}
+		else {
+			return 'absolute top-1/2 left-1/2 -transform-x-1/2 -translate-y-1/2';
+		}
+	}
+
 </script>
 {#if !$page.data.session}
 	<Auth bind:data={data} />
@@ -69,9 +108,15 @@
 
 			<section class="py-3 h-screen">
 				<div class="container px-4 mx-auto">
+					<button in:fade out:fade on:click={() => toggleBlur()}
+							class="{blurred ? 'absolute top-1/2 left-1/2 -transform-x-1/2 -translate-y-1/2' : 'absolute top-5 left-1/2'} flex items-center px-2 py-2 border bg-gray-700  border-blue-600 rounded-md shadow z-50">
+						<svg class="w-5 h-5 mt-1 items-center text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+							<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+						</svg>
+					</button>
 					<div class="mb-6">
 						<div class="flex flex-wrap -mx-3 -mb-6">
-							<div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
+							<div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6 {blurClass}">
 								<div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 									<div class="max-w-xs mx-auto text-center">
 										<div
@@ -106,7 +151,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
+							<div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6 {blurClass}">
 								<div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 									<div class="max-w-xs mx-auto text-center">
 										<div
@@ -141,7 +186,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
+							<div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6 {blurClass}">
 								<div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 									<div class="max-w-xs mx-auto text-center">
 										<div
@@ -176,7 +221,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6">
+							<div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6 {blurClass}">
 								<div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 									<div class="max-w-xs mx-auto text-center">
 										<div
@@ -215,7 +260,7 @@
 					</div>
 
 					<!--Grade overview chart 1-->
-					<div class="mb-6">
+					<div class="mb-6 {blurClass}">
 						<div class="flex flex-wrap -mx-3">
 							<div class="w-full lg:w-2/3 px-3 mb-6 lg:mb-0">
 								<div class="p-6 bg-gray-500 rounded-xl drop-shadow-xl">
@@ -289,7 +334,7 @@
 						</div>
 					</div>
 
-					<div class="flex flex-wrap -mx-3">
+					<div class="flex flex-wrap -mx-3 {blurClass}">
 						<div class="w-full lg:w-1/3 px-3 mb-6 lg:mb-0">
 							<div class="h-full py-6 px-4 sm:px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 								<h4 class="text-lg text-gray-100 font-semibold mb-6">Notifications</h4>

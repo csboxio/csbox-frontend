@@ -169,11 +169,10 @@
 
 <div class="w-full">
 
-	<section class="p-1">
+	<section class="p-1 mt-4">
 
 		<div class="container">
 
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">Assignments</h4>
 			<button
 				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300

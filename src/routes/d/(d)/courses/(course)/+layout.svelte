@@ -2,9 +2,13 @@
 	import CourseNav from '$lib/components/CourseNav.svelte';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Settings from '$lib/components/Settings.svelte';
-	import { page } from '$app/stores';
+	import {page} from '$app/stores';
 	import show_create_box from './[slug]/assignments/+page.svelte';
 	import '$lib/quilljs.css';
+	import {beforeUpdate, onMount} from "svelte";
+	import {browser} from "$app/environment";
+	import {courseNavStore} from "$lib/stores/stores.ts";
+
 	let model;
 	let error = false;
 	let courses = $page.data.courses.data;
@@ -13,6 +17,27 @@
 
 	let { supabase } = data
 	$: ({ supabase } = data)
+
+	let pathname = '';
+	let extractedName = '';
+
+	function extractNameFromPath() {
+		pathname = $page.url.pathname;
+		var pathnameParts = pathname.split("/");
+		console.log(pathnameParts.length )
+		if (pathnameParts.length > 4 && browser) {
+			let thing = pathnameParts[4].charAt(0).toUpperCase() + pathnameParts[4].substring(1);
+			console.log(thing)
+			return thing
+		}
+		else {
+			return "Home"
+		}
+	}
+
+	$: {
+		extractedName = extractNameFromPath()
+	}
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
@@ -23,7 +48,8 @@
 				<div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
 					<div class="flex flex-wrap items-center justify-between -mx-2">
 						<div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
-							<h4 class="text-xl font-bold dark:text-white  tracking-wide leading-7 mb-1">{course.course_title}</h4>
+							<h4 class="text-lg font-bold dark:text-white leading-7 mb-1 inline-block text-gray-100">{course.course_title}</h4>
+							<h4 class="text-lg font-bold dark:text-white   leading-7 mb-1 inline-block"> > {$courseNavStore ? $courseNavStore : extractedName}</h4>
 						</div>
 						<div class="w-full lg:w-auto px-2">
 							<Settings bind:data={data} />
