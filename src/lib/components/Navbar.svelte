@@ -26,7 +26,7 @@
 </script>
 
 <div class="z-1 relative">
-  <nav class="lg:hidden flex items-center justify-between p-8 bg-gray-700  mb-3">
+  <nav class="lg:hidden flex items-center justify-between p-8 bg-gray-700 mb-3">
     <div class="w-full xl:w-auto px-2 xl:mr-12">
       <div class="flex items-center justify-between">
         <a class="inline-flex items-center h-8" href="{'#'}">
@@ -41,9 +41,9 @@
       </div>
     </div>
   </nav>
-  <div class="hidden lg:block navbar-menu relative z-10">
-    <div class="lg:hidden navbar-backdrop fixed top-0 left-0 w-full h-full bg-gray-800 opacity-50"></div>
-    <nav class="fixed top-0 left-0 bottom-0 max-w-max flex flex-col h-full py-6 px-4 dark:bg-gray-700 bg-white overflow-auto">
+  <div class="hidden lg:block navbar-menu relative z-10 ">
+    <div class="lg:hidden navbar-backdrop fixed top-0 left-0 w-full h-full bg-gray-800 opacity-50 "></div>
+    <nav class="fixed top-0 left-0 bottom-0 max-w-max flex flex-col h-full py-6 px-2 dark:bg-gray-700 bg-white overflow-auto border-r border-gray-500">
       <a class="inline-block mb-4" href={'#'}>
         <img class="object-contain h-7 my-2 mx-auto" src="/cloud.png" alt="">
       </a>

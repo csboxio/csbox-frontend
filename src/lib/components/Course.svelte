@@ -3,12 +3,14 @@
   import { imageStore } from "$lib/stores/stores";
   import { onMount } from "svelte";
 
+
   export let id;
   export let course_image_url;
   export let course_title;
   export let course_prefix;
   export let course_number;
   export let course_term;
+
 
 
     let image;

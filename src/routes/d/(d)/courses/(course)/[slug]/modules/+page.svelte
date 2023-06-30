@@ -70,6 +70,11 @@
 		await applyAction(result);
 	}
 
+	const items = Array(3);
+
+	const open_all = () => items.forEach((_,i)=> items[i] = true)
+	const close_all= () => items.forEach((_,i)=> items[i] = false)
+
 	onMount(() => {
 		// Set the selected item when the page is mounted
 		navStore.set('courses');
@@ -77,45 +82,46 @@
 </script>
 
 <div class="w-full">
-	<section class="p-1 ">
+	<section class="p-1 mt-4">
 		<div class="container">
-			<h4 class="text-xl font-bold text-white -mx-auto my-5">Modules</h4>
 			<button on:click={() => addModuleModel = true}
-				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-			>
-				<span
-					class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0"
-				>
+				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">
+				<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
 					Create
 				</span>
 			</button>
+
+			<button on:click={open_all} type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300
+			font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+				Open All
+			</button>
+			<button on:click={close_all} type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300
+			font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+				Close All
+			</button>
+
 			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold ">
 
 				{#key modules}
 				{#each modules as { module_title, id, assignments }, i}
-					<div transition:blur|local={{ duration: 200 }} class="mb-6 mx-6 cursor-pointer">
+					<div transition:blur|local={{ duration: 200 }} class="mb-1 mx-6 cursor-pointer">
 						<!--Module-->
-						<Accordion
-							activeClasses="bg-gray-400 dark:bg-gray-800 text-blue-600 dark:text-white focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800"
-							inactiveClasses="text-gray-200 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-500 bg-gray-700 dark:text-white">
+						<div id="accordion-collapse" data-accordion="collapse">
 
-
-								<AccordionItem inactiveClasses="">
-									<span slot="header">
+						<AccordionItem class="bg-gray-500 border-gray-100" bind:open={items[i]}>
+									<span slot="header" class="text-white text-lg">
 										{module_title}
 									</span>
 									<!-- Plus symbol to the right of the module title -->
 									<a on:click|stopPropagation={() => {add_item(module_title)}}
-										 class="text-gray-200 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-									>
+										 class="text-gray-200 pb-4 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
 										Add
 										<span class="ml-auto">
 											<svg
 												class="mr-1 -ml-1 w-6 h-6"
 												fill="currentColor"
 												viewBox="0 0 20 20"
-												xmlns="http://www.w3.org/2000/svg"
-											>
+												xmlns="http://www.w3.org/2000/svg">
 												<path
 													fill-rule="evenodd"
 													d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
@@ -129,7 +135,7 @@
 									{#each assignments as {title, in_module}, i}
 										{#if in_module === id}
 											<a>
-											<div class="py-4 px-2 text-gray-200 hover:text-white hover:scale-[1.002]"on:click={()=> {handleAssignment(assignments[i].assignment_id)}}>
+											<div class="py-4 px-4 text-lg text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t"on:click={()=> {handleAssignment(assignments[i].assignment_id)}}>
 												{title === '' ? 'Assignment Error..' : title}
 											</div>
 											</a>
@@ -138,7 +144,7 @@
 									{/key}
 								</AccordionItem>
 
-						</Accordion>
+						</div>
 						</div>
 						<!--End of module-->
 				{/each}

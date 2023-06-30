@@ -12,3 +12,5 @@ export const notificationStore = writable();
 
 export const navStore = writable();
 
+export const courseNavStore = writable();
+

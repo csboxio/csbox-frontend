@@ -19,15 +19,14 @@
 	let { supabase, session, user } = data
 	$: ({ supabase, session, user } = data)
 
-	onMount(async () => {
+	onMount(() => {
 
-		await supabase.auth.getSession()
-
-		const { data: { subscription } } = supabase.auth.onAuthStateChange((event, _session) => {
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange((event, _session) => {
 			if (_session?.expires_at !== session?.expires_at) {
 				invalidate('supabase:auth')
 			}
-
 		})
 
 		return () => subscription.unsubscribe()

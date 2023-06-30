@@ -25,7 +25,8 @@ const config = {
 	},
 	define: {
 		__PROJECT_PATH__: `"${process.cwd()}/"`,
-	}
+	},
+
 
 };
 

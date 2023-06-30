@@ -68,9 +68,9 @@
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
 <Navbar/>
-<div class="mx-auto lg:ml-20">
+<div class="mx-auto lg:ml-16">
     <section>
-        <div class="pt-5 pb-6 px-8 dark:bg-gray-700 bg-white">
+        <div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
             <div class="flex flex-wrap items-center justify-between -mx-2">
                 <div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
                     <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Courses</h4>
@@ -82,7 +82,7 @@
         </div>
     </section>
 
-    <section class="flex flex-col p-8 h-screen">
+    <section class="flex flex-col p-5 h-screen">
         <div>
             <!-- Join course button-->
             <button on:click={() => defaultModel = true}
@@ -141,11 +141,8 @@
 
             <a href="/d/courses/create">
                 <button
-                        class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-300 to-blue-500 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-                >
-						<span
-                                class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0"
-                        >
+                        class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-300 to-blue-500 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">
+						<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
 							Create
 						</span>
                 </button>
