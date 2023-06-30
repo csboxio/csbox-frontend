@@ -17,12 +17,12 @@
 <section class="sticky inset-y-0 z-1 flex-shrink-0 mr-5 bg-gray-600 border-r dark:border-primary-darker dark:bg-darker lg:static focus:outline-none">
   <div class="flex flex-col h-screen">
     <!-- Panel content -->
-    <div class="flex-1 pl-1.5 pr-1 mr-0.5 py-6 overflow-y-hidden font-semibold text-white ">
+    <div class="flex-1 pl-1.5 pr-1 mr-0.5 overflow-y-hidden font-semibold text-white ">
       <!-- Content -->
       {#each menuItems as menuItem, index}
         <a href="{menuItem.route}" each="{menuItem, index} in menuItems" key="{index}"
            on:click={() => $courseNavStore = menuItem.name}>
-          <div class="space-y-8 py-4 hover:bg-gray-800 rounded-xl"
+          <div class="space-y-8 py-4 my-3 hover:bg-gray-800 rounded-xl"
                class:bg-gray-500={$courseNavStore === menuItem.name}>
             <p class="px-4 text-gray-200"
                class:text-white={$courseNavStore === menuItem.name}>

@@ -187,10 +187,10 @@
 				</span>
 			</button>
 
-			<div class="py-4">
-			<div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
+			<div>
+			<div class="relative overflow-x-auto  sm:rounded-lg w-full">
 				<TableSearch placeholder="Search by title..." hoverable={true} bind:inputValue={searchTerm}>
-				<Table shadow hoverable>
+				<Table hoverable>
 				<TableHead>
 					<TableHeadCell>Title</TableHeadCell>
 					<TableHeadCell>Category</TableHeadCell>

@@ -18,7 +18,6 @@ export const GET: RequestHandler = async ({ request, url, locals: { getSession, 
         .eq('id', session.user.id)
         .single()
 
-    console.log(data, error)
     return json({data})
   }
 

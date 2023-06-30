@@ -9,6 +9,7 @@
   export let courses
   export let hoverID
   $: courses
+  let reverse = false;
 
   async function handleHideCourse(course_id, pid) {
     console.log($page.data.session?.user.id, pid)
@@ -22,14 +23,14 @@
     invalidateAll();
   }
 </script>
-<div class="container m-6">
+<div class="container m-6 mx-8">
 
   <div class="flex flex-wrap -mx-12 -mb-2">
 
     <!--Each course-->
     {#key courses}
     {#if courses}
-      {#each courses as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden }, i}
+      {#each courses as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden, course_color }, i}
         {#if !hidden}
           <div use:tilt>
           <div class="relative mb-8 mx-4 cursor-pointer">
@@ -39,54 +40,50 @@
                    $courseNavStore = "Home"
                    goto(`/d/courses/${id}`)
                 }}>
+                  <!-- Color line at the top -->
+                  <div class="absolute top-0 left-0 w-full h-1.5 bg-{course_color}-500 glow  z-10 group-hover:scale-105 group-hover:top-[-5.5px] rounded-t-xl  "></div>
+
                   <div
-                    class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200"></div>
+                    class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200 "></div>
                   <div>
                     <div
                       class="relative p-6 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500"
                     >
-                      <img
+                      <img use:tilt={{ scale: 1.05, reverse }}
                         src={course_image_url === null ? 'https://dummyimage.com/150x150/000/fff' : course_image_url + '?t=' + inserted_at}
                         class="relative inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl bg-gray-600"
                         alt='Course Image'
                       />
-                      <a
-                        on:click|stopPropagation={() => {
-															hoverID = i;
-															open = true;
-														}}
-                      >
+                      <a on:click|stopPropagation={() => {
+						hoverID = i;
+						open = true;
+						}}>
                         <div
-                          class=" inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200"
-                        >
+                          class=" inline-block absolute top-1 right-0 m-5 text-gray-300 hover:text-gray-200">
                           <svg
                             width="24"
                             height="24"
                             viewbox="0 0 24 24"
                             fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
+                            xmlns="http://www.w3.org/2000/svg">
                             <path
                               d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
                               stroke="currentColor"
                               stroke-width="2"
                               stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
+                              stroke-linejoin="round"/>
                             <path
                               d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z"
                               stroke="currentColor"
                               stroke-width="2"
                               stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
+                              stroke-linejoin="round"/>
                             <path
                               d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z"
                               stroke="currentColor"
                               stroke-width="2"
                               stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
+                              stroke-linejoin="round"/>
                           </svg>
                         </div>
                       </a>
@@ -101,6 +98,8 @@
                     </div>
                   </div>
                 </a>
+
+
               </div>
             </div>
           </div>

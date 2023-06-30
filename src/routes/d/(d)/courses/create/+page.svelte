@@ -33,7 +33,7 @@
 	let resources_high = false;
 
 	//Progress bar step
-	let currentStep = 1;
+	let currentStep = 3;
 	$: currentStep;
 
 	function handleSteps(num, event) {
@@ -76,7 +76,17 @@
 
 	$: cost = (((hours_per_week) * 4) * number_of_students) * 0.13382
 </script>
-
+<style>
+	.color-box {
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		vertical-align: middle;
+		margin-right: 5px;
+		border: 1px solid #ccc;
+		border-radius: 2px;
+	}
+</style>
 <!--Svelte-kit preloading doesn't like me changing the body background color between pages-->
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
 	<div class="from-gray-500 to-gray-500 bg-gradient-to-br antialiased bg-body text-body font-body">
@@ -103,7 +113,162 @@
 								</div>
 
 
+
+								<!--Create course form-->
 								{#if currentStep === 1}
+									<div class="grid gap-6 mb-6 md:grid-cols-2">
+
+										<div class="mb-4">
+									<label for="course_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Title</label>
+
+														<input
+															name="course_title"
+															id="course_title"
+															type="text"
+															class="bg-gray-50 border border-gray-300
+											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
+											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+															placeholder="Software Development I"
+															bind:value={course_title}
+															required
+														/>
+													</div>
+
+
+										<div class="mb-4">
+										<label for="course_prefix" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Prefix</label>
+														<input
+															name="course_prefix"
+															id="course_prefix"
+															type="text"
+															class="bg-gray-50 border border-gray-300
+											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
+											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+															placeholder="CS100"
+															bind:value={course_prefix}
+															required />
+													</div>
+
+										<div class="mb-4">
+										<label for="course_number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Number</label>
+														<input
+															name="course_number"
+															id="course_number"
+															type="text"
+															class="bg-gray-50 border border-gray-300
+											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
+											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+															placeholder="12345"
+															bind:value={course_number}
+															required
+														/>
+													</div>
+
+										<div class="mb-4">
+										<label for="course_term" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Term</label>
+														<input
+															name="course_term"
+															id="course_term"
+															type="text"
+															class="bg-gray-50 border border-gray-300
+											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
+											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+															placeholder="Spring 2023"
+															bind:value={course_term}
+															required
+														/>
+													</div>
+										<div class="mb-4">
+											<label for="course_color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Color</label>
+										<select
+												name="course_color"
+												id="course_color"
+												class="bg-gray-50 border border-gray-300
+											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
+											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+												required
+										>
+											<option selected="">Select color</option>
+											<option value="red" class="text-red-500 font-bold">
+												Red
+											</option>
+											<option value="blue" class="text-blue-500 font-bold">Blue</option>
+											<option value="green" class="text-green-500 font-bold">Green</option>
+											<option value="yellow" class="text-yellow-500 font-bold">Yellow</option>
+											<option value="teal" class="text-teal-500 font-bold">Teal</option>
+											<option value="purple" class="text-purple-500 font-bold">Purple</option>
+											<option value="pink" class="text-pink-500 font-bold">Pink</option>
+
+										</select>
+									</div>
+										<div class="mb-4">
+										<label for="input-group-1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Contact</label>
+										<div class="relative mb-6">
+											<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+												<svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+											</div>
+											<input type="text" id="input-group-1" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@csbox.io">
+										</div>
+										</div>
+									</div>
+									<div class="flex justify-between w-full sm:w-auto">
+										<div>
+											<!--Save and cancel buttons-->
+											<!--TODO cancel delete row-->
+											<a
+												class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
+												href="/d/courses">Cancel</a
+											>
+										</div>
+
+										<button
+											class="inline-block py-2 px-4 text-sm text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
+											type="submit"
+										>
+											{#if loading}
+												<svg class="animate-spin h-4 w-4 mr-3 inline">
+													<Fa icon={faSpinner} size="xs" />
+												</svg>
+											{/if}
+											Next
+										</button>
+									</div>
+
+								{/if}
+
+								{#if currentStep === 2}
+									<form>
+										<CourseImage bind:courseID={currentCourseId} />
+									</form>
+									<div>
+										<!--Save and cancel buttons-->
+										<!--TODO cancel delete row-->
+										<a
+												class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
+												href="/d/courses">Cancel</a
+										>
+										<button
+												class="float-right inline-block py-2 px-4 text-xs text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
+												on:click={() => handleSteps(3)}
+										>
+											Next
+										</button>
+									</div>
+
+									<button
+											class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
+											on:click|preventDefault={goto('/d/courses')}
+									>
+										Confirm
+									</button>
+									{/if}
+
+								{#if currentStep === 3}
 									<p class="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose Class Type:</p>
 									<div class="grid gap-6 w-full md:grid-cols-3 mb-6">
 										<Checkbox custom>
@@ -200,152 +365,6 @@
 											Next
 										</button>
 									</div>
-								{/if}
-								<!--Create course form-->
-								{#if currentStep === 2}
-									<div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
-										<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
-											<span class="text-sm font-medium text-gray-100">Course Title</span>
-										</div>
-										<div class="w-full sm:w-2/3 px-4">
-											<div class="max-w-xl">
-												<div class="flex items-center -mx-3">
-													<div class="w-full sm:w-auto px-3 mb-3 sm:mb-0">
-														<input
-															name="course_title"
-															id="course_title"
-															type="text"
-															class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
-															placeholder="Software Development I"
-															bind:value={course_title}
-															required
-														/>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div
-										class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
-										<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
-											<span class="text-sm font-medium text-gray-100">Course Prefix</span>
-										</div>
-										<div class="w-full sm:w-2/3 px-4">
-											<div class="max-w-xl">
-												<div class="flex flex-wrap items-center -mx-3">
-													<div class="w-full sm:w-auto px-3 mb-3 sm:mb-0">
-														<input
-															name="course_prefix"
-															id="course_prefix"
-															type="text"
-															class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
-															placeholder="CS100"
-															bind:value={course_prefix}
-															required />
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
-										<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
-											<span class="text-sm font-medium text-gray-100">Course Number</span>
-										</div>
-										<div class="w-full sm:w-2/3 px-4">
-											<div class="max-w-xl">
-												<div class="flex flex-wrap items-center -mx-3">
-													<div class="w-full sm:w-auto px-3 mb-3 sm:mb-0">
-														<input
-															name="course_number"
-															id="course_number"
-															type="text"
-															class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
-															placeholder="12345"
-															bind:value={course_number}
-															required
-														/>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
-										<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
-											<span class="text-sm font-medium text-gray-100">Course Term</span>
-										</div>
-										<div class="w-full sm:w-2/3 px-4">
-											<div class="max-w-xl">
-												<div class="flex flex-wrap items-center -mx-3">
-													<div class="w-full sm:w-auto px-3 mb-3 sm:mb-0">
-														<input
-															name="course_term"
-															id="course_term"
-															type="text"
-															class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
-															placeholder="Spring 2023"
-															bind:value={course_term}
-															required
-														/>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<!--<CourseImage bind:files={files} />-->
-
-									<div class="flex justify-between w-full sm:w-auto">
-										<div>
-											<!--Save and cancel buttons-->
-											<!--TODO cancel delete row-->
-											<a
-												class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
-												href="/d/courses">Cancel</a
-											>
-										</div>
-
-										<button
-											class="inline-block py-2 px-4 text-sm text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-											type="submit"
-										>
-											{#if loading}
-												<svg class="animate-spin h-4 w-4 mr-3 inline">
-													<Fa icon={faSpinner} size="xs" />
-												</svg>
-											{/if}
-											Next
-										</button>
-									</div>
-									<!--Step 2-->
-								{:else if currentStep === 3}
-									<form>
-										<CourseImage bind:courseID={currentCourseId} />
-									</form>
-									<div>
-										<!--Save and cancel buttons-->
-										<!--TODO cancel delete row-->
-										<a
-											class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
-											href="/d/courses">Cancel</a
-										>
-										<button
-											class="float-right inline-block py-2 px-4 text-xs text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-											on:click={() => handleSteps(3)}
-										>
-											Next
-										</button>
-									</div>
-									<!--Step 3-->
-								{:else if currentStep === 3}
-									<button
-										class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-										on:click|preventDefault={goto('/d/courses')}
-									>
-										Confirm
-									</button>
 								{/if}
 							</div>
 						</div>
