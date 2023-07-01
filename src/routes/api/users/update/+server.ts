@@ -21,7 +21,6 @@ export const POST: RequestHandler = async ({ request, locals: { getSession } }) 
       const updates = await request.json();
       const {data, error, status} = await supabase.from('users')
         .upsert(updates)
-      console.log(data,error,status)
     return json({data})
   }
 

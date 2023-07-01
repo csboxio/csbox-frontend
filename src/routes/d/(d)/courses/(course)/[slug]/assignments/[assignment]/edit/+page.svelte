@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { applyAction, deserialize } from '$app/forms';
 	import { goto, invalidateAll } from '$app/navigation';
-	import { supabaseClient } from '$lib/utilities/supabaseClient';
 	import { blur } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import { Datepicker } from 'svelte-calendar';

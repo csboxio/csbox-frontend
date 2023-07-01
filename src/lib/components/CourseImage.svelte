@@ -5,8 +5,11 @@
   import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 
+
   /** @type {import("./$types").PageData} */
   export let data;
+  let { supabase } = data
+  $: ({ supabase } = data)
   export let url;
   let size = 5;
   export let courseID;
@@ -18,7 +21,7 @@
 
 <div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
   <div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
-    <span class="block text-sm font-medium text-gray-100">Course Image</span>
+    <span class="block text-sm font-medium text-gray-100">Course Icon</span>
     {#if url}
       <img
         src={url}
@@ -46,7 +49,7 @@
               id="course_image"
               accept="image/*"
               bind:files
-              on:change={uploadCourseImage(files, courseID, user)}
+              on:change={uploadCourseImage(files, courseID, user, supabase)}
               disabled={uploading}>
             <div class="flex items-center justify-center h-14 w-14 bg-blue-500 group-hover:bg-blue-600 rounded-full">
 

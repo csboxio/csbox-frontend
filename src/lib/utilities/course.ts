@@ -70,7 +70,7 @@ export const createPlaceHolderCourseDocument = async (courseId: bigint, user: an
   }
   const { data } = supabase.storage.from("courses").getPublicUrl(filePath);
 
-  await updateCourseInsert(courseId, user)
+  await updateCourseInsert(courseId, user, supabase)
 
   loading = false;
 };

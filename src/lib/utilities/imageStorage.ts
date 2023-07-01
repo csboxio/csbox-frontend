@@ -73,6 +73,7 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
 
 export const uploadCourseImage = async (files: FileList, courseId: bigint, user: User, supabase) => {
   try {
+
     loading = true;
     if (!files || files.length === 0) {
       throw new Error('You must select an image to upload.')
@@ -86,8 +87,9 @@ export const uploadCourseImage = async (files: FileList, courseId: bigint, user:
     const rfile = await resizedFile(files)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const { error } = await supabaseClient.storage.from('courses').upload(filePath, rfile)
+    const { error } = await supabase.storage.from('courses').upload(filePath, rfile)
     const { data } = supabase.storage.from('courses').getPublicUrl(filePath)
+
     await updateCourse(data.publicUrl, courseId, user, supabase)
     loading = false;
   } catch (error) {
@@ -110,7 +112,7 @@ export const uploadCourseDocumentImage = async (files: FileList, uploading: bool
     //const rfile = await resizedFile(files)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const { error } = await supabaseClient.storage.from('courses').upload(filePath, files)
+    const { error } = await supabase.storage.from('courses').upload(filePath, files)
     const { data } = supabase.storage.from('courses').getPublicUrl(filePath)
     loading = false;
 

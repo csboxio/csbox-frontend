@@ -43,15 +43,12 @@
                   <!-- Color line at the top -->
                   <div class="absolute top-0 left-0 w-full h-1.5 bg-{course_color}-500 glow  z-10 group-hover:scale-105 group-hover:top-[-5.5px] rounded-t-xl  "></div>
 
-                  <div
-                    class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200 "></div>
-                  <div>
-                    <div
-                      class="relative p-6 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500"
-                    >
+                  <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200 "></div>
+                  <div class="">
+                    <div class="relative p-6 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500 ">
                       <img use:tilt={{ scale: 1.05, reverse }}
                         src={course_image_url === null ? 'https://dummyimage.com/150x150/000/fff' : course_image_url + '?t=' + inserted_at}
-                        class="relative inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl bg-gray-600"
+                        class="relative inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl bg-gray-600 mr-24"
                         alt='Course Image'
                       />
                       <a on:click|stopPropagation={() => {
@@ -87,10 +84,10 @@
                           </svg>
                         </div>
                       </a>
-                      <h4 class="text-xl text-white font-bold mb-3">
+                      <div class="text-xl text-white font-bold mb-3 " style="word-break: break-word;">
                         {course_title === '' ? 'Course Name' : course_title}
-                      </h4>
-                      <h4 class="text-xl text-white font-bold mb-1">
+                      </div>
+                      <h4 class="text-xl text-white font-bold mb-1" style="word-break: break-word;">
                         {course_prefix === '' ? 'Empty' : course_prefix}
                         {course_number}
                       </h4>

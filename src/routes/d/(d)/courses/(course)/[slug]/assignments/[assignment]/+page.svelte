@@ -56,7 +56,7 @@
 
 	async function handleDeleteAssignment(cid) {
 		open = false;
-		const { error, status } = await supabaseClient.from('assignments').delete().match({ id: cid });
+		const { error, status } = await supabase.from('assignments').delete().match({ id: cid });
 		if (status === 204) {
 			open = false;
 			await invalidateAll();
