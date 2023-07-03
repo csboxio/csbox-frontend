@@ -19,6 +19,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { getSession }
                 persistSession: false,
             }
         });
+    await supabase.auth.refreshSession()
 
 
   const session = await getSession()

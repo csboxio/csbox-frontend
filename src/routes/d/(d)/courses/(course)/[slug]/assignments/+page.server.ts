@@ -12,6 +12,7 @@ export const actions: Actions = {
         const formData = await request.formData()
         const {data} = await supabase.auth.refreshSession()
         const {session, user} = data
+        console.log(user)
         if (!session) {
             throw redirect(303, '/');
         }
@@ -45,7 +46,9 @@ export const actions: Actions = {
             display_as: display_as,
             due: due,
         }
-        let info_updates = {
+
+
+        const info_updates = {
             assignment: _assignment_id,
             inserted_at: new Date(),
             description: description,
@@ -54,11 +57,12 @@ export const actions: Actions = {
             available_start: availableStart,
             available_end: availableEnd
         }
+
         // Leave out the in_module (module id) if it is blank in the update, if not include it.
         if (module != '') {
             updates = Object.assign(updates, {in_module: module})
         }
-        //console.log(updates)
+            //console.log(updates)
             const {error: error} = await supabase.from('assignments').upsert(updates)
             console.log(error)
             const {error: error_info} = await supabase.from('assignments_info').upsert(info_updates)

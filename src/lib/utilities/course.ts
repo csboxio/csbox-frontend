@@ -1,4 +1,5 @@
 import type { User } from "@supabase/supabase-js";
+import {invalidateAll} from "$app/navigation";
 let loading;
 
 export const downloadCourseDocument = async (filePath: string, supabase) => {
@@ -27,12 +28,14 @@ export const uploadCourseDocument = async (files: FileList, courseId: bigint, us
   if (!files || files.length === 0) {
     throw new Error("You must select an image to upload.");
   }
+  console.log(courseId)
   // Delete old html from block storage
   const filePath = `${courseId + "/" + "document/" + "home"}.HTML`;
   //await deleteCourseDocument(filePath)
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const { error } = await supabase.storage.from("courses").update(filePath, files);
+
   if (error) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -40,6 +43,7 @@ export const uploadCourseDocument = async (files: FileList, courseId: bigint, us
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const { error } = await supabase.storage.from("courses").upload(filePath, files);
+
   }
   const { data } = supabase.storage.from("courses").getPublicUrl(filePath);
 
@@ -80,11 +84,11 @@ async function updateCourseInsert(courseId: bigint, user: User, supabase) {
     const updates = {
       id: courseId,
       inserted_at: new Date(),
-      created_by: user
+      user_id: user
     }
     const { error } = await supabase.from('courses')
       .upsert(updates)
-      .eq('created_by', user.id)
+      .eq('user_id', user.id)
       .eq('id', courseId)
 
     if (error) throw error

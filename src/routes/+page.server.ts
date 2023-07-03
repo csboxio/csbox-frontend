@@ -5,7 +5,9 @@ import { browser } from "$app/environment";
 export const prerender = false;
 export const actions: Actions = {
     signin: async ({ request, url, locals: { supabase } }) => {
-            const formData = await request.formData()
+        await supabase.auth.refreshSession()
+
+        const formData = await request.formData()
             const captchaToken = formData.get('cf-turnstile-response') as string
             const email = formData.get('email') as string
             const password = formData.get('password') as string

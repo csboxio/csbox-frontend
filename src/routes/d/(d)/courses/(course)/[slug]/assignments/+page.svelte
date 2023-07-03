@@ -72,14 +72,17 @@
 	let { supabase } = data
 	$: ({ supabase } = data)
 
-	async function handleSubmit() {
+	async function handleSubmit(event) {
+
 		if (browser) {
 			dueDate = dayjs(storeDueDate?.selected);
 			availablefromDate = dayjs(storeAvailableDate?.selected);
 			availableuntilDate = dayjs(storeAvailableUntilDate?.selected);
 		}
 		loading = true;
+
 		const data = new FormData(this);
+		console.log(data)
 		data.append('due', dueDate);
 		data.append('availfrom', availablefromDate);
 		data.append('availto', availableuntilDate);
@@ -294,12 +297,12 @@
 					</button>
 				</div>
 				<!-- Modal body -->
-				<form method="POST" action="?/createAssignment" on:submit|preventDefault={handleSubmit(supabase)}>
+				<form method="POST" action="?/createAssignment" on:submit|preventDefault={handleSubmit}>
 					<div class="grid gap-4 mb-4 sm:grid-cols-2">
 						<div>
-							<label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-								>Assignment Name</label
-							>
+							<label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+								Assignment Name
+							</label>
 							<input
 								type="text"
 								name="name"
