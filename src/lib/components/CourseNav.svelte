@@ -8,6 +8,7 @@
     { name: "Home", route: route },
     { name: "Assignments", route: route + "assignments" },
     { name: "Modules", route: route + "modules" },
+    { name: "Quizzes", route: route + "quizzes" },
     { name: "Grades", route: route + "grades" },
     { name: "People", route: route + "people" },
     { name: "Settings", route: route + "settings" },

@@ -20,7 +20,7 @@ export const actions: Actions = {
             const { data, error } = await supabase.rpc('create_course',
                 {_course_id: course_id,
                     _inserted_at: new Date(),
-                    _created_by: user.id,
+                    _user_id: user.id,
                     _course_title: title,
                     _course_prefix: prefix,
                     _course_number: number,

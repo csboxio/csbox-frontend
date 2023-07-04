@@ -41,7 +41,7 @@
                    goto(`/d/courses/${id}`)
                 }}>
                   <!-- Color line at the top -->
-                  <div class="absolute top-0 left-0 w-full h-1.5 bg-{course_color}-500 glow  z-10 group-hover:scale-105 group-hover:top-[-5.5px] rounded-t-xl  "></div>
+                  <div class="absolute top-0 left-0 w-full h-2 bg-{course_color}-500 glow  z-10 group-hover:scale-105 group-hover:top-[-6px] rounded-t-[25px]  "></div>
 
                   <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200 "></div>
                   <div class="">

@@ -11,8 +11,8 @@ export const actions: Actions = {
     const code = formData.get('code')
     if (user != null) {
       const { error, data, status } = await supabase.rpc('enroll_user',
-          {_user_id: user.id, code: code})
-      //console.log(error, data, status)
+          {_user_id: user.id, _enroll_code: code})
+      console.log(error, data, status)
       return { error, data}
     }
   }

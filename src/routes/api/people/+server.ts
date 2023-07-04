@@ -10,7 +10,7 @@ import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$env/static/public"
 export const GET: RequestHandler = async ({ request, url, locals: { getSession }, event }) => {
   const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY,
       {
-        db: { schema: 'private' },
+        db: { schema: 'material' },
         auth: {
           persistSession: false,
         }
@@ -20,11 +20,11 @@ export const GET: RequestHandler = async ({ request, url, locals: { getSession }
 
   if (session) {
     const course = url.searchParams.get('course')
-    const {data, error } = await supabase.from('enrollment')
-        .select('user_id,  course_id, enrolled, enrollment_date, users ( first_name, last_name )')
-        .eq('course_id', course)
 
-    console.log(data, error )
+      const {data, error} = await supabase.from(`${course}+student_info`)
+          .select('*')
+
+
     //event.setHeaders({
     //  'cache-control': 'public, max-age=60, s-maxage=60'
     //})

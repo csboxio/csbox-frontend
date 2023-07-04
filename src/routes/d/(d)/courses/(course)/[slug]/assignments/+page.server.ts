@@ -12,7 +12,6 @@ export const actions: Actions = {
         const formData = await request.formData()
         const {data} = await supabase.auth.refreshSession()
         const {session, user} = data
-        console.log(user)
         if (!session) {
             throw redirect(303, '/');
         }
@@ -36,7 +35,34 @@ export const actions: Actions = {
         }
         const _assignment_id = Math.floor(Math.random() * 9999999999)
         if (user != null) {
-        let updates = {
+            console.log(module)
+
+            let updates = {
+                p_assignment_id: _assignment_id,
+                p_creator_id: user.id,
+                p_course_id: course_id,
+                p_points: points,
+                p_display_as: display_as,
+                p_due: due,
+                p_title: name,
+                p_category: category,
+                p_description: description,
+                p_submission_type: submission_type,
+                p_submission_attempts: null,
+                p_available_start: availableStart,
+                p_available_end: availableEnd
+            }
+
+            // Leave out the in_module (module id) if it is blank in the update, if not include it.
+            if (module != '') {
+                //Object.assign(updates, {p_in_module: module})
+            }
+
+            const { data, error } = await supabase.rpc('create_assignment', updates)
+
+            console.log(error, data)
+
+        /*let updates = {
             assignment_id: _assignment_id,
             title: name,
             creator_id: user.id,
@@ -56,17 +82,15 @@ export const actions: Actions = {
             submission_attempts: submission_type,
             available_start: availableStart,
             available_end: availableEnd
-        }
+        }*/
 
-        // Leave out the in_module (module id) if it is blank in the update, if not include it.
-        if (module != '') {
-            updates = Object.assign(updates, {in_module: module})
-        }
-            //console.log(updates)
+            /*//console.log(updates)
             const {error: error} = await supabase.from('assignments').upsert(updates)
             console.log(error)
             const {error: error_info} = await supabase.from('assignments_info').upsert(info_updates)
-            console.log(error_info)
+            console.log(error_info)*/
+
+
         }
     }
 }
