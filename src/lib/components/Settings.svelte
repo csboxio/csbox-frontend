@@ -10,16 +10,16 @@
   export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
   }
-  const { data: user } = $page.data.user;
-  const { email } = $page.data.session?.user;
-  const { updated_at: updated } = $page.data.user;
-  const avatarUrl = `${user.avatar_url}?t=${updated}`;
-  const full_name = `${user.first_name} ${user.last_name}`;
 
   export let data
 
   let { supabase } = data
   $: ({ supabase } = data)
+  const { data: user } = $page.data.user;
+  const { email } = $page.data.session?.user;
+  const { updated_at: updated } = $page.data.user;
+  const avatarUrl = `${user?.avatar_url}?t=${updated}`;
+  const full_name = `${user?.first_name} ${user?.last_name}`;
 
   let notificationsReceived
   $: notificationsReceived;
@@ -50,7 +50,6 @@
   onMount(async () => {
     notificationsReceived = await getNotifications()
     notificationsReceived = JSON.parse(notificationsReceived[0].new)
-    console.log(notificationsReceived)
   });
 </script>
 
@@ -97,9 +96,10 @@
     <div class="w-full sm:w-auto">
       <div class="relative inline-block text-left z-10">
         <div>
+          {#if data}
           <Button pill color="light"  id="avatar_with_name" class="!p-1.5 ">
-            <Avatar src="{avatarUrl === 'null?t=undefined' ? '' : avatarUrl}" alt=" {avatarUrl}" class="mr-4"/>
-            <div class="mr-3 font-medium">{full_name}</div>
+            <Avatar src="{user.avatar_url === 'null?t=undefined' ? '' : user.avatar_url}" alt="" class="mr-4"/>
+            <div class="mr-3 font-medium">{user.first_name === undefined ? user.first_name : user.first_name} {user.last_name === undefined ? user.last_name : user.last_name}</div>
           </Button>
           <Dropdown inline triggeredBy="#avatar_with_name" class="z-10">
             <div slot="header" class="px-4 py-2">
@@ -109,6 +109,7 @@
             <DropdownItem on:click={() => {goto('/d/profile')}}>Settings</DropdownItem>
             <DropdownItem on:click={signOut} slot="footer">Sign out</DropdownItem>
           </Dropdown>
+            {/if}
         </div>
       </div>
     </div>

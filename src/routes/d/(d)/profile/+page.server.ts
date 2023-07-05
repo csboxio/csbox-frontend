@@ -16,12 +16,16 @@ export const actions: Actions = {
         const fullName = formData.get('first')
         const lastName = formData.get('last_name')
         const website = formData.get('website')
+        const bio = formData.get('bio')
+        const country = formData.get('country')
 
         const updates = {
             id: user.id,
             first_name: fullName,
             last_name: lastName,
             website: website,
+            bio: bio,
+            country: country,
             updated_at: new Date()
         }
 

@@ -25,7 +25,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { getSession }
   const session = await getSession()
   if (session) {
     const {data, error, status} = await supabase.from('users')
-        .select('updated_at, username, first_name, last_name, website, avatar_url')
+        .select('updated_at, username, first_name, last_name, website, avatar_url, bio, country')
         .eq('id', session.user.id)
         .single()
 
