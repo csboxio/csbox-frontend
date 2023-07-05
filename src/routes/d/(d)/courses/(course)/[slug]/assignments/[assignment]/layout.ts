@@ -2,7 +2,6 @@ import { browser } from "$app/environment";
 import { redirect } from "@sveltejs/kit";
 export const ssr = false
 export const load = (async ({ fetch, data, request, url, parent, params }) => {
-    console.log('asd')
     const parentData = await parent();
     const session = parentData.session
     if (!session) {

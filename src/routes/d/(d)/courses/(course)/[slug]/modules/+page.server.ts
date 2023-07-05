@@ -18,11 +18,12 @@ export const actions: Actions = {
         const course_id = params.slug
         if (user != null) {
             const updates = {
-                user_id: user.id,
+                creator_id: user.id,
                 course_id: course_id,
                 module_title: name
             }
             const {error} = await supabase.from('modules').upsert(updates)
+            console.log(error)
         }
     },
 

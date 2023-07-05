@@ -8,6 +8,11 @@
   let uploading = false;
   let files;
   let user = $page.data.session?.user;
+
+  export let data
+
+  let { supabase, session } = data
+  $: ({ supabase, session } = data)
 </script>
 
 <div class="flex flex-wrap items-start -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
@@ -38,7 +43,7 @@
               id="single"
               accept="image/*"
               bind:files
-              on:change={uploadAvatar(files, uploading, url, user)}
+              on:change={uploadAvatar(files, uploading, url, user, supabase)}
               disabled={uploading}>
             <div class="flex items-center justify-center h-14 w-14 bg-blue-500 group-hover:bg-blue-600 rounded-full">
 

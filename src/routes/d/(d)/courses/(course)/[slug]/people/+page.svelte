@@ -30,8 +30,9 @@
 	let people;
 	$: people = data.people
 
+
 	$: filteredItems = people.filter(
-			(enrollment_data) => enrollment_data.users.first_name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+			(enrollment_data) => enrollment_data.first_name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
 	);
 
 	let delete_people_id;
@@ -133,18 +134,17 @@
 							<TableHead>
 								<TableHeadCell>Name</TableHeadCell>
 								<TableHeadCell>Enrolled</TableHeadCell>
-								<TableHeadCell>Date Enrolled</TableHeadCell>
 								<TableHeadCell>
 									<span class="sr-only ">Edit</span>
 								</TableHeadCell>
 							</TableHead>
 							<TableBody class="divide-y">
-								{#each filteredItems as {user_id, enrolled, enrollment_date, users }}
+								{#each filteredItems as {id, enrolled, first_name, last_name }}
 
 								<TableBodyRow  class="cursor-pointer">
-										<TableBodyCell>{users.first_name} {users.last_name}</TableBodyCell>
+										<TableBodyCell>{first_name} {last_name}</TableBodyCell>
 										<TableBodyCell>
-												<button on:click={() => handleAcceptUser(user_id)} class="{enrolled ? 'hidden' : 'block'} relative inline-flex items-center justify-center p-0.5
+												<button on:click={() => handleAcceptUser(id)} class="{enrolled ? 'hidden' : 'block'} relative inline-flex items-center justify-center p-0.5
 										 	overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400
 										 	to-green-600  hover:text-white dark:text-white
 											focus:ring-4 focus:outline-none ">
@@ -158,7 +158,7 @@
 												TRUE
 											{/if}
 										</TableBodyCell>
-										<TableBodyCell>{enrollment_date.substring(0, 10)}</TableBodyCell>
+
 										<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
 											<a class="font-medium
 								text-blue-600 hover:underline dark:text-blue-500 px-1">

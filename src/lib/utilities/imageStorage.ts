@@ -5,11 +5,11 @@ import {v4 as uuidv4} from 'uuid';
 
 import { page } from "$app/stores";
 
-export let loading: boolean = false;
+export let loading = false;
 
-export const getPath = async (user: User) => {
+export const getPath = async (user: User, supabase) => {
   try {
-    const { data, error, status } = await supabaseClient
+    const { data, error, status } = await supabase
       .from('users')
       .select(`avatar_url`)
       .eq('id', user.id)
@@ -31,10 +31,11 @@ export const getPath = async (user: User) => {
 
 }
 
-export const deleteImage = async (filePath: string) => {
+export const deleteImage = async (filePath: string, supabase) => {
   // Delete image from storage
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const { data } = await supabaseClient.storage.from('avatars').remove(filePath)
+  const { data } = await supabase.storage.from('avatars').remove(filePath)
   // Check if null
   if (data == null) {
     return
@@ -48,21 +49,22 @@ async function resizedFile(files: FileList) {
   }
 }
 
-export const uploadAvatar = async (files: FileList, uploading: boolean, url: string, user: User) => {
+export const uploadAvatar = async (files: FileList, uploading: boolean, url: string, user: User, supabase) => {
   try {
     if (!files || files.length === 0) {
       throw new Error('You must select an image to upload.')
     }
+    console.log(user)
     // Delete old image from database
     const filePath = `${user.id + "/" + user.id + "_profileImage"}.JPEG`
-    await deleteImage(filePath)
+    await deleteImage(filePath, supabase)
 
     const rfile = await resizedFile(files)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const { error } = await supabaseClient.storage.from('avatars').upload(filePath, rfile)
-    const { data } = supabaseClient.storage.from('avatars').getPublicUrl(filePath)
-    await updateProfile(data.publicUrl, user)
+    const { error } = await supabase.storage.from('avatars').upload(filePath, rfile)
+    const { data } = supabase.storage.from('avatars').getPublicUrl(filePath)
+    await updateProfile(data.publicUrl, user, supabase)
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
@@ -70,8 +72,9 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
   }
 }
 
-export const uploadCourseImage = async (files: FileList, courseId: bigint, user: User) => {
+export const uploadCourseImage = async (files: FileList, courseId: bigint, user: User, supabase) => {
   try {
+
     loading = true;
     if (!files || files.length === 0) {
       throw new Error('You must select an image to upload.')
@@ -80,14 +83,15 @@ export const uploadCourseImage = async (files: FileList, courseId: bigint, user:
     console.log(courseId)
     // Delete old image from database
     const filePath = `${courseId + "/" + "icon" + "_courseImage"}.JPEG`
-    await deleteImage(filePath)
+    await deleteImage(filePath, supabase)
 
     const rfile = await resizedFile(files)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const { error } = await supabaseClient.storage.from('courses').upload(filePath, rfile)
-    const { data } = supabaseClient.storage.from('courses').getPublicUrl(filePath)
-    await updateCourse(data.publicUrl, courseId, user)
+    const { error } = await supabase.storage.from('courses').upload(filePath, rfile)
+    const { data } = supabase.storage.from('courses').getPublicUrl(filePath)
+
+    await updateCourse(data.publicUrl, courseId, user, supabase)
     loading = false;
   } catch (error) {
     if (error instanceof Error) {
@@ -96,7 +100,7 @@ export const uploadCourseImage = async (files: FileList, courseId: bigint, user:
   }
 }
 
-export const uploadCourseDocumentImage = async (files: FileList, uploading: boolean, url: string, courseId: bigint, user: User) => {
+export const uploadCourseDocumentImage = async (files: FileList, uploading: boolean, url: string, courseId: bigint, user: User, supabase) => {
   try {
     loading = true;
     if (!files || files.length === 0) {
@@ -104,13 +108,13 @@ export const uploadCourseDocumentImage = async (files: FileList, uploading: bool
     }
     // Delete old image from database
     const filePath = `${courseId + "/document/" + "images/" + uuidv4 + "_courseDocumentImage"}.JPEG`
-    await deleteImage(filePath)
+    await deleteImage(filePath, supabase)
 
     //const rfile = await resizedFile(files)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const { error } = await supabaseClient.storage.from('courses').upload(filePath, files)
-    const { data } = supabaseClient.storage.from('courses').getPublicUrl(filePath)
+    const { error } = await supabase.storage.from('courses').upload(filePath, files)
+    const { data } = supabase.storage.from('courses').getPublicUrl(filePath)
     loading = false;
 
     return data.publicUrl
@@ -121,30 +125,36 @@ export const uploadCourseDocumentImage = async (files: FileList, uploading: bool
   }
 }
 
-export async function updateProfile(avatarUrl: string, user: User) {
-  try {
-
+export async function updateProfile(avatarUrl: string, user: User, supabase) {
     loading = true
-
+  console.log(user)
     const updates = {
       id: user.id,
       avatar_url: avatarUrl,
       updated_at: new Date()
     }
 
-    const { error } = await supabaseClient.from('users').upsert(updates)
+    const headers = new Headers()
+    headers.append('Content-Type', 'application/json');
 
-    if (error) throw error
-  } catch (error) {
-    if (error instanceof Error) {
-      alert(error.message)
+    const requestOptions = {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(updates)
     }
-  } finally {
+
+    fetch('/api/users/update', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     loading = false
-  }
 }
 
-export async function updateCourse(courseUrl: string, courseId: bigint, user: User) {
+export async function updateCourse(courseUrl: string, courseId: bigint, user: User, supabase) {
   try {
     const updates = {
       id: courseId,
@@ -153,7 +163,7 @@ export async function updateCourse(courseUrl: string, courseId: bigint, user: Us
       course_image_url: courseUrl,
     }
     console.log("?")
-    const { error } = await supabaseClient.from('courses')
+    const { error } = await supabase.from('courses')
         .upsert(updates)
         .eq('created_by', user.id)
         .eq('id', courseId)

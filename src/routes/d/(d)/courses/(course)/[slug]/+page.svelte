@@ -7,14 +7,25 @@
 	import { onMount, setContext } from 'svelte';
 	import Quill from 'quill';
 	import {navStore} from "../../../../../../lib/stores/stores.js";
+	import {invalidateAll} from "$app/navigation";
 	let quill;
 	let model;
 	export let data;
-	let courses = $page.data.courses.data;
+
+	let { supabase } = data
+	$: ({ supabase } = data)
+
+
+	let courses;
+	$: courses = $page.data.courses.data;
 	let html;
 	let user = $page.data.session?.user
 	let slug = $page.params.slug
 	export let layout_course = courses;
+
+	let course;
+	$: course = courses.filter((course) => course.id === parseInt($page.data.slug))[0]
+
 	const mode = {
 		edit: false,
 		view: true
@@ -35,19 +46,21 @@
 		placeholder: 'Type something...',
 		theme: 'snow'
 	};
-	let content = { html: '', text: '' };
+	let content;
+	$: content = { html: '', text: '' };
 
 	function handleEdit() {
 		mode.edit = !mode.edit;
 		mode.view = !mode.view;
 	}
 
-	function handleSave() {
+	async function handleSave() {
 		if (browser) {
-			uploadCourseDocument(quill.root.innerHTML, $page.params.slug, data.session.user.id, $page.data.supabase);
-			//invalidateAll()
+
+			uploadCourseDocument(quill.root.innerHTML, $page.params.slug, data.session.user.id, supabase);
 			mode.view = true;
 			mode.edit = false;
+
 		}
 	}
 
@@ -66,9 +79,9 @@
 	async function getDocument() {
 		if (browser) {
 			const filePath = `${$page.params.slug + '/' + 'document/' + 'home'}.HTML?t=${
-					courses.inserted_at
+					course.inserted_at
 			}`;
-			content.html = await downloadCourseDocument(filePath, $page.data.supabase);
+			content.html = await downloadCourseDocument(filePath, supabase);
 		}
 	}
 

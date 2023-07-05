@@ -8,6 +8,10 @@
 	import {beforeUpdate, onMount} from "svelte";
 	import {browser} from "$app/environment";
 	import {courseNavStore} from "$lib/stores/stores.ts";
+	import {Breadcrumb, BreadcrumbItem} from "flowbite-svelte";
+	import Fa from 'svelte-fa/src/fa.svelte';
+	import {faArrowRight, faSpinner} from '@fortawesome/free-solid-svg-icons';
+
 
 	let model;
 	let error = false;
@@ -48,8 +52,11 @@
 				<div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
 					<div class="flex flex-wrap items-center justify-between -mx-2">
 						<div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
-							<h4 class="text-lg font-bold dark:text-white leading-7 mb-1 inline-block text-gray-100">{course.course_title}</h4>
-							<h4 class="text-lg font-bold dark:text-white   leading-7 mb-1 inline-block"> > {$courseNavStore ? $courseNavStore : extractedName}</h4>
+							<h4 class="text-lg font-bold dark:text-white leading-7 mb-1 inline-block text-gray-100 inline-block">{course.course_title}</h4>
+							<div class="inline-block text-white">
+								<Fa icon={faArrowRight} size="xs" />
+							</div>
+							<h4 class="text-lg font-bold dark:text-white   leading-7 mb-1 inline-block">  {$courseNavStore ? $courseNavStore : extractedName}</h4>
 						</div>
 						<div class="w-full lg:w-auto px-2">
 							<Settings bind:data={data} />

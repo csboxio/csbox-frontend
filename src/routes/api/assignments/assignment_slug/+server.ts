@@ -8,6 +8,7 @@ import { error, json, redirect } from "@sveltejs/kit";
 // @ts-ignore
 export const GET: RequestHandler = async ({ request, url, locals: { supabase, getSession }, event }) => {
     const session = await getSession()
+
     console.log("test")
     if (!session) {
         throw redirect(303, '/');

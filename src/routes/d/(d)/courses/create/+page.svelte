@@ -7,6 +7,7 @@
 	import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 	import {Checkbox, FloatingLabelInput, Range, StepIndicator} from 'flowbite-svelte';
 	import { createPlaceHolderCourseDocument } from "../../../../../lib/utilities/course.js";
+	import CourseColorPicker from "$lib/components/CourseColorPicker.svelte";
 	let steps = ['Step 1', 'Step 2', 'Step 3'];
 
 	let session = $page.data.session;
@@ -18,6 +19,7 @@
 	let course_prefix;
 	let course_number;
 	let course_term;
+	let course_color;
 	let course_image_url;
 	let days_per_week = 1;
 	$: days_per_week;
@@ -33,7 +35,7 @@
 	let resources_high = false;
 
 	//Progress bar step
-	let currentStep = 3;
+	let currentStep = 1;
 	$: currentStep;
 
 	function handleSteps(num, event) {
@@ -46,9 +48,15 @@
 
 	let currentCourseId;
 
+	let { supabase } = data
+	$: ({ supabase } = data)
+
 	async function handleSubmit(event) {
 		loading = true;
 		const data = new FormData(this);
+
+		// Add course color
+		data.append("course_color", course_color);
 
 		const response = await fetch(this.action, {
 			method: 'POST',
@@ -67,7 +75,7 @@
 
 			currentCourseId = JSON.stringify(result['data'].course_id);
 
-			 createPlaceHolderCourseDocument(currentCourseId, $page.data.session.user.id, $page.data.supabase);
+			 createPlaceHolderCourseDocument(currentCourseId, $page.data.session.user.id, supabase);
 			await invalidateAll();
 		}
 
@@ -183,36 +191,16 @@
 														/>
 													</div>
 										<div class="mb-4">
-											<label for="course_color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Color</label>
-										<select
-												name="course_color"
-												id="course_color"
-												class="bg-gray-50 border border-gray-300
-											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
-											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-												required
-										>
-											<option selected="">Select color</option>
-											<option value="red" class="text-red-500 font-bold">
-												Red
-											</option>
-											<option value="blue" class="text-blue-500 font-bold">Blue</option>
-											<option value="green" class="text-green-500 font-bold">Green</option>
-											<option value="yellow" class="text-yellow-500 font-bold">Yellow</option>
-											<option value="teal" class="text-teal-500 font-bold">Teal</option>
-											<option value="purple" class="text-purple-500 font-bold">Purple</option>
-											<option value="pink" class="text-pink-500 font-bold">Pink</option>
-
-										</select>
+											<label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Color</label>
+										   <CourseColorPicker bind:selectedColor={course_color}/>
 									</div>
 										<div class="mb-4">
-										<label for="input-group-1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Contact</label>
+										<label for="course_contact" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Contact</label>
 										<div class="relative mb-6">
 											<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
 												<svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
 											</div>
-											<input type="text" id="input-group-1" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@csbox.io">
+											<input type="text" name="course_contact" id="course_contact" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@csbox.io">
 										</div>
 										</div>
 									</div>
@@ -243,7 +231,7 @@
 
 								{#if currentStep === 2}
 									<form>
-										<CourseImage bind:courseID={currentCourseId} />
+										<CourseImage bind:courseID={currentCourseId} bind:data={data} />
 									</form>
 									<div>
 										<!--Save and cancel buttons-->
@@ -260,12 +248,7 @@
 										</button>
 									</div>
 
-									<button
-											class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-											on:click|preventDefault={goto('/d/courses')}
-									>
-										Confirm
-									</button>
+
 									{/if}
 
 								{#if currentStep === 3}

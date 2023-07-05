@@ -1,14 +1,30 @@
 <script lang="ts" xmlns="http://www.w3.org/1999/html">
-	import { page } from '$app/stores';
-	import Avatar from '$lib/components/Avatar.svelte';
-	import { invalidateAll } from '$app/navigation';
+	import {goto, invalidateAll} from '$app/navigation';
 	import { applyAction, deserialize } from '$app/forms';
+	import Navbar from "$lib/components/Navbar.svelte";
+	import Fa from 'svelte-fa/src/fa.svelte';
+	import {navStore} from "../../../../lib/stores/stores.js";
+	import {onMount} from "svelte";
+	import Settings from "$lib/components/Settings.svelte";
+	import {uploadAvatar} from "$lib/utilities/imageStorage.js";
+	import {faUpload} from "@fortawesome/free-solid-svg-icons";
+	import {Input, Label} from "flowbite-svelte";
+	import {page} from "$app/stores";
 
-	const { session, user } = $page.data;
+	onMount(() => {
+		// Set the selected item when the page is mounted
+		navStore.set('profile');
+	});
+
 	let loading;
-	function previousPage() {
-		history.back();
-	}
+	export let data
+	let { supabase, session } = data
+	$: ({ supabase, session } = data)
+	let files;
+	let uploading = false;
+	const user = data.user.data;
+
+
 	async function handleSubmit(event) {
 		loading = true;
 		const data = new FormData(this);
@@ -27,168 +43,128 @@
 		}
 		await applyAction(result);
 	}
+
+	async function signOut() {
+		try {
+			let { error } = await  $page.data.supabase.auth.signOut()
+			if (error) throw error
+		} catch (error) {
+			if (error instanceof Error) {
+				alert(error.message)
+			}
+		}
+		await goto('/')
+	}
+
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
-	<form action="?/updateProfile" method="POST" on:submit|preventDefault={handleSubmit}>
+<Navbar/>
+
+<div class="mx-auto lg:ml-16">
+	<section>
+		<div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
+			<div class="flex flex-wrap items-center justify-between -mx-2">
+				<div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
+					<h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Settings</h4>
+				</div>
+				<div class="w-full lg:w-auto px-2">
+					<Settings bind:data={data}/>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="flex flex-col p-8 h-screen">
 		<section class="py-3">
-			<div class="container px-6 mx-auto">
-				<div class="p-8 bg-gray-500 rounded-xl">
-					<div
-						class="flex flex-wrap items-center justify-between -mx-4 mb-8 pb-6 border-b border-gray-400 border-opacity-20"
-					>
-						<div class="w-full sm:w-auto px-4 mb-6 sm:mb-0">
-							<h4 class="text-2xl font-bold tracking-wide text-white mb-1">Edit Profile</h4>
-						</div>
-						<div class="w-full sm:w-auto px-4">
-							<div>
-								<!--Save and cancel buttons-->
-								<button
-									class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-600 hover:bg-gray-400 rounded-lg transition duration-200"
-									on:click={previousPage}
-									rel="external"
-									>Cancel
-								</button>
-								<input
-									class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-									href="/dashboard"
-									rel="external"
-									type="submit"
-								/>
+			<div class="container px-12 mx-auto">
+				<div class="flex flex-wrap -mx-3 ">
+					<div class="w-full lg:w-1/3 px-3 mb-6 lg:mb-0">
+						<div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
+							<img class="rounded-full w-24 h-24 inline-block" src={user.avatar_url} alt="image description">
+							<div class="inline-block ml-4">
+								<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-800 dark:text-white">{user.first_name} {user.last_name}</h5>
+								<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{user.website}</p>
+
+								<main>
+									<label class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white
+									bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600
+									dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+										<input class="hidden" type="file" id="single" accept="image/*" bind:files on:change={uploadAvatar(files, uploading, user.avatar_url, user, supabase)} disabled={uploading}>
+										<div class="m-1">
+											<Fa icon={faUpload} size="xs" />
+										</div>
+										Change Picture
+									</label>
+									<button class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white
+									bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+									 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+											on:click={signOut}>
+										Sign out
+									</button>
+								</main>
 							</div>
 						</div>
 					</div>
-					<div
-						class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
-					>
-						<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
-							<span class="text-sm font-medium text-gray-100">Name</span>
-						</div>
-						<div class="w-full sm:w-2/3 px-4">
-							<div class="max-w-xl">
-								<div class="flex flex-wrap items-center -mx-3">
-									<div class="w-full sm:w-1/2 px-3 mb-3 sm:mb-0">
-										<input
-											bind:value={user.first_name}
-											class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
-											id="first"
-											name="first"
-											placeholder=""
-											type="text"
-										/>
-									</div>
-									<div class="w-full sm:w-1/2 px-3">
-										<input
-											bind:value={user.last_name}
-											class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
-											id="last_name"
-											name="last_name"
-											placeholder=""
-											type="text"
-										/>
+					<div class="w-full lg:w-2/3 px-3">
+						<form action="?/updateProfile" method="POST" on:submit|preventDefault={handleSubmit}>
+							<div class="relative mb-8 mx-4 ">
+								<div class="  ">
+									<div class="relative group">
+										<div class="px-24 py-8 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
+											<div class="flex flex-wrap -mx-10 -mb-6 text-white font-semibold">
+												<h4 class="text-2xl font-bold tracking-wide text-white mb-4">General Information</h4>
+												<div class="grid grid-cols-2 gap-6 w-full">
+													<div class="mb-6">
+														<Label for="first" class="block mb-2">First Name:</Label>
+														<Input id="first" name="first" class="w-full" bind:value={user.first_name} />
+													</div>
+													<div class="mb-6">
+														<Label for="last_name" class="block mb-2">Last Name:</Label>
+														<Input id="last_name" name="last_name" class="w-full" bind:value={user.last_name} />
+													</div>
+													<div class="mb-6">
+														<Label for="email" class="block mb-2">Email Address:</Label>
+														<Input id="email" name="email" class="w-full" bind:value={session.user.email}/>
+													</div>
+													<div class="mb-6">
+														<Label for="country" class="block mb-2">Country:</Label>
+														<Input id="country" name="country" class="w-full" bind:value={user.country}></Input>
+													</div>
+
+													<div class="mb-6">
+														<Label for="website" class="block mb-2">Github:</Label>
+														<Input id="website" name="website" class="w-full" bind:value={user.website} />
+													</div>
+													<div class="mb-6">
+														<Label for="bio" class="block mb-2">Bio:</Label>
+														<Input id="bio" name="bio" class="w-full" bind:value={user.bio} />
+													</div>
+
+												</div>
+												<div class="w-full sm:w-auto mb-4">
+													<div>
+														<input class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-white bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
+															   href="/dashboard"
+															   rel="external"
+															   type="submit"
+														/>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div
-						class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
-					>
-						<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
-							<span class="text-sm font-medium text-gray-100">Email address</span>
-						</div>
-						<div class="w-full sm:w-2/3 px-4">
-							<div class="max-w-xl">
-								<input
-									bind:value={session.user.email}
-									class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
-									id="formInput1-3"
-									placeholder="example@email.com"
-									type="text"
-								/>
-							</div>
-						</div>
-					</div>
-					<Avatar bind:url={user.avatar_url} size={10} />
-					<div
-						class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
-					>
-						<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
-							<span class="text-sm font-medium text-gray-100">Country</span>
-						</div>
-						<div class="w-full sm:w-2/3 px-4">
-							<div class="max-w-xl">
-								<div
-									class="relative block px-3 w-full text-sm text-gray-200 placeholder-gray-100 font-medium border border-gray-400 hover:border-white focus-within:border-blue-500 rounded-lg"
-								>
-									<span class="absolute top-1/2 right-0 mr-5 transform -translate-y-1/2">
-										<svg
-											fill="none"
-											height="8"
-											viewbox="0 0 12 8"
-											width="12"
-											xmlns="http://www.w3.org/2000/svg"
-										>
-											<path
-												d="M10.9999 1.16994C10.8126 0.983692 10.5591 0.87915 10.2949 0.87915C10.0308 0.87915 9.77731 0.983692 9.58995 1.16994L5.99995 4.70994L2.45995 1.16994C2.27259 0.983692 2.01913 0.87915 1.75495 0.87915C1.49076 0.87915 1.23731 0.983692 1.04995 1.16994C0.95622 1.26291 0.881826 1.37351 0.831057 1.49537C0.780288 1.61723 0.75415 1.74793 0.75415 1.87994C0.75415 2.01195 0.780288 2.14266 0.831057 2.26452C0.881826 2.38638 0.95622 2.49698 1.04995 2.58994L5.28995 6.82994C5.38291 6.92367 5.49351 6.99807 5.61537 7.04883C5.73723 7.0996 5.86794 7.12574 5.99995 7.12574C6.13196 7.12574 6.26267 7.0996 6.38453 7.04883C6.50638 6.99807 6.61699 6.92367 6.70995 6.82994L10.9999 2.58994C11.0937 2.49698 11.1681 2.38638 11.2188 2.26452C11.2696 2.14266 11.2957 2.01195 11.2957 1.87994C11.2957 1.74793 11.2696 1.61723 11.2188 1.49537C11.1681 1.37351 11.0937 1.26291 10.9999 1.16994Z"
-												fill="#3D485B"
-											/>
-										</svg>
-									</span>
-									<select
-										class="w-full py-4 appearance-none bg-transparent outline-none"
-										id="country"
-										name="country"
-									>
-										<option class="bg-gray-600" value="1">United States</option>
-										<option class="bg-gray-600" value="1">United States</option>
-										<option class="bg-gray-600" value="1">United States</option>
-									</select>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div
-						class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
-					>
-						<div class="w-full sm:w-1/3 px-4 mb-4 sm:mb-0">
-							<span class="text-sm font-medium text-gray-100">Github</span>
-						</div>
-						<div class="w-full sm:w-2/3 px-4">
-							<div class="max-w-xl">
-								<input
-									bind:value={user.website}
-									class="block py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg"
-									id="website"
-									name="website"
-									placeholder=""
-									type="text"
-								/>
-							</div>
-						</div>
-					</div>
-					<div
-						class="flex flex-wrap items-start -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20"
-					>
-						<div class="w-full sm:w-1/3 px-4 mb-5 sm:mb-0">
-							<span class="block mt-2 text-sm font-medium text-gray-100">Bio</span>
-							<span class="text-xs text-gray-300" name="bio"
-								>Tell everyone more about yourself!</span
-							>
-						</div>
-						<div class="w-full sm:w-2/3 px-4">
-							<div class="max-w-xl">
-								<textarea
-									class="block h-56 py-4 px-3 w-full text-sm text-gray-100 placeholder-gray-100 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-blue-500 rounded-lg resize-none"
-									id="formInput1-9"
-									placeholder="Hello! . . ."
-									type="text"
-								/>
-							</div>
-						</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</section>
-	</form>
+	</section>
+</div>
 </body>
+
+
+
+
