@@ -204,19 +204,19 @@
 				</TableHead>
 				<TableBody class="divide-y">
 					{#key assignments}
-				{#each filteredItems as { assignment_id, title, category, due, points }, i}
-						<TableBodyRow on:click={() =>  handleAssignment(assignment_id)} class="cursor-pointer">
+				{#each filteredItems as { id, title, category, due, points }, i}
+						<TableBodyRow on:click={() =>  handleAssignment(id)} class="cursor-pointer">
 							<TableBodyCell >{title ? title : 'No title'}</TableBodyCell>
 							<TableBodyCell >{category ? category : "No category" }</TableBodyCell>
 							<TableBodyCell >{due ? due.substring(0, 10) : "No date" }</TableBodyCell>
 							<TableBodyCell >{points ? points : "No Points" }</TableBodyCell>
 
 							<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium"  >
-								<a on:click|stopPropagation={() => goto($page.url.pathname + "/" + assignment_id + "/edit")} class="font-medium
+								<a on:click|stopPropagation={() => goto($page.url.pathname + "/" + id + "/edit")} class="font-medium
 								text-blue-600 hover:underline dark:text-blue-500">
 									Edit
 								</a>
-								<a on:click|stopPropagation={() => delete_model_open(assignment_id)} class="font-medium text-blue-600
+								<a on:click|stopPropagation={() => delete_model_open(id)} class="font-medium text-blue-600
 								hover:underline dark:text-red-500 ">
 									Delete
 								</a>
