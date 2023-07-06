@@ -6,6 +6,7 @@ import {v4 as uuidv4} from 'uuid';
 import { page } from "$app/stores";
 
 export let loading = false;
+export let course_image_loading = false;
 
 export const getPath = async (user: User, supabase) => {
   try {
@@ -35,8 +36,9 @@ export const deleteImage = async (filePath: string, supabase) => {
   // Delete image from storage
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const { data } = await supabase.storage.from('avatars').remove(filePath)
+  const { data, error } = await supabase.storage.from('avatars').remove(filePath)
   // Check if null
+  console.log(error)
   if (data == null) {
     return
   }
@@ -73,14 +75,13 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
 }
 
 export const uploadCourseImage = async (files: FileList, courseId: bigint, user: User, supabase) => {
+  course_image_loading = true;
+  loading = true
   try {
-
-    loading = true;
     if (!files || files.length === 0) {
       throw new Error('You must select an image to upload.')
     }
-    console.log("uploadCourseImage")
-    console.log(courseId)
+
     // Delete old image from database
     const filePath = `${courseId + "/" + "icon" + "_courseImage"}.JPEG`
     await deleteImage(filePath, supabase)
@@ -88,11 +89,16 @@ export const uploadCourseImage = async (files: FileList, courseId: bigint, user:
     const rfile = await resizedFile(files)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const { error } = await supabase.storage.from('courses').upload(filePath, rfile)
+    const { error } = await supabase.storage.from('courses').upload(filePath, rfile, {
+
+    })
+    if (error) {
+      console.log('Error uploading file')
+      return
+    }
     const { data } = supabase.storage.from('courses').getPublicUrl(filePath)
 
     await updateCourse(data.publicUrl, courseId, user, supabase)
-    loading = false;
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
@@ -127,7 +133,6 @@ export const uploadCourseDocumentImage = async (files: FileList, uploading: bool
 
 export async function updateProfile(avatarUrl: string, user: User, supabase) {
     loading = true
-  console.log(user)
     const updates = {
       id: user.id,
       avatar_url: avatarUrl,
@@ -159,20 +164,23 @@ export async function updateCourse(courseUrl: string, courseId: bigint, user: Us
     const updates = {
       id: courseId,
       inserted_at: new Date(),
-      created_by: user.id,
+      user_id: user.id,
       course_image_url: courseUrl,
     }
-    console.log("?")
+
     const { error } = await supabase.from('courses')
         .upsert(updates)
-        .eq('created_by', user.id)
+        .eq('user_id', user.id)
         .eq('id', courseId)
+
+
     if (error) throw error
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
     }
   } finally {
+    course_image_loading = false
     loading = false
   }
 }

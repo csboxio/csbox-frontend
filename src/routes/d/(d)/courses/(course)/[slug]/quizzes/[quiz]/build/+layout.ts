@@ -10,9 +10,8 @@ export const load = (async ({ fetch, data, request, url, parent, params }) => {
     throw redirect(303, '/');
   }
 
-  const quizzes = await fetch(`/api/quizzes/?course=${params.slug}`)
+
     return {
-        quizzes: await quizzes.json(),
         session: session
     };
 });

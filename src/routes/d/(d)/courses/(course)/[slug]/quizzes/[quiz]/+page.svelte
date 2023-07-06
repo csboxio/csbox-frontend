@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {onMount} from "svelte";
-	import {navStore} from "../../../../../../../lib/stores/stores.js";
+	import {navStore} from "$lib/stores/stores.js";
 	import {
 		Input,
 		Label, Modal,
@@ -14,6 +14,7 @@
 	} from "flowbite-svelte";
 	import {goto, invalidateAll} from "$app/navigation";
 	import {applyAction, deserialize} from "$app/forms";
+	import {page} from "$app/stores";
 
 	let model;
 	export let data;
@@ -81,8 +82,8 @@
 		});
 	}
 
-	function handleQuiz(id) {
-		goto('/d/courses/' + data.slug + '/quizzes/' + id);
+	function handleQuiz() {
+		goto($page.url.pathname + '/build');
 	}
 
 	// For search box on assignments
@@ -110,6 +111,7 @@
 		await applyAction(result);
 	}
 
+
 	onMount(() => {
 		// Set the selected item when the page is mounted
 		navStore.set('courses');
@@ -120,92 +122,56 @@
 
 <div class="w-full">
 	<section class="p-1 mt-4">
-		<div class="container">
-
-			<button
-					class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+			<div class="container">
+				<button
+						class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
 				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
 				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-					on:click={() => addQuizModel = true}>
+						on:click={handleQuiz}>
 				<span
 						class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
 					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-					Create
+					Build
 				</span>
-			</button>
-
-			<div>
-				<div class="relative overflow-x-auto  sm:rounded-lg w-full">
-					<TableSearch placeholder="Search by title..." hoverable={true} bind:inputValue={searchTerm}>
-						<Table hoverable>
-							<TableHead>
-								<TableHeadCell>Title</TableHeadCell>
-								<TableHeadCell>Category</TableHeadCell>
-								<TableHeadCell>Due</TableHeadCell>
-								<TableHeadCell>Points</TableHeadCell>
-								<TableHeadCell>
-									<span class="sr-only ">Edit</span>
-								</TableHeadCell>
-							</TableHead>
-							<TableBody class="divide-y">
-								{#key quizzes}
-									{#each filteredItems as { id, quiz_title, quiz_doc, quiz_attempts, question_count, due, points}, i}
-										<TableBodyRow on:click={() =>  handleQuiz(id)} class="cursor-pointer">
-											<TableBodyCell >{quiz_title ? quiz_title : 'No title'}</TableBodyCell>
-											<TableBodyCell >{quiz_doc ? quiz_doc : "No quiz doc" }</TableBodyCell>
-											<TableBodyCell >{due ? due.substring(0, 10) : "No date" }</TableBodyCell>
-											<TableBodyCell >{points ? points : "No Points" }</TableBodyCell>
-
-											<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium"  >
-												<a  class="font-medium
-								text-blue-600 hover:underline dark:text-blue-500">
-													Edit
-												</a>
-												<a  class="font-medium text-blue-600
-								hover:underline dark:text-red-500 ">
-													Delete
-												</a>
-											</TableBodyCell>
-										</TableBodyRow>
+				</button>
+				<div class="flex flex-wrap  -mb-6 text-white font-semibold">
+					{#if quizCompleted}
+						<p>{quizScoreOutput}</p>
+					{:else}
+						{#if questions[currentQuestion]}
+							<div class="p-4 bg-gray-700 rounded-lg">
+								<h2 class="text-xl font-bold mb-4">{questions[currentQuestion].question}</h2>
+								{#if questions[currentQuestion].code}
+									<pre class="text-white bg-gray-900 rounded-md p-4">{questions[currentQuestion].code}</pre>
+								{/if}
+								<ul class="space-y-2">
+									{#each questions[currentQuestion].options as option}
+										<li>
+											<label class="flex items-center">
+												<input
+														type="radio"
+														name="option"
+														value={option}
+														bind:group={questions[currentQuestion].selectedOption}
+														class="mr-2"
+												/>
+												{option}
+											</label>
+										</li>
 									{/each}
-								{/key}
-							</TableBody>
-						</Table>
-					</TableSearch>
-
-					<!--No courses found-->
-					{#if quizzes?.length === 0}
-						<div
-								class="flex p-4 mb-6 mt-4 ml-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50
-						dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
-								role="alert"
-						>
-							<svg
-									aria-hidden="true"
-									class="flex-shrink-0 inline w-5 h-5 mr-3"
-									fill="currentColor"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg"
-							>
-								<path
-										fill-rule="evenodd"
-										d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1
-								 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-										clip-rule="evenodd"
-								/>
-							</svg>
-							<span class="sr-only">Info</span>
-							<div>
-								<span class="font-medium">No quizzes found...</span>
+								</ul>
+								<button class="bg-blue-500 text-white px-4 py-2 rounded-lg" on:click={checkAnswer}>
+									{currentQuestion < questions.length - 1 ? 'Next' : 'Finish'}
+								</button>
 							</div>
-						</div>
+						{:else}
+							<p>No more questions!</p>
+						{/if}
 					{/if}
 				</div>
 			</div>
-		</div>
 	</section>
-
 </div>
 
 <Modal title="Add quiz" class="max-w-xs" bind:open={addQuizModel}>
