@@ -7,6 +7,7 @@ export const handle = async ({ event, resolve }) => {
     supabaseUrl: PUBLIC_SUPABASE_URL,
     supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
     event,
+    db: { schema: 'material' },
     auth: {
       autoRefreshToken: true,
       persistSession: true,

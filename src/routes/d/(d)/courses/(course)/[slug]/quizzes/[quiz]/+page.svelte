@@ -20,6 +20,9 @@
 	export let data;
 	let course_data = data.courseData;
 
+	let quiz_data;
+	$: quiz_data = data.quiz;
+
 
 	const questions = [
 		{
@@ -118,6 +121,8 @@
 		// Reset quiz state when the component mounts
 		resetQuiz();
 	});
+
+
 </script>
 
 <div class="w-full">
@@ -132,9 +137,52 @@
 				<span
 						class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
 					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-					Build
+					Build Quiz
 				</span>
 				</button>
+
+
+					<div class="bg-gray-800 p-6 rounded-lg shadow-md text-white mt-2">
+						<h2 class="text-2xl font-bold mb-4">Quiz Information</h2>
+						<form action="?/updateQuiz" method="POST" on:submit|preventDefault={handle_quiz_submit}>
+						<div class="grid grid-cols-2 gap-4 mb-4">
+							<div>
+								<Label class="font-semibold">Title:</Label>
+								<Input class="text-gray-100" id="title" name="title" bind:value={quiz_data.quiz_title}/>
+							</div>
+							<div>
+								<Label class="font-semibold">Attempts:</Label>
+								<Input class="text-gray-100" id="attempts" name="attempts" bind:value={quiz_data.quiz_attempts}/>
+							</div>
+							<div>
+								<Label class="font-semibold">Question Count:</Label>
+								<Input class="text-gray-100" id="question_count" name="question_count" bind:value={quiz_data.question_count} readonly/>
+							</div>
+							<div>
+								<Label class="font-semibold">Due:</Label>
+								<Input class="text-gray-100" id="due" name="due" bind:value={quiz_data.due}/>
+							</div>
+							<div>
+								<Label class="font-semibold">Points:</Label>
+								<Input class="text-gray-100" id="points" name="points" bind:value={quiz_data.points} readonly/>
+							</div>
+						</div>
+						<button
+								class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+									font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+									group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+									focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800" type="submit">
+							<span
+									class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+								Save
+							</span>
+						</button>
+						</form>
+
+					</div>
+
+
 				<div class="flex flex-wrap  -mb-6 text-white font-semibold">
 					{#if quizCompleted}
 						<p>{quizScoreOutput}</p>

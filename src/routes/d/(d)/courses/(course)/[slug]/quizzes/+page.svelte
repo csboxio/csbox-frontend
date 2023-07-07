@@ -140,7 +140,7 @@
 					<TableSearch placeholder="Search by title..." hoverable={true} bind:inputValue={searchTerm}>
 						<Table hoverable>
 							<TableHead>
-								<TableHeadCell>Title</TableHeadCell>
+								<TableHeadCell>Quiz Title</TableHeadCell>
 								<TableHeadCell>Category</TableHeadCell>
 								<TableHeadCell>Due</TableHeadCell>
 								<TableHeadCell>Points</TableHeadCell>

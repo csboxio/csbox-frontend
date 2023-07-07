@@ -4,7 +4,6 @@ import { error, json, redirect } from "@sveltejs/kit";
 // TODO UNKNOWN IF TRULY SECURE
 // https://github.com/supabase/auth-helpers/issues/408
 /** @type {import('./$types').RequestHandler} */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export const GET: RequestHandler = async ({ request, url, locals: { supabase, getSession }, event }) => {
     const session = await getSession()
@@ -12,12 +11,20 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
     if (!session) {
         throw redirect(303, '/');
     }
-    const quiz_id = url.searchParams.get('quiz_id')
+
+    const quiz_id = url.searchParams.get('id')
+
+    const {data, error} = await supabase.from('quizzes')
+        .select('id, quiz_title, quiz_doc, quiz_attempts, question_count, due, points')
+        .eq('id', quiz_id)
+        .single()
+
+    console.log(data, error)
 
     //console.log(data, error)
     //event.setHeaders({
     //  'cache-control': 'public, max-age=60, s-maxage=60'
     //})
 
-    return
+    return json(data)
 }

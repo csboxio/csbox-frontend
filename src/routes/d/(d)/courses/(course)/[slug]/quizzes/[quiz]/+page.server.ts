@@ -5,7 +5,7 @@ export const ssr = false
 // @ts-ignore
 
 export const actions: Actions = {
-    addItemToModule: async ({ request, url, params, locals: { supabase } }) => {
+    updateQuiz: async ({ request, url, params, locals: { supabase } }) => {
         const formData = await request.formData()
         const {data} = await supabase.auth.refreshSession()
         let user;
