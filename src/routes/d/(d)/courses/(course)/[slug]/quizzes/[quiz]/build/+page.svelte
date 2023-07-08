@@ -3,9 +3,14 @@
 	import {navStore} from "$lib/stores/stores.js";
 	import {Button, Checkbox, Input, Label, Select, Textarea} from "flowbite-svelte";
 	import {writable} from "svelte/store";
+	import {browser} from "$app/environment";
 
 	let model;
 	export let data;
+
+	let { supabase, params, quiz_data } = data
+	$: ({ supabase, params, quiz_data } = data)
+
 	let course_data = data.courseData;
 
 
@@ -55,6 +60,11 @@
 			this.updateTotalPoints()
 		}
 
+		removeQuestion(index: number): void {
+			this.quiz.questions.splice(index, 1);
+			this.updateTotalPoints();
+		}
+
 		addChoice(): void {
 			this.currentQuestion.choices?.push(this.currentChoice);
 
@@ -92,10 +102,20 @@
 			this.quiz.questions.splice(questionIndex, 1);
 		}
 
+		async save(): Promise<void> {
+			const updates = {
+				quiz_doc: $quizBuilder.quiz
+			}
+
+			console.log(params)
+
+			const {error} = await supabase.from('quizzes').update(updates)
+					.eq('course_id', params.slug)
+					.eq('id', params.quiz)
+
+		}
+
 	}
-
-
-
 
 	const createQuizBuilder = () => {
 		const { subscribe, update, set } = writable<QuizBuilder>(new QuizBuilder());
@@ -106,6 +126,12 @@
 			addQuestion: () => {
 				update(builder => {
 					builder.addQuestion();
+					return builder;
+				});
+			},
+			removeQuestion: () => {
+				update(builder => {
+					builder.removeQuestion();
 					return builder;
 				});
 			},
@@ -120,13 +146,19 @@
 					builder.editQuestion(questionIndex);
 					return builder;
 				});
+			},
+			save: () => {
+				update(builder => {
+					builder.save();
+					return builder;
+				});
 			}
 		};
 	};
 
 	let quizBuilder;
-
-
+	let quizChanged
+	$: quizChanged = false;
 
 	onMount(() => {
 		// Set the selected item when the page is mounted
@@ -134,13 +166,31 @@
 
 		//quizBuilder = new QuizBuilder();
 
+
+
 	});
 	quizBuilder = createQuizBuilder();
 	/** @type {import('./$types').Snapshot<string>} */
 	export const snapshot = {
 		capture: () => $quizBuilder.quiz,
 		restore: (value) => $quizBuilder.quiz = value
+
+
 	};
+
+	if (quiz_data.quiz_doc != null) {
+		$quizBuilder.quiz = quiz_data.quiz_doc
+	}
+
+	$: {
+		if (JSON.stringify($quizBuilder.quiz) != JSON.stringify(quiz_data.quiz_doc))
+		{
+
+			quizChanged = true;
+			console.log(quizChanged)
+			console.log($quizBuilder.quiz, quiz_data.quiz_doc)
+		}
+	}
 
 </script>
 
@@ -151,7 +201,21 @@
 					{#if quizBuilder}
 						<div class=" md:w-1/2 px-10">
 							<div class="mb-4">
-							<h1 class="text-xl font-bold mb-4">Quiz Builder</h1>
+							<h1 class="text-xl font-bold mb-3 ">Quiz Builder</h1>
+
+								<button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+										font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-500 to-green-300
+										group-hover:from-blue-300 group-hover:to-green-500 hover:text-white dark:text-white
+										focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
+											on:click={() => quizBuilder.save()}>
+									<span class="relative px-2 py-2 transition-all|local ease-in duration-75 bg-white
+									dark:{quizChanged ? 'bg-green-500' : 'bg-gray-600'} rounded-md group-hover:bg-opacity-0">
+										Save
+									</span>
+								</button>
+
+
+
 
 							<Label class="block mb-2">Title:</Label>
 								<Input class="border border-gray-300 p-2 mt-1 w-full mb-2" bind:value={$quizBuilder.quiz.title} type="text"/>
@@ -219,7 +283,8 @@
 											</ul>
 										{/if}
 										<!-- Edit button-->
-										<button class=" bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mt-1" on:click={() => quizBuilder.editQuestion(i)}>Edit</button>
+										<button class=" bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded mt-1" on:click={() => quizBuilder.editQuestion(i)}>Edit</button>
+										<button class=" bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded mt-1" on:click={() => quizBuilder.removeQuestion(i)}>Delete</button>
 
 									</div>
 
@@ -231,7 +296,10 @@
 
 					{/if}
 				</div>
+
 			</div>
+
 	</section>
+
 </div>
 
