@@ -27,12 +27,13 @@
 	let peopleModel = false;
 	let removeModel = false;
 
-	let people;
-	$: people = data.people
+	let people: any[] | undefined;
 
+	$: people = data?.people;
 
-	$: filteredItems = people.filter(
-			(enrollment_data) => enrollment_data.first_name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+	$: filteredItems = (people ?? []).filter(
+			(enrollment_data) =>
+					enrollment_data?.first_name?.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
 	);
 
 	let delete_people_id;

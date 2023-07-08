@@ -4,86 +4,35 @@
 	import {
 		Input,
 		Label, Modal,
-		Table,
-		TableBody,
-		TableBodyCell,
-		TableBodyRow,
-		TableHead,
-		TableHeadCell,
-		TableSearch
 	} from "flowbite-svelte";
+
 	import {goto, invalidateAll} from "$app/navigation";
 	import {applyAction, deserialize} from "$app/forms";
 	import {page} from "$app/stores";
+	import {browser} from "$app/environment";
+	import dayjs from "dayjs";
+	import { DateInput } from 'date-picker-svelte'
+
+	// Due Date
+	let date = new Date()
 
 	let model;
 	export let data;
 	let course_data = data.courseData;
 
+	let quiz_data;
+	$: quiz_data = data.quiz;
 
-	const questions = [
-		{
-			question: 'What is the output of the following code?',
-			code: 'console.log(2 + 2);',
-			options: ['2', '4', '22', 'NaN'],
-			answer: '4',
-			selectedOption: ''
-		},
-		{
-			question: 'What does CSS stand for?',
-			options: ['Cascading Style Sheets', 'Creative Style Selector', 'Computer Style System', 'None of the above'],
-			answer: 'Cascading Style Sheets',
-			selectedOption: ''
-		},
-		{
-			question: 'Which programming language is commonly used for web development?',
-			options: ['JavaScript', 'Python', 'Java', 'C++'],
-			answer: 'JavaScript',
-			selectedOption: ''
-		},
-	];
-
-	let currentQuestion = 0;
-	let score = 0;
-	let quizCompleted = false;
-	let quizScoreOutput = ""
 	let quizzes;
 	$: quizzes = data.quizzes;
 	let addQuizModel = false;
 
-	function nextQuestion() {
-		if (currentQuestion < questions.length - 1) {
-			currentQuestion++;
-		}
-		else {
-			quizCompleted = true;
-			showScore();
-		}
-	}
-
-	function checkAnswer() {
-		const { answer, selectedOption } = questions[currentQuestion];
-		if (selectedOption === answer) {
-			score++;
-		}
-		nextQuestion();
-	}
-
-	function showScore() {
-		const percentage = (score / questions.length) * 100;
-		quizScoreOutput = `Quiz completed! Your score is ${percentage}`;
-	}
-
-	function resetQuiz() {
-		currentQuestion = 0;
-		score = 0;
-		questions.forEach(question => {
-			question.selectedOption = '';
-		});
-	}
-
 	function handleQuiz() {
 		goto($page.url.pathname + '/build');
+	}
+
+	function handlePreview() {
+		goto($page.url.pathname + '/preview');
 	}
 
 	// For search box on assignments
@@ -93,7 +42,16 @@
 	);
 
 	async function handle_quiz_submit(event) {
+
+		let dueDate;
+		if (browser) {
+			dueDate = dayjs(date);
+		}
+
 		const data = new FormData(this);
+
+		data.append('due', dueDate)
+
 		const response = await fetch(this.action, {
 			method: 'POST',
 			body: data,
@@ -115,9 +73,9 @@
 	onMount(() => {
 		// Set the selected item when the page is mounted
 		navStore.set('courses');
-		// Reset quiz state when the component mounts
-		resetQuiz();
 	});
+
+
 </script>
 
 <div class="w-full">
@@ -135,41 +93,68 @@
 					Build
 				</span>
 				</button>
-				<div class="flex flex-wrap  -mb-6 text-white font-semibold">
-					{#if quizCompleted}
-						<p>{quizScoreOutput}</p>
-					{:else}
-						{#if questions[currentQuestion]}
-							<div class="p-4 bg-gray-700 rounded-lg">
-								<h2 class="text-xl font-bold mb-4">{questions[currentQuestion].question}</h2>
-								{#if questions[currentQuestion].code}
-									<pre class="text-white bg-gray-900 rounded-md p-4">{questions[currentQuestion].code}</pre>
-								{/if}
-								<ul class="space-y-2">
-									{#each questions[currentQuestion].options as option}
-										<li>
-											<label class="flex items-center">
-												<input
-														type="radio"
-														name="option"
-														value={option}
-														bind:group={questions[currentQuestion].selectedOption}
-														class="mr-2"
-												/>
-												{option}
-											</label>
-										</li>
-									{/each}
-								</ul>
-								<button class="bg-blue-500 text-white px-4 py-2 rounded-lg" on:click={checkAnswer}>
-									{currentQuestion < questions.length - 1 ? 'Next' : 'Finish'}
-								</button>
+
+				<button
+						class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+						on:click={handlePreview}>
+				<span
+						class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+					Preview
+				</span>
+				</button>
+
+
+					<div class="bg-gray-800 p-6 rounded-lg shadow-md text-white mt-2">
+						<h2 class="text-2xl font-bold mb-4">Quiz Information</h2>
+						<form action="?/updateQuiz" method="POST" on:submit|preventDefault={handle_quiz_submit}>
+						<div class="grid grid-cols-2 gap-4 mb-4">
+							<div>
+								<Label class="font-semibold">Title:</Label>
+								<Input class="text-gray-100" id="title" name="title" bind:value={quiz_data.quiz_title}/>
 							</div>
-						{:else}
-							<p>No more questions!</p>
-						{/if}
-					{/if}
-				</div>
+							<div>
+								<Label class="font-semibold">Attempts:</Label>
+								<Input class="text-gray-100" id="attempts" name="attempts" bind:value={quiz_data.quiz_attempts}/>
+							</div>
+							<div>
+								<Label class="font-semibold">Question Count:</Label>
+								<Input class="text-gray-100" id="question_count" name="question_count" bind:value={quiz_data.question_count} readonly/>
+							</div>
+
+							<div>
+								<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white w-full">
+									Due
+								</label>
+								<div id="DatePicker">
+								<DateInput bind:value={date}/>
+								</div>
+							</div>
+							<div>
+								<Label class="font-semibold">Points:</Label>
+								<Input class="text-gray-100" id="points" name="points" bind:value={quiz_data.points} readonly/>
+							</div>
+
+						</div>
+
+							<button
+									class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+									font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+									group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+									focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800" type="submit">
+							<span
+									class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+								Save
+							</span>
+							</button>
+						</form>
+
+					</div>
+
 			</div>
 	</section>
 </div>
@@ -212,3 +197,24 @@
 		</button>
 	</form>
 </Modal>
+
+<style>
+	:global(body) {
+
+		--date-picker-foreground: #ffffff;
+		--date-picker-background: #1a202d;
+		--date-picker-highlight-border: hsl(var(--deg), 98%, 49%);
+		--date-picker-highlight-shadow: hsla(var(--deg), 98%, 49%, 50%);
+		--date-picker-selected-color: hsl(var(--deg), 100%, 85%);
+		--date-picker-selected-background: hsla(var(--deg), 98%, 49%, 20%);
+		background: #151a24;
+		color-scheme: dark;
+		color: #ffffff;
+		transition: all 80ms ease-in-out;
+		font-size: 14px;
+	}
+	#DatePicker {
+		margin-top: 10px;
+		margin-left: 5px;
+	}
+</style>

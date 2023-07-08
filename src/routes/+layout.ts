@@ -12,6 +12,7 @@ export const load = async ({ fetch, data, depends }) => {
     supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
     event: { fetch },
     serverSession: data.session,
+    db: { schema: 'material' },
     auth: {
       autoRefreshToken: true,
       persistSession: true,

@@ -5,7 +5,7 @@ export const ssr = false
 // @ts-ignore
 
 export const actions: Actions = {
-    addItemToModule: async ({ request, url, params, locals: { supabase } }) => {
+    updateQuiz: async ({ request, url, params, locals: { supabase } }) => {
         const formData = await request.formData()
         const {data} = await supabase.auth.refreshSession()
         let user;
@@ -14,18 +14,24 @@ export const actions: Actions = {
             user = data.user
         }
         user = data.user
-        const id = formData.get('id')
-        const module = formData.get('modules')
+        const title = formData.get('title')
+        const attempts = formData.get('attempts')
+        const question_count = formData.get('question_count')
+        const due = formData.get('due')
+        const points = formData.get('points')
+
+        const updates = {
+            quiz_title: title,
+            quiz_attempts: attempts,
+            due: due,
+        }
 
         const course_id = params.slug
+        const quiz_id = params.quiz
         if (user != null) {
-            const updates = {
-                in_module: module
-            }
-            const {error} = await supabase.from('assignments').update(updates)
-                .eq('creator_id', user.id)
+            const {error} = await supabase.from('quizzes').update(updates)
                 .eq('course_id', course_id)
-                .eq('assignment_id', id)
+                .eq('id', quiz_id)
 
             console.log(error)
         }

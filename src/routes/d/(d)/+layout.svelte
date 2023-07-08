@@ -28,6 +28,7 @@
 
 		// Get the courses that the user created from browser store.
 
+		// TODO move to component
 		const _courses = get(courseStore)
 
 		// noinspection TypeScriptValidateTypes
