@@ -278,6 +278,7 @@
 
 									</div>
 									<hr>
+									<!--
 									<div class="mt-2 grid grid-cols-1 gap-6 md:grid-cols-2 mb-6">
 
 										<p class="my-2 text-lg font-medium text-gray-900 dark:text-white w-full">Contact:</p><br>
@@ -303,7 +304,8 @@
 												   placeholder="000-000-0000"/>
 										</div>
 									</div>
-									<hr>
+									-->
+									<!--
 									<div class="mt-2 grid grid-cols-1 gap-6 md:grid-cols-2">
 
 										<p class="my-2 text-lg font-medium text-gray-900 dark:text-white w-full">Workspaces:</p><br>
@@ -331,8 +333,8 @@
 									<p class="mt-4 text-md font-medium text-gray-900 dark:text-white w-full">For all users per month (excluding other costs)</p>
 									<p class="my-2 text-lg font-medium text-gray-900 dark:text-white w-full">${cost}</p>
 									<br>
-
-									<div class="flex justify-between w-full sm:w-auto">
+									-->
+									<div class="flex justify-between w-full sm:w-auto mt-2">
 										<div>
 											<!--Save and cancel buttons-->
 											<!--TODO cancel delete row-->

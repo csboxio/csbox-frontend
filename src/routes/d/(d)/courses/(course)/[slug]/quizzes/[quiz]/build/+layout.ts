@@ -9,11 +9,13 @@ export const load = (async ({ fetch, data, request, url, parent, params }) => {
   if (!session) {
     throw redirect(303, '/');
   }
+
   const quiz = await fetch(`/api/quizzes/quiz/?id=${params.quiz}`)
 
     return {
         session: session,
         params: params,
-        quiz_data: await quiz.json()
+        quiz_data: await quiz.json(),
+        course_data: parentData.courses
     };
 });

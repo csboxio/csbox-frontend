@@ -114,28 +114,27 @@
 						<div class="grid grid-cols-2 gap-4 mb-4">
 							<div>
 								<Label class="font-semibold">Title:</Label>
-								<Input class="text-gray-100" id="title" name="title" bind:value={quiz_data.quiz_title}/>
+								<div class="text-gray-100" id="title" name="title">{quiz_data.quiz_title}</div>
 							</div>
 							<div>
 								<Label class="font-semibold">Attempts:</Label>
-								<Input class="text-gray-100" id="attempts" name="attempts" bind:value={quiz_data.quiz_attempts}/>
+								<div class="text-gray-100" id="attempts" name="attempts">{quiz_data.quiz_attempts}</div>
 							</div>
 							<div>
 								<Label class="font-semibold">Question Count:</Label>
-								<Input class="text-gray-100" id="question_count" name="question_count" bind:value={quiz_data.question_count} readonly/>
+								<div class="text-gray-100" id="question_count" name="question_count">{quiz_data.question_count}</div>
 							</div>
 
 							<div>
-								<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white w-full">
-									Due
-								</label>
+								<Label class="font-semibold">Due:</Label>
 								<div id="DatePicker">
 								<DateInput bind:value={date}/>
 								</div>
+								<div class="text-gray-100" id="date" name="points">{date}</div>
 							</div>
 							<div>
 								<Label class="font-semibold">Points:</Label>
-								<Input class="text-gray-100" id="points" name="points" bind:value={quiz_data.points} readonly/>
+								<div class="text-gray-100" id="points" name="points">{quiz_data.points}</div>
 							</div>
 
 						</div>
