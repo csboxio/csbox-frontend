@@ -25,222 +25,130 @@
 
 	let course_data = data.courseData;
 
-	let _quiz;
-	$: _quiz = quiz_data
+	let _assignment;
 
-	console.log(quiz_data)
-
-
-	interface Quiz {
+	interface Assignment {
+		assignment_id: number;
 		title: string;
-		instructions: string;
-		totalPoints: number;
-		dueDate: Date;
-		availableForm: Date;
-		availableTo: Date;
-		questions: Question[];
-	}
-
-	interface Question {
-		type: string;
-		question: string;
+		category: string;
+		due: Date;
 		points: number;
-		choices?: string[];
-		correctAnswer?: number;
-		selectedAnswers?: boolean[];
 	}
 
-	class QuizBuilder {
-		quiz: Quiz = {
+	interface AssignmentDetails {
+		assignment: number;
+		description: string;
+		submission_type: string;
+		submission_attempts: number | null;
+		display_as: string;
+		available_start: Date;
+		available_end: Date;
+		inserted_at: Date;
+	}
+
+	class AssignmentBuilder {
+		assignment: Assignment = {
+			assignment_id: 0,
 			title: "",
-			instructions: "",
-			totalPoints: 0,
-			dueDate: new Date(),
-			availableForm: new Date(),
-			availableTo: new Date(),
-			questions: [],
-		};
-
-		currentQuestion: Question = {
-			type: "",
-			question: "",
+			category: "",
+			due: new Date(),
 			points: 0,
-			choices: [],
-			selectedAnswers: []
 		};
 
-		currentChoice = "";
+		assignmentDetails: AssignmentDetails = {
+			assignment: 0,
+			description: "",
+			submission_type: "",
+			submission_attempts: null,
+			display_as: "",
+			available_start: new Date(),
+			available_end: new Date(),
+			inserted_at: new Date(),
+		};
 
-		addQuestion(): void {
-			if (this.quiz.questions) {
-				this.quiz.questions.push(this.currentQuestion);
-			}
-			this.currentQuestion = {
-				type: "",
-				question: "",
-				points: 0,
-				choices: [],
-				selectedAnswers: [],
-			};
-			this.updateTotalPoints()
-		}
-
-		removeQuestion(index: number): void {
-			this.quiz.questions.splice(index, 1);
-			this.updateTotalPoints();
-		}
-
-		addChoice(): void {
-			this.currentQuestion.choices?.push(this.currentChoice);
-
-			if (this.currentQuestion.type === 'multiple-choice') {
-				if (!this.currentQuestion.selectedAnswers) {
-					this.currentQuestion.selectedAnswers = [];
-				}
-
-				this.currentQuestion.selectedAnswers.push(false);
-
-				if (this.currentQuestion.choices.length === this.currentQuestion.correctAnswer + 1) {
-					this.currentQuestion.selectedAnswers[this.currentQuestion.correctAnswer] = true;
-				}
-			}
-
-			this.currentChoice = '';
-			this.updateTotalPoints()
-		}
-
-		updateTotalPoints(): void {
-			let totalPoints = 0;
-			if (this.quiz.questions) {
-			this.quiz.questions.forEach((question) => {
-				totalPoints += parseInt(String(question.points));
-			});
-			this.quiz.totalPoints = totalPoints;
-			}
-		}
-
-		editQuestion(questionIndex: number): void {
-			const selectedQuestion = this.quiz.questions[questionIndex];
-			const selectedAnswers = selectedQuestion.selectedAnswers || [];
-			this.currentQuestion = {
-				...selectedQuestion,
-				selectedAnswers: [...selectedAnswers]
-			};
-			this.quiz.questions.splice(questionIndex, 1);
-		}
-
-		async save(): Promise<void> {
+		save(): void {
 			const updates = {
-				quiz_doc: $quizBuilder.quiz,
-				due: currentDate,
-				availableFrom: availableFrom,
-				availableTo: availableTo,
-				quiz_attempts: quiz_data.quiz_attempts,
-				password: quiz_data.password
-			}
+				assignment_id: this.assignment.assignment_id,
+				title: this.assignment.title,
+				category: this.assignment.category,
+				due: this.assignment.due,
+				points: this.assignment.points,
+				assignment: this.assignmentDetails.assignment,
+				description: this.assignmentDetails.description,
+				submission_type: this.assignmentDetails.submission_type,
+				submission_attempts: this.assignmentDetails.submission_attempts,
+				display_as: this.assignmentDetails.display_as,
+				available_start: this.assignmentDetails.available_start,
+				available_end: this.assignmentDetails.available_end,
+				inserted_at: this.assignmentDetails.inserted_at,
+			};
 
-			console.log(updates)
+			console.log(updates);
 
-			const {error} = await supabase.from('quizzes').update(updates)
-					.eq('course_id', params.slug)
-					.eq('id', params.quiz)
-
-			console.log(error)
 
 		}
-
 	}
 
-	const createQuizBuilder = () => {
-		const { subscribe, update, set } = writable<QuizBuilder>(new QuizBuilder());
+	const createAssignmentBuilder = () => {
+		const { subscribe, update, set } = writable<AssignmentBuilder>(new AssignmentBuilder());
 
 		return {
 			subscribe,
 			set,
-			addQuestion: () => {
-				update(builder => {
-					builder.addQuestion();
-					return builder;
-				});
-			},
-			removeQuestion: () => {
-				update(builder => {
-					builder.removeQuestion();
-					return builder;
-				});
-			},
-			addChoice: () => {
-				update(builder => {
-					builder.addChoice();
-					return builder;
-				});
-			},
-			editQuestion: (questionIndex: number) => {
-				update(builder => {
-					builder.editQuestion(questionIndex);
-					return builder;
-				});
-			},
 			save: () => {
 				update(builder => {
 					builder.save();
 					return builder;
 				});
-			}
+			},
 		};
 	};
 
-	let quizBuilder;
-	let quizChanged
-	$: quizChanged = false;
+	let assignmentBuilder;
+	let assignmentChanged;
+	$: assignmentChanged = false;
 
 	onMount(() => {
 		// Set the selected item when the page is mounted
-		navStore.set('courses');
+		navStore.set('assignments');
 
-		//quizBuilder = new QuizBuilder();
-		setActiveTab('Course')
-
-
+		assignmentBuilder = createAssignmentBuilder();
+		setActiveTab('Basic Information');
 	});
-	quizBuilder = createQuizBuilder();
-	/** @type {import('./$types').Snapshot<string>} */
-	export const snapshot = {
-		capture: () => $quizBuilder.quiz,
-		restore: (value) => $quizBuilder.quiz = value
 
+	assignmentBuilder = createAssignmentBuilder();
 
-	};
-
-	if (quiz_data.quiz_doc != null) {
-		// HOLY
-		const newQuizData = quiz_data.quiz_doc;
-		$quizBuilder.quiz = { ...$quizBuilder.quiz, ...newQuizData };
+	if (_assignment) {
+		const { assignment_id, title, category, due, points } = _assignment;
+		assignmentBuilder.assignment = {
+			assignment_id,
+			title,
+			category,
+			due: new Date(due),
+			points,
+		};
 	}
 
-	$: {
-		if (JSON.stringify($quizBuilder.quiz) != JSON.stringify(quiz_data.quiz_doc))
-		{
-
-			quizChanged = true;
-		}
+	if (_assignmentDetails) {
+		const { assignment, description, submission_type, submission_attempts, display_as, available_start, available_end, inserted_at } = _assignmentDetails;
+		assignmentBuilder.assignmentDetails = {
+			assignment,
+			description,
+			submission_type,
+			submission_attempts,
+			display_as,
+			available_start: new Date(available_start),
+			available_end: new Date(available_end),
+			inserted_at: new Date(inserted_at),
+		};
 	}
 
-	let activeTab = 'profile';
+	let activeTab = 'Basic Information';
 
-	function setActiveTab(tab) {
+	function setActiveTab(tab: string) {
 		activeTab = tab;
 	}
 
-	let currentDate = quiz_data.quiz_doc.dueDate ? new Date(quiz_data.quiz_doc.dueDate) : new Date();
-	let availableFrom = quiz_data.quiz_doc.availableFrom ? new Date(quiz_data.quiz_doc.availableFrom) : new Date();
-	let availableTo = quiz_data.quiz_doc.availableTo ? new Date(quiz_data.quiz_doc.availableTo) : new Date();
-
-	$: {
-		$quizBuilder.quiz.dueDate = currentDate;
-		$quizBuilder.quiz.availableFrom = availableFrom;
-		$quizBuilder.quiz.availableTo = availableTo;
-	}
 </script>
 
 <style>

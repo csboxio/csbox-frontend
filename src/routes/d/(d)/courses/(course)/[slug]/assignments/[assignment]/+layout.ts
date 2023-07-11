@@ -1,18 +1,18 @@
-import { browser } from "$app/environment";
-import { redirect } from "@sveltejs/kit";
-export const ssr = false
+import {redirect} from "@sveltejs/kit";
+
+/** @type {import('./$types').PageLoad} */
 export const load = (async ({ fetch, data, request, url, parent, params }) => {
     const parentData = await parent();
     const session = parentData.session
+
     if (!session) {
         throw redirect(303, '/');
     }
-    console.log('her')
-    const assignment = await fetch(`/api/assignments/assignment_slug`)
+
+    const assignment = await fetch(`/api/assignments/assignment_slug/?id=${params.assignment}`)
+
     return {
         assignment: await assignment.json(),
-        session: session,
-        assignmentSlug: params.assignment,
+        assignment_slug: params.assignment
     };
-
 });

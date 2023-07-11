@@ -127,7 +127,7 @@
 								<TableBodyCell>{workspace_name}</TableBodyCell>
 								<TableBodyCell>{created_at.substring(0,10)}</TableBodyCell>
 								<TableBodyCell>{image_name}</TableBodyCell>
-								<TableBodyCell>{ide[0].status_codes[workspace_state]}</TableBodyCell>
+								<!--<TableBodyCell>{ide[0].status_codes[workspace_state]}</TableBodyCell>-->
 								<TableBodyCell>
 									<button class="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm
 									font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-300 to-blue-500

@@ -100,8 +100,9 @@
 <slot />
 
 
-	{#each $notifications as notification}
-	<Notification title="{notification.title}" content="{notification.message}"/>
+
+	{#each $notifications as notification, i}
+		<Notification title="{notification.title}" content="{notification.message}"/>
 	{/each}
 
 
