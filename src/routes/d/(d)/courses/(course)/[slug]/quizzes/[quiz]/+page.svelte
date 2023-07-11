@@ -114,43 +114,39 @@
 						<div class="grid grid-cols-2 gap-4 mb-4">
 							<div>
 								<Label class="font-semibold">Title:</Label>
-								<Input class="text-gray-100" id="title" name="title" bind:value={quiz_data.quiz_title}/>
+								<div class="text-gray-100" id="title" name="title">{quiz_data.quiz_title}</div>
 							</div>
 							<div>
 								<Label class="font-semibold">Attempts:</Label>
-								<Input class="text-gray-100" id="attempts" name="attempts" bind:value={quiz_data.quiz_attempts}/>
+								<div class="text-gray-100" id="attempts" name="attempts">{quiz_data.quiz_attempts}</div>
 							</div>
 							<div>
 								<Label class="font-semibold">Question Count:</Label>
-								<Input class="text-gray-100" id="question_count" name="question_count" bind:value={quiz_data.question_count} readonly/>
+								<div class="text-gray-100" id="question_count" name="question_count">{quiz_data.question_count}</div>
 							</div>
 
 							<div>
-								<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white w-full">
-									Due
-								</label>
-								<div id="DatePicker">
-								<DateInput bind:value={date}/>
-								</div>
+								<Label class="font-semibold">Due:</Label>
+								<div class="text-gray-100" id="date" name="points">{new Date(quiz_data.quiz_doc.dueDate)}</div>
 							</div>
+
+							<div>
+								<Label class="font-semibold">Available From:</Label>
+								<div class="text-gray-100" id="availableFrom" name="availableFrom">{new Date(quiz_data.quiz_doc.availableFrom)}</div>
+							</div>
+
+							<div>
+								<Label class="font-semibold">Available To:</Label>
+								<div class="text-gray-100" id="availableTo" name="availableTo">{new Date(quiz_data.quiz_doc.availableTo)}</div>
+							</div>
+
 							<div>
 								<Label class="font-semibold">Points:</Label>
-								<Input class="text-gray-100" id="points" name="points" bind:value={quiz_data.points} readonly/>
+								<div class="text-gray-100" id="points" name="points">{quiz_data.points}</div>
 							</div>
 
 						</div>
 
-							<button
-									class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
-									font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
-									group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
-									focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800" type="submit">
-							<span
-									class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-								Save
-							</span>
-							</button>
 						</form>
 
 					</div>

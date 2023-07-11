@@ -46,7 +46,7 @@ async function appendDataToNotifications(newNotification, supabase, user) {
     notifications: [...existingData.notifications, newNotification],
   };
 
-  const updatedValue = JSON.stringify(newData);
+  const updatedValue = newData;
 
   const { error: updateError } = await supabase
       .from("notifications")

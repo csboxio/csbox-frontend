@@ -168,89 +168,14 @@
 						<!-- Modal body -->
 						<form method="POST" action="?/createAssignment" on:submit|preventDefault={handleSubmit}>
 							<div class="grid gap-4 mb-4 sm:grid-cols-2">
-								<div>
-									<label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-									>Assignment Name</label
-									>
-									<input
-										type="text"
-										name="name"
-										id="name"
-										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-										placeholder="Assignment Name"
-										required
-										value={assignments.assignment_title}
 
-									/>
-								</div>
 
-								<div class="sm:col-span-2">
-									<label
-										for="description"
-										class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-									>Description</label
-									>
-									<textarea
-										name="description"
-										id="description"
-										rows="4"
-										class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-										placeholder="Summarize assignment description"
-										required
-										value={assignments.description}></textarea>
-								</div>
 
-								<div>
-									<label
-										for="points"
-										class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Points</label
-									>
-									<input
-										type="text"
-										name="points"
-										id="points"
-										value={assignments.points}
-										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-										placeholder=""
-										required=""
-									/>
-								</div>
 
-								<div>
-									<label
-										for="category"
-										class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label
-									>
-									<select
-										name="category"
-										id="category"
-										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-										required
-									>
-										<option selected={assignments.category}>{assignments.category}</option>
-										<!--TODO make current not duplicate -->
-										<option value="Assignment">Assignment</option>
-										<option value="Quiz">Quiz</option>
-										<option value="Project">Project</option>
-									</select>
-								</div>
 
-								<div>
-									<label
-										for="displayas"
-										class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-									>Display Grade As</label
-									>
-									<select
-										name="displayas"
-										id="displayas"
-										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-									>
-										<option selected={assignments.submission_type}>{assignments.submission_type}</option>
-										<option value="Points">Points</option>
-										<option value="Percentage">Percentage</option>
-									</select>
-								</div>
+
+
+
 
 								<div>
 									<label

@@ -141,7 +141,6 @@
 						<Table hoverable>
 							<TableHead>
 								<TableHeadCell>Quiz Title</TableHeadCell>
-								<TableHeadCell>Category</TableHeadCell>
 								<TableHeadCell>Due</TableHeadCell>
 								<TableHeadCell>Points</TableHeadCell>
 								<TableHeadCell>
@@ -153,7 +152,6 @@
 									{#each filteredItems as { id, quiz_title, quiz_doc, quiz_attempts, question_count, due, points}, i}
 										<TableBodyRow on:click={() =>  handleQuiz(id)} class="cursor-pointer">
 											<TableBodyCell >{quiz_title ? quiz_title : 'No title'}</TableBodyCell>
-											<TableBodyCell >{quiz_doc ? quiz_doc : "No quiz doc" }</TableBodyCell>
 											<TableBodyCell >{due ? due.substring(0, 10) : "No date" }</TableBodyCell>
 											<TableBodyCell >{points ? points : "No Points" }</TableBodyCell>
 

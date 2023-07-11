@@ -94,7 +94,9 @@
 </main>
 <div class="flex flex-wrap items-center -mx-4 pb-8 mb-8 border-b border-gray-400 border-opacity-20">
   <div class="w-full  px-4 mb-4 sm:mb-0">
-    <span class="block text-sm font-medium text-gray-100">Course Icon</span>
+    <span class="block text-sm font-medium text-gray-100 mb-2">Course Icon</span>
+    <span class="block text-sm font-medium text-gray-300 mb-2">Reworked before release*</span>
+
     {#if uppy && false}
       <div class="justify-center text-center">
       <Dashboard {uppy} />
@@ -103,9 +105,8 @@
     {#if url}
 
     {:else}
-      <div class="avatar no-image" style="height: {size}em; width: {size}em;"></div>
+      <!--<div class="avatar no-image" style="height: {size}em; width: {size}em;"></div>-->
     {/if}
-  </div>
   <div class="w-full sm:w-2/3 px-3 mb-3 sm:mb-0">
     <div class="flex flex-wrap items-center -mx-3">
       <div class="">
@@ -149,4 +150,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>
