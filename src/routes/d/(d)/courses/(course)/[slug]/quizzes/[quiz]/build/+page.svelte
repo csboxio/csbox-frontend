@@ -34,6 +34,8 @@
 		instructions: string;
 		totalPoints: number;
 		dueDate: Date;
+		availableForm: Date;
+		availableTo: Date;
 		questions: Question[];
 	}
 
@@ -52,6 +54,8 @@
 			instructions: "",
 			totalPoints: 0,
 			dueDate: new Date(),
+			availableForm: new Date(),
+			availableTo: new Date(),
 			questions: [],
 		};
 
@@ -66,7 +70,9 @@
 		currentChoice = "";
 
 		addQuestion(): void {
-			this.quiz.questions.push(this.currentQuestion);
+			if (this.quiz.questions) {
+				this.quiz.questions.push(this.currentQuestion);
+			}
 			this.currentQuestion = {
 				type: "",
 				question: "",
@@ -103,10 +109,12 @@
 
 		updateTotalPoints(): void {
 			let totalPoints = 0;
+			if (this.quiz.questions) {
 			this.quiz.questions.forEach((question) => {
 				totalPoints += parseInt(String(question.points));
 			});
 			this.quiz.totalPoints = totalPoints;
+			}
 		}
 
 		editQuestion(questionIndex: number): void {
@@ -124,7 +132,7 @@
 				quiz_doc: $quizBuilder.quiz
 			}
 
-			console.log(params)
+			console.log(updates)
 
 			const {error} = await supabase.from('quizzes').update(updates)
 					.eq('course_id', params.slug)
@@ -196,7 +204,9 @@
 	};
 
 	if (quiz_data.quiz_doc != null) {
-		$quizBuilder.quiz = quiz_data.quiz_doc
+		// HOLY
+		const newQuizData = quiz_data.quiz_doc;
+		$quizBuilder.quiz = { ...$quizBuilder.quiz, ...newQuizData };
 	}
 
 	$: {
@@ -204,8 +214,6 @@
 		{
 
 			quizChanged = true;
-			console.log(quizChanged)
-			console.log($quizBuilder.quiz, quiz_data.quiz_doc)
 		}
 	}
 
@@ -215,7 +223,15 @@
 		activeTab = tab;
 	}
 
-	let currentDate = new Date($quizBuilder.quiz.dueDate)
+	let currentDate = quiz_data.quiz_doc.dueDate ? new Date(quiz_data.quiz_doc.dueDate) : new Date();
+	let availableFrom = quiz_data.quiz_doc.availableFrom ? new Date(quiz_data.quiz_doc.availableFrom) : new Date();
+	let availableTo = quiz_data.quiz_doc.availableTo ? new Date(quiz_data.quiz_doc.availableTo) : new Date();
+
+	$: {
+		$quizBuilder.quiz.dueDate = currentDate;
+		$quizBuilder.quiz.availableFrom = availableFrom;
+		$quizBuilder.quiz.availableTo = availableTo;
+	}
 </script>
 
 <style>
@@ -252,7 +268,7 @@
 			<div class="container mx-12 my-5">
 				<div class="flex flex-wrap gap-4 mb-6 -mx-10 -mb-6 text-white font-semibold">
 					{#if quizBuilder}
-						<div class=" md:w-1/2 px-10">
+						<div class=" md:w-1/2 ">
 							<div class="mb-4">
 							<h1 class="text-xl font-bold mb-3 ">Create New Quiz</h1>
 
@@ -328,23 +344,32 @@
 										</div>
 									{/if}
 									{#if activeTab === 'Settings'}
-										<div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="contacts-tab">
-											<Label class="block mb-2">Due: </Label>
-											{new Date($quizBuilder.quiz.dueDate).getTime()}
-											<DateInput bind:value={currentDate}/>
+										<div class="grid grid-cols-2 gap-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="contacts-tab">
+											<div>
+												<Label class="block mb-2">Attempts:</Label>
+												<Input class="border border-gray-300 p-2 mt-1 mb-2 " type="number"/>
+											</div>
 
-											<Label class="block mb-2">Available from: </Label>
-											<Input class="border border-gray-300 p-2 mt-1 w-full mb-2"  type="text"/>
+											<div>
+												<Label class="block mb-2">Password:</Label>
+												<Input class="border border-gray-300 p-2 mt-1 w-full mb-2" type="number"/>
+											</div>
 
-											<Label class="block mb-2">Available to: </Label>
-											<Input class="border border-gray-300 p-2 mt-1 w-full mb-2"  type="text"/>
+											<div>
+												<Label class="block mb-2">Due:</Label>
+												<DateInput class="mb-2" bind:value={currentDate}/>
+											</div>
+											<div>
+												<Label class="block mb-2">Available from:</Label>
+												<DateInput class="mb-2" bind:value={availableTo}/>
+											</div>
 
-											<Label class="block mb-2">Attempts: </Label>
-											<Input class="border border-gray-300 p-2 mt-1 w-full mb-2" type="number"/>
-
-											<Label class="block mb-2">Password: </Label>
-											<Input class="border border-gray-300 p-2 mt-1 w-full mb-2"  type="number"/>
+											<div>
+												<Label class="block mb-2">Available to:</Label>
+												<DateInput class="mb-2" bind:value={availableFrom}/>
+											</div>
 										</div>
+
 									{/if}
 									{#if activeTab === 'Questions'}
 										<div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="contacts-tab">
@@ -382,27 +407,11 @@
 														{/if}
 														<button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" on:click={() => quizBuilder.addQuestion()}>Add Question</button>
 													</div>
-													<h2 class="text-xl font-bold mb-4">Questions:</h2>
-													{#key $quizBuilder}
-														{#each $quizBuilder.quiz.questions as question, i}
-															<div class="bg-gray-500 p-4 my-4 rounded ">
-																<h3 class="text-xl font-bold mb-2">{question.question} : {question.points}</h3>
-																{#if question.type === 'multiple-choice'}
-																	<ul class="list-disc pl-4 list-none">
-																		{#each question.choices as choice, index}
-																			<li class="{question.selectedAnswers[index] ? 'text-green-500 font-semibold' : ''}">{choice}</li>
-																		{/each}
-																	</ul>
-																{/if}
-																<!-- Edit button-->
-																<button class=" bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded mt-1" on:click={() => quizBuilder.editQuestion(i)}>Edit</button>
-																<button class=" bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded mt-1" on:click={() => quizBuilder.removeQuestion(i)}>Delete</button>
-															</div>
-														{/each}
-														<!--<pre class="border border-gray-300 p-4 mt-4 rounded">{JSON.stringify($quizBuilder, null, 2)}</pre>-->
-													{/key}
+
 												</div>
+
 											</div>
+
 										</div>
 									{/if}
 								</div>
