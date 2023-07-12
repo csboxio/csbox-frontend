@@ -66,7 +66,7 @@
     });
 </script>
 
-<body class="bg-gray-600 antialiased bg-body text-body font-body">
+<body class="bg-gray-600 antialiased bg-body text-body font-body overflow-y-hidden">
 <Navbar/>
 <div class="mx-auto lg:ml-16">
     <section>

@@ -16,7 +16,6 @@
 	// Due Date
 	let date = new Date()
 
-	let model;
 	export let data;
 	let course_data = data.courseData;
 

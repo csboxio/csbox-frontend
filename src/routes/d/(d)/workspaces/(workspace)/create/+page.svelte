@@ -3,8 +3,6 @@
   import { applyAction, deserialize } from "$app/forms";
   import { Range, Label } from 'flowbite-svelte'
 
-  // this is needed for the outside click div, that needs to be redone
-  let model;
 
   /** @type {import('./$types').PageData} */
   export let data;

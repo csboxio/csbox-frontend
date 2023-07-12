@@ -7,9 +7,7 @@
 	import { onMount, setContext } from 'svelte';
 	import Quill from 'quill';
 	import {navStore} from "../../../../../../lib/stores/stores.js";
-	import {invalidateAll} from "$app/navigation";
 	let quill;
-	let model;
 	export let data;
 
 	let { supabase } = data

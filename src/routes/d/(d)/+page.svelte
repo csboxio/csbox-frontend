@@ -13,15 +13,11 @@
 	import Auth from "$lib/components/Auth/Auth.svelte";
 	import {onMount} from "svelte";
 	import {navStore} from "../../../lib/stores/stores.js";
-	import {Avatar, Dropdown, DropdownItem} from "flowbite-svelte";
 	import { fade, fly } from 'svelte/transition';
-
 
 	let user;
 	let avatarUrl;
 	let updated;
-	let model;
-
 
 	export let data
 

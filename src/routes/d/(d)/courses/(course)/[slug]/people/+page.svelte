@@ -1,7 +1,6 @@
 <script lang="ts">
 	import {onMount} from "svelte";
 
-	let model;
 	export let data;
 	let { supabase } = data
 	$: ({ supabase } = data)

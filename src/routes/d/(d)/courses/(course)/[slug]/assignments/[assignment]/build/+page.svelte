@@ -14,10 +14,8 @@
 		Textarea
 	} from "flowbite-svelte";
 	import {writable} from "svelte/store";
-	import {browser} from "$app/environment";
 	import {DateInput} from "date-picker-svelte";
 
-	let model;
 	export let data;
 
 	let { supabase, params, quiz_data, courses } = data

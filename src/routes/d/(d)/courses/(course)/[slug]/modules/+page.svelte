@@ -8,7 +8,6 @@
 	import {navStore} from "../../../../../../../lib/stores/stores.js";
 
 	export let data;
-	let model;
 	let loading;
 	let show_create_box;
 	let addModuleModel = false;

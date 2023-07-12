@@ -34,9 +34,6 @@
 	let modules;
 	$: modules = data.modules;
 
-	// Outside click div.
-	let model;
-
 	let loading;
 	let assignments;
 	$: assignments = data.assignments.assignmentData;

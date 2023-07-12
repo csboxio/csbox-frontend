@@ -56,7 +56,6 @@
 	export let availablefromDate;
 	export let availableuntilDate;
 
-	let model;
 	export let data;
 	export let show_create_box;
 	let loading;

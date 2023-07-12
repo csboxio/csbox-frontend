@@ -36,7 +36,7 @@
         <div class="pt-3 pb-3 px-8 bg-gray-700">
             <div class="flex flex-wrap items-center justify-between -mx-2">
                 <div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
-                    <h4 class="text-2xl font-bold text-white tracking-wide leading-7 mb-1">Workspaces</h4>
+                    <h4 class="text-lg font-bold dark:text-white leading-7 mb-1 inline-block text-gray-100 inline-block">{course.course_title}</h4>
                 </div>
                 <div class="w-full lg:w-auto px-2">
                     <div class="sm:flex items-center">
@@ -51,10 +51,10 @@
     </section>
 </div>
 
-<div class="flex">
-    <div class="lg:ml-16">
+<div class="flex flex-row ">
+    <aside class="h-screen sticky top-0">
         <WorkspaceNav {instances}/>
-    </div>
+    </aside>
     <div class="w-full">
         <slot/>
     </div>

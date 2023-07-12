@@ -15,7 +15,6 @@
 	import {goto, invalidateAll} from "$app/navigation";
 	import {applyAction, deserialize} from "$app/forms";
 
-	let model;
 	export let data;
 	let course_data = data.courseData;
 

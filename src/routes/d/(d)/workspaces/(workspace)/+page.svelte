@@ -16,10 +16,6 @@
 	import {onMount} from "svelte";
 	import {navStore} from "../../../../../lib/stores/stores.js";
 
-
-	// this is needed for the outside click div, that needs to be redone
-	let model;
-
 	/** @type {import('./$types').PageData | null} */
 	export let data = null;
 
@@ -122,6 +118,7 @@
 						</TableHeadCell>
 					</TableHead>
 					<TableBody class="divide-y">
+						{#if instances}
 						{#each instances as { id, created_at, workspace_name, image_name, type, workspace_state }}
 							<TableBodyRow  class="cursor-pointer" >
 								<TableBodyCell>{workspace_name}</TableBodyCell>
@@ -146,6 +143,7 @@
 
 							</TableBodyRow>
 							{/each}
+							{/if}
 					</TableBody>
 				</Table>
 			</section>
