@@ -16,10 +16,13 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   const {data, error } = await supabase.from('ide')
     .select('version, status_codes, configuration, types, languages')
     .eq('version', version)
+      .single()
 
   //event.setHeaders({
   //  'cache-control': 'public, max-age=60, s-maxage=60'
   //})
+
+  console.log(data, error)
 
   return json(data)
 }

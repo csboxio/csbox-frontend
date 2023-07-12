@@ -1,10 +1,5 @@
 <script lang="ts">
-	import {onMount} from "svelte";
-	import {navStore} from "$lib/stores/stores.js";
-	import {Button, Checkbox, Input, Label, Select, Textarea} from "flowbite-svelte";
-	import {writable} from "svelte/store";
 
-	let model;
 	export let data;
 
 	let { supabase, params, quiz_data } = data

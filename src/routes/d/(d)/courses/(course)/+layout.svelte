@@ -12,9 +12,6 @@
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import {faArrowRight, faSpinner} from '@fortawesome/free-solid-svg-icons';
 
-
-	let model;
-	let error = false;
 	let courses = $page.data.courses.data;
 	let course = courses.filter((course) => course.id === parseInt($page.data.slug))[0];
 	export let data
@@ -68,10 +65,7 @@
 				<aside class="h-screen sticky top-0">
 					<CourseNav />
 				</aside>
-
-
 					<slot />
-
 			</div>
 		</div>
 	</div>

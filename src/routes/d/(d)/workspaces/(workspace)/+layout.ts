@@ -1,6 +1,6 @@
 import {browser} from "$app/environment";
 import { redirect } from "@sveltejs/kit";
-export const prerender = false;
+export const prerender = true;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
@@ -13,17 +13,27 @@ export const load = async ({ fetch, data, request, url, parent }) => {
   }
 
   try {
-    const workspaces = await fetch(`/api/workspace`)
-    const ide = await fetch(`/api/workspace/ide?v=1`)
-    const instances = await fetch("http://ide.csbox.io/api/workspace/all")
-    if (!workspaces.ok || !ide.ok || !instances.ok) {
-      redirect(303, '/');
-      //throw Error(workspaces.statusText + ide.statusText + instances.statusText);
-    }
+    const workspaces = await fetch(`/api/workspace`, {
+      headers: {
+        'Cache-Control': 'public, max-age=500',
+      },
+    })
+
+    const ide = await fetch(`/api/workspace/ide?v=1`, {
+      headers: {
+        'Cache-Control': 'public, max-age=500',
+      },
+    })
+    const active_workspaces = await fetch("http://ide.csbox.io/api/workspace/all", {
+      headers: {
+        'Cache-Control': 'public, max-age=60',
+      },
+    });
+
     return {
       workspaces: await workspaces.json(),
       ide: await ide.json(),
-      instances: await instances.json()
+      active_workspaces: await active_workspaces.json()
     };
   }
   catch (error) {

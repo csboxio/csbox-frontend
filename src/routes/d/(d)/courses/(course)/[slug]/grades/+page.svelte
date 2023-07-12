@@ -11,7 +11,6 @@
 		TableSearch
 	} from "flowbite-svelte";
 
-	let model;
 	export let data;
 	let course_data = data.courseData;
 	let grades;

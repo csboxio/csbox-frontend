@@ -8,7 +8,6 @@
 	import {navStore} from "../../../../../../../lib/stores/stores.js";
 
 	export let data;
-	let model;
 	let loading;
 	let show_create_box;
 	let addModuleModel = false;
@@ -103,12 +102,13 @@
 			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold ">
 
 				{#key modules}
+					<Accordion multiple>
 				{#each modules as { module_title, id, assignments }, i}
 					<div transition:blur|local={{ duration: 200 }} class="mb-1 mx-6 cursor-pointer">
 						<!--Module-->
 						<div id="accordion-collapse" data-accordion="collapse">
 
-						<AccordionItem class="bg-gray-500 border-gray-100" bind:open={items[i]}>
+						<AccordionItem class="bg-gray-700 border-gray-100" bind:open={items[i]}>
 									<span slot="header" class="text-white text-lg">
 										{module_title}
 									</span>
@@ -148,6 +148,7 @@
 						</div>
 						<!--End of module-->
 				{/each}
+					</Accordion>
 					{/key}
 			</div>
 		</div>
