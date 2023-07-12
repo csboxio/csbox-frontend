@@ -6,8 +6,8 @@
 
   /** @type {import('./$types').PageData} */
   export let data;
-  let instances;
-  $: instances = data.instances;
+  let active_workspaces;
+  $: active_workspaces = data.active_workspaces;
   let ide;
   $: ide = data.ide;
 
@@ -81,7 +81,7 @@
         Type
       </label>
       <div class="grid grid-cols-5 gap-0 mb-10" id="type">
-      {#each Object.entries(ide[0].types.configurations) as [key, config]}
+      {#each Object.entries(ide.types.configurations) as [key, config]}
         <div class="object-contain rounded-lg cursor-pointer transition-colors duration-300 relative w-4/5 border p-1 hover:bg-gray-400"
              class:border-blue-300={selectedConfig === config}
              class:selected={selectedConfig === config}
@@ -107,7 +107,7 @@
           Language
         </label>
         <div class="grid grid-cols-3 gap-4">
-          {#each Object.entries(ide[0].languages.languages) as [key, config]}
+          {#each Object.entries(ide.languages.languages) as [key, config]}
             <button type="button" class="p-4 border rounded-lg flex flex-col items-center justify-center hover:bg-gray-400"
                     class:border-blue-300={selectedLanguage === config}
                     class:selected={selectedLanguage === config}

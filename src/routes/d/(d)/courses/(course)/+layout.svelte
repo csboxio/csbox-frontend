@@ -65,10 +65,7 @@
 				<aside class="h-screen sticky top-0">
 					<CourseNav />
 				</aside>
-
-
 					<slot />
-
 			</div>
 		</div>
 	</div>

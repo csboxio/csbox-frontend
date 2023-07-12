@@ -3,7 +3,7 @@
   import { goto } from "$app/navigation";
   import {Button, Dropdown, DropdownItem, DropdownDivider, DropdownHeader, Chevron, Avatar} from 'flowbite-svelte'
   import {notifications} from "$lib/utilities/notifications.js";
-  import {onMount} from "svelte";
+  import {afterUpdate, onMount} from "svelte";
 
   export const ssr = true;
   export let showTopRightMenuModel = false
@@ -63,10 +63,34 @@
   }
 
   onMount(async () => {
-    notificationsReceived = await getNotifications()
+    const storedNotifications = localStorage.getItem('storedNotifications');
+
+    if(storedNotifications) {
+      notificationsReceived = JSON.parse(storedNotifications);
+    }
+    else {
+      fetchNotifications();
+    }
+
+   /* notificationsReceived = await getNotifications()
     notificationsReceived = notificationsReceived.new
-    console.log(notificationsReceived)
+    console.log(notificationsReceived)*/
   });
+
+  afterUpdate(() => {
+    localStorage.setItem('storedNotifications', JSON.stringify(notificationsReceived))
+  })
+
+  function fetchNotifications() {
+    getNotifications()
+            .then((notifications) => {
+              notificationsReceived = notifications;
+              localStorage.setItem('storedNotifications', JSON.stringify(notificationsReceived))
+            })
+            .catch((error) => {
+              console.log('Error notifications: ', error)
+            })
+  }
 </script>
 
 <div class="w-full lg:w-auto px-2">
@@ -81,11 +105,12 @@
             <div class="inline-flex relative z-10 -top-2 right-3 w-3 h-3 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"></div>
           </div>
         </div>
+
         <Dropdown triggeredBy="#bell" class="w-full max-w-sm rounded divide-y divide-gray-100 z-20 shadow dark:bg-gray-800 dark:divide-gray-700">
           <div slot="header" class="text-center py-2 font-bold z-10">Notifications</div>
           {#key notificationsReceived}
           {#if notificationsReceived !== null && JSON.stringify(notificationsReceived) !== JSON.stringify([])}
-          {#each notificationsReceived.notifications as notification, id}
+          {#each notificationsReceived.new.notifications as notification, id}
           <DropdownItem class="flex space-x-4 z-20">
             <div class="pl-3 w-full">
               <span class="font-semibold text-gray-900 dark:text-white">{notification.title}</span>: {notification.message}</div>

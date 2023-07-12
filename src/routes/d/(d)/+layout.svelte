@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { onMount } from "svelte";
+	import {afterUpdate, onMount} from "svelte";
 	import { page } from "$app/stores";
 	import Notification from '$lib/components/NotificationBuilder.svelte';
 	import { invalidateAll } from "$app/navigation";
@@ -9,6 +9,7 @@
 	import { get } from "svelte/store";
 	import { courseStore } from "../../../lib/stores/stores.js";
 	import { browser } from "$app/environment";
+	import ErrorBoundary from "$lib/components/ErrorBoundary.svelte";
 
 	export let data
 
@@ -29,7 +30,18 @@
 		// Get the courses that the user created from browser store.
 
 		// TODO move to component
-		const _courses = get(courseStore)
+		let _courses = get(courseStore)
+
+		onMount(() => {
+			const storedCourses = localStorage.getItem('storedCourses');
+			if (storedCourses) {
+				_courses = JSON.parse(storedCourses);
+			}
+		})
+
+		afterUpdate(() => {
+			localStorage.setItem('storedCourses', JSON.stringify(_courses))
+		})
 
 		// noinspection TypeScriptValidateTypes
 		if (_courses && _courses.length > 0) {
@@ -97,8 +109,10 @@
 
 	<title>CSBOX</title>
 </svelte:head>
-<slot />
 
+<ErrorBoundary>
+<slot />
+</ErrorBoundary>
 
 
 	{#each $notifications as notification, i}

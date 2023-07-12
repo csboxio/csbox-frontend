@@ -13,15 +13,87 @@
 	} from "flowbite-svelte";
 	import { applyAction, deserialize } from "$app/forms";
 	import WorkspaceNav from "$lib/components/WorkspaceNav.svelte";
-	import {onMount} from "svelte";
+	import {afterUpdate, onMount} from "svelte";
 	import {navStore} from "../../../../../lib/stores/stores.js";
 
 	/** @type {import('./$types').PageData | null} */
 	export let data = null;
 
-	let workspaces = [];
+	let workspaces;
 	let ide;
-	let instances = [];
+	let active_workspaces = [];
+
+	onMount(() => {
+		const storedWorkspaces = localStorage.getItem('storedWorkspaces');
+		const storedIde = localStorage.getItem('storedIde')
+
+		if (storedWorkspaces) {
+			workspaces = JSON.parse(storedWorkspaces)
+		}
+		else {
+			fetchWorkspaces();
+		}
+
+		if (storedIde) {
+			ide = JSON.parse(storedIde)
+		}
+		else {
+			fetchIde();
+		}
+
+		// Set the selected item when the page is mounted
+		navStore.set('workspaces');
+	});
+
+	afterUpdate(() => {
+		localStorage.setItem('storedWorkspaces', JSON.stringify(workspaces))
+		localStorage.setItem('storedIde', JSON.stringify(ide))
+
+	})
+
+	function fetchWorkspaces() {
+		getWorkspaces()
+				.then((_workspaces) => {
+					workspaces = _workspaces;
+					localStorage.setItem('storedNotifications', JSON.stringify(workspaces))
+				})
+				.catch((error) => {
+					console.log('Error workspaces: ', error)
+				})
+	}
+
+	function fetchIde() {
+		getIde()
+				.then((_ide) => {
+					ide = _ide;
+					localStorage.setItem('storedIde', JSON.stringify(ide))
+				})
+				.catch((error) => {
+					console.log('Error ide: ', error)
+				})
+	}
+
+	async function getWorkspaces() {
+		const workspaces = await fetch(`/api/workspace`, {
+			headers: {
+				'Cache-Control': 'public, max-age=500',
+			},
+		})
+		return {
+			workspaces: await workspaces.json(),
+		}
+	}
+
+	async function getIde() {
+		const ide = await fetch(`/api/workspace/ide?v=1`, {
+			headers: {
+				'Cache-Control': 'public, max-age=500',
+			},
+		})
+		return {
+			ide: await ide.json(),
+		}
+	}
 
 	$: {
 		if (data && data.workspaces) {
@@ -36,10 +108,10 @@
 			ide = null;
 		}
 
-		if (data && data.instances && data.instances.data) {
-			instances = data.instances.data;
+		if (data && data.active_workspaces && data.active_workspaces.data) {
+			active_workspaces = data.active_workspaces.data;
 		} else {
-			instances = [];
+			active_workspaces = [];
 		}
 	}
 
@@ -85,10 +157,6 @@
 		await applyAction(result);
 	}
 
-	onMount(() => {
-		// Set the selected item when the page is mounted
-		navStore.set('workspaces');
-	});
 </script>
 
 
@@ -107,19 +175,20 @@
 						</button>
 				</div>
 
+				<div class="relative overflow-x-auto  sm:rounded-lg w-full">
 				<Table shadow hoverable>
 					<TableHead>
 						<TableHeadCell>Title</TableHeadCell>
 						<TableHeadCell>Created</TableHeadCell>
 						<TableHeadCell>Configuration</TableHeadCell>
 						<TableHeadCell>Status</TableHeadCell>
-						<TableHeadCell>
+						<!--<TableHeadCell>
 							<span class="sr-only ">Actions</span>
-						</TableHeadCell>
+						</TableHeadCell>-->
 					</TableHead>
 					<TableBody class="divide-y">
-						{#if instances}
-						{#each instances as { id, created_at, workspace_name, image_name, type, workspace_state }}
+						{#if active_workspaces}
+						{#each active_workspaces as { id, created_at, workspace_name, image_name, type, workspace_state }}
 							<TableBodyRow  class="cursor-pointer" >
 								<TableBodyCell>{workspace_name}</TableBodyCell>
 								<TableBodyCell>{created_at.substring(0,10)}</TableBodyCell>
@@ -146,6 +215,7 @@
 							{/if}
 					</TableBody>
 				</Table>
+				</div>
 			</section>
 		</div>
 

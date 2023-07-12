@@ -14,8 +14,12 @@
 	} from "flowbite-svelte";
 	import {goto, invalidateAll} from "$app/navigation";
 	import {applyAction, deserialize} from "$app/forms";
+	import {page} from "$app/stores";
+	import {addNotification} from "../../../../../../../lib/utilities/notifications.js";
 
 	export let data;
+	let { supabase } = data
+	$: ({ supabase } = data)
 	let course_data = data.courseData;
 
 
@@ -90,6 +94,36 @@
 			(quizzes) => quizzes.quiz_title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
 	);
 
+
+	// For quiz delete
+	let deleteModel = false;
+	let delete_quiz_id;
+
+
+	function delete_model_open(id) {
+		delete_quiz_id = id;
+		deleteModel = true;
+	}
+
+	function delete_model_close() {
+		deleteModel = false;
+	}
+
+	async function handleDeleteQuiz(qid) {
+		const { error, status } = await $page.data.supabase.from('quizzes').delete().match({ id: qid });
+		console.log(status)
+		if (status === 204) {
+			const newNotification =
+					{
+						title: "Success! 🥳",
+						message: `Deleted Quiz!`
+					};
+			addNotification(newNotification, supabase, $page.data.session.user)
+			delete_model_close();
+			await invalidateAll();
+		}
+	}
+
 	async function handle_quiz_submit(event) {
 		const data = new FormData(this);
 		const response = await fetch(this.action, {
@@ -159,7 +193,7 @@
 								text-blue-600 hover:underline dark:text-blue-500">
 													Edit
 												</a>
-												<a  class="font-medium text-blue-600
+												<a  on:click|stopPropagation={() => delete_model_open(id)} class="font-medium text-blue-600
 								hover:underline dark:text-red-500 ">
 													Delete
 												</a>
@@ -242,4 +276,17 @@
 			Add new quiz
 		</button>
 	</form>
+</Modal>
+
+<!-- Model for remove quiz -->
+<Modal title="Remove quiz" class="max-w-xs" bind:open={deleteModel}>
+	<p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to delete this item?</p>
+	<div class="flex justify-center items-center space-x-4">
+		<button on:click={() => deleteModel = false} data-modal-toggle="deleteModal" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+			No, cancel
+		</button>
+		<button on:click={() => handleDeleteQuiz(delete_quiz_id)} type="submit" class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">
+			Yes, I'm sure
+		</button>
+	</div>
 </Modal>

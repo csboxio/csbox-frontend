@@ -4,16 +4,15 @@
 	import { downloadCourseDocument, uploadCourseDocument } from '$lib/utilities/course';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
-	import { onMount, setContext } from 'svelte';
+	import {afterUpdate, onMount, setContext} from 'svelte';
 	import Quill from 'quill';
-	import {navStore} from "../../../../../../lib/stores/stores.js";
+	import {courseNavStore, navStore} from "../../../../../../lib/stores/stores.js";
 	let quill;
 	export let data;
 
 	let { supabase } = data
 	$: ({ supabase } = data)
-
-
+	
 	let courses;
 	$: courses = $page.data.courses.data;
 	let html;
@@ -54,11 +53,9 @@
 
 	async function handleSave() {
 		if (browser) {
-
 			uploadCourseDocument(quill.root.innerHTML, $page.params.slug, data.session.user.id, supabase);
 			mode.view = true;
 			mode.edit = false;
-
 		}
 	}
 
@@ -80,6 +77,7 @@
 					course.inserted_at
 			}`;
 			content.html = await downloadCourseDocument(filePath, supabase);
+			localStorage.setItem('homeDocument', JSON.stringify(content))
 		}
 	}
 
@@ -95,14 +93,23 @@
 	}
 
 	onMount(async () => {
+		const storedDocument = localStorage.getItem('homeDocument');
+		if (storedDocument) {
+			content = JSON.parse(storedDocument);
+		}
+
 		// Set the selected item when the page is mounted
 		navStore.set('courses');
-		if (browser) {
+		courseNavStore.set('Home')
 
+		if (browser) {
 			await setupQuill();
 		}
 	});
 
+	afterUpdate(() => {
+		localStorage.setItem('homeDocument', JSON.stringify(content))
+	});
 
 </script>
 <div class="flex flex-row grow max-w-full-1/2">
