@@ -28,7 +28,7 @@ export const uploadCourseDocument = async (files: FileList, courseId: bigint, us
   if (!files || files.length === 0) {
     throw new Error("You must select an image to upload.");
   }
-  console.log(courseId)
+  //console.log(courseId)
   // Delete old html from block storage
   const filePath = `${courseId + "/" + "document/" + "home"}.HTML`;
   //await deleteCourseDocument(filePath)
@@ -86,10 +86,13 @@ async function updateCourseInsert(courseId: bigint, user: User, supabase) {
       inserted_at: new Date(),
       user_id: user
     }
+
     const { error } = await supabase.from('courses')
       .upsert(updates)
-      .eq('user_id', user.id)
+      .eq('user_id', user)
       .eq('id', courseId)
+
+    console.log(error)
 
     if (error) throw error
   } catch (error) {

@@ -53,7 +53,8 @@
 
 	async function handleSave() {
 		if (browser) {
-			uploadCourseDocument(quill.root.innerHTML, $page.params.slug, data.session.user.id, supabase);
+
+			uploadCourseDocument(quill.root.innerHTML, $page.params.slug, $page.data.session.user.id, supabase);
 			mode.view = true;
 			mode.edit = false;
 		}

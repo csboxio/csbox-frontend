@@ -115,9 +115,12 @@
 </ErrorBoundary>
 
 
+<div class="fixed bottom-5 right-5 w-200 overflow-y-auto">
 	{#each $notifications as notification, i}
+		<div class="pt-1">
 		<Notification title="{notification.title}" content="{notification.message}"/>
+		</div>
 	{/each}
-
+</div>
 
 

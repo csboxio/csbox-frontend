@@ -50,11 +50,15 @@
 
   async function deleteNotification(notifications, pos) {
 
-    if (pos >= 0 && pos < notifications.length) {
-      notifications.splice(pos, 1)
+    console.log(notifications, pos)
+
+    if (pos >= 0 && pos < notifications.notifications.length) {
+      notifications.notifications.splice(pos, 1)
     }
 
-    console.log(notifications)
+    console.log(notifications, pos)
+
+    //console.log(notifications)
     const { data, error } = await supabase
             .from("notifications")
             .update({ 'new': notifications})
@@ -64,9 +68,10 @@
 
   onMount(async () => {
     const storedNotifications = localStorage.getItem('storedNotifications');
-    console.log(storedNotifications)
+    //console.log(storedNotifications)
     if(storedNotifications) {
       notificationsReceived = JSON.parse(storedNotifications);
+      fetchNotifications();
     }
     else {
       fetchNotifications();
@@ -115,7 +120,7 @@
             <div class="pl-3 w-full">
               <span class="font-semibold text-gray-900 dark:text-white">{notification.title}</span>: {notification.message}</div>
             <div class="text-gray-300 hover:text-gray-100 hover:scale-110 cursor-pointer"
-                 on:click|stopPropagation={() => { deleteNotification(notificationsReceived.notifications, id) }}>
+                 on:click|stopPropagation={() => { deleteNotification(notificationsReceived.new, id) }}>
             <svg
                     aria-hidden="true"
                     class="w-5 h-5"
@@ -130,6 +135,7 @@
               />
             </svg>
             </div>
+
           </DropdownItem>
             {/each}
             {:else}

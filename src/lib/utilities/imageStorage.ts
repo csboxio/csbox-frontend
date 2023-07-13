@@ -56,7 +56,7 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
     if (!files || files.length === 0) {
       throw new Error('You must select an image to upload.')
     }
-    console.log(user)
+    //console.log(user)
     // Delete old image from database
     const filePath = `${user.id + "/" + user.id + "_profileImage"}.JPEG`
     await deleteImage(filePath, supabase)
