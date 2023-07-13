@@ -64,7 +64,7 @@
 
   onMount(async () => {
     const storedNotifications = localStorage.getItem('storedNotifications');
-
+    console.log(storedNotifications)
     if(storedNotifications) {
       notificationsReceived = JSON.parse(storedNotifications);
     }

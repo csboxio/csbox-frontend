@@ -6,6 +6,7 @@ import {createSupabaseServerClient} from "@supabase/auth-helpers-sveltekit";
 import {DEV} from "../../../lib/dev/mode.js";
 
 
+
 // TODO UNKNOWN IF TRULY SECURE
 // https://github.com/supabase/auth-helpers/issues/408
 /** @type {import('./$types').RequestHandler} */
@@ -36,5 +37,8 @@ export const GET: RequestHandler = async ({ request, url, locals: { getSession }
 
     return json({data})
   }
+
+    return new Response('An error occurred (500)');
+
 
 }
