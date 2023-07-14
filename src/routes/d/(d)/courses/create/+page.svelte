@@ -6,7 +6,7 @@
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 	import {Checkbox, FloatingLabelInput, Range, StepIndicator} from 'flowbite-svelte';
-	import { createPlaceHolderCourseDocument } from "../../../../../lib/utilities/course.js";
+	import { createPlaceHolderCourseDocument } from "../../../../../lib/utilities/quill.js";
 	import CourseColorPicker from "$lib/components/CourseColorPicker.svelte";
 	let steps = ['Step 1', 'Step 2', 'Step 3'];
 
@@ -73,7 +73,12 @@
 			// re-run all `load` functions, following the successful update
 			currentStep = 2;
 
-			currentCourseId = JSON.stringify(result['data'].course_id);
+			let { data, error } = await supabase
+					.rpc('get_most_recent_course_id')
+
+			console.log(data)
+
+			currentCourseId = data
 
 			 createPlaceHolderCourseDocument(currentCourseId, $page.data.session.user.id, supabase);
 			await invalidateAll();

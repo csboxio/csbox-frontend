@@ -82,7 +82,7 @@
         </div>
     </section>
 
-    <section class="flex flex-col p-5 h-screen">
+    <section class="flex flex-col p-5 h-screen dark:bg-gray-600 bg-gray-200">
         <div>
             <!-- Join course button-->
             <button on:click={() => defaultModel = true}

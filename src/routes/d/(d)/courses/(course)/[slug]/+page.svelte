@@ -1,7 +1,7 @@
 <svelte:options accessors={true} />
 
 <script lang="ts">
-	import { downloadCourseDocument, uploadCourseDocument } from '$lib/utilities/course';
+	import { downloadQuillDocument, uploadQuillDocument, updateCourseInsert } from '$lib/utilities/quill';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import {afterUpdate, onMount, setContext} from 'svelte';
@@ -54,7 +54,11 @@
 	async function handleSave() {
 		if (browser) {
 
-			uploadCourseDocument(quill.root.innerHTML, $page.params.slug, $page.data.session.user.id, supabase);
+			const filePath = `${$page.params.slug + "/" + "document/" + "home"}.HTML`;
+			uploadQuillDocument(quill.root.innerHTML, $page.params.slug,
+					$page.data.session.user.id, supabase, filePath, "courses");
+			await updateCourseInsert($page.params.slug, user.id, supabase)
+
 			mode.view = true;
 			mode.edit = false;
 		}
@@ -77,7 +81,7 @@
 			const filePath = `${$page.params.slug + '/' + 'document/' + 'home'}.HTML?t=${
 					course.inserted_at
 			}`;
-			content.html = await downloadCourseDocument(filePath, supabase);
+			content.html = await downloadQuillDocument(filePath, supabase, 'courses');
 			localStorage.setItem('homeDocument', JSON.stringify(content))
 		}
 	}
