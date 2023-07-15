@@ -1,7 +1,7 @@
 <script lang="ts" xmlns="http://www.w3.org/1999/html">
 	import { page } from '$app/stores';
 	import CourseImage from '$lib/components/CourseImage.svelte';
-	import { goto, invalidateAll } from '$app/navigation';
+	import {goto, invalidate, invalidateAll} from '$app/navigation';
 	import { applyAction, deserialize } from '$app/forms';
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -100,10 +100,9 @@
 		border-radius: 2px;
 	}
 </style>
-<!--Svelte-kit preloading doesn't like me changing the body background color between pages-->
+
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
 	<div class="from-gray-500 to-gray-500 bg-gradient-to-br antialiased bg-body text-body font-body">
-		<form action="?/createCourse" method="POST" on:submit|preventDefault={handleSubmit}>
 			<section class="py-3">
 				<div class="container px-6 mx-auto">
 					<div class="min-h-screen gap-4 flex justify-center items-center">
@@ -114,21 +113,20 @@
 
 								<!--Header-->
 								<div
-									class="flex flex-wrap items-center justify-between -mx-4 mb-8 pb-6 border-b border-gray-400 border-opacity-20"
-								>
-
+									class="flex flex-wrap items-center justify-between -mx-4 mb-8 pb-6 border-b border-gray-400 border-opacity-20">
 									<div class="w-full sm:w-auto px-4 mb-6 sm:mb-0">
 										<h4 class="text-2xl font-bold tracking-wide text-white mb-1">Create Course</h4>
 									</div>
 								</div>
+
 								<div class="mb-8">
 									<StepIndicator {currentStep} {steps} hideLabel color="blue"/>
 								</div>
 
-
-
 								<!--Create course form-->
 								{#if currentStep === 1}
+									<form action="?/createCourse" method="POST" on:submit|preventDefault={handleSubmit}>
+
 									<div class="grid gap-6 mb-6 md:grid-cols-2">
 
 										<div class="mb-4">
@@ -211,12 +209,10 @@
 									</div>
 									<div class="flex justify-between w-full sm:w-auto">
 										<div>
-											<!--Save and cancel buttons-->
-											<!--TODO cancel delete row-->
-											<a
-												class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
-												href="/d/courses">Cancel</a
-											>
+											<a class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
+												href="/d/courses">
+												Cancel
+											</a>
 										</div>
 
 										<button
@@ -231,7 +227,7 @@
 											Next
 										</button>
 									</div>
-
+									</form>
 								{/if}
 
 								{#if currentStep === 2}
@@ -340,19 +336,16 @@
 									<br>
 									-->
 									<div class="flex justify-between w-full sm:w-auto mt-2">
-										<div>
-											<!--Save and cancel buttons-->
-											<!--TODO cancel delete row-->
-											<a
-													class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
-													href="/d/courses">Cancel</a
-											>
-										</div>
+										<button class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
+												on:click={() => currentStep = 2}>
+											Back
+										</button>
 
-										<button
-												class="inline-block py-2 px-4 text-sm text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200">
-
-											Next
+										<button class="inline-block py-2 px-4 text-sm text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
+												on:click={() => {
+													goto("/d/courses");
+												}}>
+											Done
 										</button>
 									</div>
 								{/if}
@@ -361,6 +354,5 @@
 					</div>
 				</div>
 			</section>
-		</form>
 	</div>
 </body>

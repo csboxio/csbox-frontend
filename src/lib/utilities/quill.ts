@@ -76,6 +76,7 @@ export const updateCourseInsert = async(courseId: bigint, user: User, supabase) 
     }
   } finally {
     loading = false
+    await invalidateAll()
   }
 }
 

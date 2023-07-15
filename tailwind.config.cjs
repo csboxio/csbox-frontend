@@ -3,6 +3,13 @@ module.exports = {
   content: ['./src/**/*.{html,js,svelte,ts}',
     "./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}",
   ],
+  layers: {
+    'no-tailwindcss': {
+      '.no-tailwindcss': {
+        all: 'unset',
+      },
+    },
+  },
   darkMode: 'class',
   theme: {
     extend: {},
