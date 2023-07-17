@@ -22,8 +22,8 @@
 	$: ({ supabase, session } = data)
 	let files;
 	let uploading = false;
-	const user = data.user.data;
-
+	const user = data.user.data
+	const user_id = $page.data.session.user.id
 
 	async function handleSubmit(event) {
 		loading = true;
@@ -90,7 +90,7 @@
 									<label class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white
 									bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600
 									dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-										<input class="hidden" type="file" id="single" accept="image/*" bind:files on:change={uploadAvatar(files, uploading, user.avatar_url, user, supabase)} disabled={uploading}>
+										<input class="hidden" type="file" id="single" accept="image/*" bind:files on:change={uploadAvatar(files, uploading, user.avatar_url, user, user_id, supabase)} disabled={uploading}>
 										<div class="m-1">
 											<Fa icon={faUpload} size="xs" />
 										</div>

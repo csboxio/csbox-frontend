@@ -26,10 +26,11 @@ export const uploadQuillDocument = async (files: FileList, courseId: bigint, use
   const { error } = await supabase.storage.from(bucket).update(filePath, files);
   if (error) {
     const { errors } = await supabase.storage.from(bucket).remove(filePath);
+
     const { error } = await supabase.storage.from(bucket).upload(filePath, files);
+    console.log(error)
   }
   const { data } = supabase.storage.from(bucket).getPublicUrl(filePath);
-  //await updateCourseInsert(courseId, user, supabase)
   loading = false;
 };
 

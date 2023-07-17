@@ -123,7 +123,7 @@
           id="course_image"
           accept="image/*"
           bind:files
-          on:change={uploadCourseImage(files, courseID, user, supabase)}
+          on:change={uploadCourseImage(files, courseID, user, user_id, supabase)}
           disabled={uploading}>
 
         <div class="flex items-center justify-center h-14 w-14 bg-blue-500 group-hover:bg-blue-600 rounded-full">

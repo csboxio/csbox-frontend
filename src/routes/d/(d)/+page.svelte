@@ -1,8 +1,3 @@
-<script context="module">
-	export async function load({ stuff }) {
-		return { props: stuff };
-	}
-</script>
 
 <script lang="ts">
 	import { page } from '$app/stores';
@@ -14,6 +9,7 @@
 	import {onMount} from "svelte";
 	import {navStore} from "../../../lib/stores/stores.js";
 	import { fade, fly } from 'svelte/transition';
+	import {browser} from "$app/environment";
 
 	let user;
 	let avatarUrl;
@@ -25,16 +21,21 @@
 	$: ({ supabase } = data)
 
 	console.log($page.data.session != null)
-	if ($page.data.session) {
-		user = $page.data.user.data;
+	if ($page.data.session && browser) {
+		const user = $page.data.user.data;
+		const updated = $page.data.user.updated_at;
 
-		avatarUrl;
-		updated = $page.data.user.updated_at;
-		avatarUrl = user.avatar_url + '?t=' + updated;
-		// this is needed for the outside click div, that needs to be redone
+		const storedData = JSON.parse(localStorage.getItem('storedData') || '{}');
+		const storedEmail = storedData.email;
+		const storedAvatarUrl = storedData.avatarUrl;
+		const storedFullName = storedData.fullName;
 
+		const email = storedEmail || $page.data.session.user?.email;
+		const avatarUrl = storedAvatarUrl || `${user.avatar_url}?t=${updated}`;
+		const fullName = storedFullName || `${user.first_name} ${user.last_name}`;
 
-		//console.log(courses)
+		const updatedStoredData = { ...storedData, email, avatarUrl, fullName };
+		localStorage.setItem('storedData', JSON.stringify(updatedStoredData));
 	}
 	export let fetchedCourses;
 	$: courses = $fetchedCourses;

@@ -8,6 +8,7 @@
   let uploading = false;
   let files;
   let user = $page.data.session?.user;
+  const user_id = $page.data.session.user.id
 
   export let data
 
@@ -43,7 +44,7 @@
               id="single"
               accept="image/*"
               bind:files
-              on:change={uploadAvatar(files, uploading, url, user, supabase)}
+              on:change={uploadAvatar(files, uploading, url, user, user_id, supabase)}
               disabled={uploading}>
             <div class="flex items-center justify-center h-14 w-14 bg-blue-500 group-hover:bg-blue-600 rounded-full">
 

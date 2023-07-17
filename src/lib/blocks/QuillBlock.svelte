@@ -15,6 +15,7 @@
     import Quill from "quill";
     import {page} from "$app/stores";
     import {onMount} from "svelte";
+    import {invalidate} from "$app/navigation";
 
     const mode = {
         edit: false,
@@ -63,23 +64,29 @@
     // --------------- QUILL FUNCTIONS  ---------------
 
     function handleEdit() {
+
         mode.edit = !mode.edit;
         mode.view = !mode.view;
     }
 
     async function handleSave() {
         if (browser) {
-            //const filePath = `${$page.params.slug}/assignments/${$page.params.assignment}/document.HTML`;
+            const filePath = `${$page.params.slug}/assignments/${$page.params.assignment}/document.HTML`;
 
-            uploadQuillDocument(quill.root.innerHTML, $page.params.slug,
+            await uploadQuillDocument(quill.root.innerHTML, $page.params.slug,
                 $page.data.session.user.id, supabase, filePath, "assignments");
 
             await updateAssignmentInsert($page.params.assignment, supabase)
 
-            content.html = quill.root.innerHTML;
-
             mode.view = true;
             mode.edit = false;
+
+            content.html = quill.root.innerHTML;
+
+            await loadShadowDom()
+
+
+            //await invalidate('/d/courses/' + $page.params.slug)
         }
     }
 
@@ -102,30 +109,29 @@
     async function getDocument() {
         if (browser) {
             //const filePath = `${$page.params.slug}/assignments/${$page.params.assignment}/document.HTML?t=${assignment_data.updated_at}`;
-            let result = await downloadQuillDocument(filePath, supabase, 'assignments');
+            content.html = await downloadQuillDocument(filePath, supabase, 'assignments');
 
-            if (!result) {
-                result = "Click edit to change me!"
-            }
-            content.html = result
-            localStorage.setItem(storePath)
+            localStorage.setItem(storePath, JSON.stringify(content))
         }
     }
 
-    let storedDocument
-    $: storedDocument = localStorage.getItem(storePath);
+
+    async function loadShadowDom() {
+        let storedDocument = localStorage.getItem(storePath);
+        const shadowHost = document.querySelector('#shadow-host');
+        const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
+
+
+        content = JSON.parse(storedDocument);
+
+
+        shadowRoot.innerHTML = content.html;
+    }
 
     // ------------- END OF QUILL ---------------
 
     onMount(async () => {
-        const shadowHost = document.querySelector('#shadow-host');
-        const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
-
-        if (storedDocument) {
-            content = JSON.parse(storedDocument);
-        }
-
-        shadowRoot.innerHTML = content.html;
+        await loadShadowDom()
 
         // Setup quill
         if (browser) {
@@ -192,6 +198,7 @@
                      hidden={mode.edit === false ? '' : 'hidden'}>
                     <div class="px-6 ql-snow" id="test">
                         <div id="shadow-host"></div>
+                        {content.html}
                     </div>
                 </div>
             </div>

@@ -51,7 +51,8 @@
 	}
 
 	let storePath = `assignment-${$page.params.assignment}-document`
-	let filePath = `${$page.params.slug}/assignments/${$page.params.assignment}/document.HTML`
+	let filePath
+	$: filePath = `${$page.params.slug}/assignments/${$page.params.assignment}/document.HTML?t=${assignment_data.updated_at}`
 </script>
 
 <div class="flex flex-col w-2/3 ">

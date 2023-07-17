@@ -25,6 +25,9 @@
 	let slug = $page.params.slug
 	export let layout_course = courses;
 
+	let storePath = `home-${$page.params.slug}-document`
+	let filePath = `${$page.params.slug}/documents/${$page.params.assignment}/home.HTML`
+
 	let course;
 	$: course = courses.filter((course) => course.id === parseInt($page.data.slug))[0]
 
@@ -49,10 +52,10 @@
 		theme: 'snow'
 	};
 
-	const viewOptions = {
-		readOnly: true,
-		theme: 'snow'
-	};
+	//const viewOptions = {
+	//	readOnly: true,
+	//	theme: 'snow'
+	//};
 	let content;
 	$: content = { html: '', text: '' };
 

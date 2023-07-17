@@ -51,14 +51,15 @@ async function resizedFile(files: FileList) {
   }
 }
 
-export const uploadAvatar = async (files: FileList, uploading: boolean, url: string, user: User, supabase) => {
+export const uploadAvatar = async (files: FileList, uploading: boolean, url: string, user: User, user_id, supabase) => {
   try {
     if (!files || files.length === 0) {
       throw new Error('You must select an image to upload.')
     }
     //console.log(user)
     // Delete old image from database
-    const filePath = `${user.id + "/" + user.id + "_profileImage"}.JPEG`
+    const filePath = `${user_id + "/" + user_id + "_profileImage"}.JPEG`
+    console.log(user_id)
     await deleteImage(filePath, supabase)
 
     const rfile = await resizedFile(files)
@@ -66,15 +67,15 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
     // @ts-ignore
     const { error } = await supabase.storage.from('avatars').upload(filePath, rfile)
     const { data } = supabase.storage.from('avatars').getPublicUrl(filePath)
-    await updateProfile(data.publicUrl, user, supabase)
+    await updateProfile(data.publicUrl, user, user_id, supabase)
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message)
+      //alert(error.message)
     }
   }
 }
 
-export const uploadCourseImage = async (files: FileList, courseId: bigint, user: User, supabase) => {
+export const uploadCourseImage = async (files: FileList, courseId: bigint, user: User, user_id, supabase) => {
   course_image_loading = true;
   loading = true
   try {
@@ -98,7 +99,7 @@ export const uploadCourseImage = async (files: FileList, courseId: bigint, user:
     }
     const { data } = supabase.storage.from('courses').getPublicUrl(filePath)
 
-    await updateCourse(data.publicUrl, courseId, user, supabase)
+    await updateCourse(data.publicUrl, courseId, user, user_id, supabase)
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
@@ -131,13 +132,15 @@ export const uploadCourseDocumentImage = async (files: FileList, uploading: bool
   }
 }
 
-export async function updateProfile(avatarUrl: string, user: User, supabase) {
+export async function updateProfile(avatarUrl: string, user: User, user_id, supabase) {
     loading = true
     const updates = {
-      id: user.id,
+      id: user_id,
       avatar_url: avatarUrl,
       updated_at: new Date()
     }
+
+    console.log(updates)
 
     const headers = new Headers()
     headers.append('Content-Type', 'application/json');
@@ -159,18 +162,18 @@ export async function updateProfile(avatarUrl: string, user: User, supabase) {
     loading = false
 }
 
-export async function updateCourse(courseUrl: string, courseId: bigint, user: User, supabase) {
+export async function updateCourse(courseUrl: string, courseId: bigint, user: User, user_id, supabase) {
   try {
     const updates = {
       id: courseId,
       inserted_at: new Date(),
-      user_id: user.id,
+      user_id: user_id,
       course_image_url: courseUrl,
     }
 
     const { error } = await supabase.from('courses')
         .upsert(updates)
-        .eq('user_id', user.id)
+        .eq('user_id', user_id)
         .eq('id', courseId)
 
 

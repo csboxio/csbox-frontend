@@ -4,6 +4,7 @@
   import {Button, Dropdown, DropdownItem, DropdownDivider, DropdownHeader, Chevron, Avatar} from 'flowbite-svelte'
   import {notifications} from "$lib/utilities/notifications.js";
   import {afterUpdate, onMount} from "svelte";
+  import {browser} from "$app/environment";
 
   export const ssr = true;
   export let showTopRightMenuModel = false
@@ -15,11 +16,8 @@
 
   let { supabase } = data
   $: ({ supabase } = data)
-  const { data: user } = $page.data.user;
-  const { email } = $page.data.session?.user;
-  const { updated_at: updated } = $page.data.user;
-  const avatarUrl = `${user?.avatar_url}?t=${updated}`;
-  const full_name = `${user?.first_name} ${user?.last_name}`;
+
+  let user = $page.data.user.data
 
   let notificationsReceived
   $: notificationsReceived;
@@ -40,8 +38,10 @@
     const { data, error } = await supabase
             .from("notifications")
             .select("new")
-            .eq('id', $page.data.session.user.id)
+            .eq('user_id', $page.data.session.user.id)
             .single()
+
+    console.log(data, error)
 
     if (!error) {
       return data;
@@ -68,18 +68,20 @@
 
   onMount(async () => {
     const storedNotifications = localStorage.getItem('storedNotifications');
-    //console.log(storedNotifications)
-    if(storedNotifications) {
+    console.log(storedNotifications)
+
+    if(storedNotifications != 'undefined') {
       notificationsReceived = JSON.parse(storedNotifications);
       fetchNotifications();
     }
     else {
+      console.log('here')
       fetchNotifications();
     }
 
-   /* notificationsReceived = await getNotifications()
-    notificationsReceived = notificationsReceived.new
-    console.log(notificationsReceived)*/
+   //notificationsReceived = await getNotifications()
+    //notificationsReceived = notificationsReceived.new
+    //console.log(notificationsReceived)
   });
 
   afterUpdate(() => {
@@ -110,11 +112,10 @@
             <div class="inline-flex relative z-10 -top-2 right-3 w-3 h-3 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"></div>
           </div>
         </div>
-
         <Dropdown triggeredBy="#bell" class="w-full max-w-sm rounded divide-y divide-gray-100 z-20 shadow dark:bg-gray-800 dark:divide-gray-700">
           <div slot="header" class="text-center py-2 font-bold z-10">Notifications</div>
           {#key notificationsReceived}
-          {#if notificationsReceived !== null && JSON.stringify(notificationsReceived) !== JSON.stringify([])}
+          {#if notificationsReceived !== undefined && notificationsReceived.new != null && JSON.stringify(notificationsReceived) !== JSON.stringify([])}
           {#each notificationsReceived.new.notifications as notification, id}
           <DropdownItem class="flex space-x-4 z-20">
             <div class="pl-3 w-full">
@@ -160,13 +161,13 @@
         <div>
           {#if data}
           <Button pill color="light"  id="avatar_with_name" class="!p-1.5 ">
-            <Avatar src="{user.avatar_url === 'null?t=undefined' ? '' : user.avatar_url}" alt="" class="mr-4"/>
-            <div class="mr-3 font-medium">{user.first_name === undefined ? user.first_name : user.first_name} {user.last_name === undefined ? user.last_name : user.last_name}</div>
+            <Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class="mr-4"/>
+            <div class="mr-3 font-medium">{user.first_name} {user.last_name}</div>
           </Button>
           <Dropdown inline triggeredBy="#avatar_with_name" class="z-20">
             <div slot="header" class="px-4 py-2">
-              <span class="block text-sm text-gray-900 dark:text-white "> {full_name} </span>
-              <span class="block truncate text-sm font-medium"> {email} </span>
+              <span class="block text-sm text-gray-900 dark:text-white "> {user.first_name} {user.last_name} </span>
+              <span class="block truncate text-sm font-medium"> {$page.data.session?.user?.email} </span>
             </div>
             <DropdownItem on:click={() => {goto('/d/profile')}}>Settings</DropdownItem>
             <DropdownItem on:click={signOut} slot="footer">Sign out</DropdownItem>

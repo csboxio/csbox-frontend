@@ -14,7 +14,7 @@ async function appendDataToNotifications(newNotification, supabase, user) {
   const { data, error } = await supabase
       .from("notifications")
       .select("new")
-      .eq('id', user.id)
+      .eq('user_id', user.id)
       .single();
 
   console.log(data, error)
@@ -43,7 +43,7 @@ async function appendDataToNotifications(newNotification, supabase, user) {
 
   const { error: updateError } = await supabase
       .from("notifications")
-      .upsert({id: user.id, new: updatedValue })
+      .upsert({user_id: user.id, new: updatedValue })
       .select();
 
   if (updateError) {
