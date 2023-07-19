@@ -30,6 +30,14 @@ export const load = async ({ fetch, data, request, url, parent }) => {
       },
     });
 
+    if (!active_workspaces.ok) {
+      return {
+        workspaces: await workspaces.json(),
+        ide: await ide.json(),
+        active_workspaces: null
+      };
+    }
+
     return {
       workspaces: await workspaces.json(),
       ide: await ide.json(),

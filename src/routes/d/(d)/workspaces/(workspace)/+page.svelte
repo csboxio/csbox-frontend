@@ -55,7 +55,7 @@
 		getWorkspaces()
 				.then((_workspaces) => {
 					workspaces = _workspaces;
-					localStorage.setItem('storedNotifications', JSON.stringify(workspaces))
+					localStorage.setItem('storedWorkspaces', JSON.stringify(workspaces))
 				})
 				.catch((error) => {
 					console.log('Error workspaces: ', error)

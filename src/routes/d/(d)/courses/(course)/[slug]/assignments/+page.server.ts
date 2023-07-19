@@ -20,7 +20,7 @@ export const actions: Actions = {
         const points = formData.get('points')
         let category = formData.get('category')
         const display_as = formData.get('displayas')
-        const submission_type = formData.get('submissiontype')
+        const grade_type = formData.get('submissiontype')
         const assign_to = formData.get('assignto')
         const due = formData.get('due');
         const availableStart = formData.get('availfrom')
@@ -47,7 +47,8 @@ export const actions: Actions = {
                 p_title: name,
                 p_category: category,
                 p_description: description,
-                p_submission_type: submission_type,
+                // TODO this needed to be changed to p_grade_type
+                p_submission_type: grade_type,
                 p_submission_attempts: null,
                 p_available_start: availableStart,
                 p_available_end: availableEnd

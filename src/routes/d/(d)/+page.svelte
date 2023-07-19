@@ -1,8 +1,3 @@
-<script context="module">
-	export async function load({ stuff }) {
-		return { props: stuff };
-	}
-</script>
 
 <script lang="ts">
 	import { page } from '$app/stores';
@@ -14,6 +9,7 @@
 	import {onMount} from "svelte";
 	import {navStore} from "../../../lib/stores/stores.js";
 	import { fade, fly } from 'svelte/transition';
+	import {browser} from "$app/environment";
 
 	let user;
 	let avatarUrl;
@@ -25,16 +21,21 @@
 	$: ({ supabase } = data)
 
 	console.log($page.data.session != null)
-	if ($page.data.session) {
-		user = $page.data.user.data;
+	if ($page.data.session && browser) {
+		const user = $page.data.user.data;
+		const updated = $page.data.user.updated_at;
 
-		avatarUrl;
-		updated = $page.data.user.updated_at;
-		avatarUrl = user.avatar_url + '?t=' + updated;
-		// this is needed for the outside click div, that needs to be redone
+		const storedData = JSON.parse(localStorage.getItem('storedData') || '{}');
+		const storedEmail = storedData.email;
+		const storedAvatarUrl = storedData.avatarUrl;
+		const storedFullName = storedData.fullName;
 
+		const email = storedEmail || $page.data.session.user?.email;
+		const avatarUrl = storedAvatarUrl || `${user.avatar_url}?t=${updated}`;
+		const fullName = storedFullName || `${user.first_name} ${user.last_name}`;
 
-		//console.log(courses)
+		const updatedStoredData = { ...storedData, email, avatarUrl, fullName };
+		localStorage.setItem('storedData', JSON.stringify(updatedStoredData));
 	}
 	export let fetchedCourses;
 	$: courses = $fetchedCourses;
@@ -85,10 +86,10 @@
 {#if !$page.data.session}
 	<Auth bind:data={data} />
 {:else}
-<body class="dark:bg-gray-600 bg-gray-100 antialiased bg-body text-body font-body">
+<body class="dark:bg-gray-600  bg-gray-100 antialiased bg-body text-body font-body">
 	<div>
 		<Navbar />
-		<div class="mx-auto lg:ml-16">
+		<div class="mx-auto lg:ml-16 ">
 			<section>
 				<div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
 					<div class="flex flex-wrap items-center justify-between -mx-2">
@@ -102,7 +103,7 @@
 				</div>
 			</section>
 
-			<section class="py-3 h-screen">
+			<section class="py-3 h-screen ">
 				<div class="container px-4 mx-auto">
 					<button in:fade out:fade on:click={() => toggleBlur()}
 							class="{blurred ? 'absolute top-1/2 left-1/2 -transform-x-1/2 -translate-y-1/2' : 'absolute top-5 left-1/2'} flex items-center px-2 py-2 border bg-gray-700  border-blue-600 rounded-md shadow z-50">

@@ -1,12 +1,17 @@
 <svelte:options accessors={true} />
 
 <script lang="ts">
-	import { downloadCourseDocument, uploadCourseDocument } from '$lib/utilities/course';
+	import { downloadQuillDocument, uploadQuillDocument, updateCourseInsert } from '$lib/utilities/quill';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import {afterUpdate, onMount, setContext} from 'svelte';
 	import Quill from 'quill';
 	import {courseNavStore, navStore} from "../../../../../../lib/stores/stores.js";
+	import {invalidate, invalidateAll} from "$app/navigation";
+	import 'quill/dist/quill.bubble.css'
+
+	import sanitizeHtml from 'sanitize-html';
+
 	let quill;
 	export let data;
 
@@ -19,6 +24,9 @@
 	let user = $page.data.session?.user
 	let slug = $page.params.slug
 	export let layout_course = courses;
+
+	let storePath = `home-${$page.params.slug}-document`
+	let filePath = `${$page.params.slug}/documents/${$page.params.assignment}/home.HTML`
 
 	let course;
 	$: course = courses.filter((course) => course.id === parseInt($page.data.slug))[0]
@@ -43,6 +51,11 @@
 		placeholder: 'Type something...',
 		theme: 'snow'
 	};
+
+	//const viewOptions = {
+	//	readOnly: true,
+	//	theme: 'snow'
+	//};
 	let content;
 	$: content = { html: '', text: '' };
 
@@ -53,9 +66,22 @@
 
 	async function handleSave() {
 		if (browser) {
-			uploadCourseDocument(quill.root.innerHTML, $page.params.slug, data.session.user.id, supabase);
+
+			const filePath = `${$page.params.slug + "/" + "document/" + "home"}.HTML`;
+			let sanitizedHtml = sanitizeHtml(quill.root.innerHTML)
+			uploadQuillDocument(sanitizedHtml, $page.params.slug,
+					$page.data.session.user.id, supabase, filePath, "courses");
+			await updateCourseInsert($page.params.slug, user.id, supabase)
+
 			mode.view = true;
 			mode.edit = false;
+
+			//localStorage.setItem('homeDocument', JSON.stringify(content))
+			content.html = quill.root.innerHTML;
+
+			//await invalidateAll()
+			//await getDocument();
+
 		}
 	}
 
@@ -76,7 +102,7 @@
 			const filePath = `${$page.params.slug + '/' + 'document/' + 'home'}.HTML?t=${
 					course.inserted_at
 			}`;
-			content.html = await downloadCourseDocument(filePath, supabase);
+			content.html = await downloadQuillDocument(filePath, supabase, 'courses');
 			localStorage.setItem('homeDocument', JSON.stringify(content))
 		}
 	}
@@ -92,11 +118,19 @@
 
 	}
 
+	let storedDocument
+	$: storedDocument = localStorage.getItem('homeDocument');
+
 	onMount(async () => {
-		const storedDocument = localStorage.getItem('homeDocument');
+		const shadowHost = document.querySelector('#shadow-host');
+		const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
+
+
 		if (storedDocument) {
 			content = JSON.parse(storedDocument);
 		}
+
+		shadowRoot.innerHTML = content.html;
 
 		// Set the selected item when the page is mounted
 		navStore.set('courses');
@@ -112,6 +146,19 @@
 	});
 
 </script>
+
+<style>
+	div#preview > * {
+		box-sizing: border-box;
+		font-family: Helvetica, Arial, sans-serif;
+		font-size: 13px;
+		height: 100%;
+		position: relative;
+		margin: unset;
+	}
+
+</style>
+
 <div class="flex flex-row grow max-w-full-1/2">
 	<section class="p-1 grow max-w-full-1/2 mt-4">
 
@@ -155,10 +202,15 @@
 						 hidden={mode.edit === true ? '' : 'hidden'}
 						 id="editor"/>
 				</div>
-				<div class="editor flex-1 w-1/2 bg-gray-600 text-white min-h-screen border rounded-lg p-2"
 
+				<!-- TODO This needs some work, I need to figure out how to make this look the same as the editor -->
+				<div class="editor flex-1 w-1/2 bg-gray-600 text-white min-h-screen border rounded-lg"
 					 hidden={mode.edit === false ? '' : 'hidden'}>
-					{@html content.html}
+					<div class="px-6 ql-snow" id="preview">
+					<div id="shadow-host">
+
+					</div>
+					</div>
 				</div>
 			</div>
 		</div>

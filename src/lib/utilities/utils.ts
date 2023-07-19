@@ -26,14 +26,14 @@ export async function fetchUsers(fetch, _user, supabase) {
   if (user && Object.values(user).length > 0) {
     return userStore;
   }
-  console.log(_user)
+  //console.log(_user)
 
   const {data: userData, error} = await supabase.from('users')
     .select('updated_at, username, first_name, last_name, website, country, avatar_url')
     .eq('id', _user)
     .single()
 
-  console.log(userData, error)
+  //console.log(userData, error)
 
   const fetchedUser = userData
 

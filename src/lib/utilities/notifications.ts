@@ -8,30 +8,23 @@ export function addNotification(notification, supabase, user) {
 }
 
 async function appendDataToNotifications(newNotification, supabase, user) {
-  console.log(user)
+
   //  Retrieve the existing new column JSONB
 
   const { data, error } = await supabase
       .from("notifications")
       .select("new")
-      .eq('id', user.id)
+      .eq('user_id', user.id)
       .single();
+
+  console.log(data, error)
 
   if (error) {
     console.error("Error retrieving existing JSONB value:", error);
     return;
   }
 
-  const existingValue = data.new;
-
-  let existingData = null;
-
-  try {
-    existingData = JSON.parse(existingValue);
-  } catch (error) {
-    // Handle JSON parsing error
-    console.error('Error parsing existingData:', error);
-  }
+  let existingData = data.new;
 
   if (!existingData || !Array.isArray(existingData.notifications)) {
     existingData = {
@@ -50,7 +43,7 @@ async function appendDataToNotifications(newNotification, supabase, user) {
 
   const { error: updateError } = await supabase
       .from("notifications")
-      .upsert({id: user.id, new: updatedValue })
+      .upsert({user_id: user.id, new: updatedValue })
       .select();
 
   if (updateError) {

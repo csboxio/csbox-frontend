@@ -48,7 +48,7 @@
 			return courseStore;
 		}
 
-		if (browser) {
+		if (browser && session) {
 			const {data: courseData} = await supabase.from('courses')
 				.select('id, inserted_at, course_image_url, course_title,' +
 					' course_prefix, course_number, course_term');
@@ -115,9 +115,12 @@
 </ErrorBoundary>
 
 
+<div class="fixed bottom-5 right-5 w-200 overflow-y-auto">
 	{#each $notifications as notification, i}
+		<div class="pt-1">
 		<Notification title="{notification.title}" content="{notification.message}"/>
+		</div>
 	{/each}
-
+</div>
 
 
