@@ -25,6 +25,7 @@
 	const user = data.user.data
 	const user_id = $page.data.session.user.id
 
+
 	async function handleSubmit(event) {
 		loading = true;
 		const data = new FormData(this);
