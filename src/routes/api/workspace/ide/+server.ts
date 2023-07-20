@@ -14,7 +14,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   const version = url.searchParams.get('v')
 
   const {data, error } = await supabase.from('ide')
-    .select('version, status_codes, configuration, types, languages')
+    .select('version, status_codes, config, type, language')
     .eq('version', version)
       .single()
 
@@ -22,7 +22,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   //  'cache-control': 'public, max-age=60, s-maxage=60'
   //})
 
-  console.log(data, error)
+
 
   return json(data)
 }

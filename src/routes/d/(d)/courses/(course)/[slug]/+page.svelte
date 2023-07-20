@@ -76,7 +76,7 @@
 			mode.view = true;
 			mode.edit = false;
 
-			//localStorage.setItem('homeDocument', JSON.stringify(content))
+			//localStorage.setItem(`course-doc-${$page.params.slug}`, JSON.stringify(content))
 			content.html = quill.root.innerHTML;
 
 			//await invalidateAll()
@@ -103,7 +103,7 @@
 					course.inserted_at
 			}`;
 			content.html = await downloadQuillDocument(filePath, supabase, 'courses');
-			localStorage.setItem('homeDocument', JSON.stringify(content))
+			localStorage.setItem(`course-doc-${$page.params.slug}`, JSON.stringify(content))
 		}
 	}
 
@@ -119,7 +119,7 @@
 	}
 
 	let storedDocument
-	$: storedDocument = localStorage.getItem('homeDocument');
+	$: storedDocument = localStorage.getItem(`course-doc-${$page.params.slug}`);
 
 	onMount(async () => {
 		const shadowHost = document.querySelector('#shadow-host');
@@ -142,7 +142,7 @@
 	});
 
 	afterUpdate(() => {
-		localStorage.setItem('homeDocument', JSON.stringify(content))
+		localStorage.setItem(`course-doc-${$page.params.slug}`, JSON.stringify(content))
 	});
 
 </script>
