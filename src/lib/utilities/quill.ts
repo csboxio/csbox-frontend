@@ -58,17 +58,18 @@ export const createPlaceHolderCourseDocument = async (courseId: bigint, user: an
 export const updateCourseInsert = async(courseId: bigint, user: User, supabase) => {
   try {
     const updates = {
-      id: courseId,
-      inserted_at: new Date(),
-      user_id: user
+      updated_at: new Date(),
     }
 
-    const { error } = await supabase.from('courses')
-      .upsert(updates)
-      .eq('user_id', user)
-      .eq('id', courseId)
+    console.log(user)
 
-    console.log(error)
+    const { error, data } = await supabase
+        .from('courses')
+        .update(updates)
+        .eq('id', courseId)
+        .eq('user_id', user)
+
+    console.log(error, data)
 
     if (error) throw error
   } catch (error) {

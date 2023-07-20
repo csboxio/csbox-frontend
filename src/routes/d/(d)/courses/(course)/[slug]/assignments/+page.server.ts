@@ -1,5 +1,4 @@
-import type {Actions, PageServerLoadEvent} from "./$types";
-import { invalidateAll } from "$app/navigation";
+import type {Actions } from "./$types";
 import { redirect } from "@sveltejs/kit";
 
 
@@ -62,35 +61,6 @@ export const actions: Actions = {
             const { data, error } = await supabase.rpc('create_assignment', updates)
 
             console.log(error, data)
-
-        /*let updates = {
-            assignment_id: _assignment_id,
-            title: name,
-            creator_id: user.id,
-            course_id: course_id,
-            category: category,
-            points: points,
-            display_as: display_as,
-            due: due,
-        }
-
-
-        const info_updates = {
-            assignment: _assignment_id,
-            inserted_at: new Date(),
-            description: description,
-            submission_type: submission_type,
-            submission_attempts: submission_type,
-            available_start: availableStart,
-            available_end: availableEnd
-        }*/
-
-            /*//console.log(updates)
-            const {error: error} = await supabase.from('assignments').upsert(updates)
-            console.log(error)
-            const {error: error_info} = await supabase.from('assignments_info').upsert(info_updates)
-            console.log(error_info)*/
-
 
         }
     }

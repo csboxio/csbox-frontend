@@ -10,9 +10,9 @@ export const actions: Actions = {
         await supabase.auth.refreshSession()
 
         const formData = await request.formData()
-        //const captchaToken = formData.get('cf-turnstile-response') as string
-        //const email = formData.get('email') as string
-        //const password = formData.get('password') as string
+        const captchaToken = formData.get('cf-turnstile-response') as string
+        const password = formData.get('password') as string
+
 
 
 

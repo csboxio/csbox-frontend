@@ -17,6 +17,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
     .eq('course_id', course)
 
 
+
   //event.setHeaders({
   //  'cache-control': 'public, max-age=60, s-maxage=60'
   //})

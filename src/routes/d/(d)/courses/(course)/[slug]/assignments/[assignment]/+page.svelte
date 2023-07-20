@@ -3,7 +3,8 @@
 	import {goto, invalidateAll} from '$app/navigation';
 	import {page} from "$app/stores";
 	import {Input, Label} from "flowbite-svelte";
-	import QuillBlock from "$lib/blocks/QuillBlock.svelte";
+	import QuillBlock from "$lib/blocks/quillBlock.svelte";
+	import {updateAssignmentInsert} from "../../../../../../../../lib/utilities/quill.js";
 
 	export let data;
 
@@ -50,13 +51,22 @@
 		)
 	}
 
+	async function saveFunction() {
+		await updateAssignmentInsert($page.params.assignment, supabase)
+	}
+
+	let bucket = "assignments"
 	let storePath = `assignment-${$page.params.assignment}-document`
 	let filePath
 	$: filePath = `${$page.params.slug}/assignments/${$page.params.assignment}/document.HTML?t=${assignment_data.updated_at}`
+
 </script>
 
 <div class="flex flex-col w-2/3 ">
-	<QuillBlock bind:supabase={supabase} bind:storePath={storePath}  bind:filePath={filePath}/>
+
+	<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
+				bind:filePath={filePath} bind:bucket={bucket}
+				saveFunction={saveFunction} />
 
 	<div class="mb-4 ">
 		<div class="flex flex-row">
@@ -64,28 +74,6 @@
 		<div class="w-full">
 			<section class="p-1 mt-4">
 				<div class="container">
-					<!--<button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
-				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
-				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
-				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-					on:click={handleEditPage}>
-						<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-						dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-							Edit
-						</span>
-					</button>
-
-					<button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
-        							font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
-        							group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
-        							focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-							on:click={handlePreviewPage}>
-						<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-						dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-							Preview
-						</span>
-					</button>-->
-
 					{#if assignment}
 					<div class="bg-gray-800 p-6 rounded-lg shadow-md text-white mt-2">
 						<!--Edit assignment-->
@@ -149,15 +137,15 @@
 								</span>
 								</button>
 								</div>
+
 							</div>
 						</form>
 					</div>
-						{/if}
+					{/if}
 				</div>
 			</section>
 		</div>
-
-	</section>
+		</section>
 		</div>
 	</div>
 </div>

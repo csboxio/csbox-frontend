@@ -1,10 +1,12 @@
-<script>
+<script type="module">
     import { downloadQuillDocument, uploadQuillDocument, updateAssignmentInsert } from '$lib/utilities/quill';
 
     // EXPORTS
     export let supabase;
     export let storePath;
     export let filePath;
+    export let bucket;
+    export let saveFunction;
 
     // ---------------  QUILL ---------------
 
@@ -15,7 +17,6 @@
     import Quill from "quill";
     import {page} from "$app/stores";
     import {onMount} from "svelte";
-    import {invalidate} from "$app/navigation";
 
     const mode = {
         edit: false,
@@ -24,6 +25,7 @@
 
     // Initialize quill
     let quill;
+    let viewer;
 
     // Quill options
     const options = {
@@ -43,6 +45,13 @@
         theme: 'snow'
     };
 
+    const view_options = {
+        modules: {
+            toolbar: false
+        },
+        theme: 'snow'
+    }
+
     // The content itself.
     let content;
     $: content = { html: '', text: '' };
@@ -61,6 +70,19 @@
 
     }
 
+    async function setViewer() {
+        if (browser) {
+            let storedDocument = localStorage.getItem(storePath);
+            content = JSON.parse(storedDocument);
+            await getDocument();
+            let container = document.getElementById('viewer');
+            viewer = new Quill(container, view_options);
+            viewer.disable()
+            const delta = quill.clipboard.convert(content.html);
+            viewer.setContents(delta, 'silent');
+        }
+    }
+
     // --------------- QUILL FUNCTIONS  ---------------
 
     function handleEdit() {
@@ -71,35 +93,35 @@
 
     async function handleSave() {
         if (browser) {
-            const filePath = `${$page.params.slug}/assignments/${$page.params.assignment}/document.HTML`;
 
             await uploadQuillDocument(quill.root.innerHTML, $page.params.slug,
-                $page.data.session.user.id, supabase, filePath, "assignments");
+                $page.data.session.user.id, supabase, filePath, bucket);
 
-            await updateAssignmentInsert($page.params.assignment, supabase)
-
+            saveFunction();
             mode.view = true;
             mode.edit = false;
 
             content.html = quill.root.innerHTML;
 
-            await loadShadowDom()
+            localStorage.setItem(storePath, JSON.stringify(content))
 
+            const delta = quill.clipboard.convert(content.html);
+            viewer.setContents(delta, 'silent');
 
-            //await invalidate('/d/courses/' + $page.params.slug)
         }
     }
 
     function handleCancel() {
         mode.view = true;
         mode.edit = false;
-        quill.root.innerHTML = content.html;
     }
 
     function handlePreview() {
         mode.view = true;
         mode.edit = false;
         content.html = quill.root.innerHTML;
+        const delta = quill.clipboard.convert(content.html);
+        viewer.setContents(delta, 'silent');
     }
 
     // --------------- END OF QUILL FUNCTIONS  ---------------
@@ -108,34 +130,19 @@
     // Setup 2
     async function getDocument() {
         if (browser) {
-            //const filePath = `${$page.params.slug}/assignments/${$page.params.assignment}/document.HTML?t=${assignment_data.updated_at}`;
-            content.html = await downloadQuillDocument(filePath, supabase, 'assignments');
+            content.html = await downloadQuillDocument(filePath, supabase, bucket);
 
             localStorage.setItem(storePath, JSON.stringify(content))
         }
     }
 
-
-    async function loadShadowDom() {
-        let storedDocument = localStorage.getItem(storePath);
-        const shadowHost = document.querySelector('#shadow-host');
-        const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
-
-
-        content = JSON.parse(storedDocument);
-
-
-        shadowRoot.innerHTML = content.html;
-    }
-
     // ------------- END OF QUILL ---------------
 
     onMount(async () => {
-        await loadShadowDom()
-
         // Setup quill
         if (browser) {
             await setupQuill();
+            await setViewer();
         }
     });
 </script>
@@ -193,12 +200,11 @@
                          hidden={mode.edit === true ? '' : 'hidden'}
                          id="editor"/>
                 </div>
-                <div class="editor flex-1 w-1/2 bg-gray-600 text-white min-h-8 border rounded-lg p-2 pb-10"
-
+                <div class="editor flex-1 w-1/2 bg-gray-600 text-white "
                      hidden={mode.edit === false ? '' : 'hidden'}>
-                    <div class="px-6 ql-snow" id="test">
-                        <div id="shadow-host"></div>
-                        {content.html}
+                    <div class=" ql-snow" id="test">
+                        <div class="editor flex-1  bg-gray-600 text-white min-h-8 border border-white rounded-lg p-2 pb-10"
+                             id="viewer" hidden={mode.edit === false ? '' : 'hidden'}/>
                     </div>
                 </div>
             </div>
