@@ -24,7 +24,7 @@ export const load = async ({ fetch, data, request, url, parent }) => {
         'Cache-Control': 'public, max-age=500',
       },
     })
-    const active_workspaces = await fetch("http://ide.csbox.io/api/workspace/all", {
+    const active_workspaces = await fetch("/api/workspace/all", {
       headers: {
         'Cache-Control': 'public, max-age=60',
       },

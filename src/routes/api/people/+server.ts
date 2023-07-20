@@ -19,7 +19,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { getSession, 
               course_id: course,
               user_id: session.user.id
           })
-
+      console.log(course)
       console.log(data,error)
 
 

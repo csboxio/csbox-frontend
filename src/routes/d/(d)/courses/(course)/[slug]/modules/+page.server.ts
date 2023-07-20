@@ -18,7 +18,7 @@ export const actions: Actions = {
         const course_id = params.slug
         if (user != null) {
             const updates = {
-                creator_id: user.id,
+                user_id: user.id,
                 course_id: course_id,
                 module_title: name
             }
@@ -45,7 +45,7 @@ export const actions: Actions = {
                 in_module: module
             }
             const {error} = await supabase.from('assignments').update(updates)
-              .eq('creator_id', user.id)
+              .eq('user_id', user.id)
               .eq('course_id', course_id)
               .eq('assignment_id', id)
 

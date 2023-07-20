@@ -15,6 +15,7 @@
   let uploading = false;
   export let files;
   let user = $page.data.session?.user;
+  let user_id = $page.data.session?.id;
 
 
   import { onMount } from 'svelte';
@@ -123,7 +124,7 @@
           id="course_image"
           accept="image/*"
           bind:files
-          on:change={uploadCourseImage(files, courseID, user, user_id, supabase)}
+          on:change={uploadCourseImage(files, courseID, user, supabase)}
           disabled={uploading}>
 
         <div class="flex items-center justify-center h-14 w-14 bg-blue-500 group-hover:bg-blue-600 rounded-full">

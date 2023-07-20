@@ -12,7 +12,7 @@ const config = {
 		prebundleSvelteLibraries: false
 	},
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
 	}
 };
 

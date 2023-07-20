@@ -22,6 +22,8 @@
   let notificationsReceived
   $: notificationsReceived;
 
+  let notifications_open = false;
+
   async function signOut() {
     try {
       let { error } = await  $page.data.supabase.auth.signOut()
@@ -49,7 +51,6 @@
   }
 
   async function deleteNotification(notifications, pos) {
-
     console.log(notifications, pos)
 
     if (pos >= 0 && pos < notifications.notifications.length) {
@@ -62,8 +63,10 @@
     const { data, error } = await supabase
             .from("notifications")
             .update({ 'new': notifications})
-            .eq('id', $page.data.session.user.id)
+            .eq('user_id', $page.data.session.user.id)
     console.log(data, error)
+
+    fetchNotifications();
   }
 
   onMount(async () => {
@@ -112,22 +115,23 @@
             <div class="inline-flex relative z-10 -top-2 right-3 w-3 h-3 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"></div>
           </div>
         </div>
+
         <Dropdown triggeredBy="#bell" class="w-full max-w-sm rounded divide-y divide-gray-100 z-20 shadow dark:bg-gray-800 dark:divide-gray-700">
           <div slot="header" class="text-center py-2 font-bold z-10">Notifications</div>
           {#key notificationsReceived}
           {#if notificationsReceived !== undefined && notificationsReceived.new != null && JSON.stringify(notificationsReceived) !== JSON.stringify([])}
           {#each notificationsReceived.new.notifications as notification, id}
-          <DropdownItem class="flex space-x-4 z-20">
+          <DropdownItem class="flex space-x-4 z-20" >
             <div class="pl-3 w-full">
               <span class="font-semibold text-gray-900 dark:text-white">{notification.title}</span>: {notification.message}</div>
-            <div class="text-gray-300 hover:text-gray-100 hover:scale-110 cursor-pointer"
-                 on:click|stopPropagation={() => { deleteNotification(notificationsReceived.new, id) }}>
+            <div class="text-gray-300 hover:text-gray-100 hover:scale-110 cursor-pointer">
             <svg
                     aria-hidden="true"
                     class="w-5 h-5"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
+                    on:click|stopPropagation={() => { deleteNotification(notificationsReceived.new, id) }}
             >
               <path
                       fill-rule="evenodd"
@@ -146,7 +150,7 @@
             </DropdownItem>
           {/if}
           {/key}
-          <a slot="footer" href="" class="block py-2 z-20 -my-1 text-sm font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
+          <a slot="footer" class="block py-2 z-20 -my-1 text-sm font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
             <div class="inline-flex items-center">
               <svg class="mr-2 w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path></svg>
               View all

@@ -17,21 +17,24 @@ export const actions: Actions = {
         if (data.session) {
             //const course_id = Math.floor(Math.random() * 9999999999);
 
-            const { data, error } = await supabase.rpc('create_course',
-                {
-                    _inserted_at: new Date(),
-                    _user_id: user.id,
-                    _course_image_url: null,
-                    _course_title: title,
-                    _course_prefix: prefix,
-                    _course_number: number,
-                    _course_term: term,
-                    _course_start: null,
-                    _course_end: null,
-                    _course_type: null,
-                    _course_color: color,
-                    _course_contact: contact,
-                });
+            const updates = {
+                _inserted_at: new Date(),
+                _user_id: user.id,
+                _course_image_url: null,
+                _course_title: title,
+                _course_prefix: prefix,
+                _course_number: number,
+                _course_term: term,
+                _course_start: null,
+                _course_end: null,
+                _course_type: null,
+                _course_color: color,
+                _course_contact: contact,
+            }
+
+            console.log(updates)
+
+            const { data, error } = await supabase.rpc('create_course', updates);
         console.log(error, data)
 
         if (!error) {
