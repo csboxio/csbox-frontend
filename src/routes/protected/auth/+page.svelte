@@ -10,6 +10,8 @@ let password;
 
 let token;
 $: token;
+
+
 </script>
 
 
@@ -25,10 +27,10 @@ $: token;
                         <div class="flex flex-wrap items-center justify-between -mx-4 mb-8 pb-6 border-b border-gray-400 border-opacity-20">
                             <div class="w-full sm:w-auto px-4 mb-6 sm:mb-0">
                                 <h4 class="text-2xl font-bold tracking-wide text-white mb-1">Admin Dashboard</h4>
-                                <form method="POST" action="/master_auth" class="">
+                                <form method="POST" action="/api/protected/auth" class="">
                                     <label class="text-white p-2">
                                         Master Password:
-                                        <Input type="password" bind:value={password} />
+                                        <Input id="password" name="password" type="password" bind:value={password} />
                                     </label>
 
 
