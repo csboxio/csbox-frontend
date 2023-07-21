@@ -112,6 +112,7 @@
 									<span slot="header" class="text-white text-lg">
 										{module_title}
 									</span>
+
 									<!-- Plus symbol to the right of the module title -->
 									<a on:click|stopPropagation={() => {add_item(module_title)}}
 										 class="text-gray-200 pb-4 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
