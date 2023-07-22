@@ -38,7 +38,7 @@ export const actions: Actions = {
 
             let updates = {
                 p_assignment_id: _assignment_id,
-                p_creator_id: user.id,
+                p_user_id: user.id,
                 p_course_id: course_id,
                 p_points: points,
                 p_display_as: display_as,
@@ -49,6 +49,7 @@ export const actions: Actions = {
                 // TODO this needed to be changed to p_grade_type
                 p_submission_type: grade_type,
                 p_submission_attempts: null,
+                p_in_module: null,
                 p_available_start: availableStart,
                 p_available_end: availableEnd
             }

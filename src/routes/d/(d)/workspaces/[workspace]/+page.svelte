@@ -1,7 +1,7 @@
+
 <script>
-    const websiteURL = 'https://vscode.dev/';
-    import WorkspaceEmbed from "$lib/embed/workspace/workspaceEmbed.svelte";
-    const nonce = '5d26eb7f-3500-4abb-8387-8b9c88201ad9';
+    export let embeddedContent;
+
 </script>
 
 <style>
@@ -11,8 +11,9 @@
     }
 </style>
 
-<div class="embed-container">
-    <WorkspaceEmbed
-    url={websiteURL}
-    nonce={nonce}/>
-</div>
+<h1>Embedded Website</h1>
+{#if embeddedContent}
+    <div>{@html embeddedContent}</div>
+{:else}
+    <p>Loading...</p>
+{/if}

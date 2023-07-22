@@ -12,13 +12,13 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
         throw redirect(303, '/');
     }
     const assignmentId = url.searchParams.get('id')
-    const {data, error} = await supabase.from('assignments_info')
+    const {data, error, status} = await supabase.from('assignments_info')
         .select('assignment, description, grade_type, submission_attempts,' +
             ' display_as, available_start, available_end, updated_at')
         .eq('assignment', assignmentId)
         .single()
 
-    console.log(data, error)
+    console.log(data, error, status)
 
     //event.setHeaders({
     //  'cache-control': 'public, max-age=60, s-maxage=60'
