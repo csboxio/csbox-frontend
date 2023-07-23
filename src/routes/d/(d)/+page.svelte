@@ -20,7 +20,6 @@
 	let { supabase } = data
 	$: ({ supabase } = data)
 
-	console.log($page.data.session != null)
 	if ($page.data.session && browser) {
 		const user = $page.data.user.data;
 		const updated = $page.data.user.updated_at;

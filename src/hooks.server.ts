@@ -15,6 +15,20 @@ export const handle = async ({ event, resolve }) => {
     }
   })
 
+  if (event.url.pathname.startsWith("/api")) {
+    const session = event.locals.supabase.auth.getSession()
+    if (!session) {
+      throw redirect(303, '/')
+    }
+  }
+
+  if (event.url.pathname.startsWith("/d")) {
+    const session = event.locals.supabase.auth.getSession()
+    if (!session) {
+      throw redirect(303, '/')
+    }
+  }
+
   /**
    * a little helper that is written for convenience so that instead
    * of calling `const { data: { session } } = await supabase.auth.getSession()`

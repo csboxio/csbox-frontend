@@ -11,7 +11,37 @@ let password;
 let token;
 $: token;
 
+    async function handleLogin() {
 
+        const loginEndpoint = '/api/protected/auth';
+
+        try {
+            const formData = new FormData(this);
+            const response = await fetch(loginEndpoint, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'x-sveltekit-action': 'true',
+                    'cache-control': 'max-age=1800'
+                }
+
+            });
+
+            if (!response.ok) {
+                console.log("error")
+                return;
+            }
+
+            const data = await response.json();
+            document.cookie = `protectedAuth=${data.token}; path=/;`;
+
+            window.location.href = '/protected/admin';
+
+        } catch (error) {
+            console.error('Login failed:', error);
+
+        }
+    }
 </script>
 
 
@@ -27,7 +57,7 @@ $: token;
                         <div class="flex flex-wrap items-center justify-between -mx-4 mb-8 pb-6 border-b border-gray-400 border-opacity-20">
                             <div class="w-full sm:w-auto px-4 mb-6 sm:mb-0">
                                 <h4 class="text-2xl font-bold tracking-wide text-white mb-1">Admin Dashboard</h4>
-                                <form method="POST" action="/api/protected/auth" class="">
+                                <form on:submit|preventDefault="{handleLogin}" class="">
                                     <label class="text-white p-2">
                                         Master Password:
                                         <Input id="password" name="password" type="password" bind:value={password} />

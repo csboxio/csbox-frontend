@@ -6,7 +6,6 @@ import {json, redirect, RequestHandler} from "@sveltejs/kit";
 
 export const POST: RequestHandler = async ({ request, locals: { getSession } }) => {
 
-  console.log(getSession())
   const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY,
       {
         db: { schema: 'internal' },
@@ -18,7 +17,6 @@ export const POST: RequestHandler = async ({ request, locals: { getSession } }) 
 
   const session = await getSession();
 
-  console.log(session)
 
   /*if (!session) {
     return new Response(JSON.stringify({ message: 'No session' }), {
@@ -39,7 +37,7 @@ export const POST: RequestHandler = async ({ request, locals: { getSession } }) 
         .eq('master_key', PRIVATE_ADMIN_MASTER_KEY)
         .single();
 
-    console.log(masterPassword, error)
+    //console.log(masterPassword, error)
 
     if (error || !masterPassword || !masterPassword.master_password) {
       return new Response(JSON.stringify({ message: 'Error fetching password' }), {
@@ -50,7 +48,6 @@ export const POST: RequestHandler = async ({ request, locals: { getSession } }) 
       });
     }
 
-    console.log(password, masterPassword.master_password)
     if (password === masterPassword.master_password) {
       const payload = {
         id: session.user.id,
@@ -62,6 +59,8 @@ export const POST: RequestHandler = async ({ request, locals: { getSession } }) 
       const { data, error: insertError } = await supabase.from('tokens').insert([
         { id: session.user.id, token: token },
       ]);
+
+      //console.log(data, error)
 
       if (insertError) {
         return new Response(JSON.stringify({ token, message: 'Error storing token!' }), {

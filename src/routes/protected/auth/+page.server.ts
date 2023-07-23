@@ -22,12 +22,7 @@ export const actions: Actions = {
                     persistSession: false,
                 }
             });
-
         const { data, error } = await supabase.auth.refreshSession()
-        console.log(data, error)
-
         const session = await getSession();
-
-        console.log(session)
     },
 }
