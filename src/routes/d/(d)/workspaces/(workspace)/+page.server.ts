@@ -1,5 +1,6 @@
 import type {Actions, PageServerLoadEvent} from "./$types";
+import {redirect} from "@sveltejs/kit";
 
-export const prerender = true;
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

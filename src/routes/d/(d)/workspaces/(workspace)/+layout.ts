@@ -1,29 +1,26 @@
 import {browser} from "$app/environment";
 import { redirect } from "@sveltejs/kit";
-export const prerender = true;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 
 export const load = async ({ fetch, data, request, url, parent }) => {
   const parentData = await parent();
-  const session = parentData.session
+  const session = parentData.session;
+
   if (!session) {
     throw redirect(303, '/');
   }
 
   try {
-    const workspaces = await fetch(`/api/workspace`, {
+    const cacheOptions = {
       headers: {
         'Cache-Control': 'public, max-age=500',
       },
-    })
+    };
 
-    const ide = await fetch(`/api/workspace/ide?v=1`, {
-      headers: {
-        'Cache-Control': 'public, max-age=500',
-      },
-    })
+    const workspaces = await fetch(`/api/workspace`, cacheOptions);
+    const ide = await fetch(`/api/workspace/ide?v=1`, cacheOptions);
     const active_workspaces = await fetch("/api/workspace/all", {
       headers: {
         'Cache-Control': 'public, max-age=60',
@@ -34,18 +31,17 @@ export const load = async ({ fetch, data, request, url, parent }) => {
       return {
         workspaces: await workspaces.json(),
         ide: await ide.json(),
-        active_workspaces: null
+        active_workspaces: null,
       };
     }
 
     return {
       workspaces: await workspaces.json(),
       ide: await ide.json(),
-      active_workspaces: await active_workspaces.json()
+      active_workspaces: await active_workspaces.json(),
     };
-  }
-  catch (error) {
-    console.log("Workspace error");
-    redirect(303, '/');
+  } catch (error) {
+    console.log("Workspace error:", error);
+    throw redirect(303, '/');
   }
 };

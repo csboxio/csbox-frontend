@@ -15,43 +15,21 @@
 	import WorkspaceNav from "$lib/components/WorkspaceNav.svelte";
 	import {afterUpdate, onMount} from "svelte";
 	import {navStore} from "../../../../../lib/stores/stores.js";
+	import {page} from "$app/stores";
 
 	/** @type {import('./$types').PageData | null} */
 	export let data = null;
 
 	let workspaces;
+	$: workspaces = $page.data.workspaces
+
+	let active_workspaces;
+	$: active_workspaces = $page.data.active_workspaces.data;
+
 	let ide;
-	let active_workspaces = [];
+	$: ide = $page.data.ide;
 
-	onMount(() => {
-		const storedWorkspaces = localStorage.getItem('storedWorkspaces');
-		const storedIde = localStorage.getItem('storedIde')
-
-		if (storedWorkspaces) {
-			workspaces = JSON.parse(storedWorkspaces)
-		}
-		else {
-			fetchWorkspaces();
-		}
-
-		if (storedIde) {
-			ide = JSON.parse(storedIde)
-		}
-		else {
-			fetchIde();
-		}
-
-		// Set the selected item when the page is mounted
-		navStore.set('workspaces');
-	});
-
-	afterUpdate(() => {
-		localStorage.setItem('storedWorkspaces', JSON.stringify(workspaces))
-		localStorage.setItem('storedIde', JSON.stringify(ide))
-
-	})
-
-	function fetchWorkspaces() {
+	/*function fetchWorkspaces() {
 		getWorkspaces()
 				.then((_workspaces) => {
 					workspaces = _workspaces;
@@ -60,9 +38,9 @@
 				.catch((error) => {
 					console.log('Error workspaces: ', error)
 				})
-	}
+	}*/
 
-	function fetchIde() {
+	/*function fetchIde() {
 		getIde()
 				.then((_ide) => {
 					ide = _ide;
@@ -71,9 +49,9 @@
 				.catch((error) => {
 					console.log('Error ide: ', error)
 				})
-	}
+	}*/
 
-	async function getWorkspaces() {
+	/*async function getWorkspaces() {
 		const workspaces = await fetch(`/api/workspace`, {
 			headers: {
 				'Cache-Control': 'public, max-age=500',
@@ -82,9 +60,9 @@
 		return {
 			workspaces: await workspaces.json(),
 		}
-	}
+	}*/
 
-	async function getIde() {
+	/*async function getIde() {
 		const ide = await fetch(`/api/workspace/ide?v=1`, {
 			headers: {
 				'Cache-Control': 'public, max-age=500',
@@ -93,35 +71,8 @@
 		return {
 			ide: await ide.json(),
 		}
-	}
+	}*/
 
-	$: {
-		if (data && data.workspaces) {
-			workspaces = data.workspaces;
-		} else {
-			workspaces = [];
-		}
-
-		if (data && data.ide) {
-			ide = data.ide;
-		} else {
-			ide = null;
-		}
-
-		if (data && data.active_workspaces && data.active_workspaces.data) {
-			active_workspaces = data.active_workspaces.data;
-		} else {
-			active_workspaces = [];
-		}
-	}
-
-	$: {
-		if (data === null) {
-			// Handle error case when data is null
-			console.error('Error: Data is null.');
-			// Display an error message to the user or take any other necessary actions
-		}
-	}
 
 
 	export let show_create_box;
@@ -188,10 +139,11 @@
 					</TableHead>
 					<TableBody class="divide-y">
 						{#if active_workspaces}
+							{#key active_workspaces}
 						{#each active_workspaces as { id, created_at, workspace_name, image_name, type, workspace_state }}
 							<TableBodyRow  class="cursor-pointer" >
 								<TableBodyCell>{workspace_name}</TableBodyCell>
-								<TableBodyCell>{created_at.substring(0,10)}</TableBodyCell>
+								<TableBodyCell>{created_at}</TableBodyCell>
 								<TableBodyCell>{image_name}</TableBodyCell>
 								<!--<TableBodyCell>{ide[0].status_codes[workspace_state]}</TableBodyCell>-->
 								<TableBodyCell>
@@ -199,7 +151,7 @@
 									font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-300 to-blue-500
 									group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
 									focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-									on:click={() => goto("workspaces/create")}>
+									on:click={() => goto("http://ide.csbox.io/api/kube/deploy/" + id)}>
 									<span
 									class="relative px-3 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600
 									rounded-md group-hover:bg-opacity-0">
@@ -212,6 +164,7 @@
 
 							</TableBodyRow>
 							{/each}
+								{/key}
 							{/if}
 					</TableBody>
 				</Table>

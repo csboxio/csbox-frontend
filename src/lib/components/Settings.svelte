@@ -43,7 +43,6 @@
             .eq('user_id', $page.data.session.user.id)
             .single()
 
-    console.log(data, error)
 
     if (!error) {
       return data;
@@ -71,7 +70,6 @@
 
   onMount(async () => {
     const storedNotifications = localStorage.getItem('storedNotifications');
-    console.log(storedNotifications)
 
     if(storedNotifications != 'undefined') {
       notificationsReceived = JSON.parse(storedNotifications);

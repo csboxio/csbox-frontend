@@ -6,22 +6,24 @@ import { error, json, redirect } from "@sveltejs/kit";
 /** @type {import('./$types').RequestHandler} */
 // @ts-ignore
 export const GET: RequestHandler = async ({ request, url, locals: { supabase, getSession }, event }) => {
-  const session = await getSession()
+  try {
+    const session = await getSession()
+    if (!session) {
+      throw redirect(303, '/');
+    }
+    const course = url.searchParams.get('course')
+    const {data, error} = await supabase.from('quizzes')
+        .select('id, quiz_title, quiz_doc, quiz_attempts, question_count, due, points, in_module')
+        .eq('course_id', course)
 
 
-  if (!session) {
-    throw redirect(303, '/');
+    //event.setHeaders({
+    //  'cache-control': 'public, max-age=60, s-maxage=60'
+    //})
+
+    return json(data)
+  } catch (error) {
+    console.log('Error during GET request:', error);
+    return json({ error: 'Error occurred.'})
   }
-  const course = url.searchParams.get('course')
-  const {data, error} = await supabase.from('quizzes')
-    .select('id, quiz_title, quiz_doc, quiz_attempts, question_count, due, points')
-    .eq('course_id', course)
-
-
-
-  //event.setHeaders({
-  //  'cache-control': 'public, max-age=60, s-maxage=60'
-  //})
-
-  return json(data)
 }

@@ -78,6 +78,10 @@
             let container = document.getElementById('viewer');
             viewer = new Quill(container, view_options);
             viewer.disable()
+            if (content.html == '')
+            {
+                content.html = 'Nothing found..'
+            }
             const delta = quill.clipboard.convert(content.html);
             viewer.setContents(delta, 'silent');
         }
