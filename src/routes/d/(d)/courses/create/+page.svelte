@@ -48,8 +48,8 @@
 
 	let currentCourseId;
 
-	let { supabase } = data
-	$: ({ supabase } = data)
+	let { supabase, claim } = data
+	$: ({ supabase, claim } = data)
 
 	async function handleSubmit(event) {
 		loading = true;
@@ -102,6 +102,7 @@
 </style>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
+{claim}
 	<div class="from-gray-500 to-gray-500 bg-gradient-to-br antialiased bg-body text-body font-body">
 			<section class="py-3">
 				<div class="container px-6 mx-auto">

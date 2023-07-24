@@ -17,6 +17,6 @@
         border: none;
     }
 </style>
-{#if browser}
+asd
+
 <iframe class="embedded-iframe" src="{url}" ></iframe>
-    {/if}

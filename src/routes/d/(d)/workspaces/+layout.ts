@@ -21,11 +21,7 @@ export const load = async ({ fetch, data, request, url, parent }) => {
 
     const workspaces = await fetch(`/api/workspace`, cacheOptions);
     const ide = await fetch(`/api/workspace/ide?v=1`, cacheOptions);
-    const active_workspaces = await fetch("/api/workspace/all", {
-      headers: {
-        'Cache-Control': 'public, max-age=60',
-      },
-    });
+    const active_workspaces = await fetch("/api/workspace/all", cacheOptions);
 
     if (!active_workspaces.ok) {
       return {

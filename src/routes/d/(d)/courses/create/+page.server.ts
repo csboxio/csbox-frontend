@@ -2,6 +2,15 @@ import type {Actions} from "./$types";
 import {invalidateAll} from "$app/navigation";
 
 export const prerender = false;
+
+export const load = async ({ fetch, data, request, url, parent, locals: { getSession, getClaim } }) => {
+    //const session = await getSession()
+    const claim = await getClaim()
+    console.log(claim)
+    return {
+        claim: claim,
+    }
+}
 export const actions: Actions = {
     createCourse: async ({ request, url, locals: { supabase } }) => {
         const {data} = await supabase.auth.refreshSession()

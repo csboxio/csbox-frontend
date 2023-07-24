@@ -24,10 +24,25 @@ export const handle = async ({ event, resolve }) => {
 
   if (event.url.pathname.startsWith("/d")) {
     const session = event.locals.supabase.auth.getSession()
-    console.log(session)
     if (!session) {
       throw redirect(303, '/')
     }
+  }
+
+  event.locals.getClaim = async () => {
+    // This right now just checks if they are a claim admin.
+    const session = event.locals.supabase.auth.getSession()
+    session.then((session) => {
+      if (!session) {
+        throw redirect(303, '/')
+      } else {
+        const user = session.data.session.user
+        return user.app_metadata.claims_admin == true
+      }
+    }).catch((error) => {
+      console.log(error)
+      return false
+    })
   }
 
   /**

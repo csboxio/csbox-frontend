@@ -13,9 +13,13 @@
 	} from "flowbite-svelte";
 	import { applyAction, deserialize } from "$app/forms";
 	import WorkspaceNav from "$lib/components/WorkspaceNav.svelte";
+	import WorkspaceStatus from "$lib/components/workspaceStatus.svelte";
 	import {afterUpdate, onMount} from "svelte";
-	import {navStore} from "../../../../../lib/stores/stores.js";
+
 	import {page} from "$app/stores";
+	import Settings from "$lib/components/Settings.svelte";
+	import Navbar from "$lib/components/Navbar.svelte";
+	import {navStore} from "../../../../lib/stores/stores.js";
 
 	/** @type {import('./$types').PageData | null} */
 	export let data = null;
@@ -25,6 +29,25 @@
 
 	let active_workspaces;
 	$: active_workspaces = $page.data.active_workspaces.data;
+
+	onMount(() => {
+		// Set the selected item when the page is mounted
+		navStore.set('workspaces');
+	});
+
+
+	$: active_workspaces = active_workspaces.sort((a, b) => {
+		const dateA = new Date(a.created_at).getTime();
+		const dateB = new Date(b.created_at).getTime();
+
+		if (a.workspace_state === 0 && b.workspace_state !== 0) {
+			return 1;
+		} else if (a.workspace_state !== 1 && b.workspace_state === 1) {
+			return -1;
+		}
+		return dateB - dateA;
+	});
+
 
 	let ide;
 	$: ide = $page.data.ide;
@@ -74,7 +97,6 @@
 	}*/
 
 
-
 	export let show_create_box;
 
 	let selectedConfig = null;
@@ -108,59 +130,86 @@
 		await applyAction(result);
 	}
 
+	onMount(() => {
+		// Set the selected item when the page is mounted
+		navStore.set('workspaces');
+	});
+
 </script>
 
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
-		<div class="mx-auto">
-			<section class="pl-2">
-				<div class="container my-4">
-						<button
-							class="relative inline-flex items-center justify-center p-0.5 my-2 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-300 to-blue-500 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-							on:click={() => goto("workspaces/create")}>
-						<span
-							class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0"
-						>
-							Create
-						</span>
-						</button>
+
+<!-- Nav bar on the left of the screen-->
+<Navbar/>
+
+<div class="mx-auto lg:ml-16">
+
+	<!-- Top bar of settings -->
+	<section>
+		<div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
+			<div class="flex flex-wrap items-center justify-between -mx-2">
+				<div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
+					<h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Workspaces</h4>
 				</div>
+				<div class="w-full lg:w-auto px-2">
+					<Settings bind:data={data}/>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<div class="flex min-h-screen">
+	<!-- Work space navigation -->
+	<aside class="h-screen sticky top-0 inline-block" >
+		<WorkspaceNav active_workspaces={active_workspaces}/>
+	</aside>
+			<!-- Content -->
+			<section class="flex flex-col p-8 inline-block w-full">
 
 				<div class="relative overflow-x-auto  sm:rounded-lg w-full">
 				<Table shadow hoverable>
 					<TableHead>
+						<TableHeadCell></TableHeadCell>
+
 						<TableHeadCell>Title</TableHeadCell>
 						<TableHeadCell>Created</TableHeadCell>
-						<TableHeadCell>Configuration</TableHeadCell>
-						<TableHeadCell>Status</TableHeadCell>
-						<!--<TableHeadCell>
+						<TableHeadCell>Type</TableHeadCell>
+						<TableHeadCell>
 							<span class="sr-only ">Actions</span>
-						</TableHeadCell>-->
+						</TableHeadCell>
 					</TableHead>
 					<TableBody class="divide-y">
 						{#if active_workspaces}
 							{#key active_workspaces}
 						{#each active_workspaces as { id, created_at, workspace_name, image_name, type, workspace_state }}
 							<TableBodyRow  class="cursor-pointer" >
+								<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> </TableBodyCell>
+
 								<TableBodyCell>{workspace_name}</TableBodyCell>
-								<TableBodyCell>{created_at}</TableBodyCell>
-								<TableBodyCell>{image_name}</TableBodyCell>
-								<!--<TableBodyCell>{ide[0].status_codes[workspace_state]}</TableBodyCell>-->
+								<TableBodyCell>{created_at.substring(0,10)}</TableBodyCell>
+								<TableBodyCell>{type}</TableBodyCell>
 								<TableBodyCell>
-									<button class="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm
-									font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-300 to-blue-500
-									group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
-									focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-									on:click={() => goto("http://ide.csbox.io/api/kube/deploy/" + id)}>
-									<span
-									class="relative px-3 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600
-									rounded-md group-hover:bg-opacity-0">
-									Open
-									</span>
-								</button>
-
-
+									<Button><Chevron>Actions</Chevron></Button>
+									<Dropdown >
+										<DropdownItem>Open*</DropdownItem>
+										<DropdownItem> <div on:click={() => goto(`http://ide.csbox.io/api/kube/deploy/${id}`)}>Deploy</div> </DropdownItem>
+										<DropdownItem> <div on:click={() => fetch(`http://ide.csbox.io/api/workspace/download/home/${id}`).then((response) => {
+											if(response.ok) {
+												return response
+											}
+											throw new Error("Something went wrong.")
+										}).then((responseJson) => {
+											console.log(responseJson)
+										})
+										.catch((error) => {
+											console.log(error)
+										}) }>Save</div> </DropdownItem>
+										<DropdownItem>Delete*</DropdownItem>
+									</Dropdown>
 								</TableBodyCell>
+
 
 							</TableBodyRow>
 							{/each}
@@ -171,5 +220,5 @@
 				</div>
 			</section>
 		</div>
-
+    </div>
 </body>

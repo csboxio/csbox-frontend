@@ -1,9 +1,11 @@
 <!-- App.svelte -->
 <script>
     import { blur } from 'svelte/transition';
+    import WorkspaceEmbed from "$lib/embed/workspace/workspaceEmbed.svelte";
 
     let isExpanded = false;
     let isTabVisible = false;
+    const url = "http://ide.csbox.io/ide/initialize?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3b3Jrc3BhY2VfaWQiOiJkMTMzMzNlZi1iYTFhLTQ4NjEtYTg0Ny0zZWRmOGMzZjQ0OTgifQ.jMwCFgRpvRG4rK32Mf0PNOUzWDM4hiQnWiujYOYybts"
 
     function toggleExpansion() {
         isExpanded = !isExpanded;
@@ -77,4 +79,6 @@
         </div>
     {/if}
 </div>
+iframe
+<iframe src="http://ide.csbox.io/ide/initialize?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3b3Jrc3BhY2VfaWQiOiJkMTMzMzNlZi1iYTFhLTQ4NjEtYTg0Ny0zZWRmOGMzZjQ0OTgifQ.jMwCFgRpvRG4rK32Mf0PNOUzWDM4hiQnWiujYOYybts"></iframe>
 </body>
