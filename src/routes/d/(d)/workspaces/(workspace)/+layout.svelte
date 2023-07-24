@@ -12,6 +12,7 @@
     $: ({ supabase, session, user } = data)
 
     let active_workspaces = [];
+    $: active_workspaces = data.active_workspaces.data;;
     onMount(() => {
         const storedWorkspaces = localStorage.getItem('active_workspaces');
         if (storedWorkspaces) {
@@ -28,23 +29,6 @@
         active_workspaces = newWorkspaces;
     }
 
-
-
-    $: {
-        if (data && data.active_workspaces && data.active_workspaces.data) {
-            active_workspaces = data.active_workspaces.data;
-        } else {
-            active_workspaces = [];
-        }
-    }
-
-    $: {
-        if (data === null) {
-            // Handle error case when data is null
-            console.error('Error: Data is null.');
-            // Display an error message to the user or take any other necessary actions
-        }
-    }
 </script>
 
 
