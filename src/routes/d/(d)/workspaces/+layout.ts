@@ -24,6 +24,7 @@ export const load = async ({ fetch, data, request, url, parent }) => {
     const active_workspaces = await fetch("/api/workspace/all", cacheOptions);
 
     if (!active_workspaces.ok) {
+      console.log('nasd')
       return {
         workspaces: await workspaces.json(),
         ide: await ide.json(),

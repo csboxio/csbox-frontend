@@ -32,7 +32,11 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
 
     return json(responseData);
   } catch (e) {
-    console.error('Error occurred:', e);
-    return json({ error: 'Error occurred.' });
+    return new Response(JSON.stringify({ message: 'API down!' }), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 };
