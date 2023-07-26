@@ -89,25 +89,42 @@
     </aside>
     <!-- Content -->
     <section class="flex flex-col p-8 inline-block w-full">
-      <div class="p-4">
-        <h2 class="text-white  text-xl font-bold mb-4 pt-6">Create Workspace</h2>
+      <div class="">
+        <h2 class="text-white  text-2xl font-bold mb-4 pt-6">Create Workspace</h2>
+
+        <div class="flex p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+          <svg class="flex-shrink-0 inline w-4 h-4 mr-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+          </svg>
+          <span class="sr-only">Info</span>
+          <div>
+            <span class="font-medium">Configuration is not implemented:</span>
+            <ul class="mt-1.5 ml-4 list-disc list-inside">
+              <li>Defaults to type: Pro</li>
+              <li>Defaults to Python language support</li>
+              <li>Storage size defaults to 5GB</li>
+              <li>Planned for August 2023</li>
+            </ul>
+          </div>
+        </div>
+
         <form method="POST" action="?/createWorkspace" on:submit|preventDefault={handleSubmit}>
-          <div class="grid gap-8 mb-6 px-6 sm:grid-cols-2 py-12">
+          <div class="grid gap-12 mb-6 px-12 sm:grid-cols-2 py-12">
             <div>
               <!-- Workspace Name-->
-              <label for="workspace_name" class="block mb-2 text-sm font-medium text-white dark:text-white">
-                Title
+              <label for="workspace_name" class="block mb-2 font-medium text-white dark:text-white text-xl">
+                Workspace Name
               </label>
               <input type="text" name="workspace_name" id="workspace_name"
                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600
 		focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
 		dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                     placeholder="Workspace Name"
+                     placeholder="My Workspace"
                      required />
             </div>
             <div>
               <!-- Workspace Type-->
-              <label for="type" class="block mb-2 text-sm font-medium text-white dark:text-white">
+              <label for="type" class="block mb-2 text-xl font-medium text-white dark:text-white">
                 Type
               </label>
               <div class="grid grid-cols-5 gap-0 mb-10" id="type">
@@ -136,7 +153,7 @@
             </div>
             <!-- Workspace Configuration -->
             <div class="container mx-auto">
-              <label class="block mb-2 text-sm font-medium text-white dark:text-white">
+              <label class="block mb-2 text-xl font-medium text-white dark:text-white">
                 Language
               </label>
               <div class="grid grid-cols-3 gap-4">
@@ -154,7 +171,7 @@
 
             <!-- Workspace storage size -->
             <div>
-              <label class="block mb-2 text-sm font-medium text-white dark:text-white">
+              <label class="block mb-2 text-xl font-medium text-white dark:text-white">
                 Storage Size
               </label>
               <Range id="size" min="5" max="20" bind:value={storageSize}/>
