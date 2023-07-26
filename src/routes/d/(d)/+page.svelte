@@ -17,8 +17,8 @@
 
 	export let data
 
-	let { supabase } = data
-	$: ({ supabase } = data)
+	let { supabase, claim } = data
+	$: ({ supabase, claim } = data)
 
 	if ($page.data.session && browser) {
 		const user = $page.data.user.data;

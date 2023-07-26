@@ -73,14 +73,14 @@
 			// re-run all `load` functions, following the successful update
 			currentStep = 2;
 
-			let { data, error } = await supabase
-					.rpc('get_most_recent_course_id')
+			//let { data, error } = await supabase
+			//		.rpc('get_most_recent_course_id')
 
-			console.log(data)
+			//console.log(data, error)
 
 			currentCourseId = data
 
-			 createPlaceHolderCourseDocument(currentCourseId, $page.data.session.user.id, supabase);
+			// createPlaceHolderCourseDocument(currentCourseId, $page.data.session.user.id, supabase);
 			await invalidateAll();
 		}
 
@@ -101,8 +101,8 @@
 	}
 </style>
 
+{#if claim !== 'student'}
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
-{claim}
 	<div class="from-gray-500 to-gray-500 bg-gradient-to-br antialiased bg-body text-body font-body">
 			<section class="py-3">
 				<div class="container px-6 mx-auto">
@@ -357,3 +357,4 @@
 			</section>
 	</div>
 </body>
+{/if}

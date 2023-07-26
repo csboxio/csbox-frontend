@@ -31,18 +31,19 @@ export const handle = async ({ event, resolve }) => {
 
   event.locals.getClaim = async () => {
     // This right now just checks if they are a claim admin.
-    const session = event.locals.supabase.auth.getSession()
-    session.then((session) => {
+    try {
+      const {
+        data: { session },
+      } = await event.locals.supabase.auth.getSession()
       if (!session) {
         throw redirect(303, '/')
       } else {
-        const user = session.data.session.user
-        return user.app_metadata.claims_admin == true
+        return session.user?.app_metadata.userrole
       }
-    }).catch((error) => {
+    } catch(error) {
       console.log(error)
       return false
-    })
+    }
   }
 
   /**

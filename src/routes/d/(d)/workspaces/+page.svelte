@@ -9,7 +9,7 @@
 		TableBodyCell,
 		TableBodyRow,
 		TableHead,
-		TableHeadCell
+		TableHeadCell, Modal
 	} from "flowbite-svelte";
 	import { applyAction, deserialize } from "$app/forms";
 	import WorkspaceNav from "$lib/components/WorkspaceNav.svelte";
@@ -21,6 +21,9 @@
 	import Navbar from "$lib/components/Navbar.svelte";
 	import {navStore} from "../../../../lib/stores/stores.js";
 	import {writable} from "svelte/store";
+	import {browser} from "$app/environment";
+	import Fa from 'svelte-fa/src/fa.svelte';
+	import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 	/** @type {import('./$types').PageData | null} */
 	export let data = null;
@@ -90,21 +93,23 @@
 
 	// ---------- WEB SOCKETS --------------
 
-	const websocketMessages = writable([]);
+	const deployMessages = writable([]);
 
-	function deployWorkspace(websocketId) {
+	async function deployWorkspace(workspace_id) {
+		deployModel = true;
 		const websocketUrl = 'ws://ide.csbox.io/api/kube/'
 		let actionParam = 'deploy/'
 
-		const socket = new WebSocket(websocketUrl + actionParam + websocketId);
+		const socket = new WebSocket(websocketUrl + actionParam + workspace_id);
 
 		socket.onmessage = (event) => {
-			const message = JSON.parse(event.data);
-			websocketMessages.update((prevMessages) => [...prevMessages, message])
+			const message = event.data;
+			deployMessages.update((prevMessages) => [...prevMessages, message])
 		}
 
-		socket.onclose = (event) => {
+		socket.onclose = async (event) => {
 			console.log("Websocket closed.", event.code, event.reason)
+			await redirectWorkspace(workspace_id)
 		}
 
 		socket.onerror = (error) => {
@@ -112,11 +117,57 @@
 		}
 	}
 
+	async function redirectWorkspace(workspace_id) {
+		if (browser) {
+			try {
+
+				const response = await fetch('http://ide.csbox.io/api/kube/redirect/' + workspace_id, {
+					method: 'GET',
+					mode: 'cors',
+					credentials: 'omit'
+				})
+
+				if (!response.ok) {
+					throw new Error('Network error')
+				}
+
+				const data = await response.json();
+
+				const url = data.url;
+
+				console.log(url)
+
+				window.open('http://' + url, '_blank')
+
+				deployModel = false;
+
+			} catch (e) {
+				console.log("Redirect error: " + e)
+			}
+		}
+
+	}
+
+
+	async function stopWorkspace(workspace_id) {
+		const stopWorkspaceUrl = 'http://ide.csbox.io/api/kube/stop/' + workspace_id
+
+		const { data, error } = await fetch(stopWorkspaceUrl, {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			mode: 'no-cors'
+		});
+		console.log(data, error)
+	}
+
 
 	onMount(() => {
 		// Set the selected item when the page is mounted
 		navStore.set('workspaces');
 	});
+
+	let deployModel = false;
 
 </script>
 
@@ -150,7 +201,6 @@
 	</aside>
 			<!-- Content -->
 			<section class="flex flex-col p-8 inline-block w-full">
-
 				<div class="relative overflow-x-auto  sm:rounded-lg w-full">
 				<Table shadow hoverable>
 					<TableHead>
@@ -177,8 +227,8 @@
 									<Button><Chevron>Actions</Chevron></Button>
 									<Dropdown >
 										<DropdownItem>Open*</DropdownItem>
-										<DropdownItem> <div on:click={() => deployWorkspace(id)}>Deploy</div> </DropdownItem>
-										<DropdownItem>  </DropdownItem>
+										<DropdownItem> <div on:click={async () => await deployWorkspace(id)}>Deploy</div> </DropdownItem>
+										<DropdownItem> <div on:click={async () => await stopWorkspace(id)}>Stop</div>  </DropdownItem>
 										<DropdownItem>Delete*</DropdownItem>
 									</Dropdown>
 								</TableBodyCell>
@@ -223,3 +273,12 @@
 		</div>
     </div>
 </body>
+
+<Modal title="Starting Workspace" bind:open={deployModel} class="max-w-xs" >
+	<div class="text-center">
+		<div class="inline-block pr-4">
+		<Fa icon={faCircleNotch} size="2x" spin />
+		</div>
+		<div class="font-semibold text-white inline-block pr-4 align-super">{$deployMessages}</div>
+	</div>
+</Modal>

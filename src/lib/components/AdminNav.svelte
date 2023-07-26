@@ -11,25 +11,16 @@
     <!-- Panel content -->
     <div class="flex-1 pl-1.5 pr-1 mr-0.5 overflow-y-hidden font-semibold text-white ">
       <!-- Content -->
-      <a href="/d/workspaces/create">
+      <a href="/d/admin/users">
         <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg">
-          <p class="px-4 whitespace-nowrap">Create Workspace</p>
+          <p class="px-4 whitespace-nowrap">Users</p>
         </div>
       </a>
-      <a href="/d/workspaces/">
+      <a href="/d/admin/billing">
         <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg">
-          <p class="px-4 whitespace-nowrap">Workspaces</p>
+          <p class="px-4 whitespace-nowrap">Billing</p>
         </div>
       </a>
-      <hr>
-      <!--
-      {#each active_workspaces as workspace}
-        <a href="/d/workspaces/">
-          <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg">
-            <p class="px-2 mx-1 text-gray-100">{workspace.workspace_name}</p>
-          </div>
-        </a>
-      {/each}-->
     </div>
   </div>
 </section>

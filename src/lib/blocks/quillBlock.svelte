@@ -7,6 +7,7 @@
     export let filePath;
     export let bucket;
     export let saveFunction;
+    export let claim;
 
     // ---------------  QUILL ---------------
 
@@ -96,7 +97,7 @@
     }
 
     async function handleSave() {
-        if (browser) {
+        if (browser && claim !== 'student') {
 
             await uploadQuillDocument(quill.root.innerHTML, $page.params.slug,
                 $page.data.session.user.id, supabase, filePath, bucket);
@@ -165,7 +166,7 @@
 
 <div class="mb-4 ">
     <section class="p-1 grow max-w-full mt-4">
-        {#if mode.view}
+        {#if mode.view && claim !== 'student'}
             <div class="">
                 <button class="my-0 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
                         on:click={handleEdit}>
@@ -175,7 +176,7 @@
                 </button>
             </div>
         {/if}
-        {#if mode.edit}
+        {#if mode.edit && claim !== 'student'}
             <button
                     class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
                     on:click={handleSave}>
