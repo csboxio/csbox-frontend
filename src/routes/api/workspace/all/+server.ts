@@ -1,12 +1,12 @@
 import type {RequestHandler} from "@sveltejs/kit";
-import {redirect} from "@sveltejs/kit";
+import {json, redirect} from "@sveltejs/kit";
 
 // TODO UNKNOWN IF TRULY SECURE
 // https://github.com/supabase/auth-helpers/issues/408
 /** @type {import('./$types').RequestHandler} */
 // @ts-ignore
-export const GET: RequestHandler = async ({ request, url, locals: { supabase, getSession }, event }) => {
-  const session = await getSession()
+export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { supabase, getSession }, event }) => {
+  const session = await getSession();
 
   if (!session) {
     throw redirect(303, '/');
@@ -25,27 +25,18 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
 
     const responseData = await active_workspaces.json();
 
-    return new Response(JSON.stringify(responseData), {
+    setHeaders({
+      'cache-control': 'public, max-age=60, s-maxage=60'
+    })
+
+
+    return json(responseData);
+  } catch (e) {
+    return new Response(JSON.stringify({ message: 'API down!' }), {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
       },
     });
-  } catch (e) {
-    if (e instanceof TypeError) {
-      console.log("Fetch failed for workspaces.");
-    } else {
-      console.error(e);
-    }
-
-    // If an error occurs, return an appropriate error response.
-    return new Response(JSON.stringify({ error: 'failed' }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
   }
-
-
-}
+};

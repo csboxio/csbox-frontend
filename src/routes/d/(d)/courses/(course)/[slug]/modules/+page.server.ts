@@ -36,18 +36,33 @@ export const actions: Actions = {
             user = data.user
         }
         user = data.user
-        const id = formData.get('id')
+        const assignment_id = formData.get('assignment_id')
+        const quiz_id = formData.get('quiz_id')
+
+
         const module = formData.get('modules')
 
         const course_id = params.slug
-        if (user != null) {
+        if (user != null && quiz_id == null) {
             const updates = {
                 in_module: module
             }
             const {error} = await supabase.from('assignments').update(updates)
               .eq('user_id', user.id)
               .eq('course_id', course_id)
-              .eq('assignment_id', id)
+              .eq('assignment_id', assignment_id)
+
+            console.log(error)
+        }
+
+        if (user != null && assignment_id == null) {
+            const updates = {
+                in_module: module
+            }
+            const {error} = await supabase.from('quizzes').update(updates)
+                .eq('user_id', user.id)
+                .eq('course_id', course_id)
+                .eq('id', quiz_id)
 
             console.log(error)
         }

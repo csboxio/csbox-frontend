@@ -1,7 +1,21 @@
 import type {Actions} from "./$types";
 import {invalidateAll} from "$app/navigation";
+import {redirect} from "@sveltejs/kit";
 
 export const prerender = false;
+
+export const load = async ({ locals: { getSession, getClaim } }) => {
+    const session = await getSession()
+    if (session) {
+        const claim = await getClaim()
+        if (claim == "student") {
+            throw redirect(303, '/')
+        }
+        return {
+            claim: claim,
+        }
+    }
+}
 export const actions: Actions = {
     createCourse: async ({ request, url, locals: { supabase } }) => {
         const {data} = await supabase.auth.refreshSession()
@@ -17,6 +31,7 @@ export const actions: Actions = {
         if (data.session) {
             //const course_id = Math.floor(Math.random() * 9999999999);
 
+            console.log("create/page" + user)
             const updates = {
                 _inserted_at: new Date(),
                 _user_id: user.id,

@@ -6,6 +6,8 @@
 	import { AccordionItem, Accordion, Modal } from "flowbite-svelte";
 	import {onMount} from "svelte";
 	import {navStore} from "../../../../../../../lib/stores/stores.js";
+	import Fa from 'svelte-fa/src/fa.svelte';
+	import {faCircleCheck, faFlag, faPencil} from "@fortawesome/free-solid-svg-icons";
 
 	export let data;
 	let loading;
@@ -16,12 +18,15 @@
 	let item_id;
 	let modules;
 	let assignments;
+	let quizzes;
+	let selectedTypeAddItem;
 
 	//TODO WHEN MOVING ITEMS IT SHOULD NOT CLOSE THAT ONES THAT ARE OPEN
 
 	$: item_id;
 	$: modules = $page.data.modules
 	$: assignments = $page.data.assignments
+	$: quizzes = $page.data.quizzes
 
 	function create_module() {
 		close_add_item();
@@ -107,11 +112,12 @@
 					<div transition:blur|local={{ duration: 200 }} class="mb-1 mx-6 cursor-pointer">
 						<!--Module-->
 						<div id="accordion-collapse" data-accordion="collapse">
-
 						<AccordionItem class="bg-gray-700 border-gray-100" bind:open={items[i]}>
+
 									<span slot="header" class="text-white text-lg">
 										{module_title}
 									</span>
+
 									<!-- Plus symbol to the right of the module title -->
 									<a on:click|stopPropagation={() => {add_item(module_title)}}
 										 class="text-gray-200 pb-4 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
@@ -131,17 +137,30 @@
 										</span>
 									</a>
 									<!-- End of plus symbol -->
-									{#key assignments}
+
 									{#each assignments as {title, in_module}, i}
 										{#if in_module === id}
 											<a>
-											<div class="py-4 px-4 text-lg text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t"on:click={()=> {handleAssignment(assignments[i].assignment_id)}}>
+											<div class="py-4 px-4 text-lg text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t"
+												 on:click={()=> {handleAssignment(assignments[i].assignment_id)}}>
+												<Fa class="inline-block pr-4" icon={faPencil}/>
 												{title === '' ? 'Assignment Error..' : title}
 											</div>
 											</a>
 											{/if}
 									{/each}
-									{/key}
+
+										{#each quizzes as {quiz_title, in_module}, i}
+											{#if in_module === id}
+											<a>
+												<div class="py-4 px-4 text-lg text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t"
+													 	>
+														<Fa class="inline-block pr-4" icon={faCircleCheck}/>
+														{quiz_title === '' ? 'Quizzes Error..' : quiz_title}
+													</div>
+												</a>
+											{/if}
+										{/each}
 								</AccordionItem>
 
 						</div>
@@ -221,7 +240,7 @@
 </Modal>
 
 <!-- Add assignment to module -->
-<Modal title="Add assignment to module" class="max-w-xs" bind:open={addAssignmentModel}>
+<Modal title="Add item to module" class="max-w-xs" bind:open={addAssignmentModel}>
 	<form method="POST" action="?/addItemToModule" on:submit|preventDefault={handle_module_submit}>
 		<div class="grid gap-4 mb-4 sm:grid-cols-2">
 
@@ -243,15 +262,43 @@
 				</select>
 			</div>
 
+			<div>
+				<label
+						for="type"
+						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+				>Type</label
+				>
+				<select bind:value={selectedTypeAddItem}
+						name="type"
+						id="type"
+						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+						required>
+						<option value="assignment">Assignment</option>
+						<option value="quiz">Quiz</option>
+
+				</select>
+			</div>
+
 
 		</div>
 		<div>
-			<label for="id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an item</label>
-			<select multiple name="id" id="id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+			{#if selectedTypeAddItem === "assignment"}
+			<label for="assignment_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an assignment</label>
+			<select multiple name="assignment_id" id="assignment_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 				{#each assignments as {assignment_id, title, due}}
 					<option value="{assignment_id}">{title} | Due - {new Date(due).toDateString()}</option>
 				{/each}
 			</select>
+				{/if}
+			{#if selectedTypeAddItem === "quiz"}
+
+			<label for="quiz_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a quiz</label>
+			<select multiple name="quiz_id" id="quiz_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+				{#each quizzes as {id, quiz_title, due}}
+					<option value="{id}">{quiz_title} | Due - {new Date(due).toDateString()}</option>
+				{/each}
+			</select>
+				{/if}
 		</div>
 		<button
 			type="submit"

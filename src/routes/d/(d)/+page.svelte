@@ -17,10 +17,9 @@
 
 	export let data
 
-	let { supabase } = data
-	$: ({ supabase } = data)
+	let { supabase, claim } = data
+	$: ({ supabase, claim } = data)
 
-	console.log($page.data.session != null)
 	if ($page.data.session && browser) {
 		const user = $page.data.user.data;
 		const updated = $page.data.user.updated_at;

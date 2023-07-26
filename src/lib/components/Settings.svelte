@@ -5,6 +5,8 @@
   import {notifications} from "$lib/utilities/notifications.js";
   import {afterUpdate, onMount} from "svelte";
   import {browser} from "$app/environment";
+  import { fade, slide } from 'svelte/transition'
+
 
   export const ssr = true;
   export let showTopRightMenuModel = false
@@ -43,14 +45,14 @@
             .eq('user_id', $page.data.session.user.id)
             .single()
 
-    console.log(data, error)
 
     if (!error) {
       return data;
     }
   }
 
-  async function deleteNotification(notifications, pos) {
+  async function deleteNotification(notifications, pos, event) {
+
     console.log(notifications, pos)
 
     if (pos >= 0 && pos < notifications.notifications.length) {
@@ -71,7 +73,6 @@
 
   onMount(async () => {
     const storedNotifications = localStorage.getItem('storedNotifications');
-    console.log(storedNotifications)
 
     if(storedNotifications != 'undefined') {
       notificationsReceived = JSON.parse(storedNotifications);
@@ -101,6 +102,7 @@
               console.log('Error notifications: ', error)
             })
   }
+
 </script>
 
 <div class="w-full lg:w-auto px-2">
@@ -112,18 +114,18 @@
         <div id="bell" class="inline-flex items-center text-sm font-medium z-20 text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400">
           <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg>
           <div class="flex relative ">
-            <div class="inline-flex relative z-10 -top-2 right-3 w-3 h-3 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"></div>
+            <div class="inline-flex relative z-10 -top-2 right-3 w-3 h-3 bg-red-500 animate-pulse rounded-full border-2 border-white dark:border-gray-900"></div>
           </div>
         </div>
 
-        <Dropdown triggeredBy="#bell" class="w-full max-w-sm rounded divide-y divide-gray-100 z-20 shadow dark:bg-gray-800 dark:divide-gray-700">
+        <Dropdown triggeredBy="#bell" class="w-full max-w-sm rounded divide-y divide-gray-100 z-20 shadow dark:bg-gray-800 dark:divide-gray-700" >
           <div slot="header" class="text-center py-2 font-bold z-10">Notifications</div>
-          {#key notificationsReceived}
+
           {#if notificationsReceived !== undefined && notificationsReceived.new != null && JSON.stringify(notificationsReceived) !== JSON.stringify([])}
           {#each notificationsReceived.new.notifications as notification, id}
           <DropdownItem class="flex space-x-4 z-20" >
-            <div class="pl-3 w-full">
-              <span class="font-semibold text-gray-900 dark:text-white">{notification.title}</span>: {notification.message}</div>
+            <div class="pl-3 w-full" transition:slide|local>
+              <span class="font-semibold text-gray-900 dark:text-white" transition:slide|local>{notification.title}</span>: {notification.message}</div>
             <div class="text-gray-300 hover:text-gray-100 hover:scale-110 cursor-pointer">
             <svg
                     aria-hidden="true"
@@ -149,7 +151,7 @@
                 <span class="font-semibold text-gray-900 dark:text-white">No notifications found...</span></div>
             </DropdownItem>
           {/if}
-          {/key}
+
           <a slot="footer" class="block py-2 z-20 -my-1 text-sm font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
             <div class="inline-flex items-center">
               <svg class="mr-2 w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path></svg>
@@ -172,6 +174,7 @@
             <div slot="header" class="px-4 py-2">
               <span class="block text-sm text-gray-900 dark:text-white "> {user.first_name} {user.last_name} </span>
               <span class="block truncate text-sm font-medium"> {$page.data.session?.user?.email} </span>
+              <span class="block truncate text-sm font-bold text-blue-500 animate-text bg-gradient-to-r from-blue-500 via-teal-500 to-yellow-500 bg-clip-text text-transparent text-5xl font-black"> {$page.data.session?.user?.app_metadata.userrole.toUpperCase() } </span>
             </div>
             <DropdownItem on:click={() => {goto('/d/profile')}}>Settings</DropdownItem>
             <DropdownItem on:click={signOut} slot="footer">Sign out</DropdownItem>

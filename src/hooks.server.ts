@@ -15,6 +15,37 @@ export const handle = async ({ event, resolve }) => {
     }
   })
 
+  if (event.url.pathname.startsWith("/api")) {
+    const session = event.locals.supabase.auth.getSession()
+    if (!session) {
+      throw redirect(303, '/')
+    }
+  }
+
+  if (event.url.pathname.startsWith("/d")) {
+    const session = event.locals.supabase.auth.getSession()
+    if (!session) {
+      throw redirect(303, '/')
+    }
+  }
+
+  event.locals.getClaim = async () => {
+    // This right now just checks if they are a claim admin.
+    try {
+      const {
+        data: { session },
+      } = await event.locals.supabase.auth.getSession()
+      if (!session) {
+        throw redirect(303, '/')
+      } else {
+        return session.user?.app_metadata.userrole
+      }
+    } catch(error) {
+      console.log(error)
+      return false
+    }
+  }
+
   /**
    * a little helper that is written for convenience so that instead
    * of calling `const { data: { session } } = await supabase.auth.getSession()`

@@ -14,6 +14,11 @@ export const GET: RequestHandler = async ({ request, url, locals: { getSession, 
         const { data, error } = await supabase.from('courses')
             .select('id, inserted_at, updated_at, course_image_url, course_title, course_prefix, course_number, course_term, course_color')
 
+
+        if (error) {
+            console.log(error)
+        }
+
         return json({data})
     }
 

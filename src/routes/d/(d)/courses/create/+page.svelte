@@ -48,8 +48,8 @@
 
 	let currentCourseId;
 
-	let { supabase } = data
-	$: ({ supabase } = data)
+	let { supabase, claim } = data
+	$: ({ supabase, claim } = data)
 
 	async function handleSubmit(event) {
 		loading = true;
@@ -73,14 +73,14 @@
 			// re-run all `load` functions, following the successful update
 			currentStep = 2;
 
-			let { data, error } = await supabase
-					.rpc('get_most_recent_course_id')
+			//let { data, error } = await supabase
+			//		.rpc('get_most_recent_course_id')
 
-			console.log(data)
+			//console.log(data, error)
 
 			currentCourseId = data
 
-			 createPlaceHolderCourseDocument(currentCourseId, $page.data.session.user.id, supabase);
+			// createPlaceHolderCourseDocument(currentCourseId, $page.data.session.user.id, supabase);
 			await invalidateAll();
 		}
 
@@ -101,6 +101,7 @@
 	}
 </style>
 
+{#if claim !== 'student'}
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
 	<div class="from-gray-500 to-gray-500 bg-gradient-to-br antialiased bg-body text-body font-body">
 			<section class="py-3">
@@ -356,3 +357,4 @@
 			</section>
 	</div>
 </body>
+{/if}

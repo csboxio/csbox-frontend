@@ -13,8 +13,8 @@
 
 	export let data
 
-	let { supabase, session, user } = data
-	$: ({ supabase, session, user } = data)
+	let { supabase, session, user, claim } = data
+	$: ({ supabase, session, user, claim } = data)
 
 	onMount(async () => {
 		const {

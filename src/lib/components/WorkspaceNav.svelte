@@ -12,17 +12,24 @@
     <div class="flex-1 pl-1.5 pr-1 mr-0.5 overflow-y-hidden font-semibold text-white ">
       <!-- Content -->
       <a href="/d/workspaces/create">
-        <div class="space-y-8 py-4 hover:bg-gray-800 rounded-lg">
+        <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg">
           <p class="px-4 whitespace-nowrap">Create Workspace</p>
         </div>
       </a>
+      <a href="/d/workspaces/">
+        <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg">
+          <p class="px-4 whitespace-nowrap">Workspaces</p>
+        </div>
+      </a>
+      <hr>
+      <!--
       {#each active_workspaces as workspace}
         <a href="/d/workspaces/">
           <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg">
             <p class="px-2 mx-1 text-gray-100">{workspace.workspace_name}</p>
           </div>
         </a>
-      {/each}
+      {/each}-->
     </div>
   </div>
 </section>

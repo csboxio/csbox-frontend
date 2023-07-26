@@ -8,8 +8,8 @@
 
 	export let data;
 
-	let { supabase } = data
-	$: ({ supabase } = data)
+	let { supabase, claim } = data
+	$: ({ supabase, claim } = data)
 	
 	let courses;
 	$: courses = $page.data.courses.data;
@@ -32,7 +32,7 @@
 	<section class="p-1 grow max-w-full-1/2 mt-4">
 
 		<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
-					bind:filePath={filePath} bind:bucket={bucket}
+					bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
 					saveFunction={saveFunction} />
 	</section>
 </div>
