@@ -14,3 +14,5 @@ export const navStore = writable();
 
 export const courseNavStore = writable();
 
+export let checkedUserInfo = writable('false');
+

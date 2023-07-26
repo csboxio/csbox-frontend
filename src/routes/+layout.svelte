@@ -5,6 +5,7 @@
 	import { browser } from "$app/environment";
 	import {onLCP, onFID, onCLS} from 'web-vitals';
 	import { page } from "$app/stores";
+	import {checkedUserInfo} from "../lib/stores/stores.js";
 
 
 	if (browser) {
