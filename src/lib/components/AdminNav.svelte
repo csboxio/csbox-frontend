@@ -11,6 +11,11 @@
     <!-- Panel content -->
     <div class="flex-1 pl-1.5 pr-1 mr-0.5 overflow-y-hidden font-semibold text-white ">
       <!-- Content -->
+      <a href="/d/admin/">
+        <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg">
+          <p class="px-4 whitespace-nowrap">Dashboard</p>
+        </div>
+      </a>
       <a href="/d/admin/users">
         <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg">
           <p class="px-4 whitespace-nowrap">Users</p>

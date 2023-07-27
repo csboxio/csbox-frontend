@@ -1,7 +1,6 @@
 import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$env/static/public";
 import {PRIVATE_ADMIN_MASTER_KEY} from "$env/static/private";
 import { createClient } from '@supabase/supabase-js';
-import jwt from 'jsonwebtoken';
 import {json, redirect, RequestHandler} from "@sveltejs/kit";
 
 export const POST: RequestHandler = async ({ request, locals: { getSession } }) => {
@@ -54,7 +53,7 @@ export const POST: RequestHandler = async ({ request, locals: { getSession } }) 
       };
 
       // Generate the token using jwt.sign
-      const token = jwt.sign(payload, PRIVATE_ADMIN_MASTER_KEY, { expiresIn: '1h' });
+      const token = ''//= jwt.sign(payload, PRIVATE_ADMIN_MASTER_KEY, { expiresIn: '1h' });
 
       const { data, error: insertError } = await supabase.from('tokens').insert([
         { id: session.user.id, token: token },

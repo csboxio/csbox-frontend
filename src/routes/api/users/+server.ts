@@ -30,6 +30,8 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
         .eq('id', session.user.id)
         .single()
 
+      console.log(data, error)
+
 
       if (DEV) {
           //console.log(data, error, status)

@@ -6,6 +6,7 @@
 
     import AdminNav from "$lib/components/AdminNav.svelte";
     import {navStore} from "../../../../../lib/stores/stores.js";
+    import {Helper, Input, Label} from "flowbite-svelte";
     export let data
 
     let { supabase, session, user } = data
@@ -51,7 +52,18 @@
         <section class="flex flex-col p-8 inline-block w-full">
 
             <div class="relative overflow-x-auto  sm:rounded-lg w-full">
+                <div class="p-8">
+                    <h2 class="text-2xl font-semibold mb-4">Users</h2>
 
+                    <!-- User List Table -->
+
+                    <div class="mt-4">
+                        <h3 class="text-xl font-semibold mb-2">Add/Edit User</h3>
+                        <Label class="block mb-2">Your email</Label>
+                        <Input label="Email" id="email" name="email" required placeholder="name@flowbite.com"/>
+                        <Helper class="text-sm mt-2">We’ll never share your details. Read our <a href="/" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Privacy Policy</a>.</Helper>
+                    </div>
+                </div>
             </div>
         </section>
     </div>

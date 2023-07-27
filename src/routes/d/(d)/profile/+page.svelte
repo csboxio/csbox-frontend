@@ -8,7 +8,7 @@
 	import Settings from "$lib/components/Settings.svelte";
 	import {uploadAvatar} from "$lib/utilities/imageStorage.js";
 	import {faUpload} from "@fortawesome/free-solid-svg-icons";
-	import {Input, Label} from "flowbite-svelte";
+	import {Input, Label, Textarea} from "flowbite-svelte";
 	import {page} from "$app/stores";
 
 	onMount(() => {
@@ -58,6 +58,19 @@
 	}
 
 </script>
+
+<style>
+	@keyframes pulse-red {
+		0%, 100% {
+			opacity: 1;
+			color: red; /* Set the color to red at the start and end of the animation */
+		}
+		50% {
+			opacity: 0.5;
+			color: #ff7f7f; /* Set a lighter shade of red or any color you prefer in the middle of the animation */
+		}
+	}
+</style>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
 <Navbar/>
@@ -117,7 +130,7 @@
 												<h4 class="text-2xl font-bold tracking-wide text-white mb-4">General Information</h4>
 												<div class="grid grid-cols-2 gap-6 w-full">
 													<div class="mb-6">
-														<Label for="first" class="block mb-2">First Name:</Label>
+														<Label for="first" class="block mb-2 text-red-500 {user.first_name == '' ? 'animate-pulse pulse-red text-red-500' : ''}">First Name:</Label>
 														<Input id="first" name="first" class="w-full" bind:value={user.first_name} />
 													</div>
 													<div class="mb-6">
@@ -139,7 +152,7 @@
 													</div>
 													<div class="mb-6">
 														<Label for="bio" class="block mb-2">Bio:</Label>
-														<Input id="bio" name="bio" class="w-full" bind:value={user.bio} />
+														<Textarea id="bio" name="bio" class="w-full" bind:value={user.bio} />
 													</div>
 
 												</div>
