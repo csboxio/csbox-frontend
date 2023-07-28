@@ -101,7 +101,7 @@
             <span class="font-medium">Configuration is not implemented:</span>
             <ul class="mt-1.5 ml-4 list-disc list-inside">
               <li>Defaults to type: Air</li>
-              <li>Defaults to Python language support</li>
+              <li>Defaults to Python. (Any language is supported)</li>
               <li>Storage size defaults to 5GB</li>
               <li>Planned for August 2023</li>
             </ul>

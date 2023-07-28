@@ -45,6 +45,9 @@
             .eq('user_id', $page.data.session.user.id)
             .single()
 
+    if (error) {
+      console.log(data, error)
+    }
 
     if (!error) {
       return data;

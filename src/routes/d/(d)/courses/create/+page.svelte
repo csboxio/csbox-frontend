@@ -73,12 +73,14 @@
 			// re-run all `load` functions, following the successful update
 			currentStep = 2;
 
-			//let { data, error } = await supabase
-			//		.rpc('get_most_recent_course_id')
+			let { data, error } = await supabase
+					.rpc('get_most_recent_course_id')
 
-			//console.log(data, error)
+			console.log(data, error)
 
 			currentCourseId = data
+
+			console.log(currentCourseId)
 
 			// createPlaceHolderCourseDocument(currentCourseId, $page.data.session.user.id, supabase);
 			await invalidateAll();

@@ -20,6 +20,8 @@
 	let { supabase, session, user } = data
 	$: ({ supabase, session, user } = data)
 
+	console.log(session)
+
 	onMount(() => {
 
 		const {
