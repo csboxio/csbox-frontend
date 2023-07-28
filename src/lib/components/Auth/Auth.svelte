@@ -5,6 +5,8 @@
     import ToggleButton from './ToggleButton.svelte';
     import { browser } from "$app/environment";
     import { Turnstile } from "svelte-turnstile";
+    import { blur } from 'svelte/transition';
+
 
 
     const colors = [
@@ -69,7 +71,9 @@
 
     let token;
     $: token;
+
 </script>
+
 <body class="antialiased bg-body text-body font-body bg-gray-600 h-screen">
 <div class="">
     <div class="dark:bg-scale-200 bg-scale-100 relative py-2 pb-16">
@@ -118,7 +122,6 @@
                               {socialLayout}
                             />
                             <div class="flex justify-center text-center">
-                                <!--queryParams={{options: { token }}}-->
                                 {#if browser}
                                     <Turnstile siteKey="0x4AAAAAAAFpCF8-h1TYQKHV" on:turnstile-callback={e => {token = e.detail.token}} />
                                 {/if}

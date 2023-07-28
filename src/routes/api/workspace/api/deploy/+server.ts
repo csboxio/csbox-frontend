@@ -13,7 +13,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   }
   const id = url.searchParams.get('id')
   try {
-    const response = await fetch(`http://ide.csbox.io/api/kube/deploy/${id}`)
+    const response = await fetch(`https://ide.csbox.io/api/kube/deploy/${id}`)
     let data
     if (response.ok) {
       data = response.json()

@@ -3,6 +3,8 @@ import {redirect} from '@sveltejs/kit'
 import { browser } from "$app/environment";
 
 export const prerender = false;
+
+export const ssr = false
 export const actions: Actions = {
     signin: async ({ request, url, locals: { supabase } }) => {
         if (!browser) {

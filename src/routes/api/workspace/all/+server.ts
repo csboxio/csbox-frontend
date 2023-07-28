@@ -13,7 +13,7 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
   }
 
   try {
-    const active_workspaces = await fetch("http://ide.csbox.io/api/workspace/all", {
+    const active_workspaces = await fetch("https://ide.csbox.io/api/workspace/all", {
       headers: {
         'Cache-Control': 'public, max-age=60',
       },

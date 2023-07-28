@@ -97,7 +97,7 @@
 
 	async function deployWorkspace(workspace_id) {
 		deployModel = true;
-		const websocketUrl = 'ws://ide.csbox.io/api/kube/'
+		const websocketUrl = 'wss://ide.csbox.io/api/kube/'
 		let actionParam = 'deploy/'
 
 		const socket = new WebSocket(websocketUrl + actionParam + workspace_id);
@@ -121,7 +121,7 @@
 		if (browser) {
 			try {
 
-				const response = await fetch('http://ide.csbox.io/api/kube/redirect/' + workspace_id, {
+				const response = await fetch('https://ide.csbox.io/api/kube/redirect/' + workspace_id, {
 					method: 'GET',
 					mode: 'cors',
 					credentials: 'omit'
@@ -137,7 +137,7 @@
 
 				console.log(url)
 
-				window.open('http://' + url, '_blank')
+				window.open('https://' + url, '_blank')
 
 				deployModel = false;
 
@@ -150,17 +150,46 @@
 
 
 	async function stopWorkspace(workspace_id) {
-		const stopWorkspaceUrl = 'http://ide.csbox.io/api/kube/stop/' + workspace_id
+		const stopWorkspaceUrl = 'https://ide.csbox.io/api/kube/stop/' + workspace_id
 
-		const { data, error } = await fetch(stopWorkspaceUrl, {
+		const response = await fetch(stopWorkspaceUrl, {
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			mode: 'no-cors'
 		});
-		console.log(data, error)
+		if (response.ok) {
+			alert("stop")
+		}
 	}
 
+	async function saveWorkspace(workspace_id) {
+		const saveWorkspaceUrl = 'https://ide.csbox.io/api/workspace/save/home/' + workspace_id
+
+		const response = await fetch(saveWorkspaceUrl, {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			mode: 'no-cors'
+		});
+		if (response.ok) {
+			alert("stop")
+		}
+	}
+
+	async function loadWorkspace(workspace_id) {
+		const loadWorkspaceUrl = 'https://ide.csbox.io/api/workspace/load/home/' + workspace_id
+
+		const response = await fetch(loadWorkspaceUrl, {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			mode: 'no-cors'
+		});
+		if (response.ok) {
+			alert("stop")
+		}
+	}
 
 	onMount(() => {
 		// Set the selected item when the page is mounted
@@ -226,10 +255,10 @@
 								<TableBodyCell>
 									<Button><Chevron>Actions</Chevron></Button>
 									<Dropdown >
-										<DropdownItem>Open*</DropdownItem>
-										<DropdownItem> <div on:click={async () => await deployWorkspace(id)}>Deploy</div> </DropdownItem>
+										<DropdownItem> <div on:click={async () => await loadWorkspace(id)}>Resume</div>  </DropdownItem>
+										<DropdownItem> <div on:click={async () => await deployWorkspace(id)}>Power On</div> </DropdownItem>
+										<DropdownItem> <div on:click={async () => await saveWorkspace(id)}>Save</div>  </DropdownItem>
 										<DropdownItem> <div on:click={async () => await stopWorkspace(id)}>Stop</div>  </DropdownItem>
-										<DropdownItem>Delete*</DropdownItem>
 									</Dropdown>
 								</TableBodyCell>
 
@@ -279,6 +308,10 @@
 		<div class="inline-block pr-4">
 		<Fa icon={faCircleNotch} size="2x" spin />
 		</div>
+		{#if $deployMessages.length > 0}
 		<div class="font-semibold text-white inline-block pr-4 align-super">{$deployMessages}</div>
+			{:else}
+			<div class="font-semibold text-white inline-block pr-4 align-super">Waiting...</div>
+		{/if}
 	</div>
 </Modal>

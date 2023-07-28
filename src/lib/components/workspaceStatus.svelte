@@ -8,7 +8,7 @@
     }*/
 </script>
 
-<span class="flex flex-row items-center text-sm font-medium text-gray-900 dark:text-white ">
+<span class="items-center text-sm font-medium text-gray-900 dark:text-white inline-block">
     {#if workspace_state === 0}
     <span class="flex w-3.5 h-3.5 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full flex-shrink-0"
           title="Stopped"> </span>
