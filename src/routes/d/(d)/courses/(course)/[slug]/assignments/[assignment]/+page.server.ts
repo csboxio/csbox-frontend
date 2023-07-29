@@ -35,7 +35,7 @@ export const actions: Actions = {
         if (user != null) {
             const assignments_update = {
                 assignment_id: params.assignment,
-                creator_id: user.id,
+                user_id: user.id,
                 course_id: course_id,
                 points: points,
                 display_as: display_as,
