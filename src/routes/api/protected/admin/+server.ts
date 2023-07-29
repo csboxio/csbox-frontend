@@ -1,7 +1,6 @@
 import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$env/static/public";
 import {PRIVATE_ADMIN_MASTER_KEY} from "$env/static/private";
 import { createClient } from '@supabase/supabase-js';
-import jwt from 'jsonwebtoken';
 import {json, redirect, RequestHandler} from "@sveltejs/kit";
 
 export const POST: RequestHandler = async ({ request, cookies, locals: { getSession } }) => {
@@ -32,7 +31,7 @@ export const POST: RequestHandler = async ({ request, cookies, locals: { getSess
 
     try {
 
-        const decodedToken = jwt.verify(token, PRIVATE_ADMIN_MASTER_KEY)
+        const decodedToken = '' //jwt.verify(token, PRIVATE_ADMIN_MASTER_KEY)
         const userId = decodedToken.id;
 
         if (userId == session.user.id) {

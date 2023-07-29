@@ -35,10 +35,9 @@
 						<TableSearch placeholder="Search by title..." hoverable={true} bind:inputValue={searchTerm}>
 							<Table hoverable>
 								<TableHead>
+
 									<TableHeadCell>Title</TableHeadCell>
-									<TableHeadCell>Category</TableHeadCell>
-									<TableHeadCell>Due</TableHeadCell>
-									<TableHeadCell>Points</TableHeadCell>
+
 									<TableHeadCell>
 										<span class="sr-only ">Edit</span>
 									</TableHeadCell>
