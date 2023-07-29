@@ -38,6 +38,7 @@ export const actions: Actions = {
     const payload = {
       user_id: user_id,
       workspace_name: workspace_name,
+      session: session,
       //type: "basic", // TODO not implemented
       //image_name: 'docker.io/lt1gt0/theia-base', // TODO not implemented
       //image_version: 'latest', // TODO not implemented
@@ -50,7 +51,7 @@ export const actions: Actions = {
       const response = await fetch('https://ide.csbox.io/api/workspace/new', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload)
       });
