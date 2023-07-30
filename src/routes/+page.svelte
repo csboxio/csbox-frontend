@@ -39,7 +39,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Stellar HTML Demo - Home</title>
+	<title>CSBOX - Home</title>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<link href="./css/vendors/aos.css" rel="stylesheet">
 	<link rel="stylesheet" href="./css/vendors/swiper-bundle.min.css" />
@@ -60,7 +60,7 @@
 				<div class="shrink-0 mr-4">
 					<!-- Logo -->
 					<a class="block" href="/" aria-label="CSBOX">
-						<img src="./images/logo.svg" width="38" height="38" alt="Stellar">
+						<img src="./logo-fullColor-white-text.png" width="150" height="100%" alt="CSBOX">
 					</a>
 				</div>
 

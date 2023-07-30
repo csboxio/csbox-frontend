@@ -83,10 +83,10 @@
             <div class="relative col-span-12 mb-16 md:col-span-7 md:mb-0 lg:col-span-6">
                 <div class="relative lg:mx-auto lg:max-w-md bg-gray-600">
                     <div class={'auth-box-shadow'}>
-                        <div class="border-scale-400 bg-scale-300 relative rounded-xl px-8 py-12 drop-shadow-sm">
+                        <div class="border-scale-200 bg-scale-300 relative rounded-xl px-8 py-12 drop-shadow-sm">
                             <div class="mb-6 flex flex-col gap-6">
                                 <div class="flex items-center gap-3">
-                                    <h1 class="text-scale-1200 text-2xl text-white">CSBOX</h1>
+                                    <img src="./logo-fullColor-white-text.png" width="150" height="100%" alt="CSBOX">
                                 </div>
                             </div>
                             <Auth
@@ -138,7 +138,7 @@
 <style>
     .auth-box-shadow {
         min-width: 364px;
-        box-shadow: -2px 1px 69px 5px rgb(57, 67, 93);
+        box-shadow: -2px 1px 69px 5px rgb(57, 60, 68);
         border-radius: 1rem;
     }
 </style>
