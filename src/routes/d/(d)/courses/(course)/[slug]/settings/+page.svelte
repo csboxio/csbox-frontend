@@ -5,22 +5,26 @@
 	import {page} from "$app/stores";
 
 	export let data;
+
+	let { supabase, claim } = data
+	$: ({ supabase, claim } = data)
+
 	let course_data = data.courseData;
 
 	let deleteModel;
 
 	onMount(() => {
 		// Set the selected item when the page is mounted
-		navStore.set('Settings');
+		navStore.set('courses');
 	});
 
-	console.log($page.data)
 </script>
 
 <div class="flex flex-row">
 	<section class="p-1 mt-4">
 		<div class="container mx-12 my-5">
 
+			{#if claim !== 'student'}
 			<div class="flex flex-wrap -mx-10 -mb-6 text-white font-semibold">
 				<div class="grid grid-cols-2 gap-6 w-full">
 
@@ -73,6 +77,7 @@
 				</div>
 			</div>
 
+
 				<div class="border border-red-500 p-3 w-full rounded-xl flex justify-between">
 					<div class="inline-block flex items-center">
 						<div>
@@ -86,11 +91,15 @@
 				</div>
 
 			</div>
+				{:else}
+				<div class="text-white">Invalid permissions to view this page.</div>
+				{/if}
 		</div>
 	</section>
 </div>
 
 <Modal title="DELETE course" class="max-w-xs" bind:open={deleteModel}>
+	<form method="POST" action="?/deleteCourse" >
 	<p class="mb-4 text-gray-500 dark:text-gray-300">Type in <b>{$page.data.slug}</b> to confirm.</p>
 	<div class="mb-6">
 		<Label for="course_number_delete" class="block mb-2">Course Number:</Label>
@@ -104,4 +113,5 @@
 			Yes, I'm sure
 		</button>
 	</div>
+	</form>
 </Modal>

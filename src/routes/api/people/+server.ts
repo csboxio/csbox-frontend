@@ -14,9 +14,11 @@ export const GET: RequestHandler = async ({ request, url, locals: { getSession, 
   if (session) {
     const course = url.searchParams.get('course')
 
-      const { data, error } = await supabase.from('enrollment')
-          .select('user_id,  course_id, enrolled, enrollment_date')
-          .eq('course_id', course)
+    const { data, error } = await supabase
+        .rpc('view', {
+          course_id: course,
+          user_id: session.user.id
+        })
 
       if (error) {
           console.log(data, error)

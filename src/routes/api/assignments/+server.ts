@@ -22,5 +22,6 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   //  'cache-control': 'public, max-age=60, s-maxage=60'
   //})
 
+  console.log(error)
   return json(data)
 }

@@ -96,6 +96,8 @@
 	const deployMessages = writable([]);
 
 	async function openWorkspace(workspace_id) {
+
+
 		deployModel = true;
 		const websocketUrl = 'wss://ide.csbox.io/api/workspace/open/'
 
@@ -114,6 +116,11 @@
 		socket.onerror = (error) => {
 			console.log("Websocket error.", error)
 		}
+	}
+
+
+	async function openWorkspaceFrame(workspace_id) {
+		await goto(`/${workspace_id}`)
 	}
 
 	async function redirectWorkspace(workspace_id) {
@@ -219,7 +226,7 @@
 	</aside>
 			<!-- Content -->
 			<section class="flex flex-col p-8 inline-block w-full">
-				<div class="relative overflow-x-auto  sm:rounded-lg w-full">
+				<div class="relative sm:rounded-lg w-full overflow-x-auto overflow-y-hidden">
 				<Table shadow hoverable>
 					<TableHead>
 						<TableHeadCell></TableHeadCell>
@@ -234,17 +241,17 @@
 					<TableBody class="divide-y">
 						{#if active_workspaces}
 							{#key active_workspaces}
-						{#each active_workspaces as { id, created_at, workspace_name, image_name, type, workspace_state }}
+						{#each active_workspaces as { id, inserted_at, workspace_name, image_name, type, workspace_state }}
 							<TableBodyRow  class="cursor-pointer" >
 								<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> </TableBodyCell>
 
 								<TableBodyCell>{workspace_name}</TableBodyCell>
-								<TableBodyCell>{created_at.substring(0,10)}</TableBodyCell>
+								<TableBodyCell>{inserted_at?.substring(0,10)}</TableBodyCell>
 								<TableBodyCell>{type}</TableBodyCell>
 								<TableBodyCell>
 									<Button><Chevron>Actions</Chevron></Button>
 									<Dropdown >
-										<DropdownItem> <div on:click={async () => await openWorkspace(id)}>Open</div> </DropdownItem>
+										<DropdownItem> <div on:click={async () => await openWorkspaceFrame(id)}>Open</div> </DropdownItem>
 										<DropdownItem> <div on:click={async () => await stopWorkspace(id)}>Stop</div> </DropdownItem>
 										<DropdownItem> <div on:click={async () => await saveWorkspace(id)}>Save</div> </DropdownItem>
 									</Dropdown>

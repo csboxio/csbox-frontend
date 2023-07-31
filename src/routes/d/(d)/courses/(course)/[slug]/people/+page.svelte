@@ -1,10 +1,5 @@
 <script lang="ts">
 	import {onMount} from "svelte";
-
-	export let data;
-	let { supabase } = data
-	$: ({ supabase } = data)
-
 	import {
 		Button, Modal,
 		Table,
@@ -19,6 +14,12 @@
 	import { goto, invalidateAll } from "$app/navigation";
 	import { addNotification } from "../../../../../../../lib/utilities/notifications.js";
 	import {navStore} from "../../../../../../../lib/stores/stores.js";
+
+
+	export let data;
+	let { supabase, claim } = data
+	$: ({ supabase, claim } = data)
+
 	let searchTerm = '';
 	let code = '';
 	$: code;
@@ -114,6 +115,8 @@
 
 		<div class="container">
 
+			{#if claim !== 'student'}
+
 			<button on:click={() => peopleModel = true}
 				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
@@ -125,9 +128,10 @@
 					Add
 				</span>
 			</button>
+			{/if}
 
 
-			<div class="py-4">
+			<div class="">
 				<div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
 					<TableSearch placeholder="Search by first name..." hoverable={true} bind:inputValue={searchTerm}>
 						<Table shadow hoverable>

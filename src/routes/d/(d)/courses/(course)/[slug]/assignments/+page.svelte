@@ -172,6 +172,7 @@
 	<section class="pl-1 mt-5">
 
 		<div class="container">
+
 			{#if claim !== 'student'}
 			<button
 				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm

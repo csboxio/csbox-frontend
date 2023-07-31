@@ -38,7 +38,6 @@
               <div class="relative group">
                 <a on:click={() => {
                    $courseNavStore = "Home"
-
                    goto(`/d/courses/${id}`)
                 }}>
                   <!-- Color line at the top -->

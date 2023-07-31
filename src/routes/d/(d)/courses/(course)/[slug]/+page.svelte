@@ -5,6 +5,8 @@
 	import { page } from '$app/stores';
 	import 'quill/dist/quill.bubble.css'
 	import QuillBlock from "$lib/blocks/quillBlock.svelte";
+	import {onMount} from "svelte";
+	import {navStore} from "../../../../../../lib/stores/stores.js";
 
 	export let data;
 
@@ -26,6 +28,7 @@
 	let bucket = "courses"
 	let filePath
 	$: filePath = `${$page.params.slug + '/' + 'document/' + 'home'}.HTML?t=${course.updated_at}`
+
 </script>
 
 <div class="flex flex-row grow max-w-full-1/2">

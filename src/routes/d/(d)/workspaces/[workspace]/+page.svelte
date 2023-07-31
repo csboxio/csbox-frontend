@@ -5,7 +5,7 @@
 
     let isExpanded = false;
     let isTabVisible = false;
-    const url = "http://ide.csbox.io/ide/initialize?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3b3Jrc3BhY2VfaWQiOiJkMTMzMzNlZi1iYTFhLTQ4NjEtYTg0Ny0zZWRmOGMzZjQ0OTgifQ.jMwCFgRpvRG4rK32Mf0PNOUzWDM4hiQnWiujYOYybts"
+    //const url = "http://ide.csbox.io/ide/initialize?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3b3Jrc3BhY2VfaWQiOiJkMTMzMzNlZi1iYTFhLTQ4NjEtYTg0Ny0zZWRmOGMzZjQ0OTgifQ.jMwCFgRpvRG4rK32Mf0PNOUzWDM4hiQnWiujYOYybts"
 
     function toggleExpansion() {
         isExpanded = !isExpanded;
@@ -72,13 +72,13 @@
             <div class="content">
                 <p>Workspace Name</p>
                 <div class="mt-2">
-                    <button class="bg-blue-500 text-white px-2 py-1 rounded mr-2">Button 1</button>
-                    <button class="bg-blue-500 text-white px-2 py-1 rounded">Button 2</button>
+                    <button class="bg-blue-500 text-white px-2 py-1 rounded mr-2">Exit</button>
+                    <button class="bg-blue-500 text-white px-2 py-1 rounded">Save</button>
                 </div>
             </div>
         </div>
     {/if}
 </div>
-iframe
-<iframe src="http://ide.csbox.io/ide/initialize?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3b3Jrc3BhY2VfaWQiOiJkMTMzMzNlZi1iYTFhLTQ4NjEtYTg0Ny0zZWRmOGMzZjQ0OTgifQ.jMwCFgRpvRG4rK32Mf0PNOUzWDM4hiQnWiujYOYybts"></iframe>
+
+<iframe src="http://ide.csbox.io/ide/"></iframe>
 </body>

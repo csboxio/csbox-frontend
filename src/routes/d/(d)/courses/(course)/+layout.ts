@@ -1,13 +1,15 @@
-import { getContext } from "svelte";
 
 export const load = (async ({ params,parent }) => {
-    const {courses} = await parent();
+    const parentData = await parent();
+
     const { slug } = params
-    if (courses.data.length === 0) {
+    if (parentData.courses.data.length === 0) {
         throw(302, "/d");
     }
+    console.log(parentData)
     return {
-        courses,
+        courses: parentData.courses,
+        claim: parentData.session.user.app_metadata.userrole,
         slug
     };
 });
