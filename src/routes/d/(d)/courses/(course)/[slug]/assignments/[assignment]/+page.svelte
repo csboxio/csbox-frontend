@@ -171,7 +171,7 @@
 
 <div class="flex flex-col text-white py-4 w-full">
 
-	<Tabs class="bg-color-600">
+	<Tabs class="bg-color-600" inactiveClasses="p-4 text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100">
 		<TabItem open>
 			<div slot="title" class="flex items-center gap-2 ">
 				Instructions
@@ -180,7 +180,6 @@
 			<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
 						bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
 						saveFunction={saveFunction} />
-
 		</TabItem>
 		<TabItem>
 			<div slot="title" class="flex items-center gap-2">
@@ -195,24 +194,27 @@
 						</svg>
 						<span class="sr-only">Info</span>
 						<div>
-							<span class="font-medium">What is a starter?</span>
+							<span class="font-medium">Click me!</span>
 							{#if showStarterInfo}
 								<ul class="mt-1.5 ml-4 list-disc list-inside">
-									<li>Pick a workspace for the assignment's starter.</li>
-									<li>Files will be saved and linked to this assignment.</li>
-									<li>Students can create their workspace using the starter.</li>
+									<li>To create a assignment template, create a workspace and setup files and configuration.</li>
+									<li>Once configured, select it in the dropdown "Select a Workspace".</li>
+									<li>Click save, now students will be able to open Assignment Template, on this assignment..</li>
 								</ul>
 							{/if}
 						</div>
 					</div>
 
 					<div class="mb-6">
-					<div class="text-gray-100 font-bold text-xl mb-2">Save Starter Workspace</div>
-					<div class="border border-gray-300 rounded-xl p-4 justify-between flex w-2/3">
+					<div class="text-gray-100 font-bold text-xl mb-2">Assignment Template</div>
+					<div class="  rounded-xl p-4 justify-between flex w-2/3">
 
 						<div>
-							<Button on:click={() => loadWorkspaces()} class="bg-gray-500 px-4" title="Select a workspace to save starter from."><Chevron>{selectedWorkspaceSaveName === undefined ? 'Your Workspaces' : selectedWorkspaceSaveName}</Chevron></Button>
+							<Button on:click={() => loadWorkspaces()} class="bg-gray-500 px-4 text-lg" title="Select a workspace to save starter from."><Chevron>{selectedWorkspaceSaveName === undefined ? 'Select a Workspace' : selectedWorkspaceSaveName}</Chevron></Button>
 							<Dropdown bind:open={workspaceSaveSelector} >
+								<DropdownItem>
+									<div>Create new</div>
+								</DropdownItem>
 								{#key active_workspaces}
 									{#if active_workspaces}
 										{#each active_workspaces.data as workspace}
@@ -235,6 +237,11 @@
 										</div>
 									{/if}
 								{/key}
+								{#if active_workspaces === undefined}
+									<div class="p-2 text-red-500 text-sm">
+										Error! support@csbox.io
+									</div>
+								{/if}
 							</Dropdown>
 						</div>
 						{#if selectedWorkspaceSaveId !== undefined}
@@ -257,10 +264,10 @@
 
 
 					<div class="text-gray-100 font-bold text-xl mb-2 mt-4">Open Starter Workspace</div>
-					<div class="border border-gray-300 rounded-xl p-4 justify-between flex w-2/3">
+					<div class=" rounded-xl p-4 justify-between flex w-2/3">
 
 						<div>
-							<Button on:click={() => loadWorkspaces()} class="bg-gray-500 px-4" title="Select a workspace to save starter from."><Chevron>{selectedWorkspaceOpenName === undefined ? 'Your Workspaces' : selectedWorkspaceOpenName}</Chevron></Button>
+							<Button on:click={() => loadWorkspaces()} class="bg-gray-500 px-4 text-lg" title="Select a workspace to save starter from."><Chevron>{selectedWorkspaceOpenName === undefined ? 'Your Workspaces' : selectedWorkspaceOpenName}</Chevron></Button>
 							<Dropdown bind:open={workspaceOpenSelector} >
 								{#key active_workspaces}
 									{#if active_workspaces}
@@ -284,6 +291,11 @@
 										</div>
 									{/if}
 								{/key}
+								{#if active_workspaces === undefined}
+									<div class="p-2 text-red-500 text-sm">
+										Error! support@csbox.io
+									</div>
+								{/if}
 							</Dropdown>
 						</div>
 						{#if selectedWorkspaceOpenId !== undefined}

@@ -1,5 +1,6 @@
 <script type="module">
     import { downloadQuillDocument, uploadQuillDocument, updateAssignmentInsert } from '$lib/utilities/quill';
+    import { blur } from 'svelte/transition';
 
     // EXPORTS
     export let supabase;
@@ -75,7 +76,6 @@
         if (browser) {
             let storedDocument = localStorage.getItem(storePath);
             content = JSON.parse(storedDocument);
-            await getDocument();
             let container = document.getElementById('viewer');
             viewer = new Quill(container, view_options);
             viewer.disable()
@@ -85,6 +85,7 @@
             }
             const delta = quill.clipboard.convert(content.html);
             viewer.setContents(delta, 'silent');
+
         }
     }
 
@@ -208,7 +209,7 @@
                 <div class="editor flex-1 w-1/2 bg-gray-600 text-white "
                      hidden={mode.edit === false ? '' : 'hidden'}>
                     <div class=" ql-snow" id="test">
-                        <div class="editor flex-1  bg-gray-600 text-white min-h-8 border border-white rounded-lg p-2 pb-10"
+                        <div class="editor      rounded-lg "
                              id="viewer" hidden={mode.edit === false ? '' : 'hidden'}/>
                     </div>
                 </div>

@@ -10,10 +10,13 @@ export const load = (async ({ fetch, data, request, url, parent, params }) => {
   }
   const assignments = await fetch(`/api/assignments/?course=${params.slug}`)
   const modules = await fetch(`/api/modules/?course=${params.slug}`)
+  const groups = await fetch(`/api/groups/?course=${params.slug}`)
+
   return {
     assignments: {
       assignmentData: await assignments.json(),
     },
+    groups: await groups.json(),
     modules: await modules.json(),
     session: session,
   };

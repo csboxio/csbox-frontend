@@ -6,8 +6,8 @@
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 	import {Checkbox, FloatingLabelInput, Range, StepIndicator} from 'flowbite-svelte';
-	import { createPlaceHolderCourseDocument } from "../../../../../lib/utilities/quill.js";
 	import CourseColorPicker from "$lib/components/CourseColorPicker.svelte";
+	import {createTemplateCourseData} from "../../../../../lib/utilities/templateCourse.js";
 	let steps = ['Step 1', 'Step 2', 'Step 3'];
 
 	let session = $page.data.session;
@@ -48,6 +48,7 @@
 
 	let currentCourseId;
 
+
 	let { supabase, claim } = data
 	$: ({ supabase, claim } = data)
 
@@ -73,16 +74,14 @@
 			// re-run all `load` functions, following the successful update
 			currentStep = 2;
 
-			let { data, error } = await supabase
-					.rpc('get_most_recent_course_id')
 
-			console.log(data, error)
+			if (data) {
+				currentCourseId = result.data.id
 
-			currentCourseId = data
+				console.log($page.data.session.user.id)
+				await createTemplateCourseData(currentCourseId, supabase, $page.data.session.user.id)
+			}
 
-			console.log(currentCourseId)
-
-			// createPlaceHolderCourseDocument(currentCourseId, $page.data.session.user.id, supabase);
 			await invalidateAll();
 		}
 

@@ -14,11 +14,11 @@
 	export let data;
 	let course_data = data.courseData;
 	let grades;
-	$: grades = data.assignments.assignmentData;
+	$: grades = data.assignments.gradesData;
 	// For search box on assignments
 	let searchTerm = '';
 	$: filteredItems = grades.filter(
-			(assignments) => assignments.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+			(grade) => grade.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
 	);
 
 	onMount(() => {

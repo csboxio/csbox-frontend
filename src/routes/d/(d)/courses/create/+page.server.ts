@@ -1,6 +1,7 @@
 import type {Actions} from "./$types";
 import {invalidateAll} from "$app/navigation";
 import {redirect} from "@sveltejs/kit";
+import {createPlaceHolderCourseDocument} from "../../../../../lib/utilities/quill.js";
 
 export const prerender = false;
 
@@ -15,6 +16,20 @@ export const load = async ({ locals: { getSession, getClaim } }) => {
             claim: claim,
         }
     }
+}
+
+async function createModule () {
+
+    /*const course_id = params.slug
+    if (user != null) {
+        const updates = {
+            user_id: user.id,
+            course_id: course_id,
+            module_title: name
+        }
+        const {error} = await supabase.from('modules').upsert(updates)
+        console.log(error)
+    }*/
 }
 export const actions: Actions = {
     createCourse: async ({ request, url, locals: { supabase } }) => {
@@ -50,10 +65,16 @@ export const actions: Actions = {
             console.log(updates)
 
             const { data, error } = await supabase.rpc('create_course', updates);
-        console.log(error, data)
+
+            if (error) {
+                console.log(error)
+            }
+
+            const id = data;
+
 
         if (!error) {
-            return {success: true};
+            return {success: true, id: id};
           }
       }
     }

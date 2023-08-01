@@ -15,7 +15,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { getSession, 
     const course = url.searchParams.get('course')
 
     const { data, error } = await supabase
-        .rpc('view', {
+        .rpc('view_people', {
           course_id: course,
           user_id: session.user.id
         })
@@ -23,6 +23,8 @@ export const GET: RequestHandler = async ({ request, url, locals: { getSession, 
       if (error) {
           console.log(data, error)
       }
+
+      console.log(data, error)
 
 
     //event.setHeaders({
