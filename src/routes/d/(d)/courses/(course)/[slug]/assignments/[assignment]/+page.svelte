@@ -14,8 +14,8 @@
 
 	export let data;
 
-	let { supabase } = data
-	$: ({ supabase } = data)
+	let { supabase, claim } = data
+	$: ({ supabase, claim } = data)
 
 	let loading;
 	let assignment_data
@@ -178,7 +178,7 @@
 			</div>
 
 			<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
-						bind:filePath={filePath} bind:bucket={bucket}
+						bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
 						saveFunction={saveFunction} />
 
 		</TabItem>
@@ -306,6 +306,9 @@
 			</section>
 
 		</TabItem>
+
+		{#if claim !== 'student'}
+
 		<TabItem>
 			<div slot="title" class="flex items-center gap-2">
 				Settings
@@ -389,6 +392,8 @@
 			</section>
 
 		</TabItem>
+
+		{/if}
 	</Tabs>
 
 

@@ -120,7 +120,7 @@
 
 
 	async function openWorkspaceFrame(workspace_id) {
-		await goto(`/${workspace_id}`)
+		await goto(`${$page.url}/${workspace_id}`)
 	}
 
 	async function redirectWorkspace(workspace_id) {
@@ -143,9 +143,7 @@
 
 				const url = data.data
 
-				console.log(url)
-
-				window.open('https://' + url, '_blank')
+				window.open(url, '_blank')
 
 				deployModel = false;
 
@@ -186,16 +184,12 @@
 			console.log("Saved Workspace" + workspace_id);
 		}
 	}
-
 	onMount(() => {
 		// Set the selected item when the page is mounted
 		navStore.set('workspaces');
 	});
-
 	let deployModel = false;
-
 </script>
-
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
 
@@ -218,7 +212,6 @@
 		</div>
 	</section>
 
-
 	<div class="flex min-h-screen">
 	<!-- Work space navigation -->
 	<aside class="h-screen sticky top-0 inline-block" >
@@ -230,7 +223,6 @@
 				<Table shadow hoverable>
 					<TableHead>
 						<TableHeadCell></TableHeadCell>
-
 						<TableHeadCell>Title</TableHeadCell>
 						<TableHeadCell>Created</TableHeadCell>
 						<TableHeadCell>Type</TableHeadCell>
@@ -241,28 +233,26 @@
 					<TableBody class="divide-y">
 						{#if active_workspaces}
 							{#key active_workspaces}
-						{#each active_workspaces as { id, inserted_at, workspace_name, image_name, type, workspace_state }}
-							<TableBodyRow  class="cursor-pointer" >
-								<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> </TableBodyCell>
-
-								<TableBodyCell>{workspace_name}</TableBodyCell>
-								<TableBodyCell>{inserted_at?.substring(0,10)}</TableBodyCell>
-								<TableBodyCell>{type}</TableBodyCell>
-								<TableBodyCell>
-									<Button><Chevron>Actions</Chevron></Button>
-									<Dropdown >
-										<DropdownItem> <div on:click={async () => await openWorkspaceFrame(id)}>Open</div> </DropdownItem>
+								{#each active_workspaces as { id, inserted_at, workspace_name, image_name, type, workspace_state }}
+									<TableBodyRow  class="cursor-pointer" >
+									<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> </TableBodyCell>
+									<TableBodyCell>{workspace_name}</TableBodyCell>
+									<TableBodyCell>{inserted_at?.substring(0,10)}</TableBodyCell>
+									<TableBodyCell>{type}</TableBodyCell>
+									<TableBodyCell>
+										<Button>
+											<Chevron>Actions</Chevron>
+										</Button>
+									<Dropdown>
+										<DropdownItem> <div on:click={async () => await openWorkspace(id)}>Open</div> </DropdownItem>
 										<DropdownItem> <div on:click={async () => await stopWorkspace(id)}>Stop</div> </DropdownItem>
 										<DropdownItem> <div on:click={async () => await saveWorkspace(id)}>Save</div> </DropdownItem>
 									</Dropdown>
-								</TableBodyCell>
-
-
-							</TableBodyRow>
-							{/each}
-								{/key}
-
-							{/if}
+									</TableBodyCell>
+									</TableBodyRow>
+								{/each}
+							{/key}
+						{/if}
 
 					</TableBody>
 				</Table>

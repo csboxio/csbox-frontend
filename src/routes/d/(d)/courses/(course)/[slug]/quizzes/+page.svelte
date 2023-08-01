@@ -178,9 +178,11 @@
 								<TableHeadCell>Quiz Title</TableHeadCell>
 								<TableHeadCell>Due</TableHeadCell>
 								<TableHeadCell>Points</TableHeadCell>
+								{#if claim !== 'student'}
 								<TableHeadCell>
 									<span class="sr-only ">Edit</span>
 								</TableHeadCell>
+								{/if}
 							</TableHead>
 							<TableBody class="divide-y">
 								{#key quizzes}
@@ -190,6 +192,7 @@
 											<TableBodyCell >{due ? due.substring(0, 10) : "No date" }</TableBodyCell>
 											<TableBodyCell >{points ? points : "No Points" }</TableBodyCell>
 
+											{#if claim !== 'student'}
 											<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium"  >
 												<a  class="font-medium
 								text-blue-600 hover:underline dark:text-blue-500">
@@ -200,6 +203,7 @@
 													Delete
 												</a>
 											</TableBodyCell>
+											{/if}
 										</TableBodyRow>
 									{/each}
 								{/key}
