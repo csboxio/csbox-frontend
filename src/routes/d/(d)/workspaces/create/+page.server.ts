@@ -40,12 +40,9 @@ export const actions: Actions = {
       workspace_name: workspace_name,
       session: session,
       //type: "basic", // TODO not implemented
-      //image_name: 'docker.io/lt1gt0/theia-base', // TODO not implemented
-      //image_version: 'latest', // TODO not implemented
+      image: 'docker.io/lt1gt0/theia-python:latest',
       //language: language  // TODO not implemented
     }
-
-    console.log(payload)
 
     try {
       const response = await fetch('https://ide.csbox.io/api/workspace/new', {

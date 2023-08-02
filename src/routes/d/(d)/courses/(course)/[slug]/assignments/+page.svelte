@@ -24,7 +24,7 @@
 	import {onMount} from "svelte";
 	import {navStore} from "../../../../../../../lib/stores/stores.js";
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import {faAdd, faCircleCheck, faGear, faPencil} from "@fortawesome/free-solid-svg-icons";
+	import {faAdd, faCircleCheck, faGear, faPencil, faTable} from "@fortawesome/free-solid-svg-icons";
 
 
 	export let data;
@@ -53,6 +53,8 @@
 	let storeDueDate;
 	let storeAvailableDate;
 	let storeAvailableUntilDate;
+
+	let showAllAssignments;
 
 	// For search box on assignments
 	let searchTerm = '';
@@ -179,6 +181,7 @@
 		const result = deserialize(await response.text());
 		if (result.type === 'success') {
 			createGroupModal = false;
+			addAssignmentModel = false;
 			await invalidateAll();
 		}
 		console.log(result)
@@ -224,6 +227,21 @@
 				<div class="flex justify-end">
 
 					<div>
+						<button
+								class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+								on:click={() => showAllAssignments = !showAllAssignments}>
+				<span
+						class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+					<div class="inline-block"><Fa icon={faTable}/></div> <div class="inline-block">Show All</div>
+				</span>
+						</button>
+					</div>
+
+					<div>
 			<button
 				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
@@ -257,6 +275,7 @@
 
 			<!-- GROUP -->
 
+			{#if !showAllAssignments}
 			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold mr-1">
 
 
@@ -321,36 +340,13 @@
 						{/each}
 					</Accordion>
 				{/key}
-				{#if groups?.length === 0}
-					<div
-							class="flex p-4 mb-6 mt-4 ml-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50
-						dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
-							role="alert"
-					>
-						<svg
-								aria-hidden="true"
-								class="flex-shrink-0 inline w-5 h-5 mr-3"
-								fill="currentColor"
-								viewBox="0 0 20 20"
-								xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-									fill-rule="evenodd"
-									d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1
-								 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-									clip-rule="evenodd"
-							/>
-						</svg>
-						<span class="sr-only">Info</span>
-						<div>
-							<span class="font-medium">No groups found...</span>
-						</div>
-					</div>
-				{/if}
+
 			</div>
+			{/if}
 
 			<!-- GROUP END -->
 
+			{#if showAllAssignments}
 			<div>
 			<div class="relative overflow-x-auto  sm:rounded-lg w-full">
 				<TableSearch placeholder="Search by title..." hoverable={true} bind:inputValue={searchTerm}>
@@ -422,6 +418,7 @@
 				{/if}
 			</div>
 			</div>
+			{/if}
 		</div>
 	</section>
 </div>
@@ -742,43 +739,15 @@
 				</select>
 			</div>
 
-			<div>
-				<label
-						for="type"
-						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-				>Type</label
-				>
-				<select bind:value={selectedTypeAddItem}
-						name="type"
-						id="type"
-						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-						required>
-					<option value="assignment">Assignment</option>
-					<option value="quiz">Quiz</option>
-
-				</select>
-			</div>
-
 
 		</div>
 		<div>
-			{#if selectedTypeAddItem === "assignment"}
 				<label for="assignment_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an assignment</label>
 				<select multiple name="assignment_id" id="assignment_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 					{#each assignments as {assignment_id, title, due}}
 						<option value="{assignment_id}">{title} | Due - {new Date(due).toDateString()}</option>
 					{/each}
 				</select>
-			{/if}
-			{#if selectedTypeAddItem === "quiz"}
-
-				<label for="quiz_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a quiz</label>
-				<select multiple name="quiz_id" id="quiz_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-					{#each quizzes as {id, quiz_title, due}}
-						<option value="{id}">{quiz_title} | Due - {new Date(due).toDateString()}</option>
-					{/each}
-				</select>
-			{/if}
 		</div>
 		<button
 				type="submit"
@@ -796,7 +765,7 @@
 						clip-rule="evenodd"
 				/>
 			</svg>
-			Add new item
+			Add item
 		</button>
 	</form>
 </Modal>

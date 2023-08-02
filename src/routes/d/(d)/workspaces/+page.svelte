@@ -32,7 +32,7 @@
 	$: workspaces = $page.data.workspaces
 
 	let active_workspaces;
-	$: active_workspaces = $page.data.active_workspaces.data;
+	$: active_workspaces = $page.data.active_workspaces;
 
 	onMount(() => {
 		// Set the selected item when the page is mounted

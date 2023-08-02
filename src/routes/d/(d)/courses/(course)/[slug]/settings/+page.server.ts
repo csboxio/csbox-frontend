@@ -22,7 +22,7 @@ export const actions: Actions = {
         user = data.user
         const _course_id = formData.get('course_number_delete')
         const course_id = params.slug
-        if (user != null && course_id === _course_id) {
+        if (user != null) {
             const {error} = await supabase.from('courses')
                 .delete()
                 .eq('id', params.slug)

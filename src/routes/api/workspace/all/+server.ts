@@ -13,24 +13,24 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
   }
 
   try {
-    const active_workspaces = await fetch("https://ide.csbox.io/api/workspace/all", {
-      headers: {
-        'Cache-Control': 'public, max-age=60',
-      },
-    });
+    const {data, error } = await supabase.from('workspaces')
+        .select('id, user_id, workspace_name, image, type, workspace_state')
+        .eq('user_id', session.user.id)
 
-    if (!active_workspaces.ok) {
-      throw new Error(`Request failed with status ${active_workspaces.status}`);
-    }
+    console.log(data, error)
 
-    const responseData = await active_workspaces.json();
+    //if (!active_workspaces.ok) {
+    //  throw new Error(`Request failed with status ${active_workspaces.status}`);
+    //}
+
+    //const responseData = await active_workspaces.json();
 
     setHeaders({
       'cache-control': 'public, max-age=60, s-maxage=60'
     })
 
 
-    return json(responseData);
+    return json(data);
   } catch (e) {
     return new Response(JSON.stringify({ message: 'API down!' }), {
       status: 200,

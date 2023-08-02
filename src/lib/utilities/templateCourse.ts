@@ -44,6 +44,19 @@ export const createPlaceHolderAssignment = async (courseId: bigint, user: any, s
     }
 };
 
+
+export const createPlaceHolderGroup = async (courseId: bigint, user: any, supabase) => {
+    if (user != null) {
+        const updates = {
+            user_id: user,
+            course_id: courseId,
+            group_title: "Sample Group"
+        }
+        const {error} = await supabase.from('groups').upsert(updates)
+        console.log(error)
+    }
+}
+
 export const createPlaceHolderAssignmentDocument = async (courseId: bigint, user: any, supabase) => {
     const file = new File(["<h2>Welcome to this course's Home Page!</h2> <br> <b>Click edit</b> to change this!"], 'home.HTML');
 
@@ -65,7 +78,8 @@ export const createPlaceHolderAssignmentDocument = async (courseId: bigint, user
 
 
 export async function createTemplateCourseData(courseId, supabase, user_id) {
-    console.log(courseId, user_id)
     await createPlaceHolderCourseDocument(courseId, user_id, supabase);
     await createPlaceHolderAssignment(courseId, user_id, supabase);
+    await createPlaceHolderGroup(courseId, user_id, supabase);
+
 }

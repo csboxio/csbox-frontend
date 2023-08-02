@@ -11,6 +11,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   if (!session) {
     throw redirect(303, '/');
   }
+
   const course = url.searchParams.get('course')
   const user = url.searchParams.get('user')
   const { error, data: res, status } = await supabase.rpc('unenroll_user',

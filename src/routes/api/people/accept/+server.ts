@@ -15,7 +15,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   const user = url.searchParams.get('user')
 
   const { error, data: res, status } = await supabase.rpc('accept_into_course',
-  	{_sender_id: session.user.id, _acceptor_id: user, _course_id: course})
+  	{student_id: user, instructor_id: session.user.id, course_id: course})
   console.log(error, res, status)
 
 

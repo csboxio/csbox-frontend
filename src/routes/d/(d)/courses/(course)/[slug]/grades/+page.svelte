@@ -14,7 +14,7 @@
 	export let data;
 	let course_data = data.courseData;
 	let grades;
-	$: grades = data.assignments.gradesData;
+	$: grades = data.gradesData;
 	// For search box on assignments
 	let searchTerm = '';
 	$: filteredItems = grades.filter(
