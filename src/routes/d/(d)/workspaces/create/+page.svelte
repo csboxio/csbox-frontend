@@ -21,13 +21,13 @@
   $: selectedConfig;
   let hoverConfig = null;
   $: hoverConfig;
-  let selectedLanguage = null;
-  $: selectedLanguage;
+  let selectedImage = null;
+  $: selectedImage;
 
   let storageSize = 5;
 
   function selectLanguage(language) {
-    selectedLanguage = language;
+    selectedImage = language;
   }
 
   function selectConfig(config) {
@@ -45,7 +45,7 @@
 
     data.set('type', selectedConfig);
     data.set('user_id', $page.data.session.user.id);
-    data.set('language', selectedLanguage); // TODO not implemented
+    data.set('image', selectedImage.image); // TODO not implemented
 
     const response = await fetch(this.action, {
       method: 'POST',
@@ -56,7 +56,8 @@
       // re-run all `load` functions, following the successful update
       await invalidateAll();
     }
-
+    await goto('/d/workspaces')
+    await invalidateAll()
     await applyAction(result);
   }
 </script>
@@ -98,12 +99,11 @@
           </svg>
           <span class="sr-only">Info</span>
           <div>
-            <span class="font-medium">Configuration is not implemented:</span>
+            <span class="font-medium">Configuration is not fully implemented:</span>
             <ul class="mt-1.5 ml-4 list-disc list-inside">
               <li>Defaults to type: Air</li>
-              <li>Defaults to Python. (Any language is supported)</li>
               <li>Storage size defaults to 5GB</li>
-              <li>Planned for August 2023</li>
+              <li>Cost (tokens), is a placeholder</li>
             </ul>
           </div>
         </div>
@@ -116,10 +116,10 @@
                 Workspace Name
               </label>
               <input type="text" name="workspace_name" id="workspace_name"
-                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600
+                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 text-lg
 		focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
 		dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                     placeholder="My Workspace"
+                     placeholder="Name"
                      required />
             </div>
             <div>
@@ -159,8 +159,8 @@
               <div class="grid grid-cols-3 gap-4">
                 {#each Object.entries(ide.language.languages) as [key, config]}
                   <button type="button" class="p-4 border rounded-lg flex flex-col items-center justify-center hover:bg-gray-400"
-                          class:border-blue-300={selectedLanguage === config}
-                          class:selected={selectedLanguage === config}
+                          class:border-blue-300={selectedImage === config}
+                          class:selected={selectedImage === config}
                           on:click={() => selectLanguage(config)}>
                     <img src="/icons/languages/{config.name}.png" class="w-12 h-12 mb-2" />
                     <span class="text-sm text-white">{config.name}</span>

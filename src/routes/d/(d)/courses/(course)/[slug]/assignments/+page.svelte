@@ -24,7 +24,15 @@
 	import {onMount} from "svelte";
 	import {navStore} from "../../../../../../../lib/stores/stores.js";
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import {faAdd, faCircleCheck, faGear, faPencil, faTable} from "@fortawesome/free-solid-svg-icons";
+	import {
+		faAdd,
+		faCircleCheck,
+		faGear,
+		faLayerGroup,
+		faObjectGroup,
+		faPencil,
+		faTable
+	} from "@fortawesome/free-solid-svg-icons";
 
 
 	export let data;
@@ -217,29 +225,48 @@
 
 <div class="w-full ">
 
-	<section class="pl-1 mt-5">
+	<section class="pl-1 mt-5 ">
 
-		<div class="container">
+		<div class="container ">
 
 
+			<div class="flex flex-col sm:flex-row justify-between">
 
-			{#if claim !== 'student'}
-				<div class="flex justify-end">
+				<div class="flex flex-wrap">
 
-					<div>
-						<button
-								class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+				<button on:click={open_all} type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300
+			font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+					Open All
+				</button>
+				<button on:click={close_all} type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300
+			font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+					Close All
+				</button>
+
+			</div>
+
+				<div class="flex flex-wrap mr-5">
+				<div>
+					<button
+							class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
 				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
 				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-								on:click={() => showAllAssignments = !showAllAssignments}>
+							on:click={() => showAllAssignments = !showAllAssignments}>
 				<span
 						class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
 					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-					<div class="inline-block"><Fa icon={faTable}/></div> <div class="inline-block">Show All</div>
+					<div class="inline-block">{#if showAllAssignments}
+						<Fa icon={faLayerGroup}/>
+						{:else}
+						<Fa icon={faTable}/>
+						{/if}</div> <div class="inline-block">{showAllAssignments === true ? 'Show Groups' : 'Show Table'}</div>
 				</span>
-						</button>
-					</div>
+					</button>
+				</div>
+
+
+			{#if claim !== 'student'}
 
 					<div>
 			<button
@@ -270,15 +297,14 @@
 				</span>
 				</button>
 					</div>
-				</div>
 			{/if}
+			</div>
+			</div>
 
 			<!-- GROUP -->
 
 			{#if !showAllAssignments}
-			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold mr-1">
-
-
+			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold mr-0.5">
 				{#key groups}
 					<Accordion multiple>
 						{#each groups as { group_title, id, assignments }, i}

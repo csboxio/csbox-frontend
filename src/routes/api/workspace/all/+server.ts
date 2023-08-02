@@ -14,10 +14,9 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
 
   try {
     const {data, error } = await supabase.from('workspaces')
-        .select('id, user_id, workspace_name, image, type, workspace_state')
+        .select('id, user_id, workspace_name, image, type, workspace_state, inserted_at')
         .eq('user_id', session.user.id)
 
-    console.log(data, error)
 
     //if (!active_workspaces.ok) {
     //  throw new Error(`Request failed with status ${active_workspaces.status}`);

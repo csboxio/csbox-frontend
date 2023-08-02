@@ -1,5 +1,6 @@
 import type { Actions } from "@sveltejs/kit";
 import {redirect} from "@sveltejs/kit";
+import {goto} from "$app/navigation";
 
 export const actions: Actions = {
   /*createInstance: async ({ request, url, locals: { supabase } }) => {
@@ -33,15 +34,17 @@ export const actions: Actions = {
     const workspace_name = formData.get('workspace_name')
     const type = formData.get('type')
     const user_id = user.id
-    const language = formData.get('language') // TODO not implemented
+    const image = formData.get('image')
+
+    console.log(image)
 
     const payload = {
       user_id: user_id,
       workspace_name: workspace_name,
       session: session,
       //type: "basic", // TODO not implemented
-      image: 'docker.io/lt1gt0/theia-python:latest',
-      //language: language  // TODO not implemented
+      image: image,
+      language: 'python'
     }
 
     try {
@@ -64,5 +67,6 @@ export const actions: Actions = {
     } catch (error) {
       console.log("Error creating workspace: " + error )
     }
+
   }
 }

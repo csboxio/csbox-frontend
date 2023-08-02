@@ -32,7 +32,7 @@
 </script>
 
 <div class="flex flex-row grow max-w-full-1/2">
-	<section class="p-1 grow max-w-full-1/2 mt-4">
+	<section class="p-1 grow max-w-full-1/2">
 
 		<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
 					bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}

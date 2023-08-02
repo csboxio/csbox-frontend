@@ -99,7 +99,6 @@ export const uploadCourseImage = async (files: FileList, courseId: bigint, user,
     console.log(error)
     if (error) {
       console.log('Error uploading file')
-      return
     }
     const { data } = supabase.storage.from('courses').getPublicUrl(filePath)
 
@@ -170,17 +169,17 @@ export async function updateProfile(avatarUrl: string, user, supabase) {
 export async function updateCourse(courseUrl: string, courseId: bigint, user, supabase) {
   try {
     const updates = {
-      id: courseId,
-      inserted_at: new Date(),
-      user_id: user.id,
+      updated_at: new Date(),
       course_image_url: courseUrl,
+      user_id: user.id,
     }
 
     const { error } = await supabase.from('courses')
-        .upsert(updates)
-        .eq('user_id', user.id)
+        .update(updates)
         .eq('id', courseId)
+        .eq('user_id', user.id)
 
+    console.log(error)
 
     if (error) throw error
   } catch (error) {

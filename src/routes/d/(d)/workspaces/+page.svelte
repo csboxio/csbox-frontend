@@ -220,7 +220,7 @@
 			<!-- Content -->
 			<section class="flex flex-col p-8 inline-block w-full">
 				<div class="relative sm:rounded-lg w-full overflow-x-auto overflow-y-hidden">
-				<Table shadow hoverable>
+				<Table shadow hoverable class="mb-28">
 					<TableHead>
 						<TableHeadCell></TableHeadCell>
 						<TableHeadCell>Title</TableHeadCell>
@@ -234,7 +234,7 @@
 						{#if active_workspaces}
 							{#key active_workspaces}
 								{#each active_workspaces as { id, inserted_at, workspace_name, image_name, type, workspace_state }}
-									<TableBodyRow  class="cursor-pointer" >
+									<TableBodyRow class="cursor-pointer" >
 									<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> </TableBodyCell>
 									<TableBodyCell>{workspace_name}</TableBodyCell>
 									<TableBodyCell>{inserted_at?.substring(0,10)}</TableBodyCell>
@@ -243,7 +243,8 @@
 										<Button>
 											<Chevron>Actions</Chevron>
 										</Button>
-									<Dropdown>
+
+									<Dropdown containerClass="absolute z-50">
 										<DropdownItem> <div on:click={async () => await openWorkspace(id)}>Open</div> </DropdownItem>
 										<DropdownItem> <div on:click={async () => await stopWorkspace(id)}>Stop</div> </DropdownItem>
 										<DropdownItem> <div on:click={async () => await saveWorkspace(id)}>Save</div> </DropdownItem>
@@ -294,7 +295,9 @@
 		<Fa icon={faCircleNotch} size="2x" spin />
 		</div>
 		{#if $deployMessages.length > 0}
-		<div class="font-semibold text-white inline-block pr-4 align-super">{$deployMessages}</div>
+			<div class="font-semibold text-white inline-block pr-4 align-super">
+				{$deployMessages[$deployMessages.length - 1]}
+			</div>
 			{:else}
 			<div class="font-semibold text-white inline-block pr-4 align-super">Waiting...</div>
 		{/if}

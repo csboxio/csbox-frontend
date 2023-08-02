@@ -169,9 +169,11 @@
 
 </script>
 
-<div class="flex flex-col text-white py-4 w-full">
+<div class="flex flex-grow w-full text-white py-4">
 
-	<Tabs class="bg-color-600" inactiveClasses="p-4 text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100">
+	<div class="flex flex-grow">
+		<div class="flex-grow">
+			<Tabs class="bg-color-600" inactiveClasses="p-4 text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100">
 		<TabItem open>
 			<div slot="title" class="flex items-center gap-2 ">
 				Instructions
@@ -407,6 +409,21 @@
 
 		{/if}
 	</Tabs>
+		</div>
+	</div>
+
+	<div class="flex px-8 flex-col">
+		<div class="py-2">
+		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+			Publish
+		</button>
+		</div>
+
+		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+			Grade
+		</button>
+
+	</div>
 
 
 </div>

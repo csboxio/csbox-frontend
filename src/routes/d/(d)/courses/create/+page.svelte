@@ -78,6 +78,8 @@
 			if (data) {
 				currentCourseId = result.data.id
 
+				console.log(result)
+
 				//console.log($page.data.session.user.id)
 				await createTemplateCourseData(currentCourseId, supabase, $page.data.session.user.id)
 			}
