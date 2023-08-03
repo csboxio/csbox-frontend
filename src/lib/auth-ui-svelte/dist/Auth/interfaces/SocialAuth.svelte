@@ -36,6 +36,7 @@ function capitalize(word) {
 let iconTitle = (provider) => template(i18n['sign_in']?.social_provider_text, {
     provider: capitalize(provider)
 });
+
 </script>
 
 {#if providers.length}

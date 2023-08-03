@@ -7,6 +7,16 @@ export const prerender = false;
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 
+export const load = async ({ locals: { getSession, getClaim } }) => {
+    const session = await getSession()
+    if (session) {
+        const claim = await getClaim()
+        return {
+            claim: claim,
+        }
+    }
+}
+
 export const actions: Actions = {
     updateAssignment: async ({ request, url, params, locals: { supabase } }) => {
         const formData = await request.formData()
@@ -35,7 +45,7 @@ export const actions: Actions = {
         if (user != null) {
             const assignments_update = {
                 assignment_id: params.assignment,
-                creator_id: user.id,
+                user_id: user.id,
                 course_id: course_id,
                 points: points,
                 display_as: display_as,

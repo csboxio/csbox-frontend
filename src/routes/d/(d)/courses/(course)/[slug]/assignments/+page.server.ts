@@ -17,6 +17,55 @@ export const load = async ({ locals: { getSession, getClaim } }) => {
 }
 
 export const actions: Actions = {
+    createGroup: async ({ request, url, params, locals: { supabase } }) => {
+        const formData = await request.formData()
+        const {data} = await supabase.auth.refreshSession()
+        let user;
+        if (data == null) {
+            const {data} = await supabase.auth.refreshSession()
+            user = data.user
+        }
+        user = data.user
+        const name = formData.get('name')
+        const course_id = params.slug
+        if (user != null) {
+            const updates = {
+                user_id: user.id,
+                course_id: course_id,
+                group_title: name
+            }
+            const {error} = await supabase.from('groups').upsert(updates)
+            console.log(error)
+        }
+    },
+    addItemToGroup: async ({ request, url, params, locals: { supabase } }) => {
+        const formData = await request.formData()
+        const {data} = await supabase.auth.refreshSession()
+        let user;
+        if (data == null) {
+            const {data} = await supabase.auth.refreshSession()
+            user = data.user
+        }
+        user = data.user
+        const assignment_id = formData.get('assignment_id')
+        const quiz_id = formData.get('quiz_id')
+
+
+        const group = formData.get('groups')
+
+        const course_id = params.slug
+        if (user != null) {
+            const updates = {
+                in_group: group
+            }
+            const {error} = await supabase.from('assignments').update(updates)
+                .eq('user_id', user.id)
+                .eq('course_id', course_id)
+                .eq('assignment_id', assignment_id)
+
+            console.log(error)
+        }
+    },
     createAssignment: async ({ request, url, params, locals: { supabase } }) => {
         const formData = await request.formData()
         const {data} = await supabase.auth.refreshSession()
@@ -60,6 +109,7 @@ export const actions: Actions = {
                 p_submission_type: grade_type,
                 p_submission_attempts: null,
                 p_in_module: null,
+                // TODO ADD GROUP THING TO HERE
                 p_available_start: availableStart,
                 p_available_end: availableEnd
             }
@@ -68,6 +118,8 @@ export const actions: Actions = {
             if (module != '') {
                 //Object.assign(updates, {p_in_module: module})
             }
+
+            console.log(updates)
 
             const { data, error } = await supabase.rpc('create_assignment', updates)
 

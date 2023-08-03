@@ -1,5 +1,6 @@
 import type { Actions } from "@sveltejs/kit";
 import {redirect} from "@sveltejs/kit";
+import {goto} from "$app/navigation";
 
 export const actions: Actions = {
   /*createInstance: async ({ request, url, locals: { supabase } }) => {
@@ -33,24 +34,24 @@ export const actions: Actions = {
     const workspace_name = formData.get('workspace_name')
     const type = formData.get('type')
     const user_id = user.id
-    const language = formData.get('language') // TODO not implemented
+    const image = formData.get('image')
+
+    console.log(image)
 
     const payload = {
       user_id: user_id,
       workspace_name: workspace_name,
+      session: session,
       //type: "basic", // TODO not implemented
-      //image_name: 'docker.io/lt1gt0/theia-base', // TODO not implemented
-      //image_version: 'latest', // TODO not implemented
-      //language: language  // TODO not implemented
+      image: image,
+      language: 'python'
     }
 
-    console.log(payload)
-
     try {
-      const response = await fetch('http://ide.csbox.io/api/workspace/new', {
+      const response = await fetch('https://ide.csbox.io/api/workspace/new', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload)
       });
@@ -66,5 +67,6 @@ export const actions: Actions = {
     } catch (error) {
       console.log("Error creating workspace: " + error )
     }
+
   }
 }

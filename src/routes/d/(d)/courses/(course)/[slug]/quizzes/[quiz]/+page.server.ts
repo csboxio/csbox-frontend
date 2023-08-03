@@ -4,6 +4,15 @@ export const prerender = false;
 export const ssr = false
 // @ts-ignore
 
+export const load = async ({ locals: { getSession, getClaim } }) => {
+    const session = await getSession()
+    if (session) {
+        const claim = await getClaim()
+        return {
+            claim: claim,
+        }
+    }
+}
 export const actions: Actions = {
     updateQuiz: async ({ request, url, params, locals: { supabase } }) => {
         const formData = await request.formData()

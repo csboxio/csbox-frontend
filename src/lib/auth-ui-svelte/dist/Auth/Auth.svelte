@@ -47,6 +47,8 @@ appearance?.theme?.[theme], appearance?.variables?.[theme] ?? {}));
  * @returns boolean
  */
 $: SignView = view === 'sign_in' || view === 'sign_up' || view === 'magic_link';
+
+
 </script>
 
 <div class={theme !== 'default' ? themeVariables : ''}>

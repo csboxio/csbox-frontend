@@ -11,6 +11,7 @@ export const prerender = false;
 export const actions: Actions = {
     master_auth: async ({request, url, locals: { getSession }}) => {
 
+
         const formData = await request.formData()
         const captchaToken = formData.get('cf-turnstile-response') as string
         const password = formData.get('password') as string

@@ -18,8 +18,8 @@
 	import {addNotification} from "../../../../../../../lib/utilities/notifications.js";
 
 	export let data;
-	let { supabase } = data
-	$: ({ supabase } = data)
+	let { supabase, claim } = data
+	$: ({ supabase, claim } = data)
 	let course_data = data.courseData;
 
 
@@ -155,6 +155,8 @@
 	<section class="p-1 mt-4">
 		<div class="container">
 
+			{#if claim !== 'student'}
+
 			<button
 					class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
@@ -167,7 +169,7 @@
 					Create
 				</span>
 			</button>
-
+				{/if}
 			<div>
 				<div class="relative overflow-x-auto  sm:rounded-lg w-full">
 					<TableSearch placeholder="Search by title..." hoverable={true} bind:inputValue={searchTerm}>
@@ -176,9 +178,11 @@
 								<TableHeadCell>Quiz Title</TableHeadCell>
 								<TableHeadCell>Due</TableHeadCell>
 								<TableHeadCell>Points</TableHeadCell>
+								{#if claim !== 'student'}
 								<TableHeadCell>
 									<span class="sr-only ">Edit</span>
 								</TableHeadCell>
+								{/if}
 							</TableHead>
 							<TableBody class="divide-y">
 								{#key quizzes}
@@ -188,6 +192,7 @@
 											<TableBodyCell >{due ? due.substring(0, 10) : "No date" }</TableBodyCell>
 											<TableBodyCell >{points ? points : "No Points" }</TableBodyCell>
 
+											{#if claim !== 'student'}
 											<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium"  >
 												<a  class="font-medium
 								text-blue-600 hover:underline dark:text-blue-500">
@@ -198,6 +203,7 @@
 													Delete
 												</a>
 											</TableBodyCell>
+											{/if}
 										</TableBodyRow>
 									{/each}
 								{/key}

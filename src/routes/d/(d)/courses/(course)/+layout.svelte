@@ -16,8 +16,8 @@
 	let course = courses.filter((course) => course.id === parseInt($page.data.slug))[0];
 	export let data
 
-	let { supabase } = data
-	$: ({ supabase } = data)
+	let { supabase, claim } = data
+	$: ({ supabase, claim } = data)
 
 	let pathname = '';
 	let extractedName = '';
@@ -63,7 +63,7 @@
 			</section>
 			<div class="flex flex-row ">
 				<aside class="h-screen sticky top-0">
-					<CourseNav />
+					<CourseNav claim={claim}/>
 				</aside>
 					<slot />
 			</div>

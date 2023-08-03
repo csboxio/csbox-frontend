@@ -19,8 +19,8 @@
 
 	export let data;
 
-	let { supabase, params, quiz_data, courses } = data
-	$: ({ supabase, params, quiz_data, courses } = data)
+	let { supabase, params, quiz_data, courses, claim } = data
+	$: ({ supabase, params, quiz_data, courses, claim } = data)
 
 	let course_data = data.courseData;
 
@@ -200,7 +200,9 @@
 		//quizBuilder = new QuizBuilder();
 		setActiveTab('Course')
 
-
+		if (claim == 'student') {
+			history.back()
+		}
 	});
 	quizBuilder = createQuizBuilder();
 	/** @type {import('./$types').Snapshot<string>} */
@@ -275,12 +277,13 @@
 	<section class="p-1 mt-4">
 			<div class="container mx-12 my-5">
 				<div class="flex flex-wrap gap-4 mb-6 -mx-10 -mb-6 text-white font-semibold">
-					{#if quizBuilder}
+					{#if quizBuilder && claim !== 'student'}
 						<div class=" md:w-1/2 ">
 							<div class="mb-4">
 							<h1 class="text-xl font-bold mb-3 ">Create New Quiz</h1>
 
 								<!-- SAVE BUTTON -->
+
 								<button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 									font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
 									group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white

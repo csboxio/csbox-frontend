@@ -14,11 +14,11 @@
 	export let data;
 	let course_data = data.courseData;
 	let grades;
-	$: grades = data.assignments.assignmentData;
+	$: grades = data.gradesData;
 	// For search box on assignments
 	let searchTerm = '';
 	$: filteredItems = grades.filter(
-			(assignments) => assignments.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+			(grade) => grade.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
 	);
 
 	onMount(() => {
@@ -35,10 +35,9 @@
 						<TableSearch placeholder="Search by title..." hoverable={true} bind:inputValue={searchTerm}>
 							<Table hoverable>
 								<TableHead>
+
 									<TableHeadCell>Title</TableHeadCell>
-									<TableHeadCell>Category</TableHeadCell>
-									<TableHeadCell>Due</TableHeadCell>
-									<TableHeadCell>Points</TableHeadCell>
+
 									<TableHeadCell>
 										<span class="sr-only ">Edit</span>
 									</TableHeadCell>

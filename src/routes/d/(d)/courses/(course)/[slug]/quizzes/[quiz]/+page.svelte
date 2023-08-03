@@ -17,6 +17,10 @@
 	let date = new Date()
 
 	export let data;
+
+	let { supabase, claim } = data
+	$: ({ supabase, claim } = data)
+
 	let course_data = data.courseData;
 
 	let quiz_data;
@@ -80,6 +84,7 @@
 <div class="w-full">
 	<section class="p-1 mt-4">
 			<div class="container">
+				{#if claim !== 'student'}
 				<button
 						class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
@@ -105,6 +110,7 @@
 					Preview
 				</span>
 				</button>
+					{/if}
 
 
 					<div class="bg-gray-800 p-6 rounded-lg shadow-md text-white mt-2">

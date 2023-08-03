@@ -9,6 +9,7 @@ const dividerDefaultStyles = css({
 });
 export let appearance = {};
 const classNames = generateClassNames('divider', dividerDefaultStyles(), appearance);
+
 </script>
 
 <div {...$$restProps} style={appearance?.style?.divider} class={classNames.join(' ')}>

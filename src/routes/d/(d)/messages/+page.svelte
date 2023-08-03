@@ -4,6 +4,7 @@
     import {navStore} from "../../../../lib/stores/stores.js";
     import {onMount} from "svelte";
     import '$lib/styles/calendar.css'
+    import {page} from "$app/stores";
 
     let conversations = [
         {
@@ -23,9 +24,13 @@
             attachments: ["File"]
         },
     ];
-    let selectedConversation = null;
-    function selectConversation(conversation) {
-        selectedConversation = conversation;
+
+    let messages;
+    $: messages = $page.data.messages.data
+
+    let selectedMessage;
+    function selectMessage(message) {
+        selectedMessage = message;
     }
 
     export let data
@@ -59,40 +64,38 @@
     </section>
     <section class="flex flex-col p-8 h-screen">
         <div class="flex">
-            <!-- Left side - Conversations list -->
+            <!-- Left side - Message list -->
             <div class="w-1/3 pr-4">
                 <ul>
-                    {#each conversations as conversation}
+                    {#each messages as message}
                         <li
-                                class="cursor-pointer border border-gray-400 p-2 mb-2 rounded {selectedConversation === conversation ? 'bg-gray-400' : 'bg-gray-500'}"
-                                on:click={() => selectConversation(conversation)}>
-                            <div class="text-gray-100 text-sm mb-1">{conversation.date}</div>
+                                class="cursor-pointer border border-gray-400 p-2 mb-2 rounded {selectedMessage === message ? 'bg-gray-400' : 'bg-gray-500'}"
+                                on:click={() => selectMessage(message)}>
+                            <div class="text-gray-100 text-sm mb-1">{message.sent_at.substring(0,10)}</div>
 
-                            <div class="text-white font-bold mb-1">{conversation.sent_by}</div>
-                            <div class="text-white ">{conversation.subject}</div>
+                            <div class="text-white font-bold mb-1">{message.message.subject}</div>
+                            <div class="text-white truncate ">{message.message.message}</div>
                         </li>
                     {/each}
                 </ul>
             </div>
 
-            <!-- Right side - Selected conversation -->
+            <!-- Right side - Selected message -->
             <div class="w-2/3 p-6 text-lg bg-gray-500 border border-gray-400 h-screen">
-                {#if selectedConversation}
-                    <h2 class="text-white text-2xl font-bold mb-2">{selectedConversation.subject}</h2>
+                {#if selectedMessage}
+                    <h2 class="text-white text-2xl font-bold mb-2">{selectedMessage.message.subject}</h2>
                     <hr>
-                    <p class="text-white mt-2">{selectedConversation.message}</p>
-                    {#if selectedConversation.attachments.length > 0}
+                    <p class="text-white mt-2">{selectedMessage.message.message}</p>
                         <div class="mt-4">
                             <h3 class="text-white font-bold">Attachments:</h3>
                             <ul>
-                                {#each selectedConversation.attachments as attachment}
-                                    <li class="text-white">{attachment}</li>
+                                {#each selectedMessage.message.attachments as attachment}
+                                    <a class="text-white mt-2 mr-2 underline" href="{attachment.url}">{attachment.name}</a>
                                 {/each}
                             </ul>
                         </div>
-                    {/if}
                     {:else}
-                    <h2 class="text-white text-xl font-bold">No conversations selected...</h2>
+                    <h2 class="text-white text-xl font-bold">No message selected...</h2>
                 {/if}
             </div>
         </div>

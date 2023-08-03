@@ -13,3 +13,4 @@ export const load = async ({ fetch, url, parent, cookies }) => {
         isAuthenticated: true
     }
 }
+

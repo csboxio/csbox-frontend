@@ -34,26 +34,6 @@ export const uploadQuillDocument = async (files: FileList, courseId: bigint, use
   loading = false;
 };
 
-export const createPlaceHolderCourseDocument = async (courseId: bigint, user: any, supabase) => {
-
-  const file = new File(["<p>Welcome to this course's Home Page!</p> <b>Click edit</b> to start!"], 'home.HTML');
-
-  const dataTransfer = new DataTransfer();
-
-  dataTransfer.items.add(file);
-
-  // Delete old html from block storage
-  const filePath = `${courseId + "/" + "document/" + "home"}.HTML`;
-  const { error } = await supabase.storage.from("courses").update(filePath, file);
-  console.log(error)
-  if (error) {
-    const { errors } = await supabase.storage.from("courses").remove(filePath);
-    const { error } = await supabase.storage.from("courses").upload(filePath, file);
-  }
-  const { data } = supabase.storage.from("courses").getPublicUrl(filePath);
-  await updateCourseInsert(courseId, user, supabase)
-  loading = false;
-};
 
 export const updateCourseInsert = async(courseId: bigint, user: User, supabase) => {
   try {

@@ -78,11 +78,13 @@ export const uploadCourseImage = async (files: FileList, courseId: bigint, user,
   course_image_loading = true;
   loading = true
 
-  console.log(user)
+  console.log(courseId)
   try {
     if (!files || files.length === 0) {
       throw new Error('You must select an image to upload.')
     }
+
+    console.log(courseId)
 
     // Delete old image from database
     const filePath = `${courseId + "/" + "icon" + "_courseImage"}.WEBP`
@@ -94,12 +96,13 @@ export const uploadCourseImage = async (files: FileList, courseId: bigint, user,
     const { error } = await supabase.storage.from('courses').upload(filePath, rfile, {
 
     })
+    console.log(error)
     if (error) {
       console.log('Error uploading file')
-      return
     }
     const { data } = supabase.storage.from('courses').getPublicUrl(filePath)
 
+    console.log(courseId)
     await updateCourse(data.publicUrl, courseId, user, supabase)
   } catch (error) {
     if (error instanceof Error) {
@@ -166,17 +169,17 @@ export async function updateProfile(avatarUrl: string, user, supabase) {
 export async function updateCourse(courseUrl: string, courseId: bigint, user, supabase) {
   try {
     const updates = {
-      id: courseId,
-      inserted_at: new Date(),
-      user_id: user.id,
+      updated_at: new Date(),
       course_image_url: courseUrl,
+      user_id: user.id,
     }
 
     const { error } = await supabase.from('courses')
-        .upsert(updates)
-        .eq('user_id', user.id)
+        .update(updates)
         .eq('id', courseId)
+        .eq('user_id', user.id)
 
+    console.log(error)
 
     if (error) throw error
   } catch (error) {

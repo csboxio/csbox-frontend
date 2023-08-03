@@ -6,10 +6,15 @@
 	import { AccordionItem, Accordion, Modal } from "flowbite-svelte";
 	import {onMount} from "svelte";
 	import {navStore} from "../../../../../../../lib/stores/stores.js";
+	import {faAdd, faCircleCheck, faFlag, faGear, faPencil} from "@fortawesome/free-solid-svg-icons";
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import {faCircleCheck, faFlag, faPencil} from "@fortawesome/free-solid-svg-icons";
-
+	import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 	export let data;
+
+
+	let { supabase, claim } = data
+	$: ({ supabase, claim } = data)
+
 	let loading;
 	let show_create_box;
 	let addModuleModel = false;
@@ -20,6 +25,7 @@
 	let assignments;
 	let quizzes;
 	let selectedTypeAddItem;
+
 
 	//TODO WHEN MOVING ITEMS IT SHOULD NOT CLOSE THAT ONES THAT ARE OPEN
 
@@ -88,12 +94,16 @@
 <div class="w-full">
 	<section class="p-1 mt-4">
 		<div class="container">
+
+			{#if claim !== 'student'}
+
 			<button on:click={() => addModuleModel = true}
 				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">
 				<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
 					Create
 				</span>
 			</button>
+			{/if}
 
 			<button on:click={open_all} type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300
 			font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
@@ -104,7 +114,8 @@
 				Close All
 			</button>
 
-			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold ">
+			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold mr-1">
+
 
 				{#key modules}
 					<Accordion multiple>
@@ -119,25 +130,29 @@
 									</span>
 
 									<!-- Plus symbol to the right of the module title -->
+									{#if claim !== 'student'}
+										<div class="flex justify-between">
+											<div class="flex inline-flex ">
 									<a on:click|stopPropagation={() => {add_item(module_title)}}
 										 class="text-gray-200 pb-4 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
-										Add
-										<span class="ml-auto">
-											<svg
-												class="mr-1 -ml-1 w-6 h-6"
-												fill="currentColor"
-												viewBox="0 0 20 20"
-												xmlns="http://www.w3.org/2000/svg">
-												<path
-													fill-rule="evenodd"
-													d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-													clip-rule="evenodd"
-												/>
-											</svg>
-										</span>
+										<div class="mr-1"><Fa icon={faAdd}  /> </div>
+										Item
 									</a>
+											</div>
+
+											<div class="flex inline-flex">
+									<a
+									   class="text-gray-200 pb-4 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
+										<div class="mr-1"><Fa icon={faGear}  /></div>
+										Settings
+									</a>
+										</div>
+										</div>
+
+									{/if}
 									<!-- End of plus symbol -->
 
+									<!-- assignments -->
 									{#each assignments as {title, in_module}, i}
 										{#if in_module === id}
 											<a>
@@ -150,17 +165,22 @@
 											{/if}
 									{/each}
 
-										{#each quizzes as {quiz_title, in_module}, i}
-											{#if in_module === id}
+									<!-- quizzes -->
+									{#each quizzes as {quiz_title, in_module}, i}
+										{#if in_module === id}
 											<a>
-												<div class="py-4 px-4 text-lg text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t"
-													 	>
-														<Fa class="inline-block pr-4" icon={faCircleCheck}/>
-														{quiz_title === '' ? 'Quizzes Error..' : quiz_title}
-													</div>
-												</a>
-											{/if}
-										{/each}
+												<div class="py-4 px-4 text-lg text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t">
+													<Fa class="inline-block pr-4" icon={faCircleCheck}/>
+													{quiz_title === '' ? 'Quizzes Error..' : quiz_title}
+												</div>
+											</a>
+										{/if}
+									{/each}
+							{#if assignments && quizzes}
+								{#if assignments.length === 0}
+									Nothing here
+								{/if}
+							{/if}
 								</AccordionItem>
 
 						</div>

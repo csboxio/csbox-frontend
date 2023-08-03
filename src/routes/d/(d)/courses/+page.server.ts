@@ -16,13 +16,13 @@ export const load = async ({ locals: { getSession, getClaim } }) => {
 export const actions: Actions = {
   joinCourse: async ({ request, url, locals: { supabase } }) => {
     const formData = await request.formData()
-
     const {data} = await supabase.auth.refreshSession()
     const user = data.user
     const code = formData.get('code')
+
     if (user != null) {
       const { error, data, status } = await supabase.rpc('enroll_user',
-          {_user_id: user.id, _enroll_code: code})
+          {_user_id: user.id, code: code})
       console.log(error, data, status)
       return { error, data}
     }

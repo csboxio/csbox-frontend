@@ -13,6 +13,7 @@ export const load = async ({ fetch, data, request, url, parent }) => {
     throw redirect(303, '/');
   }
   const response = await fetch('/api/courses')
+
   return {
       courses: await response.json()
   };

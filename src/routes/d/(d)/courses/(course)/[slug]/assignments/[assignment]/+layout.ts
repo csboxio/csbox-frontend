@@ -11,6 +11,7 @@ export const load = (async ({ fetch, data, request, url, parent, params }) => {
 
     const assignment = await fetch(`/api/assignments/assignment_slug/?id=${params.assignment}`)
 
+
     return {
         assignment: await assignment.json(),
         assignment_slug: params.assignment

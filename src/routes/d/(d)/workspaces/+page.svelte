@@ -32,7 +32,7 @@
 	$: workspaces = $page.data.workspaces
 
 	let active_workspaces;
-	$: active_workspaces = $page.data.active_workspaces.data;
+	$: active_workspaces = $page.data.active_workspaces;
 
 	onMount(() => {
 		// Set the selected item when the page is mounted
@@ -95,12 +95,13 @@
 
 	const deployMessages = writable([]);
 
-	async function deployWorkspace(workspace_id) {
-		deployModel = true;
-		const websocketUrl = 'ws://ide.csbox.io/api/kube/'
-		let actionParam = 'deploy/'
+	async function openWorkspace(workspace_id) {
 
-		const socket = new WebSocket(websocketUrl + actionParam + workspace_id);
+
+		deployModel = true;
+		const websocketUrl = 'wss://ide.csbox.io/api/workspace/open/'
+
+		const socket = new WebSocket(websocketUrl + workspace_id);
 
 		socket.onmessage = (event) => {
 			const message = event.data;
@@ -117,11 +118,16 @@
 		}
 	}
 
+
+	async function openWorkspaceFrame(workspace_id) {
+		await goto(`${$page.url}/${workspace_id}`)
+	}
+
 	async function redirectWorkspace(workspace_id) {
 		if (browser) {
 			try {
 
-				const response = await fetch('http://ide.csbox.io/api/kube/redirect/' + workspace_id, {
+				const response = await fetch('https://ide.csbox.io/api/workspace/redirect/' + workspace_id, {
 					method: 'GET',
 					mode: 'cors',
 					credentials: 'omit'
@@ -133,13 +139,15 @@
 
 				const data = await response.json();
 
-				const url = data.url;
+				console.log(data)
 
-				console.log(url)
+				const url = data.data
 
-				window.open('http://' + url, '_blank')
+				window.open(url, '_blank')
 
 				deployModel = false;
+
+				deployMessages.set([]);
 
 			} catch (e) {
 				console.log("Redirect error: " + e)
@@ -150,27 +158,38 @@
 
 
 	async function stopWorkspace(workspace_id) {
-		const stopWorkspaceUrl = 'http://ide.csbox.io/api/kube/stop/' + workspace_id
+		const stopWorkspaceUrl = 'https://ide.csbox.io/api/workspace/shutdown/' + workspace_id
 
-		const { data, error } = await fetch(stopWorkspaceUrl, {
+		const response = await fetch(stopWorkspaceUrl, {
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			mode: 'no-cors'
 		});
-		console.log(data, error)
+		if (response.status == 200) {
+			console.log("Stopped Workspace" + workspace_id);
+		}
 	}
 
+	async function saveWorkspace(workspace_id) {
+		const saveWorkspaceUrl = 'https://ide.csbox.io/api/workspace/save/home/' + workspace_id
 
+		const response = await fetch(saveWorkspaceUrl, {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			mode: 'no-cors'
+		});
+		if (response.status == 200) {
+			console.log("Saved Workspace" + workspace_id);
+		}
+	}
 	onMount(() => {
 		// Set the selected item when the page is mounted
 		navStore.set('workspaces');
 	});
-
 	let deployModel = false;
-
 </script>
-
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
 
@@ -193,7 +212,6 @@
 		</div>
 	</section>
 
-
 	<div class="flex min-h-screen">
 	<!-- Work space navigation -->
 	<aside class="h-screen sticky top-0 inline-block" >
@@ -201,11 +219,10 @@
 	</aside>
 			<!-- Content -->
 			<section class="flex flex-col p-8 inline-block w-full">
-				<div class="relative overflow-x-auto  sm:rounded-lg w-full">
-				<Table shadow hoverable>
+				<div class="relative sm:rounded-lg w-full overflow-x-auto overflow-y-hidden">
+				<Table shadow hoverable class="mb-28">
 					<TableHead>
 						<TableHeadCell></TableHeadCell>
-
 						<TableHeadCell>Title</TableHeadCell>
 						<TableHeadCell>Created</TableHeadCell>
 						<TableHeadCell>Type</TableHeadCell>
@@ -216,29 +233,27 @@
 					<TableBody class="divide-y">
 						{#if active_workspaces}
 							{#key active_workspaces}
-						{#each active_workspaces as { id, created_at, workspace_name, image_name, type, workspace_state }}
-							<TableBodyRow  class="cursor-pointer" >
-								<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> </TableBodyCell>
+								{#each active_workspaces as { id, inserted_at, workspace_name, image_name, type, workspace_state }}
+									<TableBodyRow class="cursor-pointer" >
+									<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> </TableBodyCell>
+									<TableBodyCell>{workspace_name}</TableBodyCell>
+									<TableBodyCell>{inserted_at?.substring(0,10)}</TableBodyCell>
+									<TableBodyCell>{type}</TableBodyCell>
+									<TableBodyCell>
+										<Button>
+											<Chevron>Actions</Chevron>
+										</Button>
 
-								<TableBodyCell>{workspace_name}</TableBodyCell>
-								<TableBodyCell>{created_at.substring(0,10)}</TableBodyCell>
-								<TableBodyCell>{type}</TableBodyCell>
-								<TableBodyCell>
-									<Button><Chevron>Actions</Chevron></Button>
-									<Dropdown >
-										<DropdownItem>Open*</DropdownItem>
-										<DropdownItem> <div on:click={async () => await deployWorkspace(id)}>Deploy</div> </DropdownItem>
-										<DropdownItem> <div on:click={async () => await stopWorkspace(id)}>Stop</div>  </DropdownItem>
-										<DropdownItem>Delete*</DropdownItem>
+									<Dropdown containerClass="absolute z-50">
+										<DropdownItem> <div on:click={async () => await openWorkspace(id)}>Open</div> </DropdownItem>
+										<DropdownItem> <div on:click={async () => await stopWorkspace(id)}>Stop</div> </DropdownItem>
+										<DropdownItem> <div on:click={async () => await saveWorkspace(id)}>Save</div> </DropdownItem>
 									</Dropdown>
-								</TableBodyCell>
-
-
-							</TableBodyRow>
-							{/each}
-								{/key}
-
-							{/if}
+									</TableBodyCell>
+									</TableBodyRow>
+								{/each}
+							{/key}
+						{/if}
 
 					</TableBody>
 				</Table>
@@ -279,6 +294,12 @@
 		<div class="inline-block pr-4">
 		<Fa icon={faCircleNotch} size="2x" spin />
 		</div>
-		<div class="font-semibold text-white inline-block pr-4 align-super">{$deployMessages}</div>
+		{#if $deployMessages.length > 0}
+			<div class="font-semibold text-white inline-block pr-4 align-super">
+				{$deployMessages[$deployMessages.length - 1]}
+			</div>
+			{:else}
+			<div class="font-semibold text-white inline-block pr-4 align-super">Waiting...</div>
+		{/if}
 	</div>
 </Modal>

@@ -9,7 +9,7 @@
 
 
   const menuItems = [
-    { name: "Create Workspaces", route: route + 'create' },
+    { name: "Create Workspace", route: route + 'create' },
     { name: "Workspaces", route: route },
   ];
 
