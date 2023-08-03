@@ -11,12 +11,18 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   if (!session) {
     throw redirect(303, '/');
   }
-  const course = url.searchParams.get('course')
-  const {data, error } = await supabase.from('grades')
-    .select('course_id, graded_by, user_id, last_graded, points_given, points, grade_percent')
-    .eq('course_id', course)
-      .eq('user_id', session.user.id)
+  const c_id = url.searchParams.get('c_id')
+  const a_id = url.searchParams.get('a_id')
 
+  console.log(c_id, a_id)
+
+  const {data, error } = await supabase.from('submissions')
+    .select('id, course_id, graded_by, assignment_id, last_graded, user_id, grade_percent, points_given, points, type')
+    .eq('course_id', c_id)
+      .eq('user_id', session.user.id)
+      .eq('assignment_id', a_id)
+
+  console.log(data, error)
   if (error) {
     console.log(data, error)
   }

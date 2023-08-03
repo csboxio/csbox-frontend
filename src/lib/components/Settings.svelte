@@ -171,7 +171,7 @@
           {#if data}
           <Button pill color="light"  id="avatar_with_name" class="!p-1.5 ">
             <Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class="mr-4"/>
-            <div class="mr-3 font-medium">{user.first_name} {user.last_name}</div>
+            <div class="mr-3 font-medium">{user?.first_name} {user?.last_name}</div>
           </Button>
           <Dropdown inline triggeredBy="#avatar_with_name" class="z-20">
             <div slot="header" class="px-4 py-2">

@@ -413,13 +413,9 @@
 	</div>
 
 	<div class="flex px-8 flex-col">
-		<div class="py-2">
-		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-			Publish
-		</button>
-		</div>
 
-		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+			on:click={() => {goto(window.location.pathname + '/grade')}}>
 			Grade
 		</button>
 
