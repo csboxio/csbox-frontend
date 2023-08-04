@@ -65,10 +65,75 @@ export const createPlaceHolderGroup = async (courseId: bigint, user: any, supaba
     return g_id;
 }
 
+export const createPlaceHolderQuiz = async (courseId: bigint, user: any, supabase, module_id) => {
+    const quiz_doc = {
+        "title": "Quiz Title",
+        "questions": [
+            {
+                "type": "multiple-choice",
+                "points": "1",
+                "choices": [
+                    "yes",
+                    "no"
+                ],
+                "question": "Sample Question",
+                "selectedAnswers": [
+                    true,
+                    false
+                ]
+            }
+        ],
+        "totalPoints": 1,
+        "instructions": "Sample Instructions"
+    }
+    if (user != null) {
+        const updates = {
+            user_id: user.id,
+            course_id: courseId,
+            quiz_title: "Sample Quiz",
+            quiz_doc: quiz_doc,
+            in_module: module_id
+        }
+        const {error} = await supabase.from('quizzes').upsert(updates)
+        console.log(error)
+    }
+}
+
+export const createPlaceHolderModule = async (courseId: bigint, user: any, supabase) => {
+
+    const m_id = uuidv4()
+    if (user != null) {
+        const updates = {
+            id: m_id,
+            user_id: user,
+            course_id: courseId,
+            module_title: "Sample Group"
+        }
+        const {error} = await supabase.from('modules').upsert(updates)
+        console.log(error)
+    }
+    return m_id;
+}
+
+
 export const addPlaceHolderAssignmentToPlaceHolderGroup  = async (courseId: bigint, user: any, supabase, assignment_id, group_id) => {
     if (user != null) {
         const updates = {
             in_group: group_id
+        }
+        const {error} = await supabase.from('assignments').update(updates)
+            .eq('user_id', user)
+            .eq('course_id', courseId)
+            .eq('assignment_id', assignment_id)
+
+        console.log(error)
+    }
+}
+
+export const addPlaceHolderAssignmentToPlaceHolderModule  = async (courseId: bigint, user: any, supabase, assignment_id, module_id) => {
+    if (user != null) {
+        const updates = {
+            in_module: module_id
         }
         const {error} = await supabase.from('assignments').update(updates)
             .eq('user_id', user)
@@ -103,6 +168,11 @@ export async function createTemplateCourseData(courseId, supabase, user_id) {
     await createPlaceHolderCourseDocument(courseId, user_id, supabase);
     const a_id = await createPlaceHolderAssignment(courseId, user_id, supabase);
     const g_id = await createPlaceHolderGroup(courseId, user_id, supabase);
+    const m_id = await createPlaceHolderModule(courseId, user_id, supabase);
     await addPlaceHolderAssignmentToPlaceHolderGroup(courseId, user_id, supabase, a_id, g_id);
+    await addPlaceHolderAssignmentToPlaceHolderModule(courseId, user_id, supabase, a_id, m_id);
+    await createPlaceHolderQuiz(courseId, user_id, supabase, m_id);
+
+
 
 }

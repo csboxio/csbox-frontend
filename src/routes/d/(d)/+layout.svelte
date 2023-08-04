@@ -95,7 +95,7 @@
 								filter: `course_id=in.(${courseIDsList})`
 							},
 							(payload) => {
-								const courseTitle = courseMap.get(payload.new.course_id);
+								const courseTitle = courseMap.get(payload.all_notifications.course_id);
 								if (courseTitle) {
 									// Update the notification store with the new information.
 									const newNotification =

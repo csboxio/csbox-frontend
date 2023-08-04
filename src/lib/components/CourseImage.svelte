@@ -33,7 +33,7 @@
   const SUPABASE_ANON_KEY = PUBLIC_SUPABASE_ANON_KEY;
   const SUPABASE_PROJECT_URL = PUBLIC_SUPABASE_URL;
   const STORAGE_BUCKET = 'courses';
-  const supabaseUploadURL = `https://qtjsvddfdqkvkppijakb.supabase.co/storage/v1/upload`;
+  const supabaseUploadURL = `https://bpjcaiybudgwujfpyevt.supabase.co/storage/v1/upload`;
   const folderName = '123'
   let uppy;
 

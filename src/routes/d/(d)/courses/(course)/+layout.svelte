@@ -5,12 +5,10 @@
 	import {page} from '$app/stores';
 	import show_create_box from './[slug]/assignments/+page.svelte';
 	import '$lib/quilljs.css';
-	import {beforeUpdate, onMount} from "svelte";
 	import {browser} from "$app/environment";
 	import {courseNavStore} from "$lib/stores/stores.ts";
-	import {Breadcrumb, BreadcrumbItem} from "flowbite-svelte";
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import {faArrowRight, faSpinner} from '@fortawesome/free-solid-svg-icons';
+	import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 
 	let courses = $page.data.courses.data;
 	let course = courses.filter((course) => course.id === parseInt($page.data.slug))[0];
@@ -24,12 +22,9 @@
 
 	function extractNameFromPath() {
 		pathname = $page.url.pathname;
-		var pathnameParts = pathname.split("/");
-		console.log(pathnameParts.length )
+		const pathnameParts = pathname.split("/");
 		if (pathnameParts.length > 4 && browser) {
-			let thing = pathnameParts[4].charAt(0).toUpperCase() + pathnameParts[4].substring(1);
-			console.log(thing)
-			return thing
+			return pathnameParts[4].charAt(0).toUpperCase() + pathnameParts[4].substring(1)
 		}
 		else {
 			return "Home"

@@ -55,7 +55,7 @@
 <div class="w-full">
 	<section class="p-1 mt-4">
 		<div class="container mx-12 my-5">
-			<div class="text-center text-white mb-2 text-xl font-semibold">{quiz.title}</div>
+			<div class="text-center text-white mb-2 text-xl font-semibold">{quiz.title != undefined ? quiz.title : 'No title'}</div>
 			<div class="flex flex-wrap gap-4 mb-6 -mb-6 mx-20 text-white font-semibold">
 					{#if questions}
 					{#if !quizCompleted && questions.length > 0 && questions[currentQuestion]}
@@ -94,6 +94,8 @@
 					{:else}
 						<p>No questions found!</p>
 					{/if}
+						{:else}
+							<p>No quiz questions found...</p>
 						{/if}
 
 			</div>

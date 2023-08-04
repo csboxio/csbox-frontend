@@ -14,15 +14,8 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   const c_id = url.searchParams.get('c_id')
   const a_id = url.searchParams.get('a_id')
 
-  console.log(c_id, a_id)
+  const { data, error } = await supabase.rpc('get_submissions_grading', { in_course_id: c_id, in_assignment_id: a_id})
 
-  const {data, error } = await supabase.from('submissions')
-    .select('id, course_id, graded_by, assignment_id, last_graded, user_id, grade_percent, points_given, points, type')
-    .eq('course_id', c_id)
-      .eq('user_id', session.user.id)
-      .eq('assignment_id', a_id)
-
-  console.log(data, error)
   if (error) {
     console.log(data, error)
   }

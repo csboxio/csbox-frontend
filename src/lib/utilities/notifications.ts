@@ -9,11 +9,11 @@ export function addNotification(notification, supabase, user) {
 
 async function appendDataToNotifications(newNotification, supabase, user) {
 
-  //  Retrieve the existing new column JSONB
+  //  Retrieve the existing all_notifications column JSONB
 
   const { data, error } = await supabase
       .from("notifications")
-      .select("new")
+      .select("all_notifications")
       .eq('user_id', user.id)
       .single();
 
@@ -24,7 +24,7 @@ async function appendDataToNotifications(newNotification, supabase, user) {
     return;
   }
 
-  let existingData = data.new;
+  let existingData = data.all_notifications;
 
   if (!existingData || !Array.isArray(existingData.notifications)) {
     existingData = {
@@ -43,11 +43,11 @@ async function appendDataToNotifications(newNotification, supabase, user) {
 
   const { error: updateError } = await supabase
       .from("notifications")
-      .upsert({user_id: user.id, new: updatedValue })
+      .upsert({user_id: user.id, all_notifications: updatedValue })
       .select();
 
   if (updateError) {
-    console.error("Error updating 'new' column:", updateError);
+    console.error("Error updating 'all_notifications' column:", updateError);
     return;
   }
 
