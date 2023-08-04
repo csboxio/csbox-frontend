@@ -22,7 +22,8 @@
 	$: ({ supabase, session } = data)
 	let files;
 	let uploading = false;
-	let user = data.user.data
+	let user
+	$: user = $page.data.user.data
 
 	function initializeUser(user) {
 		const defaults = {
@@ -114,8 +115,9 @@
 						<div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
 							<img class="rounded-full w-24 h-24 inline-block" src={user.avatar_url} alt="image description">
 							<div class="inline-block ml-4">
-								<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-800 dark:text-white">{user?.first_name} {user?.last_name}</h5>
+								<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-800 dark:text-white">{$page.data.user.data.first_name} {user?.last_name}</h5>
 								<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{user?.website}</p>
+
 
 								<main>
 									<label class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white

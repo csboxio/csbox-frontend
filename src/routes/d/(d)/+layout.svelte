@@ -19,6 +19,14 @@
 	let { supabase, session, user, claim } = data
 	$: ({ supabase, session, user, claim } = data)
 
+	if (user) {
+		if (user.data.completed_setup == false && browser && window.location.pathname !== "/d/profile/setup") {
+			window.location.href = "/d/profile/setup"
+		}
+	}
+
+
+
 	onMount(async () => {
 		const {
 			data: { subscription }
@@ -26,7 +34,6 @@
 			invalidateAll();
 			//goto("/");
 		});
-
 
 		// TODO this is terrible
 		if($checkedUserInfo === 'false') {
@@ -36,6 +43,7 @@
 			if (_user.first_name == '') {
 				finishProfile = true;
 			}
+
 
 			checkedUserInfo.set('true')
 		}

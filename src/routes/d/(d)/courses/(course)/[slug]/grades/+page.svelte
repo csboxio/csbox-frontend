@@ -14,12 +14,12 @@
 	export let data;
 	let course_data = data.courseData;
 	let grades;
-	$: grades = data.gradesData;
+	//$: grades = data.gradesData;
 	// For search box on assignments
 	let searchTerm = '';
-	$: filteredItems = grades.filter(
-			(grade) => grade.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
-	);
+	//$: filteredItems = grades.filter(
+	//		(grade) => grade.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+	//);
 
 	onMount(() => {
 		// Set the selected item when the page is mounted
@@ -32,6 +32,7 @@
 		<div class="container">
 				<div>
 					<div class="relative overflow-x-auto sm:rounded-lg w-full">
+						<!--
 						<TableSearch placeholder="Search by title..." hoverable={true} bind:inputValue={searchTerm}>
 							<Table hoverable>
 								<TableHead>
@@ -61,7 +62,7 @@
 								</TableBody>
 							</Table>
 						</TableSearch>
-
+						-->
 					</div>
 			</div>
 		</div>

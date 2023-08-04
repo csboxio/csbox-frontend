@@ -26,7 +26,7 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
   const session = await getSession()
   if (session) {
     const {data, error, status} = await supabase.from('users')
-        .select('updated_at, username, first_name, last_name, website, avatar_url, bio, country')
+        .select('updated_at, username, first_name, last_name, website, avatar_url, bio, country, completed_setup')
         .eq('id', session.user.id)
         .single()
 
@@ -34,9 +34,9 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
       if (DEV) {
           //console.log(data, error, status)
       }
-      setHeaders({
-        'cache-control': 'public, max-age=3600, s-maxage=3600'
-      })
+     // setHeaders({
+     //   'cache-control': 'public, max-age=3600, s-maxage=3600'
+     // })
 
 
     return json({data})

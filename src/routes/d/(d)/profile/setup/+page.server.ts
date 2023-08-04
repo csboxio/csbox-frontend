@@ -1,5 +1,6 @@
 import type {Actions} from "./$types";
 import {redirect} from '@sveltejs/kit'
+import {invalidateAll} from "$app/navigation";
 
 export const prerender = false;
 export const actions: Actions = {
@@ -25,7 +26,8 @@ export const actions: Actions = {
             website: website,
             bio: bio,
             country: country,
-            updated_at: new Date()
+            updated_at: new Date(),
+            completed_setup: true
         }
 
         const headers = new Headers()

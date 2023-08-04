@@ -3,6 +3,7 @@
 import { redirect } from "@sveltejs/kit";
 import {browser} from "$app/environment";
 
+
 export const load = async ({ fetch, url, parent}) => {
 
     const parentData = await parent();
@@ -11,6 +12,7 @@ export const load = async ({ fetch, url, parent}) => {
 
     if (session) {
         const response = await fetch('/api/users');
+
 
         return {
             user: await response.json(),

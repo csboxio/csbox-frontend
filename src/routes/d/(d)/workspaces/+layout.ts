@@ -19,20 +19,17 @@ export const load = async ({ fetch, data, request, url, parent }) => {
       },
     };
 
-    const workspaces = await fetch(`/api/workspace`, cacheOptions);
     const ide = await fetch(`/api/workspace/ide?v=1`, cacheOptions);
     const active_workspaces = await fetch("/api/workspace/all", cacheOptions);
 
     if (!active_workspaces.ok) {
       return {
-        workspaces: await workspaces.json(),
         ide: await ide.json(),
         active_workspaces: null,
       };
     }
 
     return {
-      workspaces: await workspaces.json(),
       ide: await ide.json(),
       active_workspaces: await active_workspaces.json(),
     };

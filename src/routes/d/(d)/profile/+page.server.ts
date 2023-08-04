@@ -26,7 +26,8 @@ export const actions: Actions = {
             website: website,
             bio: bio,
             country: country,
-            updated_at: new Date()
+            updated_at: new Date(),
+            completed_setup: true
         }
 
         const headers = new Headers()
