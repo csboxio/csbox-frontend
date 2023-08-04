@@ -18,7 +18,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
         .eq('assignment', assignmentId)
         .single()
 
-    console.log(data, error, status)
+
 
     //event.setHeaders({
     //  'cache-control': 'public, max-age=60, s-maxage=60'

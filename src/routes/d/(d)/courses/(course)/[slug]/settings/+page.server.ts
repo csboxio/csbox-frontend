@@ -1,4 +1,5 @@
 import type {Actions} from "@sveltejs/kit";
+import {redirect} from "@sveltejs/kit";
 
 
 export const load = async ({ locals: { getSession, getClaim } }) => {
@@ -22,12 +23,14 @@ export const actions: Actions = {
         user = data.user
         const _course_id = formData.get('course_number_delete')
         const course_id = params.slug
-        if (user != null) {
+
+        if (_course_id === course_id) {
             const {error} = await supabase.from('courses')
                 .delete()
-                .eq('id', params.slug)
+                .eq('id', course_id)
                 .eq('user_id', user.id)
-            console.log(error)
+
+            redirect(301,'/d')
         }
     },
 }

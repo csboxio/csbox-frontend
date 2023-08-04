@@ -41,7 +41,7 @@
   async function getNotifications() {
     const { data, error } = await supabase
             .from("notifications")
-            .select("new")
+            .select("all_notifications")
             .eq('user_id', $page.data.session.user.id)
             .single()
 
@@ -67,7 +67,7 @@
     //console.log(notifications)
     const { data, error } = await supabase
             .from("notifications")
-            .update({ 'new': notifications})
+            .update({ 'all_notifications': notifications})
             .eq('user_id', $page.data.session.user.id)
     console.log(data, error)
 
@@ -124,8 +124,8 @@
         <Dropdown triggeredBy="#bell" class="w-full max-w-sm rounded divide-y divide-gray-100 z-20 shadow dark:bg-gray-800 dark:divide-gray-700" >
           <div slot="header" class="text-center py-2 font-bold z-10">Notifications</div>
 
-          {#if notificationsReceived !== undefined && notificationsReceived.new != null && JSON.stringify(notificationsReceived) !== JSON.stringify([])}
-          {#each notificationsReceived.new.notifications as notification, id}
+          {#if notificationsReceived !== undefined && notificationsReceived.all_notifications != null && JSON.stringify(notificationsReceived) !== JSON.stringify([])}
+          {#each notificationsReceived.all_notifications.notifications as notification, id}
           <DropdownItem class="flex space-x-4 z-20" >
             <div class="pl-3 w-full" transition:slide|local>
               <span class="font-semibold text-gray-900 dark:text-white" transition:slide|local>{notification.title}</span>: {notification.message}</div>
@@ -136,7 +136,7 @@
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
-                    on:click|stopPropagation={() => { deleteNotification(notificationsReceived.new, id) }}
+                    on:click|stopPropagation={() => { deleteNotification(notificationsReceived.all_notifications, id) }}
             >
               <path
                       fill-rule="evenodd"
@@ -171,11 +171,11 @@
           {#if data}
           <Button pill color="light"  id="avatar_with_name" class="!p-1.5 ">
             <Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class="mr-4"/>
-            <div class="mr-3 font-medium">{user?.first_name} {user?.last_name}</div>
+            <div class="mr-3 font-medium">{user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.last_name}</div>
           </Button>
           <Dropdown inline triggeredBy="#avatar_with_name" class="z-20">
             <div slot="header" class="px-4 py-2">
-              <span class="block text-sm text-gray-900 dark:text-white "> {user.first_name} {user.last_name} </span>
+              <span class="block text-sm text-gray-900 dark:text-white "> {user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.first_name} </span>
               <span class="block truncate text-sm font-medium"> {$page.data.session?.user?.email} </span>
               <span class="block truncate text-sm font-bold text-blue-500 animate-text bg-gradient-to-r from-blue-500 via-teal-500 to-yellow-500 bg-clip-text text-transparent text-5xl font-black"> {$page.data.session?.user?.app_metadata.userrole.toUpperCase() } </span>
             </div>
