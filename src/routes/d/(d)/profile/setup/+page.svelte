@@ -52,6 +52,8 @@
 	let currentStep = 1;
 	$: currentStep;
 
+	let uploadedAvatarUrl;
+	$: uploadedAvatarUrl;
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
@@ -62,7 +64,7 @@
 
 				<div class="flex justify-around i items-center w-full">
 
-					<div class="p-9 bg-gray-600 rounded-xl w-full">
+					<div class="p-6 bg-gray-600 rounded-xl w-full">
 
 						<!--Header-->
 						<div
@@ -81,18 +83,13 @@
 			<div class=" p-6 rounded-lg items-center justify-center">
 				<div class="justify-center text-center">
 					<div class="text-white pb-4">
-					{#if files && files.length > 0}
-						<h3>File:</h3>
-							{#each files as file}
-								{file.name}
-							{/each}
-					{/if}
+
 					</div>
 					<div class="">
 						<label class="inline-flex items-center px-3 py-2 text-lg font-semibold text-center text-white
 									bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600
 									dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-							<input class="hidden" type="file" id="single" accept="image/*" bind:files on:change={uploadAvatar(files, uploading, user.avatar_url, session, supabase)} disabled={uploading}>
+							<input class="hidden" type="file" id="single" accept="image/*" bind:files on:change={() => { uploadedAvatarUrl = uploadAvatar(files, uploading, user.avatar_url, session, supabase) } } disabled={uploading}>
 							<div class="m-1">
 								<Fa icon={faUpload} size="xs" />
 							</div>
@@ -128,34 +125,29 @@
 
 	{#if currentStep === 2}
 		<div class="w-full px-3">
-				<div class="relative mb-8 mx-4">
+				<div class="relative  mx-4">
 					<div class="">
 						<div class="relative group">
-							<div class="justify-center py-8 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 px-8 items-center">
+							<div class="justify-center py-8 rounded-lg px-8 items-center">
 								<div class="flex flex-wrap -mx-10 -mb-6 text-white font-semibold">
-									<div class="grid grid-cols-1 gap-6 w-full text-white">
+									<div class="grid grid-cols-1 gap-6 w-full text-white mb-6">
 										<div class="mb-6">
 											<Label for="first" class="block mb-2 text-white">First Name:</Label>
-											<Input id="first" name="first" class="w-full" bind:value={user.first_name} />
+											<Input id="first" name="first" class="w-full" required bind:value={user.first_name} />
 										</div>
 										<div class="mb-6">
 											<Label for="last_name" class="block mb-2 text-white">Last Name:</Label>
-											<Input id="last_name" name="last_name" class="w-full" bind:value={user.last_name} />
+											<Input id="last_name" name="last_name" class="w-full" required bind:value={user.last_name} />
 										</div>
 										<div class="mb-6">
 											<Label for="country" class="block mb-2 text-white">Country:</Label>
-											<Input id="country" name="country" class="w-full" bind:value={user.country}></Input>
+											<Input id="country" name="country" class="w-full" required bind:value={user.country}></Input>
 										</div>
 									</div>
-									<div class=" justify-center text-center mb-4">
-										<div class="justify-center text-center">
-											<button
-													class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-white bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-													type="submit"
-											>
-												Submit
-											</button>
-										</div>
+									<div class="w-full mb-4 items-center text-center">
+										<button class="py-2 px-4 text-md font-semibold leading-normal text-white bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200">
+											Complete
+										</button>
 									</div>
 								</div>
 							</div>

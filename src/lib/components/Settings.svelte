@@ -1,6 +1,6 @@
 <script lang="ts">
   import {page} from "$app/stores";
-  import { goto } from "$app/navigation";
+  import {goto, invalidateAll} from "$app/navigation";
   import {Button, Dropdown, DropdownItem, DropdownDivider, DropdownHeader, Chevron, Avatar} from 'flowbite-svelte'
   import {notifications} from "$lib/utilities/notifications.js";
   import {afterUpdate, onMount} from "svelte";
@@ -19,7 +19,8 @@
   let { supabase } = data
   $: ({ supabase } = data)
 
-  let user = $page.data.user.data
+  let user
+  $: user = $page.data.user.data
 
   let notificationsReceived
   $: notificationsReceived;
@@ -35,6 +36,7 @@
         alert(error.message)
       }
     }
+    await invalidateAll();
     await goto('/')
   }
 

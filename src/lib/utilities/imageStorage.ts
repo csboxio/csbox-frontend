@@ -67,11 +67,15 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
     const { error } = await supabase.storage.from('avatars').upload(filePath, rfile)
     const { data } = supabase.storage.from('avatars').getPublicUrl(filePath)
     await updateProfile(data.publicUrl, user, supabase)
+
+
+    // Error
   } catch (error) {
     if (error instanceof Error) {
       //alert(error.message)
     }
   }
+
 }
 
 export const uploadCourseImage = async (files: FileList, courseId: bigint, user, supabase) => {
