@@ -80,10 +80,10 @@
 	<form action="?/updateProfile" method="POST" on:submit|preventDefault={handleSubmit}>
 	{#if currentStep === 1}
 		<div class="w-full  px-3 mb-6 lg:mb-0 items-center justify-center">
+
 			<div class=" p-6 rounded-lg items-center justify-center">
 				<div class="justify-center text-center">
 					<div class="text-white pb-4">
-
 					</div>
 					<div class="">
 						<label class="inline-flex items-center px-3 py-2 text-lg font-semibold text-center text-white
@@ -95,12 +95,10 @@
 							</div>
 							Upload Profile Picture
 						</label>
-
 					</div>
-
 				</div>
-
 			</div>
+
 			<div class="flex justify-between w-full sm:w-auto mt-6">
 				<div>
 					<a class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"

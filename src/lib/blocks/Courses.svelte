@@ -146,7 +146,7 @@
     <!--No courses found-->
     {#if courses.length === 0}
       <div
-        class="flex p-4 ml-6 mb-6 mt-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
+        class="flex p-4 ml-4 mb-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
         role="alert"
       >
         <svg
