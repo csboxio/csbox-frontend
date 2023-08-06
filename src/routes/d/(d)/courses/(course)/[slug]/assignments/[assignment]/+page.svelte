@@ -169,19 +169,49 @@
 
 </script>
 
+
+
+<div class="w-full">
+
+	<!-- Top bar -->
+	<div class="flex flex-wrap mt-4 space-x-2">
+
+		<!-- Submit button-->
+		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+				on:click={() => {goto(window.location.pathname + '/')}}>
+			Submit
+		</button>
+
+		<!-- Grade button -->
+		{#if claim !== 'student'}
+		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+				on:click={() => {goto(window.location.pathname + '/grade')}}>
+			Grade
+		</button>
+		{/if}
+
+	</div>
+
+
 <div class="flex flex-grow w-full text-white py-4">
 
 	<div class="flex flex-grow">
-		<div class="flex-grow">
-			<Tabs class="bg-color-600" inactiveClasses="p-4 text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100">
-		<TabItem open>
-			<div slot="title" class="flex items-center gap-2 ">
+
+		<div class="flex-grow mr-4">
+			<Tabs class="bg-color-600" inactiveClasses="p-4 text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100" contentClass="bg-gray-600">
+		<TabItem open >
+
+			<div slot="title" class="flex items-center gap-2 " >
 				Instructions
 			</div>
+
+
 
 			<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
 						bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
 						saveFunction={saveFunction} />
+
+
 		</TabItem>
 		<TabItem>
 			<div slot="title" class="flex items-center gap-2">
@@ -412,16 +442,7 @@
 		</div>
 	</div>
 
-	<div class="flex px-8 flex-col">
-
-		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-			on:click={() => {goto(window.location.pathname + '/grade')}}>
-			Grade
-		</button>
-
-	</div>
-
-
+</div>
 </div>
 
 <Modal title="Starting Workspace" bind:open={deployModel} class="max-w-xs" >
