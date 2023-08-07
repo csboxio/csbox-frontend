@@ -10,7 +10,11 @@
 
   const menuItems = [
     { name: "Create Workspace", route: route + 'create' },
+  ];
+
+  const secondMenuItems = [
     { name: "Workspaces", route: route },
+    { name: "Templates", route: route + 'templates' },
   ];
 
   onMount(() => {
@@ -39,7 +43,19 @@
           </div>
         </a>
       {/each}
+
       <hr>
+
+
+      {#each secondMenuItems as menuItem, index}
+        <a href="{menuItem.route}" on:click={() => handleClick(menuItem)} key={index}>
+          <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg" class:bg-gray-600={$workspaceNavStore === menuItem.name}>
+            <p class="px-4 text-gray-100 whitespace-nowrap" class:text-white={$workspaceNavStore === menuItem.name}>
+              {menuItem.name}
+            </p>
+          </div>
+        </a>
+      {/each}
     </div>
   </div>
 </section>

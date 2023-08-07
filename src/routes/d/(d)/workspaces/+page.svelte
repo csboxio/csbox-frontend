@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidateAll } from "$app/navigation";
+	import {goto, invalidate, invalidateAll} from "$app/navigation";
 	import {
 		Button,
 		Chevron, DropdownItem,
@@ -37,6 +37,7 @@
 	onMount(() => {
 		// Set the selected item when the page is mounted
 		navStore.set('workspaces');
+		invalidate('/api/workspace/all')
 	});
 
 
@@ -98,7 +99,7 @@
 	async function openWorkspace(workspace_id) {
 
 
-		deployModel = true;
+		deployModal = true;
 		const websocketUrl = 'wss://ide.csbox.io/api/workspace/open/'
 
 		const socket = new WebSocket(websocketUrl + workspace_id);
@@ -123,6 +124,13 @@
 		await goto(`${$page.url}/${workspace_id}`)
 	}
 
+
+	function failedResponseApi() {
+		failedApiModal = true
+		deployModal = false
+		invalidateAll()
+	}
+
 	async function redirectWorkspace(workspace_id) {
 		if (browser) {
 			try {
@@ -132,10 +140,17 @@
 					mode: 'cors',
 					credentials: 'omit'
 				})
+				await invalidate('api/workspace/all')
+
+				if (response.status == 412) {
+					failedResponseApi()
+				}
 
 				if (!response.ok) {
+					failedResponseApi()
 					throw new Error('Network error')
 				}
+
 
 				const data = await response.json();
 
@@ -145,12 +160,13 @@
 
 				window.open(url, '_blank')
 
-				deployModel = false;
+				deployModal = false;
 
 				deployMessages.set([]);
 
 			} catch (e) {
 				console.log("Redirect error: " + e)
+				failedResponseApi()
 			}
 		}
 
@@ -166,9 +182,29 @@
 			},
 			mode: 'no-cors'
 		});
+		await invalidate('api/workspace/all')
 		if (response.status == 200) {
 			console.log("Stopped Workspace" + workspace_id);
 		}
+	}
+
+	async function deleteWorkspace(workspace_id) {
+		const deleteWorkspaceUrl = 'https://ide.csbox.io/api/workspace/delete/' + workspace_id
+		try {
+			const response = await fetch(deleteWorkspaceUrl, {
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				mode: 'no-cors',
+			});
+			if (response.status == 200) {
+				console.log("Stopped Workspace" + workspace_id);
+			}
+		}
+		catch (e) {
+			console.log(e)
+		}
+		await invalidate('api/workspace/all')
 	}
 
 	async function saveWorkspace(workspace_id) {
@@ -180,6 +216,7 @@
 			},
 			mode: 'no-cors'
 		});
+		await invalidate('api/workspace/all')
 		if (response.status == 200) {
 			console.log("Saved Workspace" + workspace_id);
 		}
@@ -188,7 +225,8 @@
 		// Set the selected item when the page is mounted
 		navStore.set('workspaces');
 	});
-	let deployModel = false;
+	let deployModal = false;
+	let failedApiModal = false;
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
@@ -220,7 +258,7 @@
 			<!-- Content -->
 			<section class="flex flex-col p-8 inline-block w-full">
 				<div class="relative sm:rounded-lg w-full overflow-x-auto overflow-y-hidden">
-				<Table shadow hoverable class="mb-28">
+				<Table shadow hoverable class="mb-40">
 					<TableHead>
 						<TableHeadCell></TableHeadCell>
 						<TableHeadCell>Title</TableHeadCell>
@@ -248,6 +286,7 @@
 										<DropdownItem> <div on:click={async () => await openWorkspace(id)}>Open</div> </DropdownItem>
 										<DropdownItem> <div on:click={async () => await stopWorkspace(id)}>Stop</div> </DropdownItem>
 										<DropdownItem> <div on:click={async () => await saveWorkspace(id)}>Save</div> </DropdownItem>
+										<DropdownItem> <div on:click={async () => await deleteWorkspace(id)}>Delete</div> </DropdownItem>
 									</Dropdown>
 									</TableBodyCell>
 									</TableBodyRow>
@@ -289,7 +328,7 @@
     </div>
 </body>
 
-<Modal title="Starting Workspace" bind:open={deployModel} class="max-w-xs" >
+<Modal title="Starting Workspace" bind:open={deployModal} class="max-w-xs" >
 	<div class="text-center">
 		<div class="inline-block pr-4">
 		<Fa icon={faCircleNotch} size="2x" spin />
@@ -303,3 +342,10 @@
 		{/if}
 	</div>
 </Modal>
+
+<Modal title="Error" bind:open={failedApiModal} class="max-w-xs" >
+	<div class="text-center">
+		<div class="font-semibold text-white inline-block pr-4 align-super">We had an internal error...</div>
+	</div>
+</Modal>
+
