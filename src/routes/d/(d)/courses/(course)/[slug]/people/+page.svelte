@@ -137,16 +137,19 @@
 						<Table shadow hoverable>
 							<TableHead>
 								<TableHeadCell>Name</TableHeadCell>
+								{#if claim !== 'student'}
 								<TableHeadCell>Enrolled</TableHeadCell>
 								<TableHeadCell>
 									<span class="sr-only ">Edit</span>
 								</TableHeadCell>
+								{/if}
 							</TableHead>
 							<TableBody class="divide-y">
 								{#each filteredItems as {id, enrolled, first_name, last_name }}
 
 								<TableBodyRow  class="cursor-pointer">
 										<TableBodyCell>{first_name} {last_name}</TableBodyCell>
+									{#if claim !== 'student'}
 										<TableBodyCell>
 												<button on:click={() => handleAcceptUser(id)} class="{enrolled ? 'hidden' : 'block'} relative inline-flex items-center justify-center p-0.5
 										 	overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400
@@ -173,6 +176,7 @@
 												Remove
 											</a>
 										</TableBodyCell>
+									{/if}
 									</TableBodyRow>
 									{/each}
 							</TableBody>

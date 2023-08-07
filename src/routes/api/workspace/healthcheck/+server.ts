@@ -11,21 +11,22 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   if (!session) {
     throw redirect(303, '/');
   }
-  const id = url.searchParams.get('id')
+  let data
   try {
-    const response = await fetch(`https://ide.csbox.io/api/kube/deploy/${id}`)
-    let data
+    const response = await fetch(`https://ide.csbox.io/api/`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'no-cors'
+    })
+
     if (response.ok) {
-      data = response.json()
-      console.log(data)
-      //TODO get the body redirect
+      return json(true)
     }
 
   }
   catch (e) {
-    console.error("Error");
+    console.error("Error", e);
   }
-
-  return new Response('Success');
-
+  return json(false)
 }
