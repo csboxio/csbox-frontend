@@ -118,7 +118,7 @@
 			{#if claim !== 'student'}
 
 			<button on:click={() => peopleModel = true}
-				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+				class="ml-0.5 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
 				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
 				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">

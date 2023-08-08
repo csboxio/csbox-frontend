@@ -23,7 +23,7 @@
     invalidateAll();
   }
 </script>
-<div class="container m-6 mx-8">
+<div class="container m-4 mx-8">
 
   <div class="flex flex-wrap -mx-12 -mb-2">
 

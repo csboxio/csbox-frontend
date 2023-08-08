@@ -13,7 +13,7 @@
   ];
 
   const secondMenuItems = [
-    { name: "Workspaces", route: route },
+    { name: "Your Workspaces", route: route },
     { name: "Templates", route: route + '' },
   ];
 

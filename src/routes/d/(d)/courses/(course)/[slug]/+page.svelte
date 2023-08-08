@@ -7,6 +7,7 @@
 	import QuillBlock from "$lib/blocks/quillBlock.svelte";
 	import {onMount} from "svelte";
 	import {navStore} from "../../../../../../lib/stores/stores.js";
+	import ModuleAccordion from "$lib/components/UI/ModuleAccordion.svelte";
 
 	export let data;
 
@@ -29,6 +30,7 @@
 	let filePath
 	$: filePath = `${$page.params.slug + '/' + 'document/' + 'home'}.HTML?t=${course.updated_at}`
 
+	let items = ["test"]
 </script>
 
 <div class="flex flex-row grow max-w-full-1/2">
@@ -38,4 +40,6 @@
 					bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
 					saveFunction={saveFunction} />
 	</section>
+
+
 </div>

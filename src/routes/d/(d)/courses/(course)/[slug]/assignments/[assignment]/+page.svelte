@@ -211,7 +211,6 @@
 						bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
 						saveFunction={saveFunction} />
 
-
 		</TabItem>
 		<TabItem>
 			<div slot="title" class="flex items-center gap-2">
@@ -366,7 +365,7 @@
 						<div class="bg-gray-800 p-6 rounded-lg shadow-md text-white mt-2">
 							<!--Edit assignment-->
 							<form action="?/updateAssignment" method="POST" >
-								<div class="flex flex-wrap gap-4 mb-4 max-w-xl">
+								<div class="flex flex-wrap gap-4 mb-4 max-w-2xl">
 									<div>
 										<Label class="font-semibold">Title:</Label>
 										<Input type="text" class="text-gray-100" id="title" name="title" bind:value={assignment.title}/>
@@ -414,7 +413,7 @@
 									</div>
 
 									<div>
-										<button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+										<button class="m-0.5 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
         							font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
         							group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
         							focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"

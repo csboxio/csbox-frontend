@@ -9,6 +9,8 @@
 	import {faAdd, faCircleCheck, faFlag, faGear, faPencil} from "@fortawesome/free-solid-svg-icons";
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+	import ModuleAccordion from "$lib/components/UI/ModuleAccordion.svelte";
+	import ModuleAccordionBody from "$lib/components/UI/ModuleAccordionBody.svelte";
 	export let data;
 
 
@@ -89,6 +91,8 @@
 		// Set the selected item when the page is mounted
 		navStore.set('courses');
 	});
+
+	export let active = null;
 </script>
 
 <div class="w-full">
@@ -98,7 +102,7 @@
 			{#if claim !== 'student'}
 
 			<button on:click={() => addModuleModel = true}
-				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">
+				class="ml-0.5 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">
 				<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
 					Create
 				</span>
@@ -118,16 +122,13 @@
 
 
 				{#key modules}
-					<Accordion multiple>
+					<ModuleAccordionBody bind:active>
 				{#each modules as { module_title, id, assignments }, i}
 					<div transition:blur|local={{ duration: 200 }} class="mb-1 mx-6 cursor-pointer">
 						<!--Module-->
 						<div id="accordion-collapse" data-accordion="collapse">
-						<AccordionItem class="bg-gray-700 border-gray-100" bind:open={items[i]}>
 
-									<span slot="header" class="text-white text-lg">
-										{module_title}
-									</span>
+							<ModuleAccordion id={i} title={module_title} >
 
 									<!-- Plus symbol to the right of the module title -->
 									{#if claim !== 'student'}
@@ -181,13 +182,14 @@
 									Nothing here
 								{/if}
 							{/if}
-								</AccordionItem>
+
+							</ModuleAccordion>
 
 						</div>
 						</div>
 						<!--End of module-->
 				{/each}
-					</Accordion>
+					</ModuleAccordionBody>
 					{/key}
 				{#if modules?.length === 0}
 					<div
