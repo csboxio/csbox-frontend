@@ -31,8 +31,7 @@ async function handleSubmit() {
                 email,
                 password,
 				// Modifications
-				options: { captchaToken },
-				redirectTo: 'https://csbox.io/d'
+				options: { captchaToken, redirectTo: 'https://csbox.io/d' },
             });
             if (signInError)
                 error = signInError.message;
@@ -49,8 +48,7 @@ async function handleSubmit() {
                 email,
                 password,
 				// Modifications
-				options: { captchaToken },
-				redirectTo: 'https://csbox.io/d/profile/setup'
+				options: { captchaToken, redirectTo: 'https://csbox.io/d/profile/setup' },
             });
 			console.log(error)
             if (signUpError)
