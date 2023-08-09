@@ -15,7 +15,7 @@ const config = {
 		prebundleSvelteLibraries: false
 	},
 	kit: {
-		adapter: adapterNode(),
+		adapter: adapter(),
 	}
 };
 
