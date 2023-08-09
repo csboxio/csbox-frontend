@@ -10,6 +10,8 @@ build.command = "npm run build"
 compatibility_date = "2021-11-12"
 workers_dev = true
 
+[placement]
+mode = "smart"
 
 [env.production.vars]
 PUBLIC_SUPABASE_URL = "https://bpjcaiybudgwujfpyevt.supabase.co"
