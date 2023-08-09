@@ -7856,11 +7856,6 @@ svelte-click-outside@^1.0.0:
   resolved "https://registry.npmjs.org/svelte-click-outside/-/svelte-click-outside-1.0.0.tgz"
   integrity sha512-TVDn5Vd8L0WI0Y9BFh/2I7judkIqYCbFKkGwGl/f8D0inwBFNyU0weKhrbJY4VQtYnWriq0NPl+mIYGisgALbw==
 
-svelte-editorjs@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/svelte-editorjs/-/svelte-editorjs-0.1.0.tgz"
-  integrity sha512-aqMfmH8A3zaCWeNLf7/syRqhcNKSOultSVTUkNS2ny/T4hgNbXrKG1wLN0DvUzTcrXxsilt0doxtHJ9vXX8roQ==
-
 svelte-fa@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npmjs.org/svelte-fa/-/svelte-fa-3.0.4.tgz"
