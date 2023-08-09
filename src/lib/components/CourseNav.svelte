@@ -28,7 +28,7 @@
     <!-- Panel content -->
     <div class="flex-1 pl-1.5 pr-1 mr-0.5 overflow-y-hidden font-semibold text-white">
       <!-- Content -->
-      {#each menuItems as menuItem, index}
+      {#each menuItems as menuItem, index (menuItem.name)}
         {#if menuItem.claim.includes(claim)}
         <a href="{menuItem.route}" on:click={() => handleClick(menuItem)} key={index}>
           <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg" class:bg-gray-600={$courseNavStore === menuItem.name}>

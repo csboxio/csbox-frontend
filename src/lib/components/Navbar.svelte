@@ -4,7 +4,7 @@
   import { navStore } from "../stores/stores.js";
   import Fa from 'svelte-fa/src/fa.svelte';
   export const prerender = false;
-  export const ssr = false;
+
   import {faCrown, faSpinner} from '@fortawesome/free-solid-svg-icons';
 
 
