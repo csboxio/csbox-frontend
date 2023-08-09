@@ -30,8 +30,9 @@ async function handleSubmit() {
             const { error: signInError } = await supabaseClient.auth.signInWithPassword({
                 email,
                 password,
-							// Modifications
-							  options: { captchaToken },
+				// Modifications
+				options: { captchaToken },
+				redirectTo: 'https://csbox.io/d'
             });
             if (signInError)
                 error = signInError.message;
@@ -47,8 +48,9 @@ async function handleSubmit() {
             const { data: { user: signUpUser, session: signUpSession }, error: signUpError } = await supabaseClient.auth.signUp({
                 email,
                 password,
-							// Modifications
-							  options: { captchaToken },
+				// Modifications
+				options: { captchaToken },
+				redirectTo: 'https://csbox.io/d'
             });
 			console.log(error)
             if (signUpError)
