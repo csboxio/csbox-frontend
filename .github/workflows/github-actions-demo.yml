@@ -16,5 +16,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          postCommands: npm config set legacy-peer-deps true
+          preCommands: echo "legacy-peer-deps=true" >> .npmrc
           command: pages deploy --project-name=csbox
