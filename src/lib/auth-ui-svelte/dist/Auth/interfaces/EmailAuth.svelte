@@ -50,7 +50,7 @@ async function handleSubmit() {
                 password,
 				// Modifications
 				options: { captchaToken },
-				redirectTo: 'https://csbox.io/d'
+				redirectTo: 'https://csbox.io/d/profile/setup'
             });
 			console.log(error)
             if (signUpError)
