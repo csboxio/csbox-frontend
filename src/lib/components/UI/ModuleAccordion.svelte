@@ -1,5 +1,6 @@
 <script>
 
+    export const ssr = false
     import {getContext} from 'svelte';
 
     import {slide} from "svelte/transition";
@@ -75,11 +76,6 @@
                 </span>
             </div>
 
-            {#if !!subTitle}
-                <div class="text-gray-400 text-sm">
-                    {subTitle}
-                </div>
-            {/if}
         </div>
 
         <div class="
@@ -122,7 +118,7 @@
 
     {#if isCurrentActive}
         <div class="px-4 pb-4 mt-4"
-             transition:slide>
+             transition:slide|local>
             <slot/>
         </div>
     {/if}
