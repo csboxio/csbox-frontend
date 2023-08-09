@@ -1,19 +1,26 @@
 <script>
-  import {page} from "$app/stores";
+
   import {onMount} from "svelte";
   import { workspaceNavStore } from "$lib/stores/stores.ts";
 
-  export const ssr = false
+  export let healthcheck;
 
   let route = '/d/workspaces/'
 
 
   const menuItems = [
     { name: "Create Workspace", route: route + 'create' },
-    { name: "Workspaces", route: route },
   ];
 
-  onMount(() => {
+  const secondMenuItems = [
+    { name: "Your Workspaces", route: route },
+    { name: "Templates", route: route + '' },
+  ];
+
+  let statusIndicator
+  $: statusIndicator = healthcheck
+
+  onMount(async () => {
     const storedItem = localStorage.getItem('selectedWorkspaceItem');
     $workspaceNavStore = storedItem ? JSON.parse(storedItem) : null;
   });
@@ -25,12 +32,12 @@
 
 </script>
 
-<section class="sticky inset-y-0 z-1 flex-shrink-0 mr-5 bg-gray-700 border-r border-t border-gray-500 dark:border-primary-darker dark:bg-darker lg:static focus:outline-none">
-  <div class="flex flex-col h-screen">
+<section class="sticky inset-y-0 z-1 flex-shrink-0  bg-gray-700 border-r border-t border-gray-500 dark:border-primary-darker dark:bg-darker lg:static focus:outline-none">
+  <div class="flex flex-col h-[calc(100vh-5rem)]">
     <!-- Panel content -->
     <div class="flex-1 pl-1.5 pr-1 mr-0.5 overflow-y-hidden font-semibold text-white ">
-      <!-- Content -->
-      {#each menuItems as menuItem, index}
+
+      {#each secondMenuItems as menuItem, index}
         <a href="{menuItem.route}" on:click={() => handleClick(menuItem)} key={index}>
           <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg" class:bg-gray-600={$workspaceNavStore === menuItem.name}>
             <p class="px-4 text-gray-100 whitespace-nowrap" class:text-white={$workspaceNavStore === menuItem.name}>
@@ -39,7 +46,6 @@
           </div>
         </a>
       {/each}
-      <hr>
     </div>
   </div>
 </section>

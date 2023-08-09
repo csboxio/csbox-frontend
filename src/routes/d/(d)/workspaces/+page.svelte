@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidateAll } from "$app/navigation";
+	import {goto, invalidate, invalidateAll} from "$app/navigation";
 	import {
 		Button,
 		Chevron, DropdownItem,
@@ -9,7 +9,7 @@
 		TableBodyCell,
 		TableBodyRow,
 		TableHead,
-		TableHeadCell, Modal
+		TableHeadCell, Modal, Radio,
 	} from "flowbite-svelte";
 	import { applyAction, deserialize } from "$app/forms";
 	import WorkspaceNav from "$lib/components/WorkspaceNav.svelte";
@@ -23,7 +23,7 @@
 	import {writable} from "svelte/store";
 	import {browser} from "$app/environment";
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+	import {faAdd, faCircleNotch} from '@fortawesome/free-solid-svg-icons';
 
 	/** @type {import('./$types').PageData | null} */
 	export let data = null;
@@ -34,11 +34,31 @@
 	let active_workspaces;
 	$: active_workspaces = $page.data.active_workspaces;
 
+	let healthcheck;
+	$: healthcheck = $page.data.health_check
+
+	// Create Workspace
+	let deployModal = false;
+	let failedApiModal = false;
+	let createWorkspaceModal = false;
+
+	let createWorkspaceTypeSelect = 0;
+	let createWorkspaceConfigSelect = 0;
+	let createWorkspaceStorageSelect = 0;
+
+	let selectedWorkspaceCreateType;
+	$: selectedWorkspaceCreateType;
+	let selectedWorkspaceCreateConfig
+	$: selectedWorkspaceCreateConfig;
+	let selectedWorkspaceCreateStorage;
+	$: selectedWorkspaceCreateStorage;
+	// ----------------
+
 	onMount(() => {
 		// Set the selected item when the page is mounted
 		navStore.set('workspaces');
+		invalidate('/api/workspace/all')
 	});
-
 
 	if (active_workspaces != null) {
 	$: active_workspaces = active_workspaces.sort((a, b) => {
@@ -54,26 +74,11 @@
 	});
 	}
 
-
 	let ide;
 	$: ide = $page.data.ide;
-
 	export let show_create_box;
-
 	let selectedConfig = null;
 
-
-	function selectConfig(config) {
-		selectedConfig = config;
-	}
-
-	function show_box() {
-		show_create_box = true;
-	}
-
-	function close_box() {
-		show_create_box = false;
-	}
 
 	async function handleSubmit(event) {
 		const data = new FormData(this);
@@ -84,33 +89,58 @@
 		const result = deserialize(await response.text());
 		if (result.type === 'success') {
 			// re-run all `load` functions, following the successful update
-			close_box();
 			await invalidateAll();
 		}
 
 		await applyAction(result);
 	}
 
+	async function handleCreateWorkspaceSubmit(event) {
+		const data = new FormData(this);
+
+		console.log(selectedWorkspaceCreateConfig)
+		//data.set('type', selectedConfig);
+		data.set('user_id', $page.data.session.user.id);
+		data.set('image', selectedWorkspaceCreateConfig);
+
+
+		const response = await fetch(this.action, {
+			method: 'POST',
+			body: data
+		});
+		const result = deserialize(await response.text());
+		if (result.type === 'success') {
+			// re-run all `load` functions, following the successful update
+			await invalidateAll();
+		}
+		await invalidateAll();
+		createWorkspaceModal = false;
+		selectedWorkspaceCreateType = undefined;
+		selectedWorkspaceCreateConfig = undefined;
+		await applyAction(result);
+	}
+
 	// ---------- WEB SOCKETS --------------
 
-	const deployMessages = writable([]);
+	const workspaceActionMessages = writable([]);
 
 	async function openWorkspace(workspace_id) {
-
-
-		deployModel = true;
+		workspaceActionModal = true;
+		workspaceActionModalTitle = "Opening Workspace"
 		const websocketUrl = 'wss://ide.csbox.io/api/workspace/open/'
 
 		const socket = new WebSocket(websocketUrl + workspace_id);
 
 		socket.onmessage = (event) => {
 			const message = event.data;
-			deployMessages.update((prevMessages) => [...prevMessages, message])
+			workspaceActionMessages.update((prevMessages) => [...prevMessages, message])
 		}
 
 		socket.onclose = async (event) => {
 			console.log("Websocket closed.", event.code, event.reason)
 			await redirectWorkspace(workspace_id)
+			workspaceActionMessages.set([]);
+			await invalidate('/api/workspace')
 		}
 
 		socket.onerror = (error) => {
@@ -118,9 +148,16 @@
 		}
 	}
 
-
 	async function openWorkspaceFrame(workspace_id) {
 		await goto(`${$page.url}/${workspace_id}`)
+	}
+
+	function failedResponseApi() {
+		failedApiModal = true
+		deployModal = false
+		createWorkspaceModal = false
+		workspaceActionModal = false
+		invalidateAll()
 	}
 
 	async function redirectWorkspace(workspace_id) {
@@ -132,25 +169,25 @@
 					mode: 'cors',
 					credentials: 'omit'
 				})
+				await invalidateAll()
 
-				if (!response.ok) {
-					throw new Error('Network error')
+				if (response.status == 412) {
+					failedResponseApi()
 				}
 
+				if (!response.ok) {
+					failedResponseApi()
+					throw new Error('Network error')
+				}
 				const data = await response.json();
-
-				console.log(data)
-
 				const url = data.data
-
 				window.open(url, '_blank')
-
-				deployModel = false;
-
-				deployMessages.set([]);
-
+				workspaceActionModal = false;
+				workspaceActionMessages.set([]);
+				await invalidateAll()
 			} catch (e) {
 				console.log("Redirect error: " + e)
+				failedResponseApi()
 			}
 		}
 
@@ -158,17 +195,52 @@
 
 
 	async function stopWorkspace(workspace_id) {
-		const stopWorkspaceUrl = 'https://ide.csbox.io/api/workspace/shutdown/' + workspace_id
+		workspaceActionModal = true;
+		workspaceActionModalTitle = "Stopping Workspace"
 
-		const response = await fetch(stopWorkspaceUrl, {
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			mode: 'no-cors'
-		});
-		if (response.status == 200) {
-			console.log("Stopped Workspace" + workspace_id);
+		const websocketUrl = 'wss://ide.csbox.io/api/workspace/shutdown/'
+
+		const socket = new WebSocket(websocketUrl + workspace_id);
+
+		socket.onmessage = (event) => {
+			const message = event.data;
+			workspaceActionMessages.update((prevMessages) => [...prevMessages, message])
 		}
+
+		socket.onclose = async (event) => {
+			console.log("Websocket closed.", event.code, event.reason)
+			workspaceActionMessages.set([]);
+			workspaceActionModal = false;
+			await invalidateAll()
+		}
+
+		socket.onerror = (error) => {
+			console.log("Websocket error.", error)
+		}
+
+	}
+
+	//async function openWorkspaceFrame(workspace_id) {
+	//	await goto(`${$page.url}/${workspace_id}`)
+	//}
+
+	async function deleteWorkspace(workspace_id) {
+		const deleteWorkspaceUrl = 'https://ide.csbox.io/api/workspace/delete/' + workspace_id
+		try {
+			const response = await fetch(deleteWorkspaceUrl, {
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				mode: 'no-cors',
+			});
+			if (response.status == 200) {
+				console.log("Stopped Workspace" + workspace_id);
+			}
+		}
+		catch (e) {
+			console.log(e)
+		}
+		await invalidateAll()
 	}
 
 	async function saveWorkspace(workspace_id) {
@@ -180,6 +252,7 @@
 			},
 			mode: 'no-cors'
 		});
+		await invalidate('api/workspace/all')
 		if (response.status == 200) {
 			console.log("Saved Workspace" + workspace_id);
 		}
@@ -188,7 +261,9 @@
 		// Set the selected item when the page is mounted
 		navStore.set('workspaces');
 	});
-	let deployModel = false;
+
+	let workspaceActionModal = false
+	let workspaceActionModalTitle = "Default Title"
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
@@ -212,35 +287,69 @@
 		</div>
 	</section>
 
-	<div class="flex min-h-screen">
+	<div class="flex ">
 	<!-- Work space navigation -->
-	<aside class="h-screen sticky top-0 inline-block" >
-		<WorkspaceNav active_workspaces={active_workspaces}/>
+	<aside class=" sticky top-0 inline-block" >
+		<WorkspaceNav active_workspaces={active_workspaces} healthcheck={healthcheck}/>
 	</aside>
 			<!-- Content -->
 			<section class="flex flex-col p-8 inline-block w-full">
+
+				<div class="mx-0.5 mb-4 flex justify-between">
+					<div class="">
+				<button
+						class="ml-0.5 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+						on:click={() => { createWorkspaceModal = true }}>
+				<span
+						class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+					<div class="inline-block"><Fa icon={faAdd}/></div> <div class="inline-block">Create Workspace</div>
+				</span>
+				</button>
+					</div>
+					{#if healthcheck}
+						<div class="py-2">
+      <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1 rounded-full dark:bg-green-900 dark:text-green-300">
+                <span class="w-2 h-2 mr-1 bg-green-500 rounded-full animate-pulse"></span>
+                Available
+            </span>
+						</div>
+					{:else}
+						<div class="py-2">
+      <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-3 py-1 rounded-full dark:bg-red-900 dark:text-red-300">
+                <span class="w-2 h-2 mr-1 bg-red-500 rounded-full animate-pulse"></span>
+                Unavailable
+            </span>
+						</div>
+					{/if}
+				</div>
+
+
 				<div class="relative sm:rounded-lg w-full overflow-x-auto overflow-y-hidden">
-				<Table shadow hoverable class="mb-28">
+				<Table shadow hoverable class="mb-40">
 					<TableHead>
 						<TableHeadCell></TableHeadCell>
-						<TableHeadCell>Title</TableHeadCell>
+						<TableHeadCell>Name</TableHeadCell>
 						<TableHeadCell>Created</TableHeadCell>
 						<TableHeadCell>Type</TableHeadCell>
+
 						<TableHeadCell>
 							<span class="sr-only ">Actions</span>
 						</TableHeadCell>
 					</TableHead>
 					<TableBody class="divide-y">
-						{#if active_workspaces}
-							{#key active_workspaces}
-								{#each active_workspaces as { id, inserted_at, workspace_name, image_name, type, workspace_state }}
+						{#key active_workspaces}
+								{#each active_workspaces as { id, inserted_at, workspace_name, type, workspace_state }}
 									<TableBodyRow class="cursor-pointer" >
 									<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> </TableBodyCell>
 									<TableBodyCell>{workspace_name}</TableBodyCell>
 									<TableBodyCell>{inserted_at?.substring(0,10)}</TableBodyCell>
 									<TableBodyCell>{type}</TableBodyCell>
 									<TableBodyCell>
-										<Button>
+										<Button >
 											<Chevron>Actions</Chevron>
 										</Button>
 
@@ -248,12 +357,12 @@
 										<DropdownItem> <div on:click={async () => await openWorkspace(id)}>Open</div> </DropdownItem>
 										<DropdownItem> <div on:click={async () => await stopWorkspace(id)}>Stop</div> </DropdownItem>
 										<DropdownItem> <div on:click={async () => await saveWorkspace(id)}>Save</div> </DropdownItem>
+										<DropdownItem slot="footer"> <div on:click={async () => await deleteWorkspace(id)}>Delete</div> </DropdownItem>
 									</Dropdown>
 									</TableBodyCell>
 									</TableBodyRow>
 								{/each}
 							{/key}
-						{/if}
 
 					</TableBody>
 				</Table>
@@ -289,17 +398,116 @@
     </div>
 </body>
 
-<Modal title="Starting Workspace" bind:open={deployModel} class="max-w-xs" >
+<Modal title="{workspaceActionModalTitle}" bind:open={workspaceActionModal} class="max-w-xs" >
 	<div class="text-center">
 		<div class="inline-block pr-4">
 		<Fa icon={faCircleNotch} size="2x" spin />
 		</div>
-		{#if $deployMessages.length > 0}
+		{#if $workspaceActionMessages.length > 0}
 			<div class="font-semibold text-white inline-block pr-4 align-super">
-				{$deployMessages[$deployMessages.length - 1]}
+				{$workspaceActionMessages[$workspaceActionMessages.length - 1]}
 			</div>
 			{:else}
 			<div class="font-semibold text-white inline-block pr-4 align-super">Waiting...</div>
 		{/if}
+	</div>
+</Modal>
+
+
+<!-- Failed Modal-->
+<Modal title="Error" bind:open={failedApiModal} class="max-w-xs" >
+	<div class="text-center">
+		<div class="font-semibold text-white inline-block pr-4 align-super">We had an internal error...</div>
+	</div>
+</Modal>
+
+<!-- Create Modal -->
+<Modal title="Create Workspace" bind:open={createWorkspaceModal} class="max-w-xs" >
+	<div class="space-y-4">
+		<form method="POST" action="?/createWorkspace" on:submit|preventDefault={handleCreateWorkspaceSubmit}>
+				<div class="mb-2">
+					<!-- Workspace Name-->
+					<label for="workspace_name" class="block mb-2 font-medium text-white dark:text-white">
+						Workspace Name
+					</label>
+					<input type="text" name="workspace_name" id="workspace_name"
+						   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 text-lg
+		focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+		dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+						   placeholder="Name"
+						   required />
+				</div>
+
+				<div class="mb-2">
+
+					<!-- Workspace Type-->
+					<label for="type" class="block mb-2 font-medium text-white dark:text-white">
+						Workspace Type
+					</label>
+					<div id="type">
+						{#if ide}
+						<Button color="alternative" class="w-full">
+							<Chevron> {selectedWorkspaceCreateType !== undefined ? ide.type.configurations[createWorkspaceTypeSelect].name : '. . .' }</Chevron>
+						</Button>
+						<Dropdown class="w-44 p-2 space-y-3 text-sm w-full">
+								{#each Object.entries(ide.type.configurations) as [key, config]}
+									<li>
+										<Radio on:click={() => { selectedWorkspaceCreateType = config.name}} name="type" bind:group={createWorkspaceTypeSelect} value={key}>{config.name}</Radio>
+									</li>
+								{/each}
+						</Dropdown>
+						{/if}
+					</div>
+				</div>
+
+				<!-- Workspace Configuration -->
+				<div class="mb-2">
+					<label for="type" class="block mb-2 font-medium text-white dark:text-white">
+						Config
+					</label>
+					<div id="config">
+						<Button color="alternative" class="w-full">
+							<Chevron> {selectedWorkspaceCreateConfig !== undefined ? ide.language.languages[createWorkspaceConfigSelect].name : '. . .' }</Chevron>
+						</Button>
+						<Dropdown class="w-44 p-2 space-y-3 text-sm w-full">
+							{#if ide}
+								{#each Object.entries(ide.language.languages) as [key, config]}
+									<li>
+										<Radio on:click={() => { selectedWorkspaceCreateConfig = config.image}} name="type" bind:group={createWorkspaceConfigSelect} value={key}>{config.name}</Radio>
+									</li>
+								{/each}
+							{/if}
+						</Dropdown>
+
+					</div>
+
+				</div>
+
+				<!-- Workspace storage size -->
+				<div class="mb-5">
+					<label for="storage" class="block mb-2 font-medium text-white dark:text-white">
+						Storage Size
+					</label>
+					<div id="storage">
+						<Button color="alternative" class="w-full">
+							<Chevron> {selectedWorkspaceCreateStorage !== undefined ? ide.storage.configurations[createWorkspaceStorageSelect].name : '. . .' }</Chevron>
+						</Button>
+						<Dropdown class="w-44 p-2 space-y-3 text-sm w-full">
+							{#if ide}
+								{#each Object.entries(ide.storage.configurations) as [key, config]}
+									<li>
+										<Radio on:click={() => { selectedWorkspaceCreateStorage = config.name}} name="type" bind:group={createWorkspaceStorageSelect} value={key}>{config.name} - {config.size}</Radio>
+									</li>
+								{/each}
+							{/if}
+						</Dropdown>
+
+					</div>
+				</div>
+
+			<div>
+				<Button color="blue" class="w-full" type="submit" >Create</Button>
+			</div>
+		</form>
 	</div>
 </Modal>

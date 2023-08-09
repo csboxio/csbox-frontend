@@ -4,6 +4,7 @@ import { redirect } from "@sveltejs/kit";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 
+
 export const load = async ({ fetch, data, request, url, parent }) => {
   const parentData = await parent();
   const session = parentData.session;
@@ -19,22 +20,22 @@ export const load = async ({ fetch, data, request, url, parent }) => {
       },
     };
 
-    const workspaces = await fetch(`/api/workspace`, cacheOptions);
-    const ide = await fetch(`/api/workspace/ide?v=1`, cacheOptions);
-    const active_workspaces = await fetch("/api/workspace/all", cacheOptions);
+    const ide = await fetch(`/api/workspace/ide?v=1`);
+    const active_workspaces = await fetch("/api/workspace/all");
+    const health_check = await fetch(`/api/workspace/healthcheck`);
 
     if (!active_workspaces.ok) {
       return {
-        workspaces: await workspaces.json(),
         ide: await ide.json(),
         active_workspaces: null,
+        health_check: health_check.json()
       };
     }
 
     return {
-      workspaces: await workspaces.json(),
       ide: await ide.json(),
       active_workspaces: await active_workspaces.json(),
+      health_check: health_check.json()
     };
   } catch (error) {
     console.log("Workspace error:", error);

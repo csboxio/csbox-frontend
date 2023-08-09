@@ -1,6 +1,6 @@
 <script lang="ts">
   import {page} from "$app/stores";
-  import { goto } from "$app/navigation";
+  import {goto, invalidateAll} from "$app/navigation";
   import {Button, Dropdown, DropdownItem, DropdownDivider, DropdownHeader, Chevron, Avatar} from 'flowbite-svelte'
   import {notifications} from "$lib/utilities/notifications.js";
   import {afterUpdate, onMount} from "svelte";
@@ -19,7 +19,8 @@
   let { supabase } = data
   $: ({ supabase } = data)
 
-  let user = $page.data.user.data
+  let user
+  $: user = $page.data.user.data
 
   let notificationsReceived
   $: notificationsReceived;
@@ -35,6 +36,7 @@
         alert(error.message)
       }
     }
+    await invalidateAll();
     await goto('/')
   }
 
@@ -175,7 +177,7 @@
           </Button>
           <Dropdown inline triggeredBy="#avatar_with_name" class="z-20">
             <div slot="header" class="px-4 py-2">
-              <span class="block text-sm text-gray-900 dark:text-white "> {user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.first_name} </span>
+              <span class="block text-sm text-gray-900 dark:text-white "> {user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.last_name} </span>
               <span class="block truncate text-sm font-medium"> {$page.data.session?.user?.email} </span>
               <span class="block truncate text-sm font-bold text-blue-500 animate-text bg-gradient-to-r from-blue-500 via-teal-500 to-yellow-500 bg-clip-text text-transparent text-5xl font-black"> {$page.data.session?.user?.app_metadata.userrole.toUpperCase() } </span>
             </div>

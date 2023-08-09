@@ -224,12 +224,8 @@
 
 
 <div class="w-full ">
-
 	<section class="pl-1 mt-5 ">
-
 		<div class="container ">
-
-
 			<div class="flex flex-col sm:flex-row justify-between">
 
 				<div class="flex flex-wrap">
@@ -267,8 +263,7 @@
 
 
 			{#if claim !== 'student'}
-
-					<div>
+				<div>
 			<button
 				class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300

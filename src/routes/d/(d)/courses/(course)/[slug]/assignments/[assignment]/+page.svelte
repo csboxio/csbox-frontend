@@ -169,19 +169,48 @@
 
 </script>
 
+
+
+<div class="w-full">
+
+	<!-- Top bar -->
+	<div class="flex flex-wrap mt-4 space-x-2">
+
+		<!-- Submit button-->
+		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+				on:click={() => {goto(window.location.pathname + '/')}}>
+			Submit
+		</button>
+
+		<!-- Grade button -->
+		{#if claim !== 'student'}
+		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+				on:click={() => {goto(window.location.pathname + '/grade')}}>
+			Grade
+		</button>
+		{/if}
+
+	</div>
+
+
 <div class="flex flex-grow w-full text-white py-4">
 
 	<div class="flex flex-grow">
-		<div class="flex-grow">
-			<Tabs class="bg-color-600" inactiveClasses="p-4 text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100">
-		<TabItem open>
-			<div slot="title" class="flex items-center gap-2 ">
+
+		<div class="flex-grow mr-4">
+			<Tabs class="bg-color-600" inactiveClasses="p-4 text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100" contentClass="bg-gray-600">
+		<TabItem open >
+
+			<div slot="title" class="flex items-center gap-2 " >
 				Instructions
 			</div>
+
+
 
 			<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
 						bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
 						saveFunction={saveFunction} />
+
 		</TabItem>
 		<TabItem>
 			<div slot="title" class="flex items-center gap-2">
@@ -336,7 +365,7 @@
 						<div class="bg-gray-800 p-6 rounded-lg shadow-md text-white mt-2">
 							<!--Edit assignment-->
 							<form action="?/updateAssignment" method="POST" >
-								<div class="flex flex-wrap gap-4 mb-4 max-w-xl">
+								<div class="flex flex-wrap gap-4 mb-4 max-w-2xl">
 									<div>
 										<Label class="font-semibold">Title:</Label>
 										<Input type="text" class="text-gray-100" id="title" name="title" bind:value={assignment.title}/>
@@ -384,7 +413,7 @@
 									</div>
 
 									<div>
-										<button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+										<button class="m-0.5 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
         							font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
         							group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
         							focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
@@ -412,16 +441,7 @@
 		</div>
 	</div>
 
-	<div class="flex px-8 flex-col">
-
-		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-			on:click={() => {goto(window.location.pathname + '/grade')}}>
-			Grade
-		</button>
-
-	</div>
-
-
+</div>
 </div>
 
 <Modal title="Starting Workspace" bind:open={deployModel} class="max-w-xs" >

@@ -50,6 +50,7 @@ async function handleSubmit() {
 							// Modifications
 							  options: { captchaToken },
             });
+			console.log(error)
             if (signUpError)
                 error = signUpError.message;
             // Check if session is null -> email confirmation setting is turned on
