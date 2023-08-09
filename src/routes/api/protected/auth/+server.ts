@@ -53,7 +53,9 @@ export const POST: RequestHandler = async ({ request, locals: { getSession } }) 
       };
 
       // Generate the token using jwt.sign
+
       const token = '' //jwt.sign(payload, PRIVATE_ADMIN_MASTER_KEY, { expiresIn: '1h' });
+
 
       const { data, error: insertError } = await supabase.from('tokens').insert([
         { id: session.user.id, token: token },

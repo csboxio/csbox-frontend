@@ -31,7 +31,8 @@ export const POST: RequestHandler = async ({ request, cookies, locals: { getSess
 
     try {
 
-        const decodedToken = '' //jwt.verify(token, PRIVATE_ADMIN_MASTER_KEY)
+        const decodedToken = '' //= jwt.verify(token, PRIVATE_ADMIN_MASTER_KEY)
+
         const userId = decodedToken.id;
 
         if (userId == session.user.id) {

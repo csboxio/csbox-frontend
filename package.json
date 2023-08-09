@@ -97,6 +97,7 @@
 		"flowbite": "^1.6.6",
 		"flowbite-svelte": "^0.39.1",
 		"flowbite-svelte-blocks": "^0.3.9",
+		"jose": "^4.14.4",
 		"jsdom": "^22.1.0",
 		"jsonwebtoken": "^9.0.1",
 		"lib": "^5.0.1",
