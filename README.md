@@ -63,3 +63,25 @@ The repository includes GitHub Actions that automate deployment to the internal 
 - Port 5173
 - Port 4173
 - Port 4174
+
+
+## Load testing
+
+1. Open docker desktop
+
+2. Setup graphite server 
+```bash
+docker run -d \
+ --name graphite \
+ --restart=always \
+ -p 80:80 \
+ -p 2003-2004:2003-2004 \
+ -p 2023-2024:2023-2024 \
+ -p 8125:8125/udp \
+ -p 8126:8126 \
+ graphiteapp/graphite-statsd```
+
+
+
+
+

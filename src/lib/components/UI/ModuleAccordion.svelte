@@ -53,18 +53,18 @@
             on:focus={() => isFocused = true}
             on:blur={() => isFocused = false}
             class="flex text-left w-full focus:outline-none items-center p-4">
+
         <div class="
             w-8
             transform
             transition
-            text-gray-300
-        "
+            text-gray-300"
              class:scale-y-[-1]={isCurrentActive}
              class:text-blue-400={isHovered || isFocused}>
             <Fa icon={faAngleDown}></Fa>
         </div>
-        <div class="w-full ">
 
+        <div class="w-full">
             <div class="
                 font-semibold
                 text-sm
@@ -82,6 +82,7 @@
                       class:border-blue-300={isFocused}>
                     {title}
                 </span>
+
             </div>
 
         </div>

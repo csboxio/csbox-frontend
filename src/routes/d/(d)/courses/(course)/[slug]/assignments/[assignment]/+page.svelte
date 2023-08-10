@@ -25,7 +25,7 @@
 	$: assignment_slug = $page.data.assignment_slug
 
 	let assignments;
-	$: assignments = $page.data.assignments.assignmentData
+	$: assignments = $page.data.assignments
 
 	async function handleSubmit(event) {
 		loading = true;

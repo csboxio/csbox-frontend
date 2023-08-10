@@ -43,15 +43,14 @@
 
 	// Page Data
 	//let course_data = $page.data.courses.courseData;
-	let modules;
-	$: modules = data.modules;
-
-	let groups;
-	$: groups = data.groups;
-
 	let loading;
+	let modules;
+	let groups;
 	let assignments;
-	$: assignments = data.assignments.assignmentData;
+
+	$: modules = data.modules;
+	$: groups = data.groups;
+	$: assignments = data.assignments;
 
 	let open = false;
 	let delete_assignment;
