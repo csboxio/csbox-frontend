@@ -19,7 +19,7 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
             .eq('id', session.user.id)
             .single()
         setHeaders({
-            'cache-control': 'public, max-age=300, s-maxage=300'
+            'cache-control': 'public, max-age=300'
         })
         return json({data})
     }
