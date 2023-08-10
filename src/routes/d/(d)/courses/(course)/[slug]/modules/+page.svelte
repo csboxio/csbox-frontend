@@ -118,29 +118,27 @@
 				Close All
 			</button>
 
-			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold mr-1">
+			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold mr-1 ">
 
 
 				{#key modules}
 					<ModuleAccordionBody bind:active>
-				{#each modules as { module_title, id, assignments }, i}
+				{#each modules as { module_title, id, assignments }, i (id)}
 					<div transition:blur|local={{ duration: 200 }} class="mb-1 mx-6 cursor-pointer">
 						<!--Module-->
 						<div id="accordion-collapse" data-accordion="collapse">
 
 							<ModuleAccordion id={i} title={module_title} >
-
 									<!-- Plus symbol to the right of the module title -->
 									{#if claim !== 'student'}
-										<div class="flex justify-between">
+										<div class="flex justify-between ">
 											<div class="flex inline-flex ">
-									<a on:click|stopPropagation={() => {add_item(module_title)}}
-										 class="text-gray-200 pb-4 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
-										<div class="mr-1"><Fa icon={faAdd}  /> </div>
-										Item
-									</a>
+												<a on:click|stopPropagation={() => {add_item(module_title)}}
+										 			class="text-gray-200 pb-4 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
+													<div class="mr-1"><Fa icon={faAdd}  /> </div>
+													Item
+												</a>
 											</div>
-
 											<div class="flex inline-flex">
 									<a
 									   class="text-gray-200 pb-4 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
@@ -157,7 +155,7 @@
 									{#each assignments as {title, in_module}, i}
 										{#if in_module === id}
 											<a>
-											<div class="py-4 px-4 text-lg text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t"
+											<div class="py-4 px-4 text-lg text-gray-200 hover:text-white text-white"
 												 on:click={()=> {handleAssignment(assignments[i].assignment_id)}}>
 												<Fa class="inline-block pr-4" icon={faPencil}/>
 												{title === '' ? 'Assignment Error..' : title}
@@ -170,7 +168,7 @@
 									{#each quizzes as {quiz_title, in_module}, i}
 										{#if in_module === id}
 											<a>
-												<div class="py-4 px-4 text-lg text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t">
+												<div class="py-4 px-4 text-lg text-gray-200 hover:text-whitetext-white">
 													<Fa class="inline-block pr-4" icon={faCircleCheck}/>
 													{quiz_title === '' ? 'Quizzes Error..' : quiz_title}
 												</div>
@@ -307,7 +305,7 @@
 			{#if selectedTypeAddItem === "assignment"}
 			<label for="assignment_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an assignment</label>
 			<select multiple name="assignment_id" id="assignment_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-				{#each assignments as {assignment_id, title, due}}
+				{#each assignments as {assignment_id, title, due}, i (assignment_id)}
 					<option value="{assignment_id}">{title} | Due - {new Date(due).toDateString()}</option>
 				{/each}
 			</select>
@@ -316,7 +314,7 @@
 
 			<label for="quiz_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a quiz</label>
 			<select multiple name="quiz_id" id="quiz_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-				{#each quizzes as {id, quiz_title, due}}
+				{#each quizzes as {id, quiz_title, due}, i (id)}
 					<option value="{id}">{quiz_title} | Due - {new Date(due).toDateString()}</option>
 				{/each}
 			</select>
