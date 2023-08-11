@@ -13,8 +13,8 @@
   ];
 
   const secondMenuItems = [
-    { name: "Your Workspaces", route: route },
-    { name: "Templates", route: route + '' },
+    { name: "Workspaces", route: route },
+    { name: "Templates", route: route + 'templates' },
   ];
 
   let statusIndicator

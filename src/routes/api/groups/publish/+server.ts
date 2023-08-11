@@ -12,10 +12,11 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
     throw redirect(303, '/');
   }
 
-  const module_id = url.searchParams.get('module_id')
-  const {data, error } = await supabase.from('modules')
-    .update({id: module_id, published: false, })
-      .eq('id', module_id)
+
+  const group_id = url.searchParams.get('group_id')
+  const {data, error } = await supabase.from('groups')
+    .update({id: group_id, published: true, })
+      .eq('id', group_id)
 
   console.log(error)
 

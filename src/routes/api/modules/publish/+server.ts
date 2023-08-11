@@ -11,11 +11,12 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   if (!session) {
     throw redirect(303, '/');
   }
-  const course = url.searchParams.get('course')
+
+
+  const module_id = url.searchParams.get('module_id')
   const {data, error } = await supabase.from('modules')
-    .select('module_title, id, published, ' +
-      'assignments ( assignment_id, title, category, in_module )')
-    .eq('course_id', course)
+    .update({id: module_id, published: true, })
+      .eq('id', module_id)
 
   console.log(error)
 

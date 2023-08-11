@@ -11,12 +11,13 @@ export const GET: RequestHandler = async ({ request, url, locals: { getSession, 
 
   //const session = await getSession();
 
-  const {error: loginError, data} = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
+  if (email == 'loadtest@csbox.io') {
+    const {error: loginError, data} = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+  }
 
-  console.log(loginError, data)
 
   return new Response(JSON.stringify({ message: 'Success' }), {
     status: 200,

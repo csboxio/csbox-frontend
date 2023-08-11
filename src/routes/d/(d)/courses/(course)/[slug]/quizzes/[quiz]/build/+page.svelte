@@ -257,7 +257,6 @@
 		color-scheme: dark;
 		color: #ffffff;
 		transition: all 80ms ease-in-out;
-		font-size: 14px;
 	}
 	#DatePicker {
 		margin-top: 10px;

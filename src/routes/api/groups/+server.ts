@@ -13,11 +13,12 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   }
   const course = url.searchParams.get('course')
   const {data, error } = await supabase.from('groups')
-    .select('group_title, id, ' +
-      'assignments ( assignment_id, title, category, in_group )')
-    .eq('course_id', course)
+    .select('group_title, id, published, assignments ( assignment_id, title, category, in_group, due, points )')
+      .order('created_at', {ascending: true})
+      .eq('course_id', course)
 
   console.log(error)
+  console.log(data)
 
   //event.setHeaders({
   //  'cache-control': 'public, max-age=60, s-maxage=60'

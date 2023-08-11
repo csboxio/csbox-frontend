@@ -6,9 +6,9 @@
 	import show_create_box from './[slug]/assignments/+page.svelte';
 	import '$lib/quilljs.css';
 	import {browser} from "$app/environment";
-	import {courseNavStore} from "$lib/stores/stores.ts";
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+	import {afterUpdate, onMount, tick} from "svelte";
 
 	let courses = $page.data.courses.data;
 	let course = courses.filter((course) => course.id === parseInt($page.data.slug))[0];
@@ -18,7 +18,7 @@
 	$: ({ supabase, claim } = data)
 
 	let pathname = '';
-	let extractedName = '';
+	let extractedName;
 
 	function extractNameFromPath() {
 		pathname = $page.url.pathname;
@@ -30,10 +30,9 @@
 			return "Home"
 		}
 	}
-
-	$: {
-		extractedName = extractNameFromPath()
-	}
+	afterUpdate(() => {
+		extractedName = extractNameFromPath();
+	});
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
@@ -48,7 +47,9 @@
 							<div class="inline-block dark:text-white text-black">
 								<Fa icon={faArrowRight} size="xs" />
 							</div>
-							<h4 class="text-lg font-bold dark:text-white   leading-7 mb-1 inline-block">  {$courseNavStore ? $courseNavStore : extractedName}</h4>
+							{#key extractedName}
+							<h4 class="text-lg font-bold dark:text-white   leading-7 mb-1 inline-block">  {extractedName}</h4>
+							{/key}
 						</div>
 						<div class="w-full lg:w-auto px-2">
 							<Settings bind:data={data} />
