@@ -20,6 +20,7 @@
 	import ModuleAccordionBody from "$lib/components/Course/modules/ModuleAccordionBody.svelte";
 	import ModuleAccordion from "$lib/components/Course/modules/ModuleAccordion.svelte";
 	import {format, parseISO} from "date-fns";
+	import ModuleAccordionRow from "$lib/components/Course/modules/ModuleAccordionRow.svelte";
 	export let data;
 
 
@@ -117,10 +118,7 @@
 			</button>
 			{/if}
 
-
 			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold mr-0.5 ">
-
-
 				{#key modules}
 					<ModuleAccordionBody bind:active>
 				{#each modules as { module_title, id, assignments, published }, i (id)}
@@ -136,57 +134,10 @@
 											 on:addItem={add_item_to_module}>
 									<!-- assignments -->
 									{#each assignments as {title, in_module, points, due}, i}
-										{#if in_module === id}
-											<a>
-												<div class="py-2 px-4 flex items-center text-md text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t-2 border-gray-500" on:click={() => { handleAssignment(assignments[i].assignment_id) }}>
-													<div class="pr-3">
-														<Fa class="inline-block" icon={faPencil} />
-													</div>
-													<div>
-														{title === '' ? 'Assignment Error..' : title}
-														<div class="text-gray-200 text- font-normal space-x-1 text-xs/loose">
-															<div class="inline-block">
-																<b>Due</b>
 
-																{format(parseISO(due), "MMM dd hh:mm a")}
-															</div>
-															<div class="inline-block">
-																|
-															</div>
-															<div class="inline-block">{points} points</div>
-														</div>
-													</div>
-												</div>
-											</a>
-											{/if}
 									{/each}
 									<!-- quizzes -->
-									{#each quizzes as {quiz_title, in_module, due, points}, i}
-										{#if in_module === id}
-											<a>
-												<div class="py-2 px-4 flex items-center text-md text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t-2 border-gray-500"
-													 on:click={()=> {handleQuiz(quizzes[i].id)}}>
-													<div class="pr-3">
-														<Fa class="inline-block " icon={faRocket}/>
-													</div>
-													<div>
-														{quiz_title === '' ? 'Quizzes Error..' : quiz_title}
-														<div class="text-gray-200 text- font-normal space-x-1 text-xs/loose">
-															<div class="inline-block">
-																<b>Due</b>
 
-																{format(parseISO(due), "MMM dd hh:mm a")}
-															</div>
-															<div class="inline-block">
-																|
-															</div>
-															<div class="inline-block">{points} points</div>
-														</div>
-													</div>
-												</div>
-											</a>
-										{/if}
-									{/each}
 							{#if assignments && quizzes}
 								{#if assignments.length === 0}
 									<div class="py-2 px-6 pb-4">Nothing here...</div>

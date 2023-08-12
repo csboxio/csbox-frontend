@@ -9,10 +9,8 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   }
   const course = url.searchParams.get('course')
 
-  const {data, error } = await supabase.from('modules')
-      .select('module_title, id, published, assignments ( assignment_id, title, category, in_module, due, points )')
-      .order('created_at', {ascending: true})
-      .eq('course_id', course)
+  const { data, error } = await supabase
+      .rpc('get_modules_assignments_quizzes', { course_id_param: course });
 
   console.log(error)
   //event.setHeaders({
