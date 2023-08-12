@@ -25,8 +25,8 @@
     import {navStore} from "../../../../../../../lib/stores/stores.js";
     import Fa from 'svelte-fa/src/fa.svelte';
     import {
-        faAdd,
-        faCircleCheck,
+        faAdd, faCheckCircle,
+        faCircleCheck, faCircleXmark,
         faGear,
         faLayerGroup,
         faObjectGroup,
@@ -218,6 +218,27 @@
     }
 
     export let active = null;
+
+    async function publishAssignment(assignment_id) {
+        //published = !published
+        const url = new URL('/api/assignments/publish/', window.location.origin);
+        url.searchParams.append('assignment_id', assignment_id);
+        const response = await fetch(url);
+        const { res, error, status } = await response.json();
+        //console.log(published)
+        await invalidateAll();
+    }
+
+    async function unpublishAssignment(assignment_id) {
+       // published = !published
+        const url = new URL('/api/assignments/unpublish/', window.location.origin);
+        url.searchParams.append('assignment_id', assignment_id);
+        const response = await fetch(url);
+        const { res, error, status } = await response.json();
+
+        await invalidateAll();
+    }
+
 </script>
 
 
@@ -307,10 +328,11 @@
 									</span>
 
                                             <!-- assignments -->
-                                            {#each assignments as {title, in_group, due, points}, i}
+                                            {#each assignments as {title, in_group, due, points, published}, i}
                                                 {#if in_group === id}
                                                     <a>
-                                                        <div class="py-2 px-4 flex items-center text-md text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t-2 border-gray-500" on:click={() => { handleAssignment(assignments[i].assignment_id) }}>
+                                                        <div class="py-2 pl-4 pr-3 flex items-center text-md text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t-2 border-gray-500"
+                                                             on:click={() => { handleAssignment(assignments[i].assignment_id) }}>
                                                             <div class="pr-3">
                                                                 <Fa class="inline-block" icon={faPencil} />
                                                             </div>
@@ -327,6 +349,27 @@
                                                                     </div>
                                                                     <div class="inline-block">{points} points</div>
                                                                 </div>
+                                                            </div>
+                                                            <div class="ml-auto">
+                                                            {#if claim !== 'student'}
+                                                                {#key published}
+                                                                    <!-- Published button-->
+                                                                    <div class="w-8 transform transition text-gray-300"
+                                                                         class:text-green-500={published}>
+                                                                        {#if !published}
+                                                                            <div class="hover:text-white" on:click|stopPropagation={async () => { await publishAssignment(assignments[i].assignment_id) }}>
+                                                                                <Fa icon={faCircleXmark}></Fa>
+                                                                            </div>
+                                                                        {:else}
+                                                                            <div class="hover:text-white" on:click|stopPropagation={async () => await unpublishAssignment(assignments[i].assignment_id)}>
+                                                                                <Fa icon={faCheckCircle}></Fa>
+                                                                            </div>
+                                                                        {/if}
+
+                                                                    </div>
+                                                                    <!-- End of published button -->
+                                                                {/key}
+                                                            {/if}
                                                             </div>
                                                         </div>
                                                     </a>

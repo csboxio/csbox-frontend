@@ -11,12 +11,13 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   if (!session) {
     throw redirect(303, '/');
   }
-  const course = url.searchParams.get('course')
-  const { data, error } = await supabase
-      .rpc('get_groups_assignments', { course_id_param: course });
+
+  const assignment_id = url.searchParams.get('assignment_id')
+  const {data, error } = await supabase.from('assignments')
+      .update({assignment_id: assignment_id, published: false, })
+      .eq('assignment_id', assignment_id)
 
   console.log(error)
-  console.log(data)
 
   //event.setHeaders({
   //  'cache-control': 'public, max-age=60, s-maxage=60'
