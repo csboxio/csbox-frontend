@@ -102,6 +102,7 @@
 	});
 
 	export let active = null;
+
 </script>
 
 <div class="w-full">
@@ -121,28 +122,52 @@
 			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold mr-0.5 ">
 				{#key modules}
 					<ModuleAccordionBody bind:active>
-				{#each modules as { module_title, id, assignments, published }, i (id)}
+				{#each modules as { module_title, module_id, assignments, module_published }, i }
 					<div transition:blur|local={{ duration: 200 }} class="mb-1 mx-6 cursor-pointer">
 						<!--Module-->
 						<div id="accordion-collapse" data-accordion="collapse">
-							<ModuleAccordion id={i} module_id={id}
+							<ModuleAccordion id={i} module_id={module_id}
 											 title={module_title}
-											 published={published}
+											 published={module_published}
 											 addAssignmentModel={addAssignmentModel}
-											 item_id={id}
+											 item_id={module_id}
 											 claim={claim}
 											 on:addItem={add_item_to_module}>
 									<!-- assignments -->
-									{#each assignments as {title, in_module, points, due}, i}
-
+									{#each assignments as {assignment_id, title, in_module, points, due, published}, i}
+										<ModuleAccordionRow
+												id={assignments[i].assignment_id}
+												slug={data.slug}
+												title={title}
+												due={due}
+												points={points}
+												claim={claim}
+												published={published}
+												type="assignment"
+										></ModuleAccordionRow>
 									{/each}
 									<!-- quizzes -->
 
-							{#if assignments && quizzes}
-								{#if assignments.length === 0}
-									<div class="py-2 px-6 pb-4">Nothing here...</div>
+								{#each quizzes as {quiz_id, quiz_title, in_module, due, points, published}, i}
+
+									{quiz_id}
+									<ModuleAccordionRow
+											id={quiz_id}
+											slug={data.slug}
+											title={quiz_title}
+											due={due}
+											points={points}
+											claim={claim}
+											published={published}
+											type="quiz"
+									></ModuleAccordionRow>
+								{/each}
+
+								{#if assignments && quizzes}
+									{#if assignments.length === 0 && quizzes.length === 0}
+										<div class="py-2 px-6 pb-4">Nothing here...</div>
+									{/if}
 								{/if}
-							{/if}
 
 							</ModuleAccordion>
 
@@ -240,8 +265,8 @@
 						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 						required
 				>
-					{#each modules as { module_title, id }, i}
-						<option value="{id}" selected={id === item_id}>{module_title}</option>
+					{#each modules as { module_title, module_id }, i}
+						<option value="{module_id}" selected={module_id === item_id}>{module_title}</option>
 					{/each}
 				</select>
 			</div>

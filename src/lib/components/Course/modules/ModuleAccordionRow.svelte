@@ -7,18 +7,19 @@
         faGear,
         faLayerGroup,
         faObjectGroup,
-        faPencil,
+        faPencil, faRocket,
         faTable
     } from "@fortawesome/free-solid-svg-icons";
     import {format, parseISO} from "date-fns";
 
-    export let assignment_id
+    export let id
     export let slug
     export let title
     export let due
     export let points
     export let claim
     export let published
+    export let type
 
     function handleAssignment(id) {
         goto('/d/courses/' + slug + '/assignments/' + id);
@@ -44,13 +45,40 @@
         await invalidateAll();
     }
 
+    async function unpublishQuiz(quiz_id) {
+        published = !published
+        const url = new URL('/api/quizzes/unpublish/', window.location.origin);
+        url.searchParams.append('quiz_id', id);
+        const response = await fetch(url);
+        const { res, error, status } = await response.json();
+
+        await invalidateAll();
+    }
+
+    async function publishQuiz(quiz_id) {
+        console.log(id)
+        published = !published
+        const url = new URL('/api/quizzes/publish/', window.location.origin);
+        url.searchParams.append('quiz_id', id);
+        const response = await fetch(url);
+        const { res, error, status } = await response.json();
+        //console.log(published)
+        await invalidateAll();
+    }
+
+
 </script>
 
 <a>
     <div class="py-2 pl-4 pr-3 flex items-center text-md text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t-2 border-gray-500"
-         on:click={() => { handleAssignment(assignment_id) }}>
+         on:click={() => { handleAssignment(id) }}>
         <div class="pr-3">
+            {#if type == "assignment"}
             <Fa class="inline-block" icon={faPencil} />
+            {/if}
+            {#if type == "quiz"}
+                <Fa class="inline-block" icon={faRocket} />
+            {/if}
         </div>
         <div>
             {title === '' ? 'Assignment Error..' : title}
@@ -72,14 +100,28 @@
                     <!-- Published button-->
                     <div class="w-8 transform transition text-gray-300"
                          class:text-green-500={published}>
+                        {#if type === "assignment"}
                         {#if !published}
-                            <div class="hover:text-white" on:click|stopPropagation={async () => { await publishAssignment(assignment_id); }}>
+                            <div class="hover:text-white" on:click|stopPropagation={async () => { await publishAssignment(id); }}>
                                 <Fa icon={faCircleXmark}></Fa>
                             </div>
                         {:else}
-                            <div class="hover:text-white" on:click|stopPropagation={async () => { await unpublishAssignment(assignment_id); }}>
+                            <div class="hover:text-white" on:click|stopPropagation={async () => { await unpublishAssignment(id); }}>
                                 <Fa icon={faCheckCircle}></Fa>
                             </div>
+                        {/if}
+                        {/if}
+
+                        {#if type === "quiz"}
+                            {#if !published}
+                                <div class="hover:text-white" on:click|stopPropagation={async () => { await publishQuiz(id); }}>
+                                    <Fa icon={faCircleXmark}></Fa>
+                                </div>
+                            {:else}
+                                <div class="hover:text-white" on:click|stopPropagation={async () => { await unpublishQuiz(id); }}>
+                                    <Fa icon={faCheckCircle}></Fa>
+                                </div>
+                            {/if}
                         {/if}
                     </div>
                     <!-- End of published button -->

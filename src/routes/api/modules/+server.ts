@@ -12,6 +12,8 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   const { data, error } = await supabase
       .rpc('get_modules_assignments_quizzes', { course_id_param: course });
 
+  console.log(data)
+
   console.log(error)
   //event.setHeaders({
   //  'cache-control': 'public, max-age=60, s-maxage=60'

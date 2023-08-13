@@ -339,7 +339,6 @@
 									<span slot="header" class="text-white text-lg">
 										{group_title}
 									</span>
-
                                             <!-- assignments -->
                                             {#each assignments as {title, in_group, due, points, published}, i}
                                                     <GroupAccordionRow
@@ -352,6 +351,7 @@
                                                     published={published}
                                                     ></GroupAccordionRow>
                                             {/each}
+
 
                                             {#if assignments}
                                                 {#if assignments.length === 0}
