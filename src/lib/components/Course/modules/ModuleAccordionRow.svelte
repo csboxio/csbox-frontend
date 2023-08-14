@@ -25,6 +25,10 @@
         goto('/d/courses/' + slug + '/assignments/' + id);
     }
 
+    function handleQuiz(id) {
+        goto('/d/courses/' + slug + '/quizzes/' + id);
+    }
+
     async function publishAssignment(assignment_id) {
         published = !published
         const url = new URL('/api/assignments/publish/', window.location.origin);
@@ -45,7 +49,7 @@
         await invalidateAll();
     }
 
-    async function unpublishQuiz(quiz_id) {
+    async function unpublishQuiz(id) {
         published = !published
         const url = new URL('/api/quizzes/unpublish/', window.location.origin);
         url.searchParams.append('quiz_id', id);
@@ -55,8 +59,7 @@
         await invalidateAll();
     }
 
-    async function publishQuiz(quiz_id) {
-        console.log(id)
+    async function publishQuiz(id) {
         published = !published
         const url = new URL('/api/quizzes/publish/', window.location.origin);
         url.searchParams.append('quiz_id', id);
@@ -71,7 +74,7 @@
 
 <a>
     <div class="py-2 pl-4 pr-3 flex items-center text-md text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t-2 border-gray-500"
-         on:click={() => { handleAssignment(id) }}>
+         on:click={() => { type === "assignment" ? handleAssignment(id) : handleQuiz(id)}}>
         <div class="pr-3">
             {#if type == "assignment"}
             <Fa class="inline-block" icon={faPencil} />
@@ -111,6 +114,7 @@
                             </div>
                         {/if}
                         {/if}
+
 
                         {#if type === "quiz"}
                             {#if !published}

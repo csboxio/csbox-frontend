@@ -1,7 +1,7 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import { error, json, redirect } from "@sveltejs/kit";
 
-export const GET: RequestHandler = async ({ request, url, locals: { supabase, getSession, getClaim }, event }) => {
+export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { supabase, getSession, getClaim }, event }) => {
   const session = await getSession()
   const claim = await getClaim()
   if (!session) {
@@ -15,8 +15,9 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   console.log(data)
 
   console.log(error)
-  //event.setHeaders({
-  //  'cache-control': 'public, max-age=60, s-maxage=60'
-  //})
+
+  setHeaders({
+    'cache-control': 'public, max-age=5, s-maxage=5'
+  })
   return json(data)
 }

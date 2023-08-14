@@ -14,7 +14,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
 
   const quiz_id = url.searchParams.get('quiz_id')
   const {data, error } = await supabase.from('quizzes')
-      .update({id: quiz_id, published: false, })
+      .update({id: quiz_id, user_id: session.user.id, published: false, })
       .eq('id', quiz_id)
 
   console.log(error)

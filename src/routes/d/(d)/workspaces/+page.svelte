@@ -107,7 +107,6 @@
 		data.set('user_id', $page.data.session.user.id);
 		data.set('image', selectedWorkspaceCreateConfig);
 
-
 		const response = await fetch(this.action, {
 			method: 'POST',
 			body: data
@@ -117,6 +116,7 @@
 			// re-run all `load` functions, following the successful update
 			await invalidateAll();
 		}
+
 		await invalidateAll();
 		createWorkspaceModal = false;
 		selectedWorkspaceCreateType = undefined;
@@ -299,6 +299,47 @@
 			<!-- Content -->
 			<section class="flex flex-col p-8 inline-block w-full">
 
+				{#if active_workspaces}
+					{#if active_workspaces.length === 0}
+						<div class="flex h-full pb-24 ">
+							<div class="m-auto">
+						<div class="text-center justify-center text-white font-semibold text-2xl">
+							No Workspaces
+						</div>
+						<div class="text-center justify-center text-gray-200 pt-1 text-sm">
+							Create a new workspace to start developing with no limits.
+						</div>
+								<div class="text-center justify-center pt-4">
+									<div class="">
+										<div class="">
+											<button
+													class="ml-0.5 relative inline-flex items-center justify-center p-0.5  mr-2 overflow-hidden text-sm
+													font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+													group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+													focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+													on:click={() => { createWorkspaceModal = true }}>
+												<span
+													class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+													dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+													<div class="inline-block">
+														<Fa icon={faAdd}/>
+													</div>
+													<div class="inline-block">
+														Workspace
+													</div>
+												</span>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{/if}
+				{/if}
+
+				{#if active_workspaces}
+					{#if active_workspaces.length !== 0}
+
 				<div class="mx-0.5 flex justify-between">
 					<div class="">
 				<button
@@ -399,6 +440,9 @@
 						</div>
 					{/if}
 				</div>
+
+						{/if}
+				{/if}
 
 			</section>
 		</div>

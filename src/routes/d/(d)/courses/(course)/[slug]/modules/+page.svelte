@@ -43,8 +43,8 @@
 
 	$: item_id;
 	$: modules = $page.data.modules
-	$: assignments = $page.data.assignments
-	$: quizzes = $page.data.quizzes
+	$: assignments = []
+	$: quizzes = []
 
 	function create_module() {
 		close_add_item();
@@ -55,9 +55,20 @@
 		show_create_box = false;
 	}
 
-	function add_item_to_module(id){
+	async function add_item_to_module(id){
+		const _assignments = async () => {
+			const response =  await fetch(`/api/assignments/?course=${$page.params.slug}`)
+			return response.json()
+		}
+
+		const _quizzes = async () => {
+			const response = await fetch(`/api/quizzes/?course=${$page.params.slug}`)
+			return response.json()
+		}
 		addAssignmentModel = true
 		item_id = id;
+		assignments = await _assignments()
+		quizzes = await _quizzes()
 	}
 
 	function close_add_item(){
@@ -122,7 +133,7 @@
 			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold mr-0.5 ">
 				{#key modules}
 					<ModuleAccordionBody bind:active>
-				{#each modules as { module_title, module_id, assignments, module_published }, i }
+				{#each modules as { module_title, module_id, assignments, quizzes, module_published }, i }
 					<div transition:blur|local={{ duration: 200 }} class="mb-1 mx-6 cursor-pointer">
 						<!--Module-->
 						<div id="accordion-collapse" data-accordion="collapse">
@@ -148,13 +159,11 @@
 									{/each}
 									<!-- quizzes -->
 
-								{#each quizzes as {quiz_id, quiz_title, in_module, due, points, published}, i}
-
-									{quiz_id}
+								{#each quizzes as {id, title, in_module, due, points, published}, i}
 									<ModuleAccordionRow
-											id={quiz_id}
+											id={id}
 											slug={data.slug}
-											title={quiz_title}
+											title={title}
 											due={due}
 											points={points}
 											claim={claim}
@@ -265,9 +274,11 @@
 						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 						required
 				>
+					{#key modules}
 					{#each modules as { module_title, module_id }, i}
 						<option value="{module_id}" selected={module_id === item_id}>{module_title}</option>
 					{/each}
+						{/key}
 				</select>
 			</div>
 
@@ -294,18 +305,22 @@
 			{#if selectedTypeAddItem === "assignment"}
 				<label for="assignment_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an assignment</label>
 				<select multiple name="assignment_id" id="assignment_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+					{#key assignments}
 					{#each assignments as {assignment_id, title, due}, i (assignment_id)}
 						<option value="{assignment_id}">{title} | Due - {new Date(due).toDateString()}</option>
 					{/each}
+						{/key}
 				</select>
 			{/if}
 			{#if selectedTypeAddItem === "quiz"}
 
 				<label for="quiz_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a quiz</label>
 				<select multiple name="quiz_id" id="quiz_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+					{#key quizzes}
 					{#each quizzes as {id, quiz_title, due}, i (id)}
 						<option value="{id}">{quiz_title} | Due - {new Date(due).toDateString()}</option>
 					{/each}
+						{/key}
 				</select>
 			{/if}
 		</div>

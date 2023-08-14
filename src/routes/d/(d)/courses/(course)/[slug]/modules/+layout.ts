@@ -13,20 +13,9 @@ export const load = (async ({ fetch, data, request, url, parent, params }) => {
     const response =  await fetch(`/api/modules/?course=${params.slug}`)
     return response.json()
   }
-  const assignments = async () => {
-    const response =  await fetch(`/api/assignments/?course=${params.slug}`)
-    return response.json()
-  }
-
-  const quizzes = async () => {
-    const response = await fetch(`/api/quizzes/?course=${params.slug}`)
-    return response.json()
-  }
 
   return {
     modules: modules(),
-    assignments: assignments(),
-    quizzes: quizzes(),
     session: session
   };
 

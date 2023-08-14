@@ -5,7 +5,7 @@ import { error, json, redirect } from "@sveltejs/kit";
 // https://github.com/supabase/auth-helpers/issues/408
 /** @type {import('./$types').RequestHandler} */
 // @ts-ignore
-export const GET: RequestHandler = async ({ request, url, locals: { supabase, getSession }, event }) => {
+export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { supabase, getSession }, event }) => {
   const session = await getSession()
 
   if (!session) {
@@ -16,12 +16,9 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
     .select('assignment_id, title, category, due, points')
     .eq('course_id', course)
 
-
-
-  //event.setHeaders({
-  //  'cache-control': 'public, max-age=60, s-maxage=60'
-  //})
-
+  setHeaders({
+    'cache-control': 'public, max-age=60, s-maxage=60'
+  })
 
   return json(data)
 }
