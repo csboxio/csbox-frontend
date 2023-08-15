@@ -14,6 +14,9 @@
 	import { goto, invalidateAll } from "$app/navigation";
 	import { addNotification } from "../../../../../../../lib/utilities/notifications.js";
 	import {navStore} from "../../../../../../../lib/stores/stores.js";
+	import Fa from 'svelte-fa/src/fa.svelte';
+	import {faCheck} from "@fortawesome/free-solid-svg-icons";
+	import {formatDistanceToNow, parseISO} from "date-fns";
 
 
 	export let data;
@@ -37,9 +40,11 @@
 	);
 
 	let delete_people_id;
-	function delete_model_open(id) {
+	let delete_people_name;
+	function delete_model_open(id, name) {
 		removeModel = true;
 		delete_people_id = id;
+		delete_people_name = name;
 	}
 
 	function delete_model_close() {
@@ -139,13 +144,14 @@
 								<TableHeadCell>Name</TableHeadCell>
 								{#if claim !== 'student'}
 								<TableHeadCell>Enrolled</TableHeadCell>
-								<TableHeadCell>
+									<TableHeadCell>Date Enrolled</TableHeadCell>
+									<TableHeadCell>
 									<span class="sr-only ">Edit</span>
 								</TableHeadCell>
 								{/if}
 							</TableHead>
 							<TableBody class="divide-y">
-								{#each filteredItems as {id, enrolled, first_name, last_name }}
+								{#each filteredItems as {id, enrolled, first_name, last_name, enrollment_date }}
 
 								<TableBodyRow  class="cursor-pointer">
 										<TableBodyCell>{first_name} {last_name}</TableBodyCell>
@@ -162,19 +168,27 @@
 											</span>
 												</button>
 											{#if enrolled}
-												TRUE
+												<Fa icon={faCheck} class="pl-6 text-green-500"/>
 											{/if}
 										</TableBodyCell>
 
+										<TableBodyCell>
+											<div class="text-gray-200 text-xs pl-4">
+											{formatDistanceToNow(parseISO(enrollment_date), {addSuffix: true})}
+											</div>
+										</TableBodyCell>
+
 										<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
+											{#if id !== $page.data.session.user.id}
 											<a class="font-medium
-								text-blue-600 hover:underline dark:text-blue-500 px-1">
+											text-blue-600 hover:underline dark:text-blue-500 px-1">
 												Edit
 											</a>
-											<a on:click|stopPropagation={() => delete_model_open(user_id)} class="font-medium text-blue-600
-								hover:underline dark:text-red-500">
+											<a on:click|stopPropagation={() => delete_model_open(id, `${first_name} ${last_name}`)} class="font-medium text-blue-600
+											hover:underline dark:text-red-500">
 												Remove
 											</a>
+											{/if}
 										</TableBodyCell>
 									{/if}
 									</TableBodyRow>
@@ -232,7 +246,8 @@
 
 		<!-- Model for remove people -->
 		<Modal title="Remove person" class="max-w-xs" bind:open={removeModel}>
-			<p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to delete this item?</p>
+			<p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to unenroll <b>{delete_people_name}</b>? </p>
+			<b>All data will be lost, instantly.</b>
 			<div class="flex justify-center items-center space-x-4">
 				<button on:click={() => removeModel = false} data-modal-toggle="deleteModal" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
 					No, cancel

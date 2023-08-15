@@ -70,7 +70,7 @@
                  href={item.url}
                  sveltekit:prefetch
               >
-              <div class="relative">
+              <div class="relative" >
                   {@html item.svg}
                 {#if item.disabled === "true"}
                 <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 top-[5px] text-5xl text-red-500">

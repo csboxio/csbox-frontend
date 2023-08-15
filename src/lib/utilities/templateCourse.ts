@@ -107,7 +107,7 @@ export const createPlaceHolderModule = async (courseId: bigint, user: any, supab
             id: m_id,
             user_id: user,
             course_id: courseId,
-            module_title: "Sample Group"
+            module_title: "Sample Module"
         }
         const {error} = await supabase.from('modules').upsert(updates)
         console.log(error)

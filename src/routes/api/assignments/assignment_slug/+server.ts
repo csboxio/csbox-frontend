@@ -14,7 +14,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
     const assignmentId = url.searchParams.get('id')
     const {data, error, status} = await supabase.from('assignments_info')
         .select('assignment, description, grade_type, submission_attempts,' +
-            ' display_as, available_start, available_end, updated_at')
+            ' display_as, available_start, available_end, updated_at, template_id')
         .eq('assignment', assignmentId)
         .single()
 

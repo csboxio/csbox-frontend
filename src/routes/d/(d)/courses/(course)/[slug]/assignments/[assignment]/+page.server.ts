@@ -80,5 +80,25 @@ export const actions: Actions = {
 
 
         }
-    }
+    },
+    createTemplate: async ({ request, url, params, locals: { supabase } }) => {
+        const formData = await request.formData()
+        const {data} = await supabase.auth.refreshSession()
+        let user;
+        if (data == null) {
+            const {data} = await supabase.auth.refreshSession()
+            user = data.user
+        }
+        user = data.user
+        const name = formData.get('name')
+        const course_id = params.slug
+        if (user != null) {
+            const updates = {
+                user_id: user.id,
+                template_name: name
+            }
+            const {error} = await supabase.from('templates').insert(updates)
+            console.log(error)
+        }
+    },
 }

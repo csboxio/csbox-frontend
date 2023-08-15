@@ -14,6 +14,7 @@
 
   const secondMenuItems = [
     { name: "Workspaces", route: route },
+    { name: "Projects", route: route + 'projects' },
     { name: "Templates", route: route + 'templates' },
   ];
 

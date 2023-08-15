@@ -3,6 +3,8 @@
 	import {navStore} from "../../../../../../../lib/stores/stores.js";
 	import {Input, Label, Modal} from "flowbite-svelte";
 	import {page} from "$app/stores";
+	import {applyAction, deserialize} from "$app/forms";
+	import {goto, invalidateAll} from "$app/navigation";
 
 	export let data;
 
@@ -14,6 +16,24 @@
 
 
 	let deleteModel;
+
+	async function handleDeleteCourse(event) {
+		const data = new FormData(this);
+
+		const response = await fetch(this.action, {
+			method: 'POST',
+			body: data
+		});
+		const result = deserialize(await response.text());
+		if (result.type === 'success') {
+			// re-run all `load` functions, following the successful update
+			await invalidateAll();
+			await goto('/d')
+		}
+
+		await invalidateAll();
+		await applyAction(result);
+	}
 
 	onMount(() => {
 		// Set the selected item when the page is mounted
@@ -95,7 +115,7 @@
 </div>
 
 <Modal title="DELETE course" class="max-w-xs" bind:open={deleteModel}>
-	<form method="POST" action="?/deleteCourse" >
+	<form method="POST" action="?/deleteCourse" on:submit|preventDefault={handleDeleteCourse}>
 	<p class="mb-4 text-gray-500 dark:text-gray-300">Type in <b>{$page.data.slug}</b> to confirm.</p>
 	<div class="mb-6">
 		<Label for="course_number_delete" class="block mb-2">Course Number:</Label>

@@ -2,14 +2,26 @@
 	import { applyAction, deserialize } from '$app/forms';
 	import {goto, invalidateAll} from '$app/navigation';
 	import {page} from "$app/stores";
-	import {Button, Chevron, Dropdown, DropdownItem, Input, Label, Tabs, TabItem, Modal} from "flowbite-svelte";
+	import {
+		Button,
+		Chevron,
+		Dropdown,
+		DropdownItem,
+		Input,
+		Label,
+		Tabs,
+		TabItem,
+		Modal,
+		TableHead, TableHeadCell, TableBody, TableBodyRow, TableBodyCell, Table
+	} from "flowbite-svelte";
 	import QuillBlock from "$lib/blocks/quillBlock.svelte";
 	import {updateAssignmentInsert} from "../../../../../../../../lib/utilities/quill.js";
 	import WorkspaceStatus from "$lib/components/workspaceStatus.svelte";
 	import {browser} from "$app/environment";
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+	import {faChain, faCircleNotch, faPlus} from '@fortawesome/free-solid-svg-icons';
 	import {writable} from "svelte/store";
+	import {format, formatDistanceToNow, parseISO} from "date-fns";
 
 
 	export let data;
@@ -167,37 +179,141 @@
 	let filePath
 	$: filePath = `${$page.params.slug}/assignments/${$page.params.assignment}/document.HTML?t=${assignment_data.updated_at}`
 
+	let startAssignmentModal = false;
+	let createOrLinkTemplateModal = false;
+	let createNewTemplateModal = false;
+	let linkTemplateModal = false;
+
+	async function handleNewTemplate(event) {
+		loading = true;
+		const data = new FormData(this);
+		const response = await fetch(this.action, {
+			method: 'POST',
+			body: data,
+			headers: {
+				'x-sveltekit-action': 'true',
+				'cache-control': 'max-age=3600'
+			}
+		});
+		const result = deserialize(await response.text());
+		if (result.type === 'success') {
+			createOrLinkTemplateModal = false;
+			createNewTemplateModal = false;
+			linkTemplateModal = true;
+			await invalidateAll();
+		}
+		console.log(result)
+		await applyAction(result);
+	}
+
+	async function handleLinkTemplate(event) {
+		loading = true;
+		const data = new FormData(this);
+		const response = await fetch(this.action, {
+			method: 'POST',
+			body: data,
+			headers: {
+				'x-sveltekit-action': 'true',
+				'cache-control': 'max-age=3600'
+			}
+		});
+		const result = deserialize(await response.text());
+		if (result.type === 'success') {
+			createOrLinkTemplateModal = false;
+			createNewTemplateModal = false;
+			linkTemplateModal = false;
+			await invalidateAll();
+		}
+		console.log(result)
+		await applyAction(result);
+	}
+
+	async function getTemplates() {
+		const url = new URL('/api/workspaces/templates/', window.location.origin);
+		const response = await fetch(url);
+		const { res, error, status } = await response.json();
+		//console.log(published)
+		await invalidateAll();
+	}
 </script>
 
 
 
 <div class="w-full">
 
-	<!-- Top bar -->
-	<div class="flex flex-wrap mt-4 space-x-2">
+	<!-- Title -->
 
+
+
+	<!-- Top bar -->
+	<div class="flex flex-wrap mt-4 space-x-2 px-4">
+		<div class="flex-grow text-white text-2xl font-semibold pt-4">
+			{assignment.title}
+		</div>
+
+		<!-- Button group -->
+		<div class="ml-auto flex space-x-2 pr-4 pt-4">
 		<!-- Submit button-->
 		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
 				on:click={() => {goto(window.location.pathname + '/')}}>
-			Submit
+			Start Assignment
 		</button>
 
-		<!-- Grade button -->
-		{#if claim !== 'student'}
-		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-				on:click={() => {goto(window.location.pathname + '/grade')}}>
-			Grade
-		</button>
-		{/if}
+		</div>
 
 	</div>
 
+	<div class="text-white pt-4 space-x-4 px-4">
+		<b>Due</b> {format(parseISO(assignment.due), "MMM dd hh:mm a")}
+		<b>Points</b> {assignment.points}
+		<b>Template</b> {#if $page.data.assignment.template_id === null}
+		No Template
+		{:else}
+		True
+		{/if}
+	</div>
+
+	<div class="flex flex-wrap mt-4 space-x-2 px-4">
+		<!-- Button group -->
+		<div class=" flex space-x-4 pr-4 pt-4">
+
+			<!-- Grade button -->
+			{#if claim === 'instructor'}
+				{#if $page.data.assignment.template_id === null}
+				<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+						on:click={() => createOrLinkTemplateModal = true}>
+					Add Template
+				</button>
+					{:else}
+					<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+							on:click={() => {goto(window.location.pathname + '/grade')}}>
+						Edit Template
+					</button>
+				{/if}
+				<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+						on:click={() => {goto(window.location.pathname + '/grade')}}>
+					Grade
+				</button>
+			{/if}
+		</div>
+
+	</div>
 
 <div class="flex flex-grow w-full text-white py-4">
 
 	<div class="flex flex-grow">
 
 		<div class="flex-grow mr-4">
+			<div class="pt-4">
+			<hr>
+			</div>
+			{#if claim === "student"}
+				<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
+							bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
+							saveFunction={saveFunction} />
+			{/if}
+
+			{#if claim === "instructor" && false}
 			<Tabs class="bg-color-600" inactiveClasses="p-4 text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100" contentClass="bg-gray-600">
 		<TabItem open >
 
@@ -438,6 +554,7 @@
 
 		{/if}
 	</Tabs>
+			{/if}
 		</div>
 	</div>
 
@@ -455,4 +572,112 @@
 			<div class="font-semibold text-white inline-block pr-4 align-super">Waiting...</div>
 		{/if}
 	</div>
+</Modal>
+
+<Modal title="Choose Template Option" bind:open={createOrLinkTemplateModal} class="max-w-xs" >
+	<div>
+	<div class="text-white font-semibold py-2">
+		New Template
+	</div>
+	<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-2 rounded flex items-center"
+					on:click={() => {createNewTemplateModal = true; createOrLinkTemplateModal = false;}}>
+		<div class="inline-block pr-1 ">
+		<Fa icon={faPlus}/>
+		</div>
+		Create New Template
+	</button>
+	</div>
+	<div>
+		<div class="text-white font-semibold py-2">
+			Link Existing Template
+		</div>
+	<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-2 rounded flex items-center">
+		<div class="inline-block pr-1">
+		<Fa icon={faChain}/>
+		</div>
+		Existing Template
+	</button>
+	</div>
+</Modal>
+
+<Modal title="Create Template" class="max-w-xs" bind:open={createNewTemplateModal}>
+	<!-- Modal body -->
+	<form method="POST" action="?/createTemplate" on:submit|preventDefault={handleNewTemplate}>
+		<div class="grid gap-4 mb-4 sm:grid-cols-1">
+			<div>
+				<label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+				>Template Name</label
+				>
+				<input
+						type="text"
+						name="name"
+						id="name"
+						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+						placeholder="Template Name"
+						required
+				/>
+			</div>
+		</div>
+		<button
+				type="submit"
+				class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+		>
+			<svg
+					class="mr-1 -ml-1 w-6 h-6"
+					fill="currentColor"
+					viewBox="0 0 20 20"
+					xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+						fill-rule="evenodd"
+						d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+						clip-rule="evenodd"
+				/>
+			</svg>
+			Add new template
+		</button>
+	</form>
+</Modal>
+
+<Modal title="Link Template" class="max-w-xs" bind:open={linkTemplateModal}>
+	<!-- Modal body -->
+	<form method="POST" action="?/linkTemplate" on:submit|preventDefault={handleLinkTemplate}>
+		<Table shadow hoverable >
+			<TableHead>
+				<TableHeadCell>Name</TableHeadCell>
+				<TableHeadCell>Created</TableHeadCell>
+				<TableHeadCell>Updated</TableHeadCell>
+			</TableHead>
+			<TableBody class="divide-y">
+				{#key templates}
+					{#each templates as { id, inserted_at, updated_at, template_name}}
+						<TableBodyRow class="cursor-pointer" >
+							<TableBodyCell>{template_name}</TableBodyCell>
+							<TableBodyCell>{inserted_at?.substring(0,10)}</TableBodyCell>
+							<TableBodyCell>{formatDistanceToNow(parseISO(updated_at), {addSuffix: true})}</TableBodyCell>
+						</TableBodyRow>
+					{/each}
+				{/key}
+
+			</TableBody>
+		</Table>
+		<button
+				type="submit"
+				class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+		>
+			<svg
+					class="mr-1 -ml-1 w-6 h-6"
+					fill="currentColor"
+					viewBox="0 0 20 20"
+					xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+						fill-rule="evenodd"
+						d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+						clip-rule="evenodd"
+				/>
+			</svg>
+			Link Template
+		</button>
+	</form>
 </Modal>

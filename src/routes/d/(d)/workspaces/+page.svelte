@@ -131,7 +131,7 @@
 	async function openWorkspace(workspace_id) {
 		workspaceActionModal = true;
 		workspaceActionModalTitle = "Opening Workspace"
-		const websocketUrl = 'wss://ide.csbox.io/api/workspace/open/'
+		const websocketUrl = 'wss://ide.csbox.io/api/v1/workspace/open/'
 
 		const socket = new WebSocket(websocketUrl + workspace_id);
 
@@ -168,7 +168,7 @@
 		if (browser) {
 			try {
 
-				const response = await fetch('https://ide.csbox.io/api/workspace/redirect/' + workspace_id, {
+				const response = await fetch('https://ide.csbox.io/api/v1/workspace/redirect/' + workspace_id, {
 					method: 'GET',
 					mode: 'cors',
 					credentials: 'omit'
@@ -202,7 +202,7 @@
 		workspaceActionModal = true;
 		workspaceActionModalTitle = "Stopping Workspace"
 
-		const websocketUrl = 'wss://ide.csbox.io/api/workspace/shutdown/'
+		const websocketUrl = 'wss://ide.csbox.io/api/v1/workspace/shutdown/'
 
 		const socket = new WebSocket(websocketUrl + workspace_id);
 
@@ -229,7 +229,7 @@
 	//}
 
 	async function deleteWorkspace(workspace_id) {
-		const deleteWorkspaceUrl = 'https://ide.csbox.io/api/workspace/delete/' + workspace_id
+		const deleteWorkspaceUrl = 'https://ide.csbox.io/api/v1/workspace/delete/' + workspace_id
 		try {
 			const response = await fetch(deleteWorkspaceUrl, {
 				headers: {
@@ -248,7 +248,7 @@
 	}
 
 	async function saveWorkspace(workspace_id) {
-		const saveWorkspaceUrl = 'https://ide.csbox.io/api/workspace/save/home/' + workspace_id
+		const saveWorkspaceUrl = 'https://ide.csbox.io/api/v1/workspace/save/home/' + workspace_id
 
 		const response = await fetch(saveWorkspaceUrl, {
 			headers: {
