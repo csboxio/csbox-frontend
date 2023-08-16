@@ -20,6 +20,7 @@
     import { create_in_transition } from "svelte/internal";
     import {applyAction, deserialize} from "$app/forms";
     import {invalidateAll} from "$app/navigation";
+    import {formatDistanceToNow, parseISO} from "date-fns";
 
 
     /** @type {import('./$types').PageData | null} */
@@ -150,9 +151,9 @@
         <div class="relative sm:rounded-lg w-full overflow-x-auto overflow-y-hidden">
         <Table shadow hoverable class="mb-40">
             <TableHead>
-                <TableHeadCell></TableHeadCell>
                 <TableHeadCell>Name</TableHeadCell>
                 <TableHeadCell>Created</TableHeadCell>
+                <TableHeadCell>Updated</TableHeadCell>
 
                 <TableHeadCell>
                     <span class="sr-only ">Actions</span>
@@ -160,10 +161,12 @@
             </TableHead>
             <TableBody class="divide-y">
                 {#key projects}
-                    {#each projects as { id, inserted_at, project_name}}
+                    {#each projects as { id, inserted_at, project_name, updated_at}}
                         <TableBodyRow class="cursor-pointer" >
                             <TableBodyCell>{project_name}</TableBodyCell>
                             <TableBodyCell>{inserted_at?.substring(0,10)}</TableBodyCell>
+                            <TableBodyCell>{formatDistanceToNow(parseISO(updated_at), {addSuffix: true})}</TableBodyCell>
+
                             <TableBodyCell>
                                 <Button >
                                     <Chevron>Actions</Chevron>
@@ -219,10 +222,10 @@
         
         <div class="font-semibold text-white  pr-4 ">
 
-                <div class="p-4  space-y-4 mx-auto pt-8 ">
-                    <div class="space-y-4 ">
+                <div class="   mx-auto  ">
+                    <div class=" ">
                         <form method="POST" action="?/createProject" on:submit|preventDefault={handleCreateProjectSubmit}>
-                            <div class="mb-2 mx-auto">
+                            <div class="mb-3 mx-auto">
                                 <!-- Template Name-->
                                 <label for="project_name" class="block mb-2 font-medium text-white dark:text-white">
                                     Project Name

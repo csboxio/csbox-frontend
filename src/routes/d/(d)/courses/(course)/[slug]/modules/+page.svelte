@@ -117,7 +117,7 @@
 </script>
 
 <div class="w-full">
-	<section class="p-1 mt-4">
+	<section class="pl-1 pt-1 mt-4">
 		<div class="">
 
 			{#if claim !== 'student'}

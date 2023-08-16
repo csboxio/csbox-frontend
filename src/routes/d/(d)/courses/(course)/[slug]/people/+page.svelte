@@ -15,7 +15,7 @@
 	import { addNotification } from "../../../../../../../lib/utilities/notifications.js";
 	import {navStore} from "../../../../../../../lib/stores/stores.js";
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import {faCheck} from "@fortawesome/free-solid-svg-icons";
+	import {faCheck, faCopy} from "@fortawesome/free-solid-svg-icons";
 	import {formatDistanceToNow, parseISO} from "date-fns";
 
 
@@ -108,6 +108,16 @@
 		await invalidateAll();
 	}
 
+	function copyCode() {
+		navigator.clipboard.writeText(code)
+				.then(() => {
+					console.log('Code copied to clipboard');
+				})
+				.catch(err => {
+					console.error('Unable to copy code to clipboard:', err);
+				});
+	}
+
 	onMount(() => {
 		// Set the selected item when the page is mounted
 		navStore.set('courses');
@@ -122,7 +132,7 @@
 
 			{#if claim !== 'student'}
 
-			<button on:click={() => peopleModel = true}
+			<button on:click={() => { peopleModel = true; handleGenerateCode() }}
 				class="ml-0.5 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
 				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
@@ -203,44 +213,25 @@
 	<div>
 
 		<!-- Model for add people -->
-		<Modal title="Add People" class="max-w-xs" bind:open={peopleModel}>
+		<Modal title="Generate Join Code" class="max-w-xs" bind:open={peopleModel}>
 			<form method="POST">
-				<div class="grid gap-4 mb-6 px-6 sm:grid-cols-1">
-
-					<div>
-						<label
-							for="type"
-							class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label
-						>
-						<select
-							name="type"
-							id="type"
-							class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-							required
-						>
-							<option selected="">Select type</option>
-							<option value="Basic">Student</option>
-							<option value="Basic">Teacher</option>
-							<option value="Basic">TA</option>
-						</select>
-					</div>
-
-					<div class="sm:col-span-2">
-						<button type="button" class="px-3 py-2 text-sm font-medium text-center text-white
+				<p  class=" font-semibold text-gray-900 dark:text-white px-2">Distribute this code to join your course, and you'll grant them access.</p>
+				<p  class="text-xs py-2 font-semibold text-gray-900 dark:text-gray-200 px-2">Valid for 48 hours.</p>
+					<div class="py-4 px-2 inline-block">
+						<button type="button" class="px-3 py-3 font-medium text-center text-white
 									 bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
-									  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" on:click={() => handleGenerateCode()}>Generate Code</button>
+									  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" on:click={() => handleGenerateCode()}>Generate</button>
 					</div>
 					{#if code !== ''}
-						<div class="sm:col-span-2">
-							<label
-								for="code"
-								class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Code</label
-							>
-							<h2 id="code" class="text-xl font-semibold text-gray-900 dark:text-white px-2.5">{code}</h2>
+						<div class=" inline-block px-2">
+							<h2 id="code" class="text-2xl font-semibold space-x-2  text-gray-900 dark:text-white py-2 px-2 border rounded tracking-widest">{code}</h2>
+						</div>
 
+						<div class="inline-block text-xl text-gray-200 hover:text-blue-500 cursor-pointer" title="Click to copy code" on:click={copyCode}>
+							<Fa icon={faCopy} size="xl"/>
 						</div>
 					{/if}
-				</div>
+
 			</form>
 		</Modal>
 

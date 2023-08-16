@@ -93,11 +93,40 @@ export const actions: Actions = {
         const name = formData.get('name')
         const course_id = params.slug
         if (user != null) {
-            const updates = {
-                user_id: user.id,
-                template_name: name
-            }
-            const {error} = await supabase.from('templates').insert(updates)
+            //const updates = {
+            //    user_id: user.id,
+           //     template_name: name,
+            //    assignment_id: params.assignment
+          //  }
+            const { error } = await supabase.rpc('create_template_and_update_assignment',
+                { p_user_id: user.id,
+                       p_template_name: name,
+                       p_assignment_id: params.assignment
+                     })
+            console.log(error)
+        }
+    },
+
+    linkTemplate: async ({ request, url, params, locals: { supabase } }) => {
+        const formData = await request.formData()
+        const {data} = await supabase.auth.refreshSession()
+        let user;
+        if (data == null) {
+            const {data} = await supabase.auth.refreshSession()
+            user = data.user
+        }
+        user = data.user
+        const template_id = formData.get('template_id')
+        if (user != null) {
+            //const updates = {
+            //    user_id: user.id,
+            //     template_name: name,
+            //    assignment_id: params.assignment
+            //  }
+            const { error } = await supabase.from('assignments_info')
+                .update({template_id: template_id})
+                .eq('assignment', params.assignment)
+
             console.log(error)
         }
     },

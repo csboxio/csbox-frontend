@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { applyAction, deserialize } from '$app/forms';
-	import {goto, invalidateAll} from '$app/navigation';
+	import {goto, invalidate, invalidateAll} from '$app/navigation';
 	import {page} from "$app/stores";
 	import {
 		Button,
@@ -19,9 +19,10 @@
 	import WorkspaceStatus from "$lib/components/workspaceStatus.svelte";
 	import {browser} from "$app/environment";
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import {faChain, faCircleNotch, faPlus} from '@fortawesome/free-solid-svg-icons';
+	import {faChain, faCheck, faCircleNotch, faPlus, faX} from '@fortawesome/free-solid-svg-icons';
 	import {writable} from "svelte/store";
 	import {format, formatDistanceToNow, parseISO} from "date-fns";
+	import {onMount} from "svelte";
 
 
 	export let data;
@@ -184,6 +185,9 @@
 	let createNewTemplateModal = false;
 	let linkTemplateModal = false;
 
+	let templates;
+	$: templates;
+
 	async function handleNewTemplate(event) {
 		loading = true;
 		const data = new FormData(this);
@@ -199,16 +203,17 @@
 		if (result.type === 'success') {
 			createOrLinkTemplateModal = false;
 			createNewTemplateModal = false;
-			linkTemplateModal = true;
 			await invalidateAll();
 		}
 		console.log(result)
+		await invalidateAll();
 		await applyAction(result);
 	}
 
 	async function handleLinkTemplate(event) {
 		loading = true;
 		const data = new FormData(this);
+		data.append('template_id', linkTemplateId)
 		const response = await fetch(this.action, {
 			method: 'POST',
 			body: data,
@@ -229,12 +234,65 @@
 	}
 
 	async function getTemplates() {
-		const url = new URL('/api/workspaces/templates/', window.location.origin);
+		const url = new URL('/api/workspace/templates', window.location.origin);
 		const response = await fetch(url);
-		const { res, error, status } = await response.json();
+		const data = await response.json();
+		templates = data
+		console.log(data)
 		//console.log(published)
 		await invalidateAll();
+		await startPages();
+
 	}
+	async function startPages() {
+		await updateCurrentPageData()
+	}
+
+	async function unlinkAssignmentFromTemplate() {
+		const url = new URL('/api/assignments/unlink_template/', window.location.origin);
+		url.searchParams.set('assignment_id', $page.params.assignment)
+		const response = await fetch(url);
+
+		await invalidateAll();
+	}
+
+	async function editTemplate() {
+		console.log("Edit template")
+	}
+
+	// Templates Page Data
+	let currentPage = 0;
+	let elementsPerPage = 5;
+
+	let currentPageData = [];
+
+	function updateCurrentPageData() {
+		let start = currentPage * elementsPerPage;
+		let end = start + elementsPerPage;
+		if (templates) {
+			currentPageData = templates.slice(start, end)
+			isLastPage = currentPage === Math.floor(templates.length / elementsPerPage);
+		}
+	}
+
+	function nextPage() {
+		currentPage = Math.min(currentPage + 1, Math.floor(templates.length / elementsPerPage));
+		updateCurrentPageData();
+	}
+
+	function previousPage() {
+		currentPage = Math.max(currentPage - 1, 0);
+		updateCurrentPageData();
+	}
+
+	// Link template
+
+	let linkTemplateId;
+
+	let isLastPage
+	$: isLastPage
+
+
 </script>
 
 
@@ -263,41 +321,58 @@
 
 	</div>
 
+	{#key assignment_data}
 	<div class="text-white pt-4 space-x-4 px-4">
 		<b>Due</b> {format(parseISO(assignment.due), "MMM dd hh:mm a")}
 		<b>Points</b> {assignment.points}
-		<b>Template</b> {#if $page.data.assignment.template_id === null}
-		No Template
-		{:else}
-		True
-		{/if}
-	</div>
 
+		<div class="inline-flex flex items-center">
+			<b>Template</b>
+		{#if assignment_data.template_id === null}
+			<div class="inline-block ">
+				<Fa icon={faX} class="pl-2 text-red-500"/>
+			</div>
+			{:else}
+				<div class="inline-block ">
+					<Fa icon={faCheck} class="pl-2 text-green-500"/>
+				</div>
+		{/if}
+		</div>
+	</div>
+	{/key}
+
+	{#key claim}
+		{#if claim === 'instructor'}
 	<div class="flex flex-wrap mt-4 space-x-2 px-4">
 		<!-- Button group -->
 		<div class=" flex space-x-4 pr-4 pt-4">
 
 			<!-- Grade button -->
-			{#if claim === 'instructor'}
-				{#if $page.data.assignment.template_id === null}
-				<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-						on:click={() => createOrLinkTemplateModal = true}>
-					Add Template
-				</button>
+				{#key assignment_data}
+					{#if assignment_data.template_id === null}
+						<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+								on:click={() => createOrLinkTemplateModal = true}>
+							Attach Template
+						</button>
 					{:else}
-					<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+						<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+								on:click={editTemplate}>
+							Edit Template
+						</button>
+						<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+								on:click={unlinkAssignmentFromTemplate}>
+							Unlink Template
+						</button>
+					{/if}
+						<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
 							on:click={() => {goto(window.location.pathname + '/grade')}}>
-						Edit Template
-					</button>
-				{/if}
-				<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-						on:click={() => {goto(window.location.pathname + '/grade')}}>
-					Grade
-				</button>
-			{/if}
+							Grade
+						</button>
+					{/key}
 		</div>
-
 	</div>
+		{/if}
+	{/key}
 
 <div class="flex flex-grow w-full text-white py-4">
 
@@ -313,26 +388,16 @@
 							saveFunction={saveFunction} />
 			{/if}
 
-			{#if claim === "instructor" && false}
-			<Tabs class="bg-color-600" inactiveClasses="p-4 text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100" contentClass="bg-gray-600">
-		<TabItem open >
-
-			<div slot="title" class="flex items-center gap-2 " >
-				Instructions
-			</div>
-
+			{#if claim === "instructor"}
 
 
 			<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
 						bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
 						saveFunction={saveFunction} />
 
-		</TabItem>
-		<TabItem>
-			<div slot="title" class="flex items-center gap-2">
-				Workspace
-			</div>
 
+				<!-- Old Workspace Stuff -->
+				<!--
 			<section class="flex p-1 mt-4">
 				<div class="container">
 					<div class="flex p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert" on:click={() => toggleStarterInfo()}>
@@ -463,15 +528,9 @@
 					</div>
 				</div>
 			</section>
-
-		</TabItem>
+				-->
 
 		{#if claim !== 'student'}
-
-		<TabItem>
-			<div slot="title" class="flex items-center gap-2">
-				Settings
-			</div>
 
 			<section class="p-1 mt-4">
 				<div class="container">
@@ -550,16 +609,15 @@
 				</div>
 			</section>
 
-		</TabItem>
 
 		{/if}
-	</Tabs>
 			{/if}
 		</div>
 	</div>
 
 </div>
 </div>
+
 
 <Modal title="Starting Workspace" bind:open={deployModel} class="max-w-xs" >
 	<div class="text-center">
@@ -574,28 +632,29 @@
 	</div>
 </Modal>
 
-<Modal title="Choose Template Option" bind:open={createOrLinkTemplateModal} class="max-w-xs" >
+<Modal title="Attach Template" bind:open={createOrLinkTemplateModal} class="max-w-xs" >
 	<div>
 	<div class="text-white font-semibold py-2">
-		New Template
+		Build and Attach Template.
 	</div>
 	<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-2 rounded flex items-center"
 					on:click={() => {createNewTemplateModal = true; createOrLinkTemplateModal = false;}}>
 		<div class="inline-block pr-1 ">
 		<Fa icon={faPlus}/>
 		</div>
-		Create New Template
+		Template
 	</button>
 	</div>
 	<div>
 		<div class="text-white font-semibold py-2">
-			Link Existing Template
+			Attach Existing Template
 		</div>
-	<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-2 rounded flex items-center">
+	<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-2 rounded flex items-center"
+			on:click={() => {createOrLinkTemplateModal = false; linkTemplateModal = true; getTemplates();}}>
 		<div class="inline-block pr-1">
 		<Fa icon={faChain}/>
 		</div>
-		Existing Template
+		Find Template
 	</button>
 	</div>
 </Modal>
@@ -639,7 +698,7 @@
 	</form>
 </Modal>
 
-<Modal title="Link Template" class="max-w-xs" bind:open={linkTemplateModal}>
+<Modal title="Link Template" class="max-w-xl" bind:open={linkTemplateModal}>
 	<!-- Modal body -->
 	<form method="POST" action="?/linkTemplate" on:submit|preventDefault={handleLinkTemplate}>
 		<Table shadow hoverable >
@@ -649,35 +708,52 @@
 				<TableHeadCell>Updated</TableHeadCell>
 			</TableHead>
 			<TableBody class="divide-y">
-				{#key templates}
-					{#each templates as { id, inserted_at, updated_at, template_name}}
-						<TableBodyRow class="cursor-pointer" >
+				{#if currentPageData}
+				{#key currentPageData}
+					{#each currentPageData as { id, inserted_at, updated_at, template_name}}
+						<TableBodyRow class="cursor-pointer" color="{linkTemplateId === id ? 'blue' : ''}" on:click={() => { linkTemplateId = id; }}>
 							<TableBodyCell>{template_name}</TableBodyCell>
 							<TableBodyCell>{inserted_at?.substring(0,10)}</TableBodyCell>
 							<TableBodyCell>{formatDistanceToNow(parseISO(updated_at), {addSuffix: true})}</TableBodyCell>
 						</TableBodyRow>
 					{/each}
 				{/key}
+				{/if}
 
 			</TableBody>
 		</Table>
+		<div class="mt-4 flex justify-between">
+			<button
+					class="px-4 py-2 text-white rounded"
+					on:click|preventDefault={previousPage}
+					class:bg-gray-600={currentPage === 0}
+					class:bg-blue-500={currentPage !== 0}
+
+			>
+				Back
+			</button>
+			<div class="text-white font-semibold  my-auto ">Page: {currentPage + 1}</div>
+			<button
+					class="px-4 py-2  text-white rounded"
+					on:click|preventDefault={nextPage}
+					class:bg-gray-600={isLastPage}
+					class:bg-blue-500={!isLastPage}
+
+			>
+				Next
+			</button>
+		</div>
+		<div class="py-4 mx-auto text-center justify-center">
 		<button
 				type="submit"
-				class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+				class="px-4 py-2 bg-blue-500 text-white rounded"
+				class:bg-gray-600={linkTemplateId === undefined}
+				class:opacity-40={linkTemplateId === undefined}
+				class:bg-blue-600={linkTemplateId !== undefined}
 		>
-			<svg
-					class="mr-1 -ml-1 w-6 h-6"
-					fill="currentColor"
-					viewBox="0 0 20 20"
-					xmlns="http://www.w3.org/2000/svg"
-			>
-				<path
-						fill-rule="evenodd"
-						d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-						clip-rule="evenodd"
-				/>
-			</svg>
+
 			Link Template
 		</button>
+		</div>
 	</form>
 </Modal>

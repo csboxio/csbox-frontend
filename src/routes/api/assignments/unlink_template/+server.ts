@@ -11,14 +11,9 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   if (!session) {
     throw redirect(303, '/');
   }
-  const course = url.searchParams.get('course')
-  const { data, error } = await supabase
-      .rpc('get_groups_assignments', { course_id_param: course });
 
-
-  //event.setHeaders({
-  //  'cache-control': 'public, max-age=60, s-maxage=60'
-  //})
+  const assignment_id = url.searchParams.get('assignment_id')
+  const { error, data } = await supabase.rpc('unlink_assignment_from_template', {p_assignment_id: assignment_id})
 
   return json(data)
 }
