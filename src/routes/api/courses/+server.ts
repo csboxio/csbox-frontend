@@ -14,13 +14,11 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
         const { data, error } = await supabase.from('courses')
             .select('id, inserted_at, updated_at, course_image_url, course_title, course_prefix, course_number, course_term, course_color, course_contact, course_start, course_end')
 
-        setHeaders({
-            'cache-control': 'public, max-age=300, s-maxage=300'
-        })
 
         if (error) {
             console.log(error)
         }
+        console.log(data, error)
 
         return json({data})
     }

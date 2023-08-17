@@ -9,6 +9,7 @@
 
 
 
+
     const colors = [
         'rgb(202, 37, 37)',
         'rgb(65, 163, 35)',
@@ -72,6 +73,7 @@
     let token;
     $: token;
 
+
 </script>
 
 <body class="antialiased bg-body text-body font-body bg-gray-600 h-screen">
@@ -88,6 +90,8 @@
                                 <div class="flex items-center gap-3">
                                     <img src="./logo-fullColor-white-text.png" width="150" height="100%" alt="CSBOX">
                                 </div>
+                                <!-- Title -->
+
                             </div>
                             <Auth
                               supabaseClient={supabase}

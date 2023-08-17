@@ -48,49 +48,49 @@
 
 			{#if claim !== 'student'}
 			<div class="flex flex-wrap -mx-10 -mb-6 text-white font-semibold">
-				<div class="grid grid-cols-2 gap-6 w-full">
+				<div class="grid grid-cols-2 gap-2 w-full">
 
-				<div class="mb-6">
+				<div class="mb-2">
 					<Label for="course-name" class="block mb-2">Name:</Label>
 					<Input id="course-name" class="w-full" bind:value={course.course_title} />
 				</div>
-					<div class="mb-6">
+					<div class="mb-2">
 						<Label for="course-code" class="block mb-2">Prefix:</Label>
 						<Input id="course-code" class="w-full" bind:value={course.course_prefix}/>
 					</div>
-				<div class="mb-6">
+				<div class="mb-2">
 					<Label for="course-code" class="block mb-2">Number:</Label>
 					<Input id="course-code" class="w-full" bind:value={course.course_number}/>
 				</div>
-				<div class="mb-6">
+				<div class="mb-2">
 					<Label for="description" class="block mb-2">Term:</Label>
 					<Input id="description" class="w-full" bind:value={course.course_term}/>
 				</div>
-				<div class="mb-6">
+				<div class="mb-2">
 					<Label for="instructor-email" class="block mb-2">Contact:</Label>
 					<Input id="instructor-email" class="w-full" type="email" bind:value={course.course_contact}/>
 				</div>
-				<div class="mb-6">
+				<div class="mb-2">
 					<Label for="start-date" class="block mb-2">Start Date:</Label>
 					<Input id="start-date" class="w-full" type="date" bind:value={course.course_start}/>
 				</div>
-				<div class="mb-6">
+				<div class="mb-2">
 					<Label for="end-date" class="block mb-2">End Date:</Label>
 					<Input id="end-date" class="w-full" type="date" bind:value={course.course_end}/>
 				</div>
-				<div class="mb-6">
+				<!--<div class="mb-2">
 					<Label for="class-times" class="block mb-2">Class Times:</Label>
 					<Input id="class-times" class="w-full" bind:value={course.course_title}/>
 				</div>
 
-				<div class="mb-6">
+				<div class="mb-2">
 					<Label for="grading-scale" class="block mb-2">Grading Scale:</Label>
 					<Input id="grading-scale" class="w-full" bind:value={course.course_title}/>
 				</div>
-				<div class="mb-6">
+				<div class="mb-2">
 					<Label for="assignment-weights" class="block mb-2">Assignment Weights:</Label>
 					<Input id="assignment-weights" class="w-full" bind:value={course.course_title}/>
-				</div>
+				</div>-->
 			</div>
 
 
@@ -117,7 +117,7 @@
 <Modal title="DELETE course" class="max-w-xs" bind:open={deleteModel}>
 	<form method="POST" action="?/deleteCourse" on:submit|preventDefault={handleDeleteCourse}>
 	<p class="mb-4 text-gray-500 dark:text-gray-300">Type in <b>{$page.data.slug}</b> to confirm.</p>
-	<div class="mb-6">
+	<div class="mb-2">
 		<Label for="course_number_delete" class="block mb-2">Course Number:</Label>
 		<Input id="course_number_delete" name="course_number_delete" class="w-full" />
 	</div>

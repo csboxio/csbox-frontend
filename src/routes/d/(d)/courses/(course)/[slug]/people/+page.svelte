@@ -183,7 +183,7 @@
 										</TableBodyCell>
 
 										<TableBodyCell>
-											<div class="text-gray-200 text-xs pl-4">
+											<div class="text-gray-200 text-xs ">
 											{formatDistanceToNow(parseISO(enrollment_date), {addSuffix: true})}
 											</div>
 										</TableBodyCell>

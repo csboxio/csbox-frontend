@@ -1,21 +1,16 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Auth from "$lib/components/Auth/Auth.svelte";
-	import {goto} from "$app/navigation";
-
-	let user;
-	let avatarUrl;
-	let updated;
+	import {browser} from "$app/environment";
 
 	export let data
 
-	let { supabase, claim } = data
-	$: ({ supabase, claim } = data)
+	let { supabase, claim, onboard } = data
+	$: ({ supabase, claim, onboard } = data)
 
-	if ($page.data.session) {
-		goto('/d')
-	}
+	let completed_setup
 
+	$: completed_setup = onboard?.data.completed_setup
 
 </script>
 {#if !$page.data.session}
@@ -23,7 +18,14 @@
 	<Auth bind:data={data} />
 
 	{:else}
-	<script type="module">
-		window.location.href = '/d';
-	</script>
+	{#if completed_setup === false}
+		<script type="module">
+			window.location.href = '/onboarding';
+		</script>
+		{:else}
+		<script type="module">
+			window.location.href = '/d';
+		</script>
+	{/if}
 {/if}
+

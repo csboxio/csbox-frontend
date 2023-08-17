@@ -8,10 +8,7 @@ export const prerender = false;
 
 export const load = async ({ fetch, data, request, url, parent }) => {
   const parentData = await parent();
-  const session = parentData.session
-  if (!session) {
-    throw redirect(303, '/');
-  }
+
   const response = await fetch('/api/courses')
 
   return {

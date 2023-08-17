@@ -23,6 +23,7 @@ export let localization = {};
 export let otpType = 'email';
 export let additionalData;
 export let captchaToken;
+
 onMount(() => {
     const { data: authListener } = supabaseClient.auth.onAuthStateChange((event) => {
         if (event === 'PASSWORD_RECOVERY') {
@@ -33,6 +34,10 @@ onMount(() => {
         }
     });
     () => authListener.subscription.unsubscribe();
+
+
+
+
 });
 $: i18n = merge(en, localization.variables ?? {});
 $: createStitches({
@@ -47,7 +52,6 @@ appearance?.theme?.[theme], appearance?.variables?.[theme] ?? {}));
  * @returns boolean
  */
 $: SignView = view === 'sign_in' || view === 'sign_up' || view === 'magic_link';
-
 
 </script>
 

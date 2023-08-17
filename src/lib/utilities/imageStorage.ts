@@ -38,7 +38,7 @@ export const deleteImage = async (filePath: string, supabase) => {
   // @ts-ignore
   const { data, error } = await supabase.storage.from('avatars').remove(filePath)
   // Check if null
-  console.log(error)
+  console.log(`deleteImage - Error: ${error}`)
   if (data == null) {
     return
   }
@@ -51,14 +51,15 @@ async function resizedFile(files: FileList) {
   }
 }
 
-export const uploadAvatar = async (files: FileList, uploading: boolean, url: string, user, supabase) => {
+export const uploadAvatar = async (files: FileList, uploading: boolean, url: string, session, supabase) => {
   try {
     if (!files || files.length === 0) {
       throw new Error('You must select an image to upload.')
     }
-    console.log(user)
+    console.log(`uploadAvatar - Log: ${JSON.stringify(session.user.id)}`)
+      console.log(session.user.id)
     // Delete old image from database
-    const filePath = `${user.id + "/" + user.id + "_profileImage"}.WEBP`
+    const filePath = `${session.user.id + "/" + session.user.id + "_profileImage"}.WEBP`
     await deleteImage(filePath, supabase)
 
     const rfile = await resizedFile(files)
@@ -66,7 +67,7 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
     // @ts-ignore
     const { error } = await supabase.storage.from('avatars').upload(filePath, rfile)
     const { data } = supabase.storage.from('avatars').getPublicUrl(filePath)
-    await updateProfile(data.publicUrl, user, supabase)
+    await updateProfile(data.publicUrl, session.user.id, supabase)
 
 
     // Error
@@ -140,15 +141,15 @@ export const uploadCourseDocumentImage = async (files: FileList, uploading: bool
   }
 }
 
-export async function updateProfile(avatarUrl: string, user, supabase) {
+export async function updateProfile(avatarUrl: string, user_id, supabase) {
     loading = true
     const updates = {
-      id: user.id,
+      id: user_id,
       avatar_url: avatarUrl,
       updated_at: new Date()
     }
 
-    console.log(updates)
+    console.log(`updateProfile - Log: ${updates}`)
 
     const headers = new Headers()
     headers.append('Content-Type', 'application/json');
@@ -159,14 +160,9 @@ export async function updateProfile(avatarUrl: string, user, supabase) {
       body: JSON.stringify(updates)
     }
 
-    fetch('/api/users/update', requestOptions)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
+    const response = await fetch('/api/users/update', requestOptions)
+
+    console.log(`Response - updateProfile: ${JSON.stringify(await response.json())}`)
     loading = false
 }
 

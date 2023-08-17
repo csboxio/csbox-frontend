@@ -40,9 +40,9 @@ Modifications to the Acceptable Use Policy
 </script>
 
 <main>
-  <h1>Acceptable Use Policy </h1>
+  <h1 class="dark:text-white text-black">Acceptable Use Policy </h1>
   <div class="terms-container">
-    <pre>{@html aup}</pre>
+    <pre class="dark:text-white text-black">{@html aup}</pre>
   </div>
 </main>
 

@@ -126,9 +126,9 @@ Governing Law and Jurisdiction
 </script>
 
 <main>
-  <h1>Privacy Policy </h1>
+  <h1 class="dark:text-white text-black">Privacy Policy </h1>
   <div class="terms-container">
-    <pre>{@html privacy}</pre>
+    <pre class="dark:text-white text-black">{@html privacy}</pre>
   </div>
 </main>
 

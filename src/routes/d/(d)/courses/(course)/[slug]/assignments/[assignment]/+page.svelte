@@ -542,48 +542,51 @@
 							<form action="?/updateAssignment" method="POST" >
 								<div class="flex flex-wrap gap-4 mb-4 max-w-2xl">
 									<div>
-										<Label class="font-semibold">Title:</Label>
-										<Input type="text" class="text-gray-100" id="title" name="title" bind:value={assignment.title}/>
+
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title:</label>
+										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="title" name="title" bind:value={assignment.title}/>
 									</div>
 									<div>
-										<Label class="font-semibold">Points:</Label>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Points:</label>
 										<Input type="number" class="text-gray-100" id="points" name="points" bind:value={assignment.points}/>
 									</div>
 									<div>
-										<Label class="font-semibold">Due:</Label>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Due:</label>
 										<Input type="text" class="text-gray-100" id="date" name="due" bind:value={assignment.due}/>
 									</div>
 									<div>
-										<Label class="font-semibold">Category:</Label>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category:</label>
 										<Input type="text" class="text-gray-100" id="category" name="category" bind:value={assignment.category}/>
 									</div>
 									<div>
-										<Label class="font-semibold">Available Start:</Label>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Available Start:</label>
 										<Input type="text" class="text-gray-100" id="available_start" name="available_start" bind:value={assignment_data.available_start}/>
 									</div>
 									<div>
-										<Label class="font-semibold">Available End:</Label>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Available End:</label>
 										<Input type="text" class="text-gray-100" id="available_end" name="available_end" bind:value={assignment_data.available_end}/>
 									</div>
 									<div>
-										<Label class="font-semibold">Description:</Label>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description:</label>
 										<Input type="text" class="text-gray-100" id="description" name="description" bind:value={assignment_data.description}/>
 									</div>
 									<div>
-										<Label class="font-semibold">Display As:</Label>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Display As:</label>
 										<Input type="text" class="text-gray-100" id="display_as" name="display_as" bind:value={assignment_data.display_as}/>
 									</div>
 									<div>
-										<Label class="font-semibold">Submission Attempts:</Label>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Submission Attempts:</label>
 										<!--TODO -->
 										<Input disabled type="text" class="text-gray-100" id="submission_attempts" name="submission_attempts" bind:value={assignment_data.submission_attempts}/>
 									</div>
 									<div>
-										<Label class="font-semibold">Grade Type:</Label>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grade Type:</label>
 										<Input type="text" class="text-gray-100" id="grade_type" name="grade_type" bind:value={assignment_data.grade_type}/>
 									</div>
 									<div>
-										<Label class="font-semibold">Updated At:</Label>
+										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Updated At:</label>
 										<Input type="text"  class="text-gray-100" id="updated_at" name="updated_at" bind:value={assignment_data.updated_at}/>
 									</div>
 

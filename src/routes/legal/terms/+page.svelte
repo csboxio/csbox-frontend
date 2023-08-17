@@ -206,9 +206,9 @@ User Responsibilities
 </script>
 
 <main>
-  <h1>Terms and Conditions</h1>
+  <h1 class="dark:text-white text-black">Terms and Conditions</h1>
   <div class="terms-container">
-    <pre>{@html terms}</pre>
+    <pre class="dark:text-white text-black">{@html terms}</pre>
   </div>
 </main>
 
