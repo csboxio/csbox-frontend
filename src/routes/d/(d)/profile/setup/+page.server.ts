@@ -39,15 +39,9 @@ export const actions: Actions = {
             body: JSON.stringify(updates)
         }
 
-        fetch('/api/users/update', requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-            })
-            .catch(error => {
-                console.log(error)
-            })
+        const response = await fetch('/api/users/update', requestOptions)
 
+        console.log(response.json())
         //const {error} = await supabase.from('users').upsert(updates)
 
         throw redirect(303, '/d')

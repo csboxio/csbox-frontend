@@ -34,18 +34,17 @@
 			body: data,
 			headers: {
 				'x-sveltekit-action': 'true',
-				'cache-control': 'max-age=1800'
 			}
 		});
 		const result = deserialize(await response.text());
 		if (result.type === 'redirect') {
 			// re-run all `load` functions, following the successful update
-			await invalidate('/api');
+			await invalidate('/api/users');
 			await goto('/d')
 		}
 		await applyAction(result);
 		await invalidateAll()
-		await invalidate('/api');
+		await invalidate('/api/users');
 		await invalidate(() => true)
 	}
 	let steps = ['Step 1', 'Step 2'];
