@@ -19,8 +19,8 @@ var ThemeSupa = {
       inputPlaceholder: "darkgray",
       messageText: "gray",
       messageTextDanger: "red",
-      anchorTextColor: "gray",
-      anchorTextHoverColor: "darkgray"
+      anchorTextColor: "#c5c5c5",
+      anchorTextHoverColor: "#479ec1",
     },
     space: {
       spaceSmall: "4px",
@@ -34,7 +34,7 @@ var ThemeSupa = {
       inputPadding: "10px 15px"
     },
     fontSizes: {
-      baseBodySize: "13px",
+      baseBodySize: "14px",
       baseInputSize: "14px",
       baseLabelSize: "14px",
       baseButtonSize: "14px"

@@ -35,6 +35,14 @@
 		return () => subscription.unsubscribe()
 	});
 
+	const urlParams = new URLSearchParams(window.location.search);
+
+	const code = urlParams.get('code')
+
+	if (code) {
+		goto('/auth')
+	}
+
 </script>
 <svelte:head>
 	<meta charset="utf-8" />
