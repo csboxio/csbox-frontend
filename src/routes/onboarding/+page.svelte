@@ -9,6 +9,7 @@
 	import {loading} from "$lib/utilities/imageStorage";
 	import { fade } from 'svelte/transition';
 	import {browser} from "$app/environment";
+	import UploadProfileImage from "$lib/components/Image/UploadProfileImage.svelte";
 
 
 	export let data
@@ -113,28 +114,7 @@
 			<div class="mb-2 text-center">
 				<div class="text-xl font-bold tracking-wide text-white mb-1">Profile Picture</div>
 			</div>
-			<div class="p-4 rounded-lg items-center justify-center">
-				<div class="text-center">
-					<div class="pb-5">
-						{#if showImage}
-							<img transition:fade|local class="mx-auto rounded-full object-scale-down w-24 h-24 shadow-xl dark:shadow-gray-800" bind:this={image} src="" alt="">
-							{:else}
-							<img  class="mx-auto rounded-full object-scale-down w-24 h-24 shadow-xl dark:shadow-gray-800" src="/images/tailwind-placeholder.jpg" alt="">
-						{/if}
-					</div>
-					<div class="mt-1">
-						<label class="inline-flex items-center px-3 py-2 text-lg font-semibold text-center text-white
-									bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600
-									dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer">
-							<input class="hidden" type="file" id="single" accept="image/*" bind:files on:change={() => { uploadedAvatarUrl = uploadAvatar(files, uploading, user.avatar_url, session, supabase); onChangePreview(); }  } disabled={uploading}>
-							<div class="m-1">
-								<Fa icon={faUpload} size="xs" />
-							</div>
-							Upload
-						</label>
-					</div>
-				</div>
-			</div>
+			<UploadProfileImage bind:data={data}/>
 
 			<div class="flex justify-between w-full sm:w-auto mt-2">
 				<div>

@@ -373,7 +373,7 @@
             <!-- GROUP END -->
 
             {#if showAllAssignments}
-                <div>
+                <div class="mr-5">
                     <div class="relative overflow-x-auto  sm:rounded-lg w-full">
                         <TableSearch placeholder="Search by title..." hoverable={true} bind:inputValue={searchTerm}>
                             <Table hoverable>

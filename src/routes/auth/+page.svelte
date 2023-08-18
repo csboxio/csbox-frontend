@@ -9,9 +9,13 @@
 	$: ({ supabase, claim, onboard } = data)
 
 	let completed_setup
-
-	$: completed_setup = onboard?.data.completed_setup
-
+	$: completed_setup
+	try {
+		completed_setup = onboard?.data.completed_setup
+	}
+	catch (e) {
+		console.log(e)
+	}
 </script>
 {#if !$page.data.session}
 

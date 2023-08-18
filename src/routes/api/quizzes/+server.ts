@@ -16,10 +16,9 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { 
         .select('id, quiz_title, quiz_doc, quiz_attempts, question_count, due, points, in_module')
         .eq('course_id', course)
 
+    console.log(error)
 
-    setHeaders({
-      'cache-control': 'public, max-age=60, s-maxage=60'
-    })
+
 
     return json(data)
   } catch (error) {

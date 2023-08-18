@@ -19,14 +19,6 @@
 	let { supabase, session, user, claim } = data
 	$: ({ supabase, session, user, claim } = data)
 
-	if (user) {
-		finishProfile = !user.data.completed_setup;
-		if (user.data.completed_setup == false && browser && window.location.pathname !== "/d/profile/setup") {
-			finishProfile = true
-			//window.location.href = "/d/profile/setup"
-		}
-	}
-
 
 
 	onMount(async () => {
@@ -36,19 +28,6 @@
 			invalidateAll();
 			//goto("/");
 		});
-
-		// TODO this is terrible
-		if($checkedUserInfo === 'false') {
-
-			const _user = user.data;
-
-			if (_user.first_name == '') {
-				finishProfile = true;
-			}
-
-
-			checkedUserInfo.set('true')
-		}
 
 
 		// TODO Optimization
@@ -148,18 +127,4 @@
 		</div>
 	{/each}
 </div>
-
-{#if browser}
-	{#if window.location.pathname !== "/d/profile/setup"}
-		<Modal bind:open={finishProfile} class="max-w-xs p-4" >
-			<h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-5xl dark:text-white">Let's finish setting up your profile!</h1>
-				<a href="/d/profile/setup" on:click={() => { finishProfile = false; }} class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
-						Lets go!
-					<svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-					</svg>
-				</a>
-		</Modal>
-	{/if}
-{/if}
 

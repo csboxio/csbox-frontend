@@ -31,6 +31,7 @@ export const createPlaceHolderAssignment = async (courseId: bigint, user: any, s
         p_due: new Date(),
         p_title: 'Sample Assignment',
         p_category: '',
+        p_published: true,
         p_description: 'Sample Assignment Description',
         p_submission_type: 'Points',
         p_submission_attempts: null,
@@ -57,7 +58,8 @@ export const createPlaceHolderGroup = async (courseId: bigint, user: any, supaba
             id: g_id,
             user_id: user,
             course_id: courseId,
-            group_title: "Sample Group"
+            group_title: "Sample Group",
+            published: true
         }
         const {error} = await supabase.from('groups').upsert(updates)
         console.log(error)
@@ -107,7 +109,8 @@ export const createPlaceHolderModule = async (courseId: bigint, user: any, supab
             id: m_id,
             user_id: user,
             course_id: courseId,
-            module_title: "Sample Module"
+            module_title: "Sample Module",
+            published: true,
         }
         const {error} = await supabase.from('modules').upsert(updates)
         console.log(error)

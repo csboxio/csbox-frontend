@@ -10,7 +10,9 @@ import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$env/static/public"
 export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { getSession, supabase }, event }) => {
     const session = await getSession()
 
-    if (session) {
+    if (!session) {
+        throw redirect(303, '/');
+    }
         const { data, error } = await supabase.from('courses')
             .select('id, inserted_at, updated_at, course_image_url, course_title, course_prefix, course_number, course_term, course_color, course_contact, course_start, course_end')
 
@@ -21,7 +23,5 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
         console.log(data, error)
 
         return json({data})
-    }
 
-    return
 }

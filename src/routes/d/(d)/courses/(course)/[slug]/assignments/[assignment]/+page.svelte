@@ -292,6 +292,16 @@
 	let isLastPage
 	$: isLastPage
 
+	// TODO Make the mode update (like the quillblock cancel preview save buttons don't make it change here)
+	const mode = {
+		edit: false,
+		view: true
+	};
+
+	export function handleEdit() {
+		mode.edit = !mode.edit;
+		mode.view = !mode.view;
+	}
 
 </script>
 
@@ -347,23 +357,32 @@
 		<!-- Button group -->
 		<div class=" flex space-x-4 pr-4 pt-4">
 
-			<!-- Grade button -->
+			<!-- Button group -->
 				{#key assignment_data}
+					<!-- Edit Button -->
+					<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+							on:click={handleEdit}>
+						{mode.edit ? 'View' : 'Edit'}
+					</button>
+					<!-- Attach Template -->
 					{#if assignment_data.template_id === null}
 						<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
 								on:click={() => createOrLinkTemplateModal = true}>
 							Attach Template
 						</button>
 					{:else}
+						<!-- Edit Template -->
 						<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
 								on:click={editTemplate}>
 							Edit Template
 						</button>
+						<!-- Unlink template -->
 						<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
 								on:click={unlinkAssignmentFromTemplate}>
 							Unlink Template
 						</button>
 					{/if}
+						<!-- Grade Button -->
 						<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
 							on:click={() => {goto(window.location.pathname + '/grade')}}>
 							Grade
@@ -374,27 +393,27 @@
 		{/if}
 	{/key}
 
-<div class="flex flex-grow w-full text-white py-4">
+
+<div class="flex flex-grow w-full text-white py-4 px-2">
 
 	<div class="flex flex-grow">
 
 		<div class="flex-grow mr-4">
-			<div class="pt-4">
 			<hr>
-			</div>
+
 			{#if claim === "student"}
 				<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
 							bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
-							saveFunction={saveFunction} />
+							saveFunction={saveFunction} mode={mode} editButton={false}/>
 			{/if}
 
 			{#if claim === "instructor"}
 
 
-			<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
-						bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
-						saveFunction={saveFunction} />
-
+				<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
+							bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
+							saveFunction={saveFunction} mode={mode} editButton={false}/>
+			{/if}
 
 				<!-- Old Workspace Stuff -->
 				<!--
@@ -532,17 +551,21 @@
 
 		{#if claim !== 'student'}
 
-			<section class="p-1 mt-4">
+			<section class="p-1 mt-4 mr-3">
 				<div class="container">
 
 
+					{#key assignments}
 					{#if assignment}
+						{#key mode}
+						{#if mode.edit === true}
 						<div class="bg-gray-800 p-6 rounded-lg shadow-md text-white mt-2">
 							<!--Edit assignment-->
-							<form action="?/updateAssignment" method="POST" >
-								<div class="flex flex-wrap gap-4 mb-4 max-w-2xl">
+							<form action="?/updateAssignment" method="POST" on:submit|preventDefault={handleSubmit}>
+								<div class="text-white text-xl font-semibold pb-4">Assignment Data</div>
+								<hr>
+								<div class="grid grid-flow-row-dense grid-cols-2 grid-rows-3 gap-4 mb-4 pt-4">
 									<div>
-
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title:</label>
 										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
 										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
@@ -550,47 +573,67 @@
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Points:</label>
-										<Input type="number" class="text-gray-100" id="points" name="points" bind:value={assignment.points}/>
+										<input type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="points" name="points" bind:value={assignment.points}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Due:</label>
-										<Input type="text" class="text-gray-100" id="date" name="due" bind:value={assignment.due}/>
+										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="date" name="due" bind:value={assignment.due}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category:</label>
-										<Input type="text" class="text-gray-100" id="category" name="category" bind:value={assignment.category}/>
+										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="category" name="category" bind:value={assignment.category}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Available Start:</label>
-										<Input type="text" class="text-gray-100" id="available_start" name="available_start" bind:value={assignment_data.available_start}/>
+										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="available_start" name="available_start" bind:value={assignment_data.available_start}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Available End:</label>
-										<Input type="text" class="text-gray-100" id="available_end" name="available_end" bind:value={assignment_data.available_end}/>
+										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="available_end" name="available_end" bind:value={assignment_data.available_end}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description:</label>
-										<Input type="text" class="text-gray-100" id="description" name="description" bind:value={assignment_data.description}/>
+										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="description" name="description" bind:value={assignment_data.description}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Display As:</label>
-										<Input type="text" class="text-gray-100" id="display_as" name="display_as" bind:value={assignment_data.display_as}/>
+										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="display_as" name="display_as" bind:value={assignment_data.display_as}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Submission Attempts:</label>
 										<!--TODO -->
-										<Input disabled type="text" class="text-gray-100" id="submission_attempts" name="submission_attempts" bind:value={assignment_data.submission_attempts}/>
+										<input disabled type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="submission_attempts" name="submission_attempts" bind:value={assignment_data.submission_attempts}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grade Type:</label>
-										<Input type="text" class="text-gray-100" id="grade_type" name="grade_type" bind:value={assignment_data.grade_type}/>
+										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="grade_type" name="grade_type" bind:value={assignment_data.grade_type}/>
 									</div>
-									<div>
+									<div >
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Updated At:</label>
-										<Input type="text"  class="text-gray-100" id="updated_at" name="updated_at" bind:value={assignment_data.updated_at}/>
+										<input type="text"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="updated_at" name="updated_at" bind:value={assignment_data.updated_at}/>
 									</div>
 
-									<div>
+									<div class="py-6 justify-end">
 										<button class="m-0.5 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
         							font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
         							group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
@@ -602,19 +645,19 @@
 								</span>
 										</button>
 									</div>
-
 								</div>
 							</form>
 						</div>
+						{/if}
+							{/key}
 					{:else}
-
 					{/if}
+					{/key}
 				</div>
 			</section>
 
 
 		{/if}
-			{/if}
 		</div>
 	</div>
 

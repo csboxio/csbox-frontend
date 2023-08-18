@@ -111,7 +111,9 @@ export const actions: Actions = {
                 p_in_module: null,
                 // TODO ADD GROUP THING TO HERE
                 p_available_start: availableStart,
-                p_available_end: availableEnd
+                p_available_end: availableEnd,
+                // TODO ADD THE OPTION TO CHANGE IF ITS PUBLISHED OR NOT
+                p_published: false
             }
 
             // Leave out the in_module (module id) if it is blank in the update, if not include it.

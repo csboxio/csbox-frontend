@@ -79,6 +79,8 @@
 <div class="container m-4 mx-8">
   <div class="flex flex-wrap -mx-12 -mb-2">
 
+
+
     <!--Each course-->
     {#key courses}
     {#if courses}
