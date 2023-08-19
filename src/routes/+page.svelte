@@ -40,7 +40,7 @@
 
 
 
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -48,7 +48,6 @@
 	<title>CSBOX - Home</title>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<link href="./css/vendors/aos.css" rel="stylesheet">
-	<link rel="stylesheet" href="./css/vendors/swiper-bundle.min.css" />
 	<link href="./style.css" rel="stylesheet">
 </head>
 
