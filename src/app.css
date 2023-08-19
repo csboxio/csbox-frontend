@@ -1,7 +1,12 @@
+
+@import 'additional-styles/utility-patterns.css';
+@import 'additional-styles/theme.css';
+
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 /* outfit-regular - latin */
 @font-face {

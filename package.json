@@ -118,6 +118,7 @@
 		"svelte-lexical": "^0.3.2",
 		"svelte-quill": "^1.2.0",
 		"svelte-steps": "^2.4.1",
+		"swiper": "^10.2.0",
 		"tailwind-editor": "^0.3.0",
 		"tus": "^0.1.7",
 		"uuid": "^9.0.0",
