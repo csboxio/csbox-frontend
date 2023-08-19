@@ -10,6 +10,7 @@
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 
+
 	export let data
 
 	let { supabase } = data
@@ -41,7 +42,7 @@
 
 
 
-<html lang="en">
+
 
 <head>
 	<meta charset="utf-8">
@@ -51,7 +52,7 @@
 	<link href="./style.css" rel="stylesheet">
 </head>
 
-<body class="font-inter antialiased bg-slate-900 text-slate-100 tracking-tight">
+<body class="font-inter antialiased bg-slate-900 text-slate-100 tracking-tight" data-sveltekit-preload-data="hover">
 
 <!-- Page wrapper -->
 <div class="flex flex-col min-h-screen overflow-hidden">
@@ -75,7 +76,7 @@
 					<!-- Desktop sign in links -->
 					<ul class="flex grow justify-end flex-wrap items-center">
 						<li>
-							<a class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out" href="/auth">Sign in</a>
+							<a class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out" href="/auth" >Sign in</a>
 						</li>
 
 						{#if $page.data.session}
@@ -1643,4 +1644,3 @@
 
 </body>
 
-</html>

@@ -7,6 +7,7 @@ import SocialAuth from './interfaces/SocialAuth.svelte';
 import UpdatePassword from './interfaces/UpdatePassword.svelte';
 import VerifyOtp from './interfaces/VerifyOtp.svelte';
 import { onMount } from 'svelte';
+import {authTitle} from "$lib/stores/stores";
 export let supabaseClient;
 export let socialLayout = 'vertical';
 export let providers = [];
@@ -52,6 +53,8 @@ appearance?.theme?.[theme], appearance?.variables?.[theme] ?? {}));
  * @returns boolean
  */
 $: SignView = view === 'sign_in' || view === 'sign_up' || view === 'magic_link';
+
+$: authTitle.set(view)
 
 </script>
 
