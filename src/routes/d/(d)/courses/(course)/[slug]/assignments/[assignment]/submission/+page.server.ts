@@ -19,18 +19,39 @@ export const load = async ({ locals: { getSession, getClaim } }) => {
 }
 
 export const actions: Actions = {
-    submitAssignment: async ({ request, url, params, locals: { supabase } }) => {
+    submitAssignment: async ({ request, url, fetch, params, locals: { supabase } }) => {
         const formData = await request.formData()
         const {data} = await supabase.auth.refreshSession()
-        let user;
-        if (data == null) {
-            const {data} = await supabase.auth.refreshSession()
-            user = data.user
+        const {session, user} = data
+        if (!session) {
+            throw redirect(303, '/');
         }
-        user = data.user
-        if (user != null) {
+        const user_id = session.user.id;
+        const course_id = params.slug;
+        const assignment_id = params.assignment;
+        const submission_type = formData.get('submission_type');
+        const _url = formData.get('url');
+        const project_id = formData.get('project_id')
 
-            console.log("submitAssignment")
+        const requestBody = {
+            'p_user_id': user_id,
+            'p_course_id': course_id,
+            'p_assignment_id': assignment_id,
+            'p_submission_type': submission_type,
+            'p_url': _url,
+            'p_project_id': project_id,
         }
+
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        };
+
+        const response = await fetch('/api/assignments/submit', requestOptions)
+        console.log(response.json())
     },
 }

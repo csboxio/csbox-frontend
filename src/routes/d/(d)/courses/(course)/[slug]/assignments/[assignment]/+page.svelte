@@ -21,8 +21,8 @@
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import {faChain, faCheck, faCircleNotch, faPlus, faX} from '@fortawesome/free-solid-svg-icons';
 	import {writable} from "svelte/store";
-	import {format, formatDistanceToNow, parseISO} from "date-fns";
 	import {onMount} from "svelte";
+	import {format, parseISO} from "date-fns";
 
 
 	export let data;
@@ -39,6 +39,9 @@
 
 	let assignments;
 	$: assignments = $page.data.assignments
+
+	let submitted;
+	$: submitted = $page.data.submitted;
 
 	async function handleSubmit(event) {
 		loading = true;
@@ -303,6 +306,7 @@
 		mode.view = !mode.view;
 	}
 
+	let startAssignment = false;
 </script>
 
 
@@ -321,20 +325,28 @@
 
 		<!-- Button group -->
 		<div class="ml-auto flex space-x-2 pr-4 pt-4">
+			<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+					on:click={() => { startAssignment = true;}}>
+				Start
+			</button>
 		<!-- Submit button-->
 		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-				on:click={() => {goto(window.location.pathname + '/')}}>
-			Start Assignment
+				on:click={() => {goto(window.location.pathname + '/submission')}}>
+			Submit
 		</button>
 
 		</div>
 
+
 	</div>
+
 
 	{#key assignment_data}
 	<div class="text-white pt-4 space-x-4 px-4">
-		<b>Due</b> {format(parseISO(assignment.due), "MMM dd hh:mm a")}
-		<b>Points</b> {assignment.points}
+		<div class="flex">
+			<div class="flex space-x-4">
+		<b class="pr-2">Due</b> {format(parseISO(assignment.due), "MMM dd hh:mm a")}
+		<b class="pr-2">Points</b> {assignment.points}
 
 		<div class="inline-flex flex items-center">
 			<b>Template</b>
@@ -347,6 +359,24 @@
 					<Fa icon={faCheck} class="pl-2 text-green-500"/>
 				</div>
 		{/if}
+		</div>
+			</div>
+
+		<!-- Submitted -->
+		<div class="ml-auto flex mr-11">
+			<div class="inline-flex flex items-center text-white">
+				<b>Submitted</b>
+				{#if submitted === false}
+					<div class="inline-block ">
+						<Fa icon={faX} class="pl-2 text-red-500"/>
+					</div>
+				{:else}
+					<div class="inline-block ">
+						<Fa icon={faCheck} class="pl-2 text-green-500"/>
+					</div>
+				{/if}
+			</div>
+		</div>
 		</div>
 	</div>
 	{/key}
@@ -664,6 +694,11 @@
 </div>
 </div>
 
+<Modal title="Start Assignment" bind:open={startAssignment} class="max-w-xs" >
+	<div class="text-center">
+		Placeholder
+	</div>
+</Modal>
 
 <Modal title="Starting Workspace" bind:open={deployModel} class="max-w-xs" >
 	<div class="text-center">

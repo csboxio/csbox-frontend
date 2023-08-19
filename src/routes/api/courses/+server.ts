@@ -20,7 +20,6 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
         if (error) {
             console.log(error)
         }
-        console.log(data, error)
 
         return json({data})
 
