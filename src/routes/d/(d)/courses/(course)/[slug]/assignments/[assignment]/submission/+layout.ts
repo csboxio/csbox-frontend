@@ -10,11 +10,14 @@ export const load = (async ({ fetch, data, request, url, parent, params }) => {
     throw redirect(303, '/');
   }
 
+    const submission = await fetch(`/api/submission/?id=${params.assignment}`)
 
 
     return {
         session: session,
         params: params,
-        course_data: parentData.courses
+        course_data: parentData.courses,
+        submission: parentData.submission,
+        submission_data: await submission.json()
     };
 });

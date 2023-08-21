@@ -22,7 +22,7 @@
 	import {faChain, faCheck, faCircleNotch, faPlus, faX} from '@fortawesome/free-solid-svg-icons';
 	import {writable} from "svelte/store";
 	import {onMount} from "svelte";
-	import {format, parseISO} from "date-fns";
+	import {format, formatDistanceToNow, parseISO} from "date-fns";
 
 
 	export let data;
@@ -135,12 +135,6 @@
 		showStarterInfo = !showStarterInfo
 	}
 
-	let assignment;
-	$: {
-		assignment = assignments.find(
-				assignment => assignment.assignment_id == assignment_slug
-		)
-	}
 
 	async function saveFunction() {
 		await updateAssignmentInsert($page.params.assignment, supabase)
@@ -307,20 +301,20 @@
 	}
 
 	let startAssignment = false;
+
+	$: f_assignment_updated_at = format(parseISO(assignment_data.updated_at), "yyyy-MM-dd'T'HH:mm");
+	$: f_assignment_available_start = format(parseISO(assignment_data.available_start), "yyyy-MM-dd'T'HH:mm");
+	$: f_assignment_available_end = format(parseISO(assignment_data.available_end), "yyyy-MM-dd'T'HH:mm");
+	$: f_assignment_due = format(parseISO(assignment_data.due), "yyyy-MM-dd'T'HH:mm");
+
+
 </script>
 
-
-
 <div class="w-full">
-
-	<!-- Title -->
-
-
-
 	<!-- Top bar -->
 	<div class="flex flex-wrap mt-4 space-x-2 px-4">
 		<div class="flex-grow text-white text-2xl font-semibold pt-4">
-			{assignment.title}
+			{assignment_data.title}
 		</div>
 
 		<!-- Button group -->
@@ -339,14 +333,12 @@
 
 
 	</div>
-
-
 	{#key assignment_data}
 	<div class="text-white pt-4 space-x-4 px-4">
 		<div class="flex">
 			<div class="flex space-x-4">
-		<b class="pr-2">Due</b> {format(parseISO(assignment.due), "MMM dd hh:mm a")}
-		<b class="pr-2">Points</b> {assignment.points}
+		<b class="pr-2">Due</b> {format(parseISO(assignment_data.due), "MMM dd hh:mm a")}
+		<b class="pr-2">Points</b> {assignment_data.points}
 
 		<div class="inline-flex flex items-center">
 			<b>Template</b>
@@ -380,7 +372,6 @@
 		</div>
 	</div>
 	{/key}
-
 	{#key claim}
 		{#if claim === 'instructor'}
 	<div class="flex flex-wrap mt-4 space-x-2 px-4">
@@ -422,21 +413,18 @@
 	</div>
 		{/if}
 	{/key}
-
-
 <div class="flex flex-grow w-full text-white py-4 px-2">
-
 	<div class="flex flex-grow">
-
 		<div class="flex-grow mr-4">
 			<hr>
-
+			<div class="pt-3">
+			<div class="text-white text-xl font-semibold px-1">Instructions</div>
+			</div>
 			{#if claim === "student"}
 				<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
 							bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
 							saveFunction={saveFunction} mode={mode} editButton={false}/>
 			{/if}
-
 			{#if claim === "instructor"}
 
 
@@ -444,7 +432,6 @@
 							bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
 							saveFunction={saveFunction} mode={mode} editButton={false}/>
 			{/if}
-
 				<!-- Old Workspace Stuff -->
 				<!--
 			<section class="flex p-1 mt-4">
@@ -578,58 +565,64 @@
 				</div>
 			</section>
 				-->
-
 		{#if claim !== 'student'}
-
-			<section class="p-1 mt-4 mr-3">
-				<div class="container">
-
-
-					{#key assignments}
-					{#if assignment}
+			<section class="p-1 mt-4 mr-3 ">
+				<div class=" w-full">
+					{#if assignment_data}
 						{#key mode}
 						{#if mode.edit === true}
-						<div class="bg-gray-800 p-6 rounded-lg shadow-md text-white mt-2">
+							<div class=" rounded-lg  text-white mt-2">
 							<!--Edit assignment-->
 							<form action="?/updateAssignment" method="POST" on:submit|preventDefault={handleSubmit}>
 								<div class="text-white text-xl font-semibold pb-4">Assignment Data</div>
-								<hr>
-								<div class="grid grid-flow-row-dense grid-cols-2 grid-rows-3 gap-4 mb-4 pt-4">
+								<div class="">
+									<button class="m-0.5 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+        							font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+        							group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+        							focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+											on:click={handleSubmit}>
+								<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+								dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+									Save
+								</span>
+									</button>
+								</div>
+								<div class="grid grid-flow-row-dense grid-cols-3 grid-rows-3 gap-4 mb-4 pt-4">
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title:</label>
 										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
 										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="title" name="title" bind:value={assignment.title}/>
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="title" name="title" bind:value={assignment_data.title}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Points:</label>
 										<input type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
 										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="points" name="points" bind:value={assignment.points}/>
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="points" name="points" bind:value={assignment_data.points}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Due:</label>
-										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										<input type="datetime-local" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
 										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="date" name="due" bind:value={assignment.due}/>
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="date" name="due" bind:value={f_assignment_due}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category:</label>
 										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
 										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="category" name="category" bind:value={assignment.category}/>
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="category" name="category" bind:value={assignment_data.category}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Available Start:</label>
-										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										<input type="datetime-local" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
 										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="available_start" name="available_start" bind:value={assignment_data.available_start}/>
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="available_start" name="available_start" bind:value={f_assignment_available_start}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Available End:</label>
-										<input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										<input type="datetime-local" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
 										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="available_end" name="available_end" bind:value={assignment_data.available_end}/>
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="available_end" name="available_end" bind:value={f_assignment_available_end}/>
 									</div>
 									<div>
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description:</label>
@@ -658,22 +651,10 @@
 									</div>
 									<div >
 										<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Updated At:</label>
-										<input type="text"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+										<input type="datetime-local"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
 										 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="updated_at" name="updated_at" bind:value={assignment_data.updated_at}/>
-									</div>
-
-									<div class="py-6 justify-end">
-										<button class="m-0.5 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
-        							font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
-        							group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
-        							focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-												on:click={handleSubmit}>
-								<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-								dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-									Submit
-								</span>
-										</button>
+										  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="updated_at" name="updated_at" bind:value={f_assignment_updated_at}
+											     />
 									</div>
 								</div>
 							</form>
@@ -682,7 +663,6 @@
 							{/key}
 					{:else}
 					{/if}
-					{/key}
 				</div>
 			</section>
 

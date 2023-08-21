@@ -29,7 +29,7 @@ export const actions: Actions = {
         const user_id = session.user.id;
         const course_id = params.slug;
         const assignment_id = params.assignment;
-        const submission_type = formData.get('submission_type');
+        const submission_type = 'url';
         const _url = formData.get('url');
         const project_id = formData.get('project_id')
 
@@ -41,6 +41,8 @@ export const actions: Actions = {
             'p_url': _url,
             'p_project_id': project_id,
         }
+
+        console.log(requestBody)
 
 
         const requestOptions = {

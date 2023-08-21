@@ -14,6 +14,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   const c_id = url.searchParams.get('c_id')
   const a_id = url.searchParams.get('a_id')
 
+  console.log(c_id, a_id)
   const { data, error } = await supabase.rpc('get_submissions_with_grades', { in_course_id: c_id, in_assignment_id: a_id})
 
   if (error) {

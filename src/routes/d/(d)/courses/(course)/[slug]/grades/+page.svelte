@@ -14,12 +14,12 @@
 	export let data;
 	let course_data = data.courseData;
 	let grades;
-	//$: grades = data.gradesData;
+	$: grades = data.gradesData;
+
+	console.log(grades)
 	// For search box on assignments
 	let searchTerm = '';
-	//$: filteredItems = grades.filter(
-	//		(grade) => grade.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
-	//);
+
 
 	onMount(() => {
 		// Set the selected item when the page is mounted
@@ -32,37 +32,43 @@
 		<div class="container">
 				<div>
 					<div class="relative overflow-x-auto sm:rounded-lg w-full">
-						<!--
-						<TableSearch placeholder="Search by title..." hoverable={true} bind:inputValue={searchTerm}>
-							<Table hoverable>
-								<TableHead>
 
-									<TableHeadCell>Title</TableHeadCell>
-
-									<TableHeadCell>
-										<span class="sr-only ">Edit</span>
-									</TableHeadCell>
-								</TableHead>
-								<TableBody class="divide-y">
-									{#key grades}
-										{#each filteredItems as { assignment_id, title, category, due, points }, i}
-											<TableBodyRow class="cursor-pointer">
-												<TableBodyCell >{title ? title : 'No title'}</TableBodyCell>
-												<TableBodyCell >{category ? category : "No category" }</TableBodyCell>
-												<TableBodyCell >{due ? due.substring(0, 10) : "No date" }</TableBodyCell>
-												<TableBodyCell >{points ? points : "No Points" }</TableBodyCell>
-
-												<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium"  >
-
-
-												</TableBodyCell>
-											</TableBodyRow>
+						<div class="relative overflow-x-auto">
+							<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+								<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
+								<tr>
+									<th scope="col" class="px-6 py-3">
+										Student Name
+									</th>
+									{#each Object.values(grades) as user}
+										<th scope="col" class="px-6 py-3">
+											{user.grades.assignment_title}
+										</th>
+									{/each}
+								</tr>
+								</thead>
+								<tbody>
+								{#each Object.keys(grades) as userId}
+									<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+										<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+											{grades[userId].first_name} {grades[userId].last_name}
+										</td>
+										{#each Object.values(grades) as user}
+											<td class="px-6 py-4 text-white">
+												{#if user.grades.user_id === userId}
+													{user.grades.grade_percent}
+												{/if}
+											</td>
 										{/each}
-									{/key}
-								</TableBody>
-							</Table>
-						</TableSearch>
-						-->
+									</tr>
+								{/each}
+								</tbody>
+							</table>
+						</div>
+
+
+
+
 					</div>
 			</div>
 		</div>
