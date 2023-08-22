@@ -33,38 +33,41 @@
 				<div>
 					<div class="relative overflow-x-auto sm:rounded-lg w-full">
 
-						<div class="relative overflow-x-auto">
-							<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-								<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
+						<table class="table-auto border-collapse border border-gray-400">
+							<thead>
+							<tr>
+								<th class="border border-gray-400 px-4 py-2"></th>
+								{#each grades.assignments as assignment (assignment.assignment_id)}
+									<th class="border border-gray-400 px-4 py-2">{assignment.title}</th>
+								{/each}
+								{#each grades.quizzes as quiz (quiz.quiz_id)}
+									<th class="border border-gray-400 px-4 py-2">{quiz.title}</th>
+								{/each}
+							</tr>
+							</thead>
+							<tbody>
+							{#each grades.users as user (user.user_id)}
 								<tr>
-									<th scope="col" class="px-6 py-3">
-										Student Name
-									</th>
-									{#each Object.values(grades) as user}
-										<th scope="col" class="px-6 py-3">
-											{user.grades.assignment_title}
-										</th>
+									<td class="border border-gray-400 px-4 py-2">{user.first_name} {user.last_name}</td>
+									{#each grades.assignments as assignment (assignment.assignment_id)}
+										<td class="border border-gray-400 px-4 py-2">
+											{#if user.grades && user.grades.assignments && assignment.assignment_id in user.grades.assignments}
+												{user.grades.assignments[assignment.assignment_id]}%
+											{/if}
+											{JSON.stringify(grades)}%
+										</td>
+									{/each}
+									{#each grades.quizzes as quiz (quiz.quiz_id)}
+										<td class="border border-gray-400 px-4 py-2">
+											{#if user.grades && user.grades.quizzes && quiz.quiz_id in user.grades.quizzes}
+												{user.grades.quizzes[quiz.quiz_id]}%
+											{/if}
+										</td>
 									{/each}
 								</tr>
-								</thead>
-								<tbody>
-								{#each Object.keys(grades) as userId}
-									<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-										<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-											{grades[userId].first_name} {grades[userId].last_name}
-										</td>
-										{#each Object.values(grades) as user}
-											<td class="px-6 py-4 text-white">
-												{#if user.grades.user_id === userId}
-													{user.grades.grade_percent}
-												{/if}
-											</td>
-										{/each}
-									</tr>
-								{/each}
-								</tbody>
-							</table>
-						</div>
+							{/each}
+							</tbody>
+						</table>
 
 
 

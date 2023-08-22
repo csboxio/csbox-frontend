@@ -13,7 +13,7 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { 
   }
   const course = url.searchParams.get('course')
   console.log(course)
-  const { data, error } = await supabase.rpc('get_grade_grid_for_course', {p_course_id: course})
+  const { data, error } = await supabase.rpc('get_course_grades', {p_course_id: course})
 
 
   console.log(data, error)
