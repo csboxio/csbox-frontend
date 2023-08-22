@@ -17,7 +17,7 @@
 		console.log(e)
 	}
 </script>
-{#if !$page.data.session}
+{#if !$page.data.session }
 
 	<Auth bind:data={data} />
 

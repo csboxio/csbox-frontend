@@ -1,14 +1,9 @@
 <script lang="ts">
     import { Auth } from '$lib/auth-ui-svelte';
     import { ThemeSupa, type SocialLayout, type ViewType } from '$lib/auth-ui-shared';
-    import MenuIcon from './MenuIcon.svelte';
-    import ToggleButton from './ToggleButton.svelte';
     import { browser } from "$app/environment";
     import { Turnstile } from "svelte-turnstile";
-    import { blur } from 'svelte/transition';
     import {authTitle} from "$lib/stores/stores.js";
-
-
 
 
     const colors = [
@@ -105,7 +100,7 @@
                               appearance={{
 								theme: ThemeSupa,
 								style: {
-									button: `border-radius: ${'10px'}; border-color: rgba(0,0,0,0);`
+									button: `border-radius: ${'20px'}; border-color: rgba(0,0,0,0);`
 								},
 								variables: {
 									default: {
@@ -128,7 +123,6 @@
                                 hd: 'csbox.io',
                               }}
                               captchaToken={token}
-                              {socialLayout}
                             />
 
                             <div class="flex justify-center text-center">

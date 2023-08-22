@@ -1,15 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Account from '$lib/components/Account.svelte';
-	import { getContext, onMount } from "svelte";
+	import { onMount } from "svelte";
 	import { notificationStore } from "../lib/stores/stores.js";
-	import Auth from "$lib/components/Auth/Auth.svelte";
-	import { goto, invalidateAll } from "$app/navigation";
-	import Code from "$lib/components/OAuth/Code.svelte";
-	import { DarkMode } from "flowbite-svelte";
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
-
 
 	export let data
 
@@ -19,8 +13,6 @@
 	const handleSignOut = async () => {
 		await supabase.auth.signOut()
 	}
-
-	//let notifications = getContext($page.data.session);
 
 	let notifications;
 
@@ -37,16 +29,8 @@
 	$: tab
 </script>
 
-
-
-
-
-
-
-
 <head>
 	<meta charset="utf-8">
-	<title>CSBOX - Home</title>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<link href="./css/vendors/aos.css" rel="stylesheet">
 	<link href="./style.css" rel="stylesheet">

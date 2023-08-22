@@ -4,7 +4,9 @@ import { browser } from "$app/environment";
 
 export const prerender = false;
 
+// SSR should be off at the moment.
 export const ssr = false
+export const csr = true
 export const actions: Actions = {
     signin: async ({ request, url, locals: { supabase } }) => {
         if (!browser) {

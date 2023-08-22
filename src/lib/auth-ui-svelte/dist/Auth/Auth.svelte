@@ -9,7 +9,7 @@ import VerifyOtp from './interfaces/VerifyOtp.svelte';
 import { onMount } from 'svelte';
 import {authTitle} from "$lib/stores/stores";
 export let supabaseClient;
-export let socialLayout = 'vertical';
+export let socialLayout = 'horizontal';
 export let providers = [];
 export let providerScopes = undefined;
 export let queryParams = undefined;
@@ -19,11 +19,12 @@ export let onlyThirdPartyProviders = false;
 export let magicLink = false;
 export let showLinks = true;
 export let appearance = {};
-export let theme = 'default';
+export let theme = 'ThemeSupa';
 export let localization = {};
 export let otpType = 'email';
 export let additionalData;
 export let captchaToken;
+
 
 onMount(() => {
     const { data: authListener } = supabaseClient.auth.onAuthStateChange((event) => {
@@ -58,6 +59,7 @@ $: authTitle.set(view)
 
 </script>
 
+{#key theme}
 <div class={theme !== 'default' ? themeVariables : ''}>
 	{#if SignView}
 		<SocialAuth
@@ -115,3 +117,4 @@ $: authTitle.set(view)
 		<VerifyOtp {i18n} {supabaseClient} bind:authView={view} {appearance} {showLinks} {otpType} />
 	{/if}
 </div>
+	{/key}
