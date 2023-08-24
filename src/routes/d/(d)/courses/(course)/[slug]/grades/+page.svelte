@@ -33,7 +33,7 @@
 				<div>
 					<div class="relative overflow-x-auto sm: w-full">
 
-						<table class="table-auto w-full border text-white">
+						<table class="table-auto w-full border  text-white">
 							<thead>
 							<tr class="bg-gray-800">
 								<th class="border border-gray-400 px-4 py-2"></th>
