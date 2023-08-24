@@ -302,11 +302,28 @@
 
 	let startAssignment = false;
 
-	$: f_assignment_updated_at = format(parseISO(assignment_data.updated_at), "yyyy-MM-dd'T'HH:mm");
-	$: f_assignment_available_start = format(parseISO(assignment_data.available_start), "yyyy-MM-dd'T'HH:mm");
-	$: f_assignment_available_end = format(parseISO(assignment_data.available_end), "yyyy-MM-dd'T'HH:mm");
-	$: f_assignment_due = format(parseISO(assignment_data.due), "yyyy-MM-dd'T'HH:mm");
+	let f_assignment_updated_at = null;
+	let f_assignment_available_start = null;
+	let f_assignment_available_end = null;
+	let f_assignment_due = null;
 
+	$: if (assignment_data.updated_at) {
+		f_assignment_updated_at = format(parseISO(assignment_data.updated_at), "yyyy-MM-dd'T'HH:mm");
+	}
+
+	$: if (assignment_data.available_start) {
+		f_assignment_available_start = format(parseISO(assignment_data?.available_start), "yyyy-MM-dd'T'HH:mm");
+	}
+
+	$: if (assignment_data.available_end) {
+		f_assignment_available_end = format(parseISO(assignment_data?.available_end), "yyyy-MM-dd'T'HH:mm");
+	}
+
+	$: if (assignment_data.due) {
+		f_assignment_due =  format(parseISO(assignment_data?.due), "yyyy-MM-dd'T'HH:mm");
+	}
+
+	$: assignment_published = assignment_data.published;
 
 </script>
 
@@ -314,11 +331,27 @@
 	<!-- Top bar -->
 	<div class="flex flex-wrap mt-4 space-x-2 px-4">
 		<div class="flex-grow text-white text-2xl font-semibold pt-4">
-			{assignment_data.title}
+			{assignment_data.title ? assignment_data.title : "No title"}
 		</div>
 
 		<!-- Button group -->
 		<div class="ml-auto flex space-x-2 pr-4 pt-4">
+
+			{#if claim === 'instructor'}
+			{#key assignment_published}
+				{#if assignment_published}
+					<button class="border-green-500 border border-2 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+							on:click={() => { startAssignment = true;}}>
+						Published
+					</button>
+				{:else}
+					<button class="bg-gray-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+							on:click={() => { startAssignment = true;}}>
+						Unpublished
+					</button>
+				{/if}
+			{/key}
+			{/if}
 			<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
 					on:click={() => { startAssignment = true;}}>
 				Start
@@ -337,8 +370,8 @@
 	<div class="text-white pt-4 space-x-4 px-4">
 		<div class="flex">
 			<div class="flex space-x-4">
-		<b class="pr-2">Due</b> {format(parseISO(assignment_data.due), "MMM dd hh:mm a")}
-		<b class="pr-2">Points</b> {assignment_data.points}
+		<b class="pr-2">Due</b> {assignment_data.due ? format(parseISO(assignment_data.due), "MMM dd hh:mm a") : "No due date"}
+		<b class="pr-2">Points</b> {assignment_data.points ? assignment_data.points : "No points"}
 
 		<div class="inline-flex flex items-center">
 			<b>Template</b>

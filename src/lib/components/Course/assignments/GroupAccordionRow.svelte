@@ -58,12 +58,12 @@
                 <div class="inline-block">
                     <b>Due</b>
 
-                    {format(parseISO(due), "MMM dd hh:mm a")}
+                    {due ? format(parseISO(due), "MMM dd hh:mm a") : "No due date"}
                 </div>
                 <div class="inline-block">
                     |
                 </div>
-                <div class="inline-block">{points} points</div>
+                <div class="inline-block">{points ? points : "0"} points</div>
             </div>
         </div>
         <div class="ml-auto">

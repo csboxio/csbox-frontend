@@ -161,6 +161,7 @@
 								{/if}
 							</TableHead>
 							<TableBody class="divide-y">
+								{#key filteredItems}
 								{#each filteredItems as {id, enrolled, first_name, last_name, enrollment_date }}
 
 								<TableBodyRow  class="cursor-pointer">
@@ -203,6 +204,7 @@
 									{/if}
 									</TableBodyRow>
 									{/each}
+								{/key}
 							</TableBody>
 						</Table>
 					</TableSearch>
