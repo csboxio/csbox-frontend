@@ -22,6 +22,9 @@
 	// For search box on assignments
 	let searchTerm = '';
 
+	let { claim } = data
+	$: ({ claim } = data)
+
 
 	onMount(() => {
 		// Set the selected item when the page is mounted
@@ -82,11 +85,15 @@
 												<!-- This updates the grades -->
 												<form bind:this={gradeForm} action="?/updateGrade" method="POST" on:submit|preventDefault={handleGradeSubmit}>
 													<div class="inline-block">
-														{#if user.grades.assignments[assignment.assignment_id][1]}
-															<!-- The submission_id is here -->
-															<input type="hidden" name="id" value={user.grades.assignments[assignment.assignment_id][1]}/>
-															<!-- What the user sees the grade percentage -->
-															<input id="grade_percentage" name="grade_percentage" class=" p-1 px-2 text-sm w-14 appearance-none bg-gray-800 font-semibold " bind:value={user.grades.assignments[assignment.assignment_id][0]} on:change={() => gradeForm.requestSubmit()}/>
+														{#if claim === 'instructor'}
+															{#if user.grades.assignments[assignment.assignment_id][1]}
+																<!-- The submission_id is here -->
+																<input type="hidden" name="id" value={user.grades.assignments[assignment.assignment_id][1]}/>
+																<!-- What the user sees the grade percentage -->
+																<input id="grade_percentage" name="grade_percentage" class=" p-1 px-2 text-sm w-14 appearance-none bg-gray-800 font-semibold " bind:value={user.grades.assignments[assignment.assignment_id][0]} on:change={() => gradeForm.requestSubmit()}/>
+															{/if}
+															{:else}
+															<div class=" p-1 px-2 text-sm w-14 font-semibold">{user.grades.assignments[assignment.assignment_id][0]}</div>
 														{/if}
 													</div>
 

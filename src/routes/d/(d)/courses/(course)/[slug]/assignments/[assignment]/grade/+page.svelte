@@ -19,6 +19,9 @@
 	let submissions
 	$: submissions = $page.data.submissions
 
+	let assignment
+	$: assignment = $page.data.assignment
+
 	console.log($page.data)
 
 
@@ -108,7 +111,12 @@
 {#if currentSubmission}
 <div class="w-full">
 	<section class="p-1 mt-4">
-		<div class="container mx-12 my-5">
+		{#key selectedStudent}
+			{#if selectedStudent}
+				<h2 class="text-xl font-semibold mb-2 text-white">{assignment.title} - {selectedStudent?.first_name + ' ' + selectedStudent?.last_name}</h2>
+			{/if}
+		{/key}
+		<div class="container mx-12 my-2">
 			<div class="flex justify-between items-center mb-6">
 
 				<!-- Rest of the student info -->
@@ -137,7 +145,7 @@
 	{#if currentSubmission}
 	<div class="w-full flex">
 
-		<div class="flex-1 border h-4/5 text-white p-2 h-[70vh]">
+		<div class="flex-1 border rounded-l h-4/5 text-white p-2 h-[70vh]">
 			{#key currentSubmission}
 			{#if currentSubmission}
 				{#if currentSubmission.submission_type === "url"}

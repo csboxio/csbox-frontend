@@ -21,7 +21,7 @@
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import {faChain, faCheck, faCircleNotch, faPlus, faX} from '@fortawesome/free-solid-svg-icons';
 	import {writable} from "svelte/store";
-	import {onMount} from "svelte";
+	import {beforeUpdate, onMount} from "svelte";
 	import {format, formatDistanceToNow, parseISO} from "date-fns";
 
 
@@ -325,6 +325,33 @@
 
 	$: assignment_published = assignment_data.published;
 
+	beforeUpdate(() => {
+		if (!assignment_data.published && claim === 'student') {
+			goto('/d')
+			throw new Error("Unable to render page.");
+		}
+	});
+
+	async function publishAssignment(assignment_id) {
+		assignment_published = !assignment_published
+		const url = new URL('/api/assignments/publish/', window.location.origin);
+		url.searchParams.append('assignment_id', assignment_id);
+		const response = await fetch(url);
+		const { res, error, status } = await response.json();
+		//console.log(res, error, status)
+		await invalidateAll();
+	}
+
+	async function unpublishAssignment(assignment_id) {
+		assignment_published = !assignment_published
+		const url = new URL('/api/assignments/unpublish/', window.location.origin);
+		url.searchParams.append('assignment_id', assignment_id);
+		const response = await fetch(url);
+		const { res, error, status } = await response.json();
+		//console.log(res, error, status)
+
+		await invalidateAll();
+	}
 </script>
 
 <div class="w-full">
@@ -340,32 +367,87 @@
 			{#if claim === 'instructor'}
 			{#key assignment_published}
 				{#if assignment_published}
-					<button class="border-green-500 border border-2 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
-							on:click={() => { startAssignment = true;}}>
-						Published
-					</button>
+					<div>
+						<button
+								class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+								font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-500 to-green-300
+								group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+								focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
+								on:click|stopPropagation={async () => { await unpublishAssignment(assignment_slug); }}>
+						<span
+							class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+							Published
+						</span>
+						</button>
+					</div>
 				{:else}
-					<button class="bg-gray-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-							on:click={() => { startAssignment = true;}}>
-						Unpublished
-					</button>
+					<div>
+						<button
+								class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+								font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+								group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+								focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+								on:click|stopPropagation={async () => { await publishAssignment(assignment_slug); }}>
+						<span
+								class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+							Unpublished
+						</span>
+						</button>
+					</div>
 				{/if}
 			{/key}
+				<div>
+					<button
+							class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+								font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+								group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+								focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+								on:click={handleEdit}>
+						<span
+								class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+							{mode.edit ? 'View' : 'Edit'}
+						</span>
+					</button>
+				</div>
 			{/if}
-			<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-					on:click={() => { startAssignment = true;}}>
-				Start
-			</button>
-		<!-- Submit button-->
-		<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-				on:click={() => {goto(window.location.pathname + '/submission')}}>
-			Submit
-		</button>
+			{#if claim === 'student'}
+				<div>
+					<button
+							class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+								font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+								group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+								focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+							on:click={() => { startAssignment = true;}}>
+						<span
+								class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+							Start
+						</span>
+					</button>
+				</div>
 
+			<!-- Submit button-->
+				<div>
+					<button
+							class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+								font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+								group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+								focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+							on:click={() => {goto(window.location.pathname + '/submission')}}>
+						<span
+								class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+							Submit
+						</span>
+					</button>
+				</div>
+			{/if}
 		</div>
-
-
 	</div>
+
 	{#key assignment_data}
 	<div class="text-white pt-4 space-x-4 px-4">
 		<div class="flex">
@@ -387,21 +469,24 @@
 		</div>
 			</div>
 
+
 		<!-- Submitted -->
-		<div class="ml-auto flex mr-11">
-			<div class="inline-flex flex items-center text-white">
-				<b>Submitted</b>
-				{#if submitted === false}
-					<div class="inline-block ">
-						<Fa icon={faX} class="pl-2 text-red-500"/>
+			{#if claim === 'student'}
+				<div class="ml-auto flex mr-14">
+					<div class="inline-flex flex items-center text-white">
+						<b>Submitted</b>
+						{#if submitted === false}
+							<div class="inline-block ">
+								<Fa icon={faX} class="pl-2 text-red-500"/>
+							</div>
+						{:else}
+							<div class="inline-block ">
+								<Fa icon={faCheck} class="pl-2 text-green-500"/>
+							</div>
+						{/if}
 					</div>
-				{:else}
-					<div class="inline-block ">
-						<Fa icon={faCheck} class="pl-2 text-green-500"/>
-					</div>
-				{/if}
-			</div>
-		</div>
+				</div>
+			{/if}
 		</div>
 	</div>
 	{/key}
@@ -409,38 +494,73 @@
 		{#if claim === 'instructor'}
 	<div class="flex flex-wrap mt-4 space-x-2 px-4">
 		<!-- Button group -->
-		<div class=" flex space-x-4 pr-4 pt-4">
+		<div class=" flex space-x-2 pr-4 pt-4">
 
 			<!-- Button group -->
 				{#key assignment_data}
-					<!-- Edit Button -->
-					<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-							on:click={handleEdit}>
-						{mode.edit ? 'View' : 'Edit'}
-					</button>
 					<!-- Attach Template -->
 					{#if assignment_data.template_id === null}
-						<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-								on:click={() => createOrLinkTemplateModal = true}>
+						<div>
+							<button
+									class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+								font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+								group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+								focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+									on:click={() => createOrLinkTemplateModal = true}>
+						<span
+								class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
 							Attach Template
-						</button>
+						</span>
+							</button>
+						</div>
 					{:else}
 						<!-- Edit Template -->
-						<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-								on:click={editTemplate}>
+						<div>
+							<button
+									class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+								font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+								group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+								focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+									on:click={editTemplate}>
+						<span
+								class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
 							Edit Template
-						</button>
+						</span>
+							</button>
+						</div>
 						<!-- Unlink template -->
-						<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-								on:click={unlinkAssignmentFromTemplate}>
+						<div>
+							<button
+									class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+								font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+								group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+								focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+									on:click={unlinkAssignmentFromTemplate}>
+						<span
+								class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
 							Unlink Template
-						</button>
+						</span>
+							</button>
+						</div>
 					{/if}
 						<!-- Grade Button -->
-						<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-							on:click={() => {goto(window.location.pathname + '/grade')}}>
-							Grade
-						</button>
+						<div>
+							<button
+									class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+									font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+									group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+									focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+									on:click={() => {goto(window.location.pathname + '/grade')}}>
+							<span
+									class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+										dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+								Grade
+							</span>
+							</button>
+						</div>
 					{/key}
 		</div>
 	</div>

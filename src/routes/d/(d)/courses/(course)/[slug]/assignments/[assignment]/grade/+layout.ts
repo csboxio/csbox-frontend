@@ -16,6 +16,7 @@ export const load = (async ({ fetch, data, request, url, parent, params }) => {
         session: session,
         params: params,
         submissions: await submissions.json(),
-        course_data: parentData.courses
+        course_data: parentData.courses,
+        assignment: parentData.assignment
     };
 });

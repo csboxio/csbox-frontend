@@ -3,14 +3,16 @@
     import Fa from 'svelte-fa/src/fa.svelte';
     import {
         faAdd, faCheckCircle,
-        faCircleCheck, faCircleXmark,
-        faGear,
+        faCircleCheck, faCircleExclamation, faCircleXmark,
+        faGear, faGripVertical,
         faLayerGroup,
         faObjectGroup,
-        faPencil,
+        faPencil, faStop,
         faTable
     } from "@fortawesome/free-solid-svg-icons";
-    import {format, parseISO} from "date-fns";
+    import {addHours, addMinutes, format, parseISO} from "date-fns";
+    import { draw } from 'svelte/transition';
+
 
     export let assignment_id
     export let slug
@@ -44,11 +46,23 @@
         await invalidateAll();
     }
 
+    let parsedDate = new Date(due);
+    let offsetMinutes = parsedDate.getTimezoneOffset();
+
+    const adjustedDate = addMinutes(parsedDate, offsetMinutes)
+    const formattedDate = format(adjustedDate, "MMM dd hh:mm a")
+
+    let in24Hours = new Date(due);
+    in24Hours.setHours(in24Hours.getHours() + 24);
+
 </script>
 
 <a>
     <div class="py-2 pl-4 pr-3 flex items-center text-md text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t-2 border-gray-500"
          on:click={() => { handleAssignment(assignment_id) }}>
+        <div class="pr-8 cursor-move">
+            <Fa class="inline-block" icon={faGripVertical} />
+        </div>
         <div class="pr-3">
             <Fa class="inline-block" icon={faPencil} />
         </div>
@@ -57,8 +71,7 @@
             <div class="text-gray-200 text- font-normal space-x-1 text-xs/loose">
                 <div class="inline-block">
                     <b>Due</b>
-
-                    {due ? format(parseISO(due), "MMM dd hh:mm a") : "No due date"}
+                    {formattedDate}
                 </div>
                 <div class="inline-block">
                     |
@@ -84,6 +97,15 @@
                     </div>
                     <!-- End of published button -->
                 {/key}
+            {/if}
+
+            {#if claim === 'student'}
+
+                {#if (adjustedDate < new Date())}
+                    <div class="text-red-500 pr-2" title="Past due date.">
+                    <Fa icon={faCircleExclamation}></Fa>
+                    </div>
+                {/if}
             {/if}
         </div>
     </div>
