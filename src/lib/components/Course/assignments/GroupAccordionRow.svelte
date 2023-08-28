@@ -59,7 +59,7 @@
 
 <a>
     <div class="py-2 pl-4 pr-3 flex items-center text-md text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t-2 border-gray-500"
-         on:click={() => { handleAssignment(assignment_id) }}>
+         on:click={() => { handleAssignment(assignment_id) }} >
         {#if claim === 'instructor'}
         <div class="pr-8 cursor-move">
             <Fa class="inline-block text-gray-100" icon={faGripVertical} />
