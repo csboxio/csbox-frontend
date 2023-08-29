@@ -1,9 +1,7 @@
 <script lang="ts">
     import {applyAction, deserialize} from '$app/forms';
     import {goto, invalidate, invalidateAll} from "$app/navigation";
-    import {browser} from '$app/environment';
-    import {Datepicker} from 'svelte-calendar';
-    import {dragMe} from '$lib/utilities/dragMe.ts'
+
 
     import {
         Accordion, AccordionItem,
@@ -37,6 +35,7 @@
     import GroupAccordion from "$lib/components/Course/assignments/GroupAccordion.svelte";
     import {format, parseISO} from "date-fns";
     import GroupAccordionRow from "$lib/components/Course/assignments/GroupAccordionRow.svelte";
+    import GroupDrag from "$lib/components/Course/assignments/GroupDrag.svelte";
 
 
     export let data;
@@ -243,6 +242,22 @@
         await invalidateAll();
     }
 
+
+    const flipDurationMs = 300;
+
+    import {flip} from "svelte/animate";
+    import {overrideItemIdKeyNameBeforeInitialisingDndZones, setDebugMode} from "svelte-dnd-action";
+    overrideItemIdKeyNameBeforeInitialisingDndZones("order_in_group");
+    setDebugMode(true);
+
+    function handleConsider(e, groupIndex) {
+        groups[groupIndex].assignments = e.detail.items;
+
+    }
+    function handleDrop(e, groupIndex) {
+        groups[groupIndex].assignments = e.detail.items;
+
+    }
 </script>
 
 
@@ -314,11 +329,11 @@
                 <div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold mr-0.5">
                     {#key groups}
                         <GroupAccordionBody bind:active>
-                            {#each groups as {group_title, id, assignments, published}, i}
+                            {#each groups as {group_title, id, assignments, published}, groupIndex}
                                 <div class="mb-1 mx-6 cursor-pointer">
                                     <!--Group-->
                                     <div id="accordion-collapse" data-accordion="collapse">
-                                        <GroupAccordion id={i} group_id={id}
+                                        <GroupAccordion id={groupIndex} group_id={id}
                                                         title={group_title}
                                                         subtitle="test"
                                                         published={published}
@@ -331,18 +346,22 @@
 										{group_title}
 									</span>
                                             <!-- assignments -->
-                                            {#each assignments as {title, in_group, due, points, published}, i}
-                                                    <GroupAccordionRow
-                                                    assignment_id={assignments[i].assignment_id}
-                                                    slug={data.slug}
-                                                    title={title}
-                                                    due={due}
-                                                    points={points}
-                                                    claim={claim}
-                                                    published={published}
-                                                    ></GroupAccordionRow>
-                                            {/each}
 
+                                            <!--<GroupDrag assignments={assignments}>-->
+                                            {#each assignments as assignment (assignment.assignment_id)}
+                                                <div animate:flip="{{duration: flipDurationMs}}">
+                                                    <GroupAccordionRow
+                                                            assignment_id={assignment.assignment_id}
+                                                            slug={data.slug}
+                                                            title={assignment.title}
+                                                            due={assignment.due}
+                                                            points={assignment.points}
+                                                            claim={claim}
+                                                            published={published}
+                                                    ></GroupAccordionRow>
+                                                </div>
+                                            {/each}
+                                            <!--</GroupDrag>-->
 
                                             {#if assignments}
                                                 {#if assignments.length === 0}

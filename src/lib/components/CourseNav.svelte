@@ -11,6 +11,7 @@
   const menuItems = [
     { name: "Home", route: route,                         claim: [ "student", "instructor" ] },
     { name: "Assignments", route: route + "assignments",  claim: [ "student", "instructor" ] },
+    { name: "Lessons", route: route + "lessons",              claim: [ "student", "instructor" ] },
     { name: "Modules", route: route + "modules",          claim: [ "student", "instructor" ] },
     { name: "Quizzes", route: route + "quizzes",          claim: [ "student", "instructor" ] },
     { name: "Grades", route: route + "grades",            claim: [ "student", "instructor" ] },

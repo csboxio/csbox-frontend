@@ -13,7 +13,7 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { 
   }
   const course = url.searchParams.get('course')
   const {data, error} = await supabase.from('assignments')
-    .select('assignment_id, title, category, due, points')
+    .select('assignment_id, title, category, due, points, order_in_group')
     .eq('course_id', course)
 
 

@@ -32,7 +32,6 @@
 	let filePath
 	$: filePath = `${$page.params.slug + '/' + 'document/' + 'home'}.HTML?t=${course.updated_at}`
 
-	let items = ["test"]
 
 	const mode = {
 		edit: false,

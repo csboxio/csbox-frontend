@@ -7,17 +7,14 @@ import { error, json, redirect } from "@sveltejs/kit";
 // @ts-ignore
 export const GET: RequestHandler = async ({ request, url, locals: { supabase, getSession }, event }) => {
     const session = await getSession()
-
     if (!session) {
         throw redirect(303, '/');
     }
     const assignmentId = url.searchParams.get('id')
 
-
     const body = {
         p_assignment_id: assignmentId,
     }
-
 
     const { data, error } = await supabase.rpc('get_assignment_data', body)
 
