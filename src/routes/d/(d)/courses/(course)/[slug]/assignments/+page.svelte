@@ -349,7 +349,7 @@
 
                                             <!--<GroupDrag assignments={assignments}>-->
                                             {#each assignments as assignment (assignment.assignment_id)}
-                                                <div animate:flip="{{duration: flipDurationMs}}">
+                                                <!--<div animate:flip="{{duration: flipDurationMs}}">-->
                                                     <GroupAccordionRow
                                                             assignment_id={assignment.assignment_id}
                                                             slug={data.slug}
@@ -357,9 +357,9 @@
                                                             due={assignment.due}
                                                             points={assignment.points}
                                                             claim={claim}
-                                                            published={published}
+                                                            published={assignment.published}
                                                     ></GroupAccordionRow>
-                                                </div>
+                                                <!--</div>-->
                                             {/each}
                                             <!--</GroupDrag>-->
 

@@ -15,6 +15,7 @@ export const load = async ({ fetch, url, parent}) => {
         const response = await fetch('/api/users');
 
 
+
         return {
             user: await response.json(),
             session
