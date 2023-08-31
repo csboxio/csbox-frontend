@@ -48,18 +48,21 @@
 
 	</section>
 
+	{#if todo}
+		{#if todo.length > 0}
 	<div class="flex flex-col space-y-4 pt-7 mr-4 h-screen overflow-y-auto">
 		<h4 class="sticky text-lg font-bold dark:text-white  leading-7 mb-1 inline-block"> Coming up... </h4>
 
 		{#each todo as todo (todo.assignment_id)}
 			<a href="{window.location.href}/assignments/{todo.assignment_id}">
-			<div class="bg-gray-800 hover:bg-gray-700 p-3 shadow rounded-md">
-				<h2 class="text-lg font-semibold text-white">{todo.title}</h2>
-				<p class="text-gray-100">Due: {formatDistanceToNow(parseISO(todo.due), {addSuffix: false})}</p>
+			<div class="bg-gray-700 hover:bg-gray-500 p-3 shadow rounded-md max-w-[14em]">
+				<h2 class="text-lg font-semibold text-white truncate">{todo.title}</h2>
+				<p class="text-gray-100">{formatDistanceToNow(parseISO(todo.due), {addSuffix: false})}</p>
 			</div>
 			</a>
 		{/each}
 	</div>
-
+		{/if}
+	{/if}
 
 </div>

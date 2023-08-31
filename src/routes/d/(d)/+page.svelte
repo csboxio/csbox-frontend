@@ -133,6 +133,7 @@
 						<div class="text-red-500 px-2 font-semibold"> {blurred ? 'SHOW' : 'HIDE' } </div>
 
 					</button>-->
+
 					<div class="mb-6">
 						<div class="flex flex-wrap -mx-3 -mb-6">
 							<div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6 {blurClass}">

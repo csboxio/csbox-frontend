@@ -10,11 +10,9 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { 
   const course = url.searchParams.get('course')
 
   const { data, error } = await supabase
-      .rpc('create_or_refresh_dashboard', { course_id_param: course });
+      .rpc('get_course_metrics', {course_id: course});
 
+  console.log(data, error)
 
-  setHeaders({
-    'cache-control': 'public, max-age=5, s-maxage=5'
-  })
   return json(data)
 }
