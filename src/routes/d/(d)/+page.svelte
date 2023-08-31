@@ -81,6 +81,26 @@
 		}
 	}
 
+	let missingAssignments = {
+		title: "Missing Assignments",
+		value: "5",
+		percentage: "1.0%",
+		change: "Since last month"
+	}
+
+	let students = {
+		title: "Students",
+		value: "1.6K",
+		percentage: "1.0%",
+		change: "Since last month"
+	}
+
+	let averageGrade = {
+		title: "Assignments Graded",
+		value: "52",
+		percentage: "...",
+		change: "..."
+	}
 </script>
 {#if !$page.data.session}
 
