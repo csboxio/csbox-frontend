@@ -3,7 +3,7 @@
     import Fa from 'svelte-fa/src/fa.svelte';
     import {
         faAdd, faCheckCircle,
-        faCircleCheck, faCircleExclamation, faCircleXmark,
+        faCircleCheck, faCircleExclamation, faCircleXmark, faEllipsisVertical,
         faGear, faGripVertical,
         faLayerGroup,
         faObjectGroup,
@@ -12,6 +12,7 @@
     } from "@fortawesome/free-solid-svg-icons";
     import {addHours, addMinutes, format, parseISO} from "date-fns";
     import { draw } from 'svelte/transition';
+    import {Dropdown, DropdownItem} from "flowbite-svelte";
 
 
     export let assignment_id
@@ -82,27 +83,36 @@
             </div>
         </div>
         <div class="ml-auto">
-            {#if claim !== 'student'}
+            {#if claim === 'instructor'}
                 {#key published}
                     <!-- Published button-->
-                    <div class="w-8 transform transition text-gray-300"
+                    <div class="w-8 transition text-gray-300"
                          class:text-green-500={published}>
                         {#if !published}
-                            <div class="hover:text-white" on:click|stopPropagation={async () => { await publishAssignment(assignment_id); }}>
+                            <div class="hover:text-white" title="Not published" on:click|stopPropagation={async () => { await publishAssignment(assignment_id); }}>
                                 <Fa icon={faCircleXmark}></Fa>
                             </div>
                         {:else}
-                            <div class="hover:text-white" on:click|stopPropagation={async () => { await unpublishAssignment(assignment_id); }}>
+                            <div class="hover:text-white" title="Published" on:click|stopPropagation={async () => { await unpublishAssignment(assignment_id); }}>
                                 <Fa icon={faCheckCircle}></Fa>
                             </div>
                         {/if}
                     </div>
                     <!-- End of published button -->
                 {/key}
+                {#if claim === 'instructor'}
+                    <button on:click|stopPropagation class=" pl-1 text-gray-300 hover:text-white px-4 text-center justify-center">
+                        <div class="text-center justify-center"><Fa icon={faEllipsisVertical}></Fa></div>
+                    </button>
+                    <Dropdown containerClass="absolute z-50 top-8 right-0">
+                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem>Delete</DropdownItem>
+                    </Dropdown>
+                {/if}
             {/if}
 
-            {#if claim === 'student'}
 
+            {#if claim === 'student'}
                 {#if (adjustedDate < new Date())}
                     <div class="text-red-500 pr-2" title="Past due date.">
                     <Fa icon={faCircleExclamation}></Fa>

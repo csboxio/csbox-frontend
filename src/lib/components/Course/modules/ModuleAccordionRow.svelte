@@ -101,7 +101,7 @@
             {#if claim !== 'student'}
                 {#key published}
                     <!-- Published button-->
-                    <div class="w-8 transform transition text-gray-300"
+                    <div class="w-8 transition text-gray-300"
                          class:text-green-500={published}>
                         {#if type === "assignment"}
                         {#if !published}

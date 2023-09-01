@@ -8,11 +8,12 @@
 	import InteractiveCodeBlock from "$lib/components/Course/lessons/InteractiveCodeBlock.svelte";
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import {
-		faExclamation,
-		faPause,
+		faBusinessTime,
+		faExclamation, faFileCircleExclamation,
+		faPause, faPenToSquare,
 		faPeopleGroup,
 		faPercent,
-		faRefresh,
+		faRefresh, faTachometerAverage, faTimesCircle,
 		faUserTimes
 	} from "@fortawesome/free-solid-svg-icons";
 	import {invalidateAll} from "$app/navigation";
@@ -74,7 +75,7 @@
 
 			<div class="py-6 px-2 text-white font-semibold">
 				{#key metrics}
-					<div class="flex flex-wrap -mx-3 -mb-6">
+					<div class="flex flex-wrap justify-center ">
 					<div class=" md:w-1/2 lg:w-1/5 px-3 mb-6">
 						<div class="max-w-sm mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 							<div class="max-w-[15em] mx-auto text-center">
@@ -91,7 +92,7 @@
 						<div class="max-w-sm mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 							<div class="max-w-[15em] mx-auto text-center">
 								<div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl">
-									<Fa icon={faPercent}></Fa>
+									<Fa icon={faPenToSquare}></Fa>
 								</div>
 								<span class="text-xs text-gray-300 font-semibold">Average grade</span>
 								<h4 class="text-2xl leading-8 text-gray-100 font-semibold">{metrics[0].avg_grade}%</h4>
@@ -103,7 +104,7 @@
 						<div class="max-w-sm mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 							<div class="max-w-[15em] mx-auto text-center">
 								<div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl">
-									<Fa icon={faUserTimes}></Fa>
+									<Fa icon={faFileCircleExclamation}></Fa>
 								</div>
 								<span class="text-xs text-gray-300 font-semibold">Ungraded assignments</span>
 								<h4 class="text-2xl leading-8 text-gray-100 font-semibold">{metrics[0].num_ungraded}</h4>
@@ -115,7 +116,7 @@
 						<div class="max-w-sm mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 							<div class="max-w-[15em] mx-auto text-center">
 								<div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl">
-									<Fa icon={faExclamation}></Fa>
+									<Fa icon={faTimesCircle}></Fa>
 								</div>
 								<span class="text-xs text-gray-300 font-semibold">Late assignments</span>
 								<h4 class="text-2xl leading-8 text-gray-100 font-semibold">{metrics[0].num_late}</h4>
@@ -126,7 +127,7 @@
 					</div>
 
 					<div class="mt-6">
-						<div class="flex flex-wrap -mx-3 ">
+						<div class="flex flex-wrap justify-center ">
 							<div class="w-full lg:w-1/3 px-3 mb-6 lg:mb-0">
 								<div class="h-full py-6 px-4 sm:px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 									<h4 class="text-lg text-gray-100 font-semibold mb-6">Top 5 Students</h4>
@@ -136,10 +137,10 @@
 									   href={'#'}>
 										<div class="flex items-center pr-2">
 											<div class="flex w-10 h-10 mr-3 items-center justify-center bg-gray-400 bg-opacity-20 text-blue-500 rounded-xl">
-												<img alt="" src="" />
+												<img alt="" class="rounded-lg w-10 h-10 object-cover" src="{student.avatar_url}" />
 											</div>
 											<div>
-												<h5 class="text-sm text-gray-100 leading-5 font-medium mb-1">{student}</h5>
+												<h5 class="text-sm text-gray-100 leading-5 font-medium mb-1">{student.first_name} {student.last_name}</h5>
 												<p class="text-xs text-gray-300 font-semibold">Placeholder</p>
 											</div>
 										</div>
@@ -155,11 +156,7 @@
 									{/each}
 								</div>
 							</div>
-						</div>
-					</div>
 
-					<div class="mt-6">
-						<div class="flex flex-wrap -mx-3 ">
 							<div class="w-full lg:w-1/3 px-3 mb-6 lg:mb-0">
 								<div class="h-full py-6 px-4 sm:px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 									<h4 class="text-lg text-gray-100 font-semibold mb-6">Bottom 5 Students</h4>
@@ -169,10 +166,10 @@
 										   href={'#'}>
 											<div class="flex items-center pr-2">
 												<div class="flex w-10 h-10 mr-3 items-center justify-center bg-gray-400 bg-opacity-20 text-blue-500 rounded-xl">
-													<img alt="" src="" />
+													<img alt="" class="rounded-lg w-10 h-10 object-cover" src="{student.avatar_url}" />
 												</div>
 												<div>
-													<h5 class="text-sm text-gray-100 leading-5 font-medium mb-1">{student}</h5>
+													<h5 class="text-sm text-gray-100 leading-5 font-medium mb-1">{student.first_name} {student.last_name}</h5>
 													<p class="text-xs text-gray-300 font-semibold">Placeholder</p>
 												</div>
 											</div>
@@ -190,6 +187,10 @@
 							</div>
 						</div>
 					</div>
+
+
+
+
 				{/key}
 			</div>
 		</div>

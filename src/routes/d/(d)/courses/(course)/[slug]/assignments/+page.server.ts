@@ -82,6 +82,7 @@ export const actions: Actions = {
         const availableStart = formData.get('startDate')
         const availableEnd = formData.get('endDate')
         const module = formData.get('modules')
+        const published = formData.get('published')
         const course_id = params.slug
         const group_id = formData.get('groups')
 
@@ -104,7 +105,7 @@ export const actions: Actions = {
                 p_in_module: null,
                 p_available_start: availableStart ? availableStart : null,
                 p_available_end: availableEnd ? availableEnd : null,
-                p_published: false,
+                p_published: published,
                 // group
                 p_in_group: group_id ? group_id : null
             }
