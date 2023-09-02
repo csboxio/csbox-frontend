@@ -30,6 +30,7 @@ export const actions: Actions = {
                     new_grade_percent: grade_percentage,
                     new_points: points
                 })
+                console.log('update_grade')
                 console.log(error)
             }
         }

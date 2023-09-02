@@ -274,16 +274,21 @@
 				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
 				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
                                 on:click={() => showAllAssignments = !showAllAssignments}>
-				<span
-                        class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+
+				<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
 					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-					<div class="inline-block">{#if showAllAssignments}
+					<div class="inline-block">
+                        {#if showAllAssignments}
 						<Fa icon={faLayerGroup}/>
 						{:else}
 						<Fa icon={faTable}/>
-						{/if}</div> <div
-                        class="inline-block">{showAllAssignments === true ? 'Show Groups' : 'Show Table'}</div>
+						{/if}
+                    </div>
+                    <div class="inline-block">
+                        {showAllAssignments === true ? 'Show Groups' : 'Show Table'}
+                    </div>
 				</span>
+
                         </button>
                     </div>
                 </div>

@@ -86,7 +86,7 @@
             {#if claim === 'instructor'}
                 {#key published}
                     <!-- Published button-->
-                    <div class="w-8 transition text-gray-300"
+                    <div class="w-8 pl-1 transition text-gray-300 inline-block"
                          class:text-green-500={published}>
                         {#if !published}
                             <div class="hover:text-white" title="Not published" on:click|stopPropagation={async () => { await publishAssignment(assignment_id); }}>
@@ -101,13 +101,15 @@
                     <!-- End of published button -->
                 {/key}
                 {#if claim === 'instructor'}
-                    <button on:click|stopPropagation class=" pl-1 text-gray-300 hover:text-white px-4 text-center justify-center">
+                    <div class="inline-block">
+                    <button on:click|stopPropagation class=" text-gray-300 hover:text-white pr-5 text-center justify-center">
                         <div class="text-center justify-center"><Fa icon={faEllipsisVertical}></Fa></div>
                     </button>
                     <Dropdown containerClass="absolute z-50 top-8 right-0">
                         <DropdownItem>Edit</DropdownItem>
                         <DropdownItem>Delete</DropdownItem>
                     </Dropdown>
+                    </div>
                 {/if}
             {/if}
 
