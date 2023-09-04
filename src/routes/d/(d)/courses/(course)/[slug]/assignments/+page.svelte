@@ -157,6 +157,7 @@
     }
 
 
+
     async function handleDeleteAssignment(aid) {
         const {error, status} = await $page.data.supabase.from('assignments').delete().match({assignment_id: aid});
         console.log(status)
@@ -222,26 +223,6 @@
 
     export let active = null;
 
-    async function publishAssignment(assignment_id) {
-        //published = !published
-        const url = new URL('/api/assignments/publish/', window.location.origin);
-        url.searchParams.append('assignment_id', assignment_id);
-        const response = await fetch(url);
-        const { res, error, status } = await response.json();
-        //console.log(published)
-        await invalidateAll();
-    }
-
-    async function unpublishAssignment(assignment_id) {
-       // published = !published
-        const url = new URL('/api/assignments/unpublish/', window.location.origin);
-        url.searchParams.append('assignment_id', assignment_id);
-        const response = await fetch(url);
-        const { res, error, status } = await response.json();
-
-        await invalidateAll();
-    }
-
 
     const flipDurationMs = 300;
 
@@ -258,6 +239,8 @@
         groups[groupIndex].assignments = e.detail.items;
 
     }
+
+
 </script>
 
 
@@ -276,7 +259,7 @@
                                 on:click={() => showAllAssignments = !showAllAssignments}>
 
 				<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0 flex items-center">
 					<div class="inline-block">
                         {#if showAllAssignments}
 						<Fa icon={faLayerGroup}/>
@@ -284,7 +267,7 @@
 						<Fa icon={faTable}/>
 						{/if}
                     </div>
-                    <div class="inline-block">
+                    <div class="inline-block pl-2">
                         {showAllAssignments === true ? 'Show Groups' : 'Show Table'}
                     </div>
 				</span>
@@ -304,8 +287,8 @@
                                     on:click={show_box}>
 				<span
                         class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-					<div class="inline-block"><Fa icon={faAdd}/></div> <div class="inline-block">Assignment</div>
+					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0 flex items-center">
+					<div class="inline-block"><Fa icon={faAdd}/></div> <div class="inline-block pl-1">Assignment</div>
 				</span>
                             </button>
                         </div>
@@ -319,8 +302,8 @@
                                     on:click={ () => { createGroupModal = true }}>
 				<span
                         class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-					<div class="inline-block"><Fa icon={faAdd}/></div> <div class="inline-block">Group</div>
+					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0 flex items-center">
+					<div class="inline-block"><Fa icon={faAdd}/></div> <div class="inline-block pl-1">Group</div>
 				</span>
                             </button>
                         </div>
@@ -363,6 +346,15 @@
                                                             points={assignment.points}
                                                             claim={claim}
                                                             published={assignment.published}
+                                                            displayas={assignment.display_as}
+                                                            assignmentDueDate={assignment.dueDate}
+                                                            assignmentStartDate={assignment.available_start}
+                                                            assignmentEndDate={assignment.available_end}
+                                                            module_id={assignment.in_module}
+                                                            group_id={assignment.in_group}
+                                                            groups={groups}
+                                                            modules={modules}
+
                                                     ></GroupAccordionRow>
                                                 <!--</div>-->
                                             {/each}
@@ -771,3 +763,4 @@
         </button>
     </form>
 </Modal>
+

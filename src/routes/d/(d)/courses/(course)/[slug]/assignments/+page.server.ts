@@ -117,5 +117,57 @@ export const actions: Actions = {
             console.log(error, data)
 
         }
+    },
+    editAssignment: async ({ request, url, params, locals: { supabase } }) => {
+        const formData = await request.formData()
+        const {data} = await supabase.auth.refreshSession()
+        const {session, user} = data
+        if (!session) {
+            throw redirect(303, '/');
+        }
+        const name = formData.get('name')
+        const points = formData.get('points')
+        const display_as = formData.get('displayas')
+        const submissionType = formData.get('submissiontype')
+        //const assign_to = formData.get('assignto')
+        const due = formData.get('due');
+        const availableStart = formData.get('startDate')
+        const availableEnd = formData.get('endDate')
+        const module = formData.get('modules')
+        const published = formData.get('published')
+        const course_id = params.slug
+        const group_id = formData.get('groups')
+
+        // if category is selected make it blank
+
+        const _assignment_id = formData.get('assignment_id')
+        if (user != null) {
+            console.log(module)
+
+            const updates = {
+                p_assignment_id: _assignment_id,
+                p_user_id: user.id,
+                p_course_id: course_id,
+                p_points: points,
+                p_display_as: display_as,
+                p_due: due ? due : null,
+                p_title: name,
+                p_submission_type: submissionType,
+                p_submission_attempts: null,
+                p_in_module: null,
+                p_available_start: availableStart ? availableStart : null,
+                p_available_end: availableEnd ? availableEnd : null,
+                p_published: published,
+                // group
+                p_in_group: group_id ? group_id : null
+            }
+
+            console.log(updates)
+
+            const { data, error } = await supabase.rpc('update_assignment', updates)
+
+            console.log(error, data)
+
+        }
     }
 }
