@@ -34,8 +34,6 @@
     import GroupAccordionBody from "$lib/components/Course/assignments/GroupAccordionBody.svelte";
     import GroupAccordion from "$lib/components/Course/assignments/GroupAccordion.svelte";
     import {format, parseISO} from "date-fns";
-    import GroupAccordionRow from "$lib/components/Course/assignments/GroupAccordionRow.svelte";
-    import GroupDrag from "$lib/components/Course/assignments/GroupDrag.svelte";
 
 
     export let data;
@@ -104,6 +102,7 @@
     $: ({supabase, claim} = data)
 
     async function handleSubmit(event) {
+        console.log(assignmentDueDate)
         loading = true;
 
         const data = new FormData(this);
@@ -228,6 +227,7 @@
 
     import {flip} from "svelte/animate";
     import {overrideItemIdKeyNameBeforeInitialisingDndZones, setDebugMode} from "svelte-dnd-action";
+    import AssignmentAccordionRow from "$lib/components/Course/assignments/AssignmentAccordionRow.svelte";
     overrideItemIdKeyNameBeforeInitialisingDndZones("order_in_group");
     setDebugMode(true);
 
@@ -338,7 +338,7 @@
                                             <!--<GroupDrag assignments={assignments}>-->
                                             {#each assignments as assignment (assignment.assignment_id)}
                                                 <!--<div animate:flip="{{duration: flipDurationMs}}">-->
-                                                    <GroupAccordionRow
+                                                    <AssignmentAccordionRow
                                                             assignment_id={assignment.assignment_id}
                                                             slug={data.slug}
                                                             title={assignment.title}
@@ -347,15 +347,15 @@
                                                             claim={claim}
                                                             published={assignment.published}
                                                             displayas={assignment.display_as}
-                                                            assignmentDueDate={assignment.dueDate}
+                                                            assignmentDueDate={assignment.due}
                                                             assignmentStartDate={assignment.available_start}
                                                             assignmentEndDate={assignment.available_end}
                                                             module_id={assignment.in_module}
-                                                            group_id={assignment.in_group}
+                                                            group_id={assignment.group_id}
                                                             groups={groups}
                                                             modules={modules}
 
-                                                    ></GroupAccordionRow>
+                                                    ></AssignmentAccordionRow>
                                                 <!--</div>-->
                                             {/each}
                                             <!--</GroupDrag>-->

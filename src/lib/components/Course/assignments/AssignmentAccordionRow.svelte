@@ -143,6 +143,18 @@
         await applyAction(result);
     }
 
+    function formatDateForInput(date) {
+        return format(new Date(date), "yyyy-MM-dd'T'HH:mm");
+    }
+
+    let formattedDueDate
+    $: formattedDueDate = formatDateForInput(assignmentDueDate)
+
+    let formattedAvailableStart
+    $: formattedAvailableStart = formatDateForInput(assignmentStartDate)
+
+    let formattedAvailableEnd
+    $: formattedAvailableEnd = formatDateForInput(assignmentEndDate)
 </script>
 
 
@@ -194,7 +206,7 @@
                     </button>
                     <Dropdown containerClass="absolute z-50 top-8 right-0">
                         <DropdownItem on:click|once={() => {editModalOpen();}}>Edit</DropdownItem>
-                        <DropdownItem>Drop</DropdownItem>
+                        <!--<DropdownItem>Drop</DropdownItem>-->
                         <DropdownItem on:click|once={() => {openDeleteModal()}}>Delete</DropdownItem>
                     </Dropdown>
                     </div>
@@ -384,6 +396,7 @@
 								focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
 								 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     >
+                        <option value="">No group</option>
                         {#if groups !== undefined}
                             {#each groups as {group_title, id}, i}
                                 {#if id === group_id}
@@ -399,21 +412,21 @@
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Due:</label>
                     <input type="datetime-local" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
 									 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-									  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="date" name="due" bind:value={assignmentDueDate}/>
+									  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="date" name="due" bind:value={formattedDueDate}/>
                 </div>
 
                 <div>
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start date:</label>
                     <input type="datetime-local" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
 									 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-									  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="startDate" name="startDate" bind:value={assignmentStartDate}/>
+									  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="startDate" name="startDate" bind:value={formattedAvailableStart}/>
                 </div>
 
                 <div>
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End date:</label>
                     <input type="datetime-local" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
 									 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-									  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="endDate" name="endDate" bind:value={assignmentEndDate}/>
+									  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="endDate" name="endDate" bind:value={formattedAvailableEnd}/>
                 </div>
             </div>
 

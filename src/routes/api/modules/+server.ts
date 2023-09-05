@@ -13,6 +13,7 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { 
       .rpc('get_modules_assignments_quizzes', { course_id_param: course });
 
 
+  console.log(data, error)
   setHeaders({
     'cache-control': 'public, max-age=5, s-maxage=5'
   })

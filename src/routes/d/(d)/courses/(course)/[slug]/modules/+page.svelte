@@ -21,6 +21,7 @@
 	import ModuleAccordion from "$lib/components/Course/modules/ModuleAccordion.svelte";
 	import {format, parseISO} from "date-fns";
 	import ModuleAccordionRow from "$lib/components/Course/modules/ModuleAccordionRow.svelte";
+	import AssignmentAccordionRow from "$lib/components/Course/assignments/AssignmentAccordionRow.svelte";
 	export let data;
 
 
@@ -145,20 +146,28 @@
 											 claim={claim}
 											 on:addItem={add_item_to_module}>
 									<!-- assignments -->
-									{#each assignments as {assignment_id, title, in_module, points, due, published}, i}
-										<ModuleAccordionRow
-												id={assignments[i].assignment_id}
+
+								  {#each assignments as assignment (assignment.assignment_id)}
+										<AssignmentAccordionRow
+												assignment_id={assignment.assignment_id}
 												slug={data.slug}
-												title={title}
-												due={due}
-												points={points}
+												title={assignment.title}
+												due={assignment.due}
+												points={assignment.points}
 												claim={claim}
-												published={published}
-												type="assignment"
-										></ModuleAccordionRow>
+												published={assignment.published}
+												displayas={assignment.display_as}
+												assignmentDueDate={assignment.due}
+												assignmentStartDate={assignment.available_start}
+												assignmentEndDate={assignment.available_end}
+												module_id={assignment.in_module}
+												modules={modules}
+										></AssignmentAccordionRow>
 									{/each}
+
 									<!-- quizzes -->
 
+								{#if false}
 								{#each quizzes as {id, title, in_module, due, points, published}, i}
 									<ModuleAccordionRow
 											id={id}
@@ -171,6 +180,7 @@
 											type="quiz"
 									></ModuleAccordionRow>
 								{/each}
+								{/if}
 
 								{#if assignments && quizzes}
 									{#if assignments.length === 0 && quizzes.length === 0}
