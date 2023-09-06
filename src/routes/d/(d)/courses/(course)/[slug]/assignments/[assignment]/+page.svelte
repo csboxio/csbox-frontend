@@ -306,6 +306,7 @@
 	let f_assignment_available_start = null;
 	let f_assignment_available_end = null;
 	let f_assignment_due = null;
+	let f_submission_date = null
 
 	$: if (assignment_data.updated_at) {
 		f_assignment_updated_at = format(parseISO(assignment_data.updated_at), "yyyy-MM-dd'T'HH:mm");
@@ -321,6 +322,11 @@
 
 	$: if (assignment_data.due) {
 		f_assignment_due =  format(parseISO(assignment_data?.due), "yyyy-MM-dd'T'HH:mm");
+	}
+
+	$: if (submitted.submission_updated_at) {
+		const parsedDate = new Date(submitted.submission_updated_at);
+		f_submission_date = format(parsedDate, "MMM dd hh:mm a");
 	}
 
 	$: assignment_published = assignment_data.published;
@@ -431,6 +437,7 @@
 
 			<!-- Submit button-->
 				<div>
+					{#if submitted.submission_exists === false}
 					<button
 							class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 								font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
@@ -443,6 +450,20 @@
 							Submit
 						</span>
 					</button>
+						{:else}
+						<button
+								class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+								font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+								group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+								focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+								on:click={() => {goto(window.location.pathname + '/submission')}}>
+						<span
+								class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+							Re-submit
+						</span>
+						</button>
+						{/if}
 				</div>
 			{/if}
 		</div>
@@ -472,10 +493,10 @@
 
 		<!-- Submitted -->
 			{#if claim === 'student'}
-				<div class="ml-auto flex mr-14">
+				<div class="ml-auto flex ">
 					<div class="inline-flex flex items-center text-white">
 						<b>Submitted</b>
-						{#if submitted === false}
+						{#if submitted.submission_exists === false}
 							<div class="inline-block ">
 								<Fa icon={faX} class="pl-2 text-red-500"/>
 							</div>
@@ -484,6 +505,10 @@
 								<Fa icon={faCheck} class="pl-2 text-green-500"/>
 							</div>
 						{/if}
+						<!-- TODO SUBMISSION DATE -->
+						<div class="pl-2  text-gray-200">
+						{f_submission_date}
+						</div>
 					</div>
 				</div>
 			{/if}

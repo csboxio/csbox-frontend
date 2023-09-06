@@ -95,7 +95,7 @@
 									<Fa icon={faPenToSquare}></Fa>
 								</div>
 								<span class="text-xs text-gray-300 font-semibold">Average grade</span>
-								<h4 class="text-2xl leading-8 text-gray-100 font-semibold">{metrics[0].avg_grade}%</h4>
+								<h4 class="text-2xl leading-8 text-gray-100 font-semibold">{metrics[0].avg_grade === null ? '0' : metrics[0].avg_grade}%</h4>
 							</div>
 						</div>
 					</div>

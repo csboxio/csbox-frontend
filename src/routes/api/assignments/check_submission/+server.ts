@@ -23,6 +23,7 @@ export const GET: RequestHandler = async ({ request, url, params, locals: { supa
 
     const { data, error } = await supabase.rpc('check_submission_exists', body)
 
+    console.log(data, error)
     if (error) {
         console.log(data, error)
     }
