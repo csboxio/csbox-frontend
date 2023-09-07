@@ -23,6 +23,7 @@
 	import {writable} from "svelte/store";
 	import {beforeUpdate, onMount} from "svelte";
 	import {format, formatDistanceToNow, parseISO} from "date-fns";
+	import EditAssignment from "$lib/components/Course/block/EditAssignment.svelte";
 
 
 	export let data;
@@ -296,8 +297,9 @@
 	};
 
 	export function handleEdit() {
-		mode.edit = !mode.edit;
-		mode.view = !mode.view;
+		//mode.edit = !mode.edit;
+		//mode.view = !mode.view;
+		editModal = true;
 	}
 
 	let startAssignment = false;
@@ -358,6 +360,17 @@
 
 		await invalidateAll();
 	}
+
+	let editModal;
+
+	let groups;
+	$: groups = $page.data.groups
+
+	let modules;
+	$: modules = $page.data.modules;
+
+	console.log($page.data.groups)
+
 </script>
 
 <div class="w-full">
@@ -506,8 +519,10 @@
 							</div>
 						{/if}
 						<!-- TODO SUBMISSION DATE -->
-						<div class="pl-2  text-gray-200">
-						{f_submission_date}
+						<div class="pl-2 text-gray-200 pr-4">
+							{#if f_submission_date}
+								{f_submission_date}
+							{/if}
 						</div>
 					</div>
 				</div>
@@ -608,7 +623,7 @@
 
 				<QuillBlock bind:supabase={supabase} bind:storePath={storePath}
 							bind:filePath={filePath} bind:bucket={bucket} bind:claim={claim}
-							saveFunction={saveFunction} mode={mode} editButton={false}/>
+							saveFunction={saveFunction} mode={mode} editButton={true}/>
 			{/if}
 				<!-- Old Workspace Stuff -->
 				<!--
@@ -746,7 +761,7 @@
 		{#if claim !== 'student'}
 			<section class="p-1 mt-4 mr-3 ">
 				<div class=" w-full">
-					{#if assignment_data}
+					{#if false}
 						{#key mode}
 						{#if mode.edit === true}
 							<div class=" rounded-lg  text-white mt-2">
@@ -996,3 +1011,21 @@
 		</div>
 	</form>
 </Modal>
+
+
+<EditAssignment
+		assignment_id={assignment_data.assignment_id}
+		bind:editModal={editModal}
+		title={assignment_data.title}
+		points={assignment_data.points}
+		displayas={assignment_data.display_as}
+		submissiontype={assignment_data.submission_type}
+		published={assignment_data.published}
+		module_id={assignment_data.in_module}
+		bind:modules={modules}
+		group_id={assignment_data.in_group}
+		bind:groups={groups}
+		formattedDueDate={f_assignment_due}
+		formattedAvailableStart={f_assignment_available_start}
+		formattedAvailableEnd={f_assignment_available_end}
+/>

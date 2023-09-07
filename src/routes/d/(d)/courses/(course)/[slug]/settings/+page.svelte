@@ -40,20 +40,20 @@
 		navStore.set('courses');
 	});
 
-	let menuItems = [
-		{ name: "Home", route: route, claim: ["student", "instructor"], visible: true },
-		{ name: "Assignments", route: route + "assignments", claim: ["student", "instructor"], visible: true },
-		{ name: "Modules", route: route + "modules", claim: ["student", "instructor"], visible: true },
-		{ name: "Quizzes", route: route + "quizzes", claim: ["student", "instructor"], visible: true },
-		{ name: "Lessons", route: route + "lessons", claim: ["student", "instructor"], visible: true },
-		{ name: "Grades", route: route + "grades", claim: ["student", "instructor"], visible: true },
-		{ name: "People", route: route + "people", claim: ["student", "instructor"], visible: true },
-		{ name: "Metrics", route: route + "metrics", claim: ["instructor"], visible: true },
-		{ name: "Settings", route: route + "settings", claim: ["instructor"], visible: true },
+	let menuItemsSelector = [
+		{ name: "Home", claim: ["student", "instructor"], visible: true },
+		{ name: "Assignments", claim: ["student", "instructor"], visible: true },
+		{ name: "Modules", claim: ["student", "instructor"], visible: true },
+		{ name: "Quizzes", claim: ["student", "instructor"], visible: true },
+		{ name: "Lessons", claim: ["student", "instructor"], visible: true },
+		{ name: "Grades", claim: ["student", "instructor"], visible: true },
+		{ name: "People", claim: ["student", "instructor"], visible: true },
+		{ name: "Metrics", claim: ["instructor"], visible: true },
+		{ name: "Settings", claim: ["instructor"], visible: true },
 	];
 
 	function toggleVisibility(index) {
-		menuItems[index].visible = !menuItems[index].visible;
+		menuItemsSelector[index].visible = !menuItemsSelector[index].visible;
 	}
 
 </script>
@@ -109,14 +109,18 @@
 				</div>-->
 			</div>
 
-				{#each menuItems as item, index}
-					<label>
-						<input type="checkbox" bind:checked={item.visible} on:change={() => toggleVisibility(index)} />
-						{item.name}
-					</label>
-					<br />
-				{/each}
-
+				<ul class="text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+				{#key menuItemsSelector}
+					{#each menuItemsSelector as item, index}
+						<li class="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+							<label>
+								<input type="checkbox" bind:checked={item.visible} on:change={() => toggleVisibility(index)} />
+								{item.name}
+							</label>
+						</li>
+					{/each}
+				{/key}
+				</ul>
 
 				<div class="border border-red-500 p-3 w-full rounded-xl flex justify-between">
 					<div class="inline-block flex items-center">

@@ -75,9 +75,10 @@
 
 			<div class="py-6 px-2 text-white font-semibold">
 				{#key metrics}
-					<div class="flex flex-wrap justify-center ">
-					<div class=" md:w-1/2 lg:w-1/5 px-3 mb-6">
-						<div class="max-w-sm mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
+					<div class="max-w-4xl mx-auto">
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 justify-center">
+						<div class=" px-3 mb-6">
+						<div class="max-w-xs mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 							<div class="max-w-[15em] mx-auto text-center">
 								<div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl">
 									<Fa icon={faPeopleGroup}></Fa>
@@ -88,8 +89,8 @@
 						</div>
 					</div>
 
-					<div class=" md:w-1/2 lg:w-1/5 px-3 mb-6">
-						<div class="max-w-sm mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
+						<div class="w-full px-3 mb-6">
+						<div class="max-w-xs mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 							<div class="max-w-[15em] mx-auto text-center">
 								<div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl">
 									<Fa icon={faPenToSquare}></Fa>
@@ -100,8 +101,8 @@
 						</div>
 					</div>
 
-					<div class=" md:w-1/2 lg:w-1/5 px-3 mb-6">
-						<div class="max-w-sm mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
+						<div class="w-full px-3 mb-6">
+						<div class="max-w-xs mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 							<div class="max-w-[15em] mx-auto text-center">
 								<div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl">
 									<Fa icon={faFileCircleExclamation}></Fa>
@@ -112,8 +113,8 @@
 						</div>
 					</div>
 
-					<div class=" md:w-1/2 lg:w-1/5 px-3 mb-6">
-						<div class="max-w-sm mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
+						<div class="w-full px-3 mb-6">
+						<div class="max-w-xs mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
 							<div class="max-w-[15em] mx-auto text-center">
 								<div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl">
 									<Fa icon={faTimesCircle}></Fa>
@@ -124,9 +125,34 @@
 						</div>
 					</div>
 
+						<div class="w-full px-3 mb-6">
+							<div class="max-w-xs mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
+								<div class="max-w-[15em] mx-auto text-center">
+									<div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl">
+										<Fa icon={faPenToSquare}></Fa>
+									</div>
+									<span class="text-xs text-gray-300 font-semibold">Late and ungraded assignments</span>
+									<h4 class="text-2xl leading-8 text-gray-100 font-semibold">{metrics[0].num_late_ungraded === null ? '0' : metrics[0].num_late_ungraded}</h4>
+								</div>
+							</div>
+						</div>
+
+						<div class="w-full px-3 mb-6">
+							<div class="max-w-xs mx-auto py-4 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
+								<div class="max-w-[15em] mx-auto text-center">
+									<div class="flex mx-auto w-12 h-12 mb-4 items-center justify-center bg-blue-500 bg-opacity-20 text-blue-500 rounded-xl">
+										<Fa icon={faPenToSquare}></Fa>
+									</div>
+									<span class="text-xs text-gray-300 font-semibold">Missing assignments</span>
+									<h4 class="text-2xl leading-8 text-gray-100 font-semibold">{metrics[0].num_missing === null ? '0' : metrics[0].num_missing}</h4>
+								</div>
+							</div>
+						</div>
+
+					</div>
 					</div>
 
-					<div class="mt-6">
+					<div class="mt-6 max-w-6xl mx-auto">
 						<div class="flex flex-wrap justify-center ">
 							<div class="w-full lg:w-1/3 px-3 mb-6 lg:mb-0">
 								<div class="h-full py-6 px-4 sm:px-6 bg-gray-500 rounded-xl drop-shadow-xl">
