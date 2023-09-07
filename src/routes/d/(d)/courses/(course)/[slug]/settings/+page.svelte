@@ -40,6 +40,22 @@
 		navStore.set('courses');
 	});
 
+	let menuItems = [
+		{ name: "Home", route: route, claim: ["student", "instructor"], visible: true },
+		{ name: "Assignments", route: route + "assignments", claim: ["student", "instructor"], visible: true },
+		{ name: "Modules", route: route + "modules", claim: ["student", "instructor"], visible: true },
+		{ name: "Quizzes", route: route + "quizzes", claim: ["student", "instructor"], visible: true },
+		{ name: "Lessons", route: route + "lessons", claim: ["student", "instructor"], visible: true },
+		{ name: "Grades", route: route + "grades", claim: ["student", "instructor"], visible: true },
+		{ name: "People", route: route + "people", claim: ["student", "instructor"], visible: true },
+		{ name: "Metrics", route: route + "metrics", claim: ["instructor"], visible: true },
+		{ name: "Settings", route: route + "settings", claim: ["instructor"], visible: true },
+	];
+
+	function toggleVisibility(index) {
+		menuItems[index].visible = !menuItems[index].visible;
+	}
+
 </script>
 
 <div class="flex flex-row">
@@ -92,6 +108,14 @@
 					<Input id="assignment-weights" class="w-full" bind:value={course.course_title}/>
 				</div>-->
 			</div>
+
+				{#each menuItems as item, index}
+					<label>
+						<input type="checkbox" bind:checked={item.visible} on:change={() => toggleVisibility(index)} />
+						{item.name}
+					</label>
+					<br />
+				{/each}
 
 
 				<div class="border border-red-500 p-3 w-full rounded-xl flex justify-between">
