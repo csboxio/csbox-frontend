@@ -350,7 +350,7 @@
                                                             assignmentDueDate={assignment.due}
                                                             assignmentStartDate={assignment.available_start}
                                                             assignmentEndDate={assignment.available_end}
-                                                            module_id={assignment.in_module}
+                                                            module_id={assignment.module_id}
                                                             group_id={assignment.group_id}
                                                             groups={groups}
                                                             modules={modules}

@@ -369,8 +369,6 @@
 	let modules;
 	$: modules = $page.data.modules;
 
-	console.log($page.data.groups)
-
 </script>
 
 <div class="w-full">

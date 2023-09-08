@@ -7,10 +7,10 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { 
   if (!session) {
     throw redirect(303, '/');
   }
-  const course = url.searchParams.get('course')
+
 
   const { data, error } = await supabase
-      .rpc('get_course_metrics', {_course_id: course});
+      .rpc('get_instructor_dashboard', {p_user_id: session.user.id});
 
   console.log(data, error)
 

@@ -77,8 +77,6 @@ async function handleSubmit(event) {
 
 <Modal title="Edit assignment" class="max-w-lg" bind:open={editModal}>
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-        {JSON.stringify(groups)}
-        {group_id}
         <!-- Modal body -->
         <form method="POST" action="?/editAssignment" on:submit|preventDefault={handleSubmit}>
             <div class="grid gap-4 mb-4 sm:grid-cols-2">
@@ -209,18 +207,26 @@ async function handleSubmit(event) {
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500
 								focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
 								 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            bind:value={module_id}
+
                     >
                         <option value="">No module</option>
                         {#if modules !== undefined}
-                            {#each modules as {module_title, id}, i}
-                                <option value="{id}">{module_title}</option>
+                            {#each modules as module, i}
+                                {#if module.module_id === group_id}
+                                    <option value="{module.module_id}" selected>{module.module_title}</option>
+                                {:else}
+                                    <option value="{module.module_id}">{module.module_title}</option>
+                                {/if}
                             {/each}
                         {/if}
                     </select>
                 </div>
 
                 <div>
+                    {#key group_id}
+                        {group_id}
+                        {JSON.stringify(groups)}
+                    {/key}
                     <label
                             for="groups"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -232,6 +238,7 @@ async function handleSubmit(event) {
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500
 								focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
 								 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+
                     >
                         <option value="">No group</option>
                         {#if groups !== undefined}
