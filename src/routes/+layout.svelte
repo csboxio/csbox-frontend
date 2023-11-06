@@ -21,7 +21,6 @@
 	$: ({ supabase, session, user } = data)
 
 
-
 	onMount(() => {
 
 		const {

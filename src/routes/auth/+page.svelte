@@ -16,11 +16,13 @@
 	catch (e) {
 		console.log(e)
 	}
+
 </script>
+
+
 {#if !$page.data.session }
 
 	<Auth bind:data={data} />
-
 	{:else}
 	{#if completed_setup === false}
 		<script type="module">
