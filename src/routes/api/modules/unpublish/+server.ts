@@ -11,14 +11,13 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   if (!session) {
     throw redirect(303, '/');
   }
-  const c_id = url.searchParams.get('c_id')
-  const a_id = url.searchParams.get('a_id')
 
-  const { data, error } = await supabase.rpc('get_submissions_grading', { in_course_id: c_id, in_assignment_id: a_id})
+  const module_id = url.searchParams.get('module_id')
+  const {data, error } = await supabase.from('modules')
+    .update({id: module_id, published: false, })
+      .eq('id', module_id)
 
-  if (error) {
-    console.log(data, error)
-  }
+  console.log(error)
 
   //event.setHeaders({
   //  'cache-control': 'public, max-age=60, s-maxage=60'

@@ -12,30 +12,9 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
     throw redirect(303, '/');
   }
 
-  try {
     const {data, error } = await supabase.from('workspaces')
         .select('id, user_id, workspace_name, image, type, workspace_state, inserted_at')
         .eq('user_id', session.user.id)
 
-
-    //if (!active_workspaces.ok) {
-    //  throw new Error(`Request failed with status ${active_workspaces.status}`);
-    //}
-
-    //const responseData = await active_workspaces.json();
-
-    setHeaders({
-      'cache-control': 'public, max-age=60, s-maxage=60'
-    })
-
-
     return json(data);
-  } catch (e) {
-    return new Response(JSON.stringify({ message: 'API down!' }), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-};
+}

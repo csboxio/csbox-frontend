@@ -3,6 +3,10 @@
 	import {page} from "$app/stores";
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import {faArrowLeft, faArrowRight, faLayerGroup} from "@fortawesome/free-solid-svg-icons";
+	import {Input} from "flowbite-svelte";
+	import {applyAction, deserialize} from "$app/forms";
+	import {goto, invalidate, invalidateAll} from "$app/navigation";
+	import {browser} from "$app/environment";
 
 	export let data;
 
@@ -14,6 +18,9 @@
 
 	let submissions
 	$: submissions = $page.data.submissions
+
+	let assignment
+	$: assignment = $page.data.assignment
 
 	console.log($page.data)
 
@@ -52,6 +59,32 @@
 		loadStudent(selectedStudentIndex);
 	});
 
+	let currentSubmission;
+	$: currentSubmission = submissions[selectedStudentIndex];
+
+	async function handleGradeSubmit(event) {
+		const data = new FormData(this);
+
+		data.append('submission_id', currentSubmission.submission_id);
+		data.append('points', currentSubmission.points);
+
+		const response = await fetch(this.action, {
+			method: 'POST',
+			body: data,
+			headers: {
+				'x-sveltekit-action': 'true',
+			}
+		});
+		const result = deserialize(await response.text());
+		if (result.type === 'redirect') {
+			// re-run all `load` functions, following the successful update
+			await invalidateAll();
+		}
+		await applyAction(result);
+		await invalidateAll();
+	}
+
+	let gradeForm;
 </script>
 
 
@@ -75,10 +108,15 @@
 					<p>No student data available.</p>
 				{/if}
 -->
-
+{#if currentSubmission}
 <div class="w-full">
 	<section class="p-1 mt-4">
-		<div class="container mx-12 my-5">
+		{#key selectedStudent}
+			{#if selectedStudent}
+				<h2 class="text-xl font-semibold mb-2 text-white">{assignment.title} - {selectedStudent?.first_name + ' ' + selectedStudent?.last_name}</h2>
+			{/if}
+		{/key}
+		<div class="container mx-12 my-2">
 			<div class="flex justify-between items-center mb-6">
 
 				<!-- Rest of the student info -->
@@ -104,15 +142,37 @@
 		</div>
 	</section>
 
+	{#if currentSubmission}
 	<div class="w-full flex">
 
-		<div class="flex-1 border h-4/5">
-
+		<div class="flex-1 border rounded-l h-4/5 text-white p-2 h-[70vh]">
+			{#key currentSubmission}
+			{#if currentSubmission}
+				{#if currentSubmission.submission_type === "url"}
+					<div class="font-semibold">URL:</div>
+					{currentSubmission.url}
+				{/if}
+				{#if currentSubmission.submission_type === "project"}
+					<div class="font-semibold">Project ID:</div>
+					{currentSubmission.project_id}
+				{/if}
+			{/if}
+			{/key}
 		</div>
 
 		<!-- Right Side Comments Box -->
 		<div class="w-1/4 bg-gray-100 p-4  right-0 h-4/5 flex flex-col">
-			<div class="h-4/5 overflow-y-auto">
+			<div class="h-4/5 overflow-y-auto ">
+				Grade
+				<form bind:this={gradeForm} action="?/updateGrade" method="POST" on:submit|preventDefault={handleGradeSubmit}>
+
+				<div class="inline-block">
+					{#if currentSubmission}
+				<input id="grade_percentage" name="grade_percentage" class="border rounded p-1 px-2 text-sm w-14 " bind:value={currentSubmission.grade_percent} on:change={() => gradeForm.requestSubmit()}/>
+					{/if}
+				</div>
+
+				</form>
 				<!-- Comments Go Here -->
 				{#each comments as comment}
 					<div class="bg-white p-2 mb-2 rounded">
@@ -136,9 +196,9 @@
 			</div>
 		</div>
 	</div>
+
+	{/if}
 </div>
-
-
-
-
-
+	{:else}
+	<div class="text-white pt-4">No submissions yet!</div>
+	{/if}

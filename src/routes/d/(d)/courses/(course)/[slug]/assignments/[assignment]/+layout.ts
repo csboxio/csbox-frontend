@@ -10,10 +10,11 @@ export const load = (async ({ fetch, data, request, url, parent, params }) => {
     }
 
     const assignment = await fetch(`/api/assignments/assignment_slug/?id=${params.assignment}`)
-
+    const submission = await fetch(`/api/assignments/check_submission/?id=${params.assignment}`)
 
     return {
         assignment: await assignment.json(),
+        submitted: await submission.json(),
         assignment_slug: params.assignment
     };
 });

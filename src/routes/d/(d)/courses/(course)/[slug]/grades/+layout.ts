@@ -7,9 +7,9 @@ export const load = (async ({ fetch, data, request, url, parent, params }) => {
   if (!session) {
     throw redirect(303, '/');
   }
-  //const grades = await fetch(`/api/grades/?course=${params.slug}`)
+  const grades = await fetch(`/api/grades/?course=${params.slug}`)
   return {
-    //gradesData: await grades.json(),
+    gradesData: await grades.json(),
     session: session,
   };
 

@@ -3,7 +3,9 @@ import {redirect} from '@sveltejs/kit'
 import { browser } from "$app/environment";
 
 export const prerender = false;
+export const csr = false;
 export const load = async ({ locals: { getSession, getClaim } }) => {
+
     const session = await getSession()
     if (session) {
         const claim = await getClaim()

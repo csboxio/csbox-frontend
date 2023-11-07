@@ -9,6 +9,8 @@
     export let bucket;
     export let saveFunction;
     export let claim;
+    export let mode
+    export let editButton;
 
     // ---------------  QUILL ---------------
 
@@ -20,10 +22,7 @@
     import {page} from "$app/stores";
     import {onMount} from "svelte";
 
-    const mode = {
-        edit: false,
-        view: true
-    };
+
 
     // Initialize quill
     let quill;
@@ -91,8 +90,7 @@
 
     // --------------- QUILL FUNCTIONS  ---------------
 
-    function handleEdit() {
-
+    export function handleEdit() {
         mode.edit = !mode.edit;
         mode.view = !mode.view;
     }
@@ -166,8 +164,8 @@
 </style>
 
 <div class="pb-4 ">
-    <section class="p-1 grow max-w-full pt-4 pt ">
-        {#if mode.view && claim !== 'student'}
+    <section class="p-1 grow max-w-full pt-4 ">
+        {#if mode.view && claim === 'instructor' && editButton}
             <div class="py-1 p-0.5">
                 <button class="my-0 relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
                         on:click={handleEdit}>
@@ -177,7 +175,7 @@
                 </button>
             </div>
         {/if}
-        {#if mode.edit && claim !== 'student'}
+        {#if mode.edit && claim === 'instructor'}
             <button
                     class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
                     on:click={handleSave}>
@@ -191,12 +189,14 @@
 					Preview
 				</span>
             </button>
+            {#if editButton === true}
             <button class="relative inline-flex float-right items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-500 to-red-300 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-red-200 dark:focus:ring-red-800"
                     on:click={handleCancel}>
 				<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
 					Cancel
 				</span>
             </button>
+            {/if}
         {/if}
         <div class=" my-4 rounded-lg">
             <div class="flex flex space-x-4 grow mr-4 rounded-lg">

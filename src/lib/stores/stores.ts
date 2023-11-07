@@ -16,5 +16,6 @@ export const courseNavStore = writable();
 
 export const workspaceNavStore = writable();
 
-export let checkedUserInfo = writable('false');
+export const checkedUserInfo = writable('false');
 
+export const authTitle = writable();

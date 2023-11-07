@@ -9,7 +9,7 @@
 		TableBodyCell,
 		TableBodyRow,
 		TableHead,
-		TableHeadCell, Modal, Radio,
+		TableHeadCell, Modal, Radio, TableSearch,
 	} from "flowbite-svelte";
 	import { applyAction, deserialize } from "$app/forms";
 	import WorkspaceNav from "$lib/components/WorkspaceNav.svelte";
@@ -24,15 +24,16 @@
 	import {browser} from "$app/environment";
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import {faAdd, faCircleNotch} from '@fortawesome/free-solid-svg-icons';
+	import {formatDistanceToNow, parseISO} from "date-fns";
 
 	/** @type {import('./$types').PageData | null} */
-	export let data = null;
+	export let data
 
 	let workspaces;
 	$: workspaces = $page.data.workspaces
 
 	let active_workspaces;
-	$: active_workspaces = $page.data.active_workspaces;
+	$: active_workspaces = data.active_workspaces;
 
 	let healthcheck;
 	$: healthcheck = $page.data.health_check
@@ -60,19 +61,22 @@
 		invalidate('/api/workspace/all')
 	});
 
-	if (active_workspaces != null) {
-	$: active_workspaces = active_workspaces.sort((a, b) => {
-		const dateA = new Date(a.created_at).getTime();
-		const dateB = new Date(b.created_at).getTime();
+	let searchTerm = '';
+	let filteredItems
 
-		if (a.workspace_state === 0 && b.workspace_state !== 0) {
-			return 1;
-		} else if (a.workspace_state !== 1 && b.workspace_state === 1) {
-			return -1;
-		}
-		return dateB - dateA;
-	});
-	}
+
+
+
+	console.log(active_workspaces)
+
+		$: filteredItems = active_workspaces.filter(
+				(active_workspaces) => active_workspaces.workspace_name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+		);
+
+
+
+
+
 
 	let ide;
 	$: ide = $page.data.ide;
@@ -103,7 +107,6 @@
 		data.set('user_id', $page.data.session.user.id);
 		data.set('image', selectedWorkspaceCreateConfig);
 
-
 		const response = await fetch(this.action, {
 			method: 'POST',
 			body: data
@@ -113,6 +116,7 @@
 			// re-run all `load` functions, following the successful update
 			await invalidateAll();
 		}
+
 		await invalidateAll();
 		createWorkspaceModal = false;
 		selectedWorkspaceCreateType = undefined;
@@ -127,7 +131,7 @@
 	async function openWorkspace(workspace_id) {
 		workspaceActionModal = true;
 		workspaceActionModalTitle = "Opening Workspace"
-		const websocketUrl = 'wss://ide.csbox.io/api/workspace/open/'
+		const websocketUrl = 'wss://ide.csbox.io/api/v1/workspace/open/'
 
 		const socket = new WebSocket(websocketUrl + workspace_id);
 
@@ -164,7 +168,7 @@
 		if (browser) {
 			try {
 
-				const response = await fetch('https://ide.csbox.io/api/workspace/redirect/' + workspace_id, {
+				const response = await fetch('https://ide.csbox.io/api/v1/workspace/redirect/' + workspace_id, {
 					method: 'GET',
 					mode: 'cors',
 					credentials: 'omit'
@@ -198,7 +202,7 @@
 		workspaceActionModal = true;
 		workspaceActionModalTitle = "Stopping Workspace"
 
-		const websocketUrl = 'wss://ide.csbox.io/api/workspace/shutdown/'
+		const websocketUrl = 'wss://ide.csbox.io/api/v1/workspace/shutdown/'
 
 		const socket = new WebSocket(websocketUrl + workspace_id);
 
@@ -225,7 +229,7 @@
 	//}
 
 	async function deleteWorkspace(workspace_id) {
-		const deleteWorkspaceUrl = 'https://ide.csbox.io/api/workspace/delete/' + workspace_id
+		const deleteWorkspaceUrl = 'https://ide.csbox.io/api/v1/workspace/delete/' + workspace_id
 		try {
 			const response = await fetch(deleteWorkspaceUrl, {
 				headers: {
@@ -244,7 +248,7 @@
 	}
 
 	async function saveWorkspace(workspace_id) {
-		const saveWorkspaceUrl = 'https://ide.csbox.io/api/workspace/save/home/' + workspace_id
+		const saveWorkspaceUrl = 'https://ide.csbox.io/api/v1/workspace/save/home/' + workspace_id
 
 		const response = await fetch(saveWorkspaceUrl, {
 			headers: {
@@ -295,10 +299,51 @@
 			<!-- Content -->
 			<section class="flex flex-col p-8 inline-block w-full">
 
-				<div class="mx-0.5 mb-4 flex justify-between">
+				{#if active_workspaces}
+					{#if active_workspaces.length === 0}
+						<div class="flex h-full pb-24 ">
+							<div class="m-auto">
+						<div class="text-center justify-center text-white font-semibold text-2xl">
+							No Workspaces
+						</div>
+						<div class="text-center justify-center text-gray-200 pt-1 text-sm">
+							Create a new workspace to start developing with no limits.
+						</div>
+								<div class="text-center justify-center pt-4">
+									<div class="">
+										<div class="">
+											<button
+													class="ml-0.5 relative inline-flex items-center justify-center p-0.5  mr-2 overflow-hidden text-sm
+													font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+													group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+													focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+													on:click={() => { createWorkspaceModal = true }}>
+												<span
+													class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+													dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+													<div class="inline-block">
+														<Fa icon={faAdd}/>
+													</div>
+													<div class="inline-block">
+														Workspace
+													</div>
+												</span>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{/if}
+				{/if}
+
+				{#if active_workspaces}
+					{#if active_workspaces.length !== 0}
+
+				<div class="mx-0.5 flex justify-between">
 					<div class="">
 				<button
-						class="ml-0.5 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+						class="ml-0.5 relative inline-flex items-center justify-center p-0.5  mr-2 overflow-hidden text-sm
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
 				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
 				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
@@ -306,7 +351,7 @@
 				<span
 						class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
 					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-					<div class="inline-block"><Fa icon={faAdd}/></div> <div class="inline-block">Create Workspace</div>
+					<div class="inline-block"><Fa icon={faAdd}/></div> <div class="inline-block">New Workspace</div>
 				</span>
 				</button>
 					</div>
@@ -329,7 +374,8 @@
 
 
 				<div class="relative sm:rounded-lg w-full overflow-x-auto overflow-y-hidden">
-				<Table shadow hoverable class="mb-40">
+					<TableSearch placeholder="Search by name..." hoverable={true} bind:inputValue={searchTerm}>
+					<Table shadow hoverable class="mb-40">
 					<TableHead>
 						<TableHeadCell></TableHeadCell>
 						<TableHeadCell>Name</TableHeadCell>
@@ -341,12 +387,12 @@
 						</TableHeadCell>
 					</TableHead>
 					<TableBody class="divide-y">
-						{#key active_workspaces}
-								{#each active_workspaces as { id, inserted_at, workspace_name, type, workspace_state }}
+						{#key filteredItems}
+								{#each filteredItems as { id, inserted_at, workspace_name, type, workspace_state }}
 									<TableBodyRow class="cursor-pointer" >
 									<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> </TableBodyCell>
 									<TableBodyCell>{workspace_name}</TableBodyCell>
-									<TableBodyCell>{inserted_at?.substring(0,10)}</TableBodyCell>
+									<TableBodyCell>{formatDistanceToNow(parseISO(inserted_at), {addSuffix: true})}</TableBodyCell>
 									<TableBodyCell>{type}</TableBodyCell>
 									<TableBodyCell>
 										<Button >
@@ -366,6 +412,7 @@
 
 					</TableBody>
 				</Table>
+					</TableSearch>
 					{#if !active_workspaces}
 						<div
 								class="flex p-4 mb-6 mt-4 ml-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50
@@ -393,6 +440,10 @@
 						</div>
 					{/if}
 				</div>
+
+						{/if}
+				{/if}
+
 			</section>
 		</div>
     </div>

@@ -66,6 +66,7 @@ export const actions: Actions = {
 
             const { data, error } = await supabase.rpc('create_course', updates);
 
+            console.log(data,error)
             if (error) {
                 console.log(error)
             }

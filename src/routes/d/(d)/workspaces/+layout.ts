@@ -24,14 +24,6 @@ export const load = async ({ fetch, data, request, url, parent }) => {
     const active_workspaces = await fetch("/api/workspace/all");
     const health_check = await fetch(`/api/workspace/healthcheck`);
 
-    if (!active_workspaces.ok) {
-      return {
-        ide: await ide.json(),
-        active_workspaces: null,
-        health_check: health_check.json()
-      };
-    }
-
     return {
       ide: await ide.json(),
       active_workspaces: await active_workspaces.json(),

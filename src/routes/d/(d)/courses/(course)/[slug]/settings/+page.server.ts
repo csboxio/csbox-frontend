@@ -29,7 +29,6 @@ export const actions: Actions = {
                 .delete()
                 .eq('id', course_id)
                 .eq('user_id', user.id)
-
             redirect(301,'/d')
         }
     },

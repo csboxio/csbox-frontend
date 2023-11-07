@@ -1,12 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Account from '$lib/components/Account.svelte';
-	import { getContext, onMount } from "svelte";
+	import { onMount } from "svelte";
 	import { notificationStore } from "../lib/stores/stores.js";
-	import Auth from "$lib/components/Auth/Auth.svelte";
-	import { goto, invalidateAll } from "$app/navigation";
-	import Code from "$lib/components/OAuth/Code.svelte";
-	import { DarkMode } from "flowbite-svelte";
+	import Fa from 'svelte-fa/src/fa.svelte';
+	import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
+
 	export let data
 
 	let { supabase } = data
@@ -16,8 +14,6 @@
 		await supabase.auth.signOut()
 	}
 
-	//let notifications = getContext($page.data.session);
-
 	let notifications;
 
 	onMount(() => {
@@ -26,27 +22,21 @@
 		});
 
 		return unsubscribe;
+
 	});
 
+	let tab
+	$: tab
 </script>
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
 	<meta charset="utf-8">
-	<title>CSBOX - Home</title>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<link href="./css/vendors/aos.css" rel="stylesheet">
-	<link rel="stylesheet" href="./css/vendors/swiper-bundle.min.css" />
 	<link href="./style.css" rel="stylesheet">
 </head>
 
-<body class="font-inter antialiased bg-slate-900 text-slate-100 tracking-tight">
+<body class="font-inter antialiased bg-slate-900 text-slate-100 tracking-tight" data-sveltekit-preload-data="hover">
 
 <!-- Page wrapper -->
 <div class="flex flex-col min-h-screen overflow-hidden">
@@ -70,14 +60,14 @@
 					<!-- Desktop sign in links -->
 					<ul class="flex grow justify-end flex-wrap items-center">
 						<li>
-							<a class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out" href="/auth">Sign in</a>
+							<a class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out" href="/auth" >Sign in</a>
 						</li>
 
 						{#if $page.data.session}
 							<li class="ml-6">
 								<a class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none" href="/auth">
                                     <span class="relative inline-flex items-center">
-                                        Dashboard <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-></span>
+                                        Dashboard <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1"><Fa icon={faArrowRight}/></span>
                                     </span>
 								</a>
 							</li>
@@ -117,25 +107,17 @@
 							<div class="inline-flex relative before:absolute before:inset-0 before:bg-blue-500 before:blur-md">
 								<a class="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.blue.500),_theme(colors.blue.500))_padding-box,_linear-gradient(theme(colors.blue.500),_theme(colors.blue.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow" href="/auth">
                                         <span class="relative inline-flex items-center">
-                                             Now in alpha <span class="tracking-normal text-blue-200 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                                             Now in pre-alpha <span class="tracking-normal text-blue-200 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1"><Fa icon={faArrowRight}/></span>
                                         </span>
 								</a>
 							</div>
 						</div>
-						<h1 class="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">Next gen learning platform</h1>
-						<p class="text-lg text-slate-300 mb-8" data-aos="fade-down" data-aos-delay="200"> Bridging the gap with seamless <b>cloud based LMS-IDE integration</b> for an enriched learning experience.</p>
+						<h1 class="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">Elevate Software Education</h1>
+						<p class="text-lg text-slate-300 mb-8" data-aos="fade-down" data-aos-delay="200"> Empower, Innovate and Automate Excellence</p>
 						<div class="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4" data-aos="fade-down" data-aos-delay="400">
 							<div>
 								<a class="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/auth">
-									Get Started <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
-								</a>
-							</div>
-							<div>
-								<a class="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out" href="/auth">
-									<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-										<path d="m1.999 0 1 2-1 2 2-1 2 1-1-2 1-2-2 1zM11.999 0l1 2-1 2 2-1 2 1-1-2 1-2-2 1zM11.999 10l1 2-1 2 2-1 2 1-1-2 1-2-2 1zM6.292 7.586l2.646-2.647L11.06 7.06 8.413 9.707zM0 13.878l5.586-5.586 2.122 2.121L2.12 16z" />
-									</svg>
-									<span>Read the docs</span>
+									Get Started <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1"><Fa icon={faArrowRight}/></span>
 								</a>
 							</div>
 						</div>
@@ -179,6 +161,9 @@
 			</div>
 		</section>
 
+
+
+
 		<!-- Features -->
 		<section>
 			<div class="relative max-w-6xl mx-auto px-4 sm:px-6">
@@ -201,14 +186,15 @@
 							<div class="md:w-7/12 lg:w-1/2 order-1 md:order-none max-md:text-center" data-aos="fade-down">
 								<!-- Content #1 -->
 								<div>
-									<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-200 pb-3">The Next-Gen platform</div>
+									<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-3">The Next-Gen platform</div>
 								</div>
 								<h3 class="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-3">Simplify your workflow with integration</h3>
 								<p class="text-lg text-slate-400 mb-8">Integrate any LMS to our development environment.</p>
 								<div class="mt-8 max-w-xs max-md:mx-auto space-y-2">
 									<button
-											class="flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100"
-											:class="tab !== '1' ? 'border-slate-700 opacity-50' : 'border-purple-700 shadow shadow-purple-500/25'"
+											class="flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100
+													{tab !== 1 ? 'border-slate-700 opacity-50' : 'border-blue-700 shadow shadow-blue-500/25'}"
+											on:click={() => {tab = 1}}
 
 									>
 										<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
@@ -217,8 +203,9 @@
 										<span>Simplify your grading</span>
 									</button>
 									<button
-											class="flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100"
-											:class="tab !== '2' ? 'border-slate-700 opacity-50' : 'border-purple-700 shadow shadow-purple-500/25'"
+											class="flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100
+											{tab !== 2 ? 'border-slate-700 opacity-50' : 'border-blue-700 shadow shadow-blue-500/25'}"
+											on:click={() => {tab = 2}}
 
 									>
 										<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
@@ -227,8 +214,9 @@
 										<span>Link to LMS</span>
 									</button>
 									<button
-											class="flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100"
-											:class="tab !== '3' ? 'border-slate-700 opacity-50' : 'border-purple-700 shadow shadow-purple-500/25'"
+											class="flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100
+												{tab !== 3 ? 'border-slate-700 opacity-50' : 'border-blue-700 shadow shadow-blue-500/25'}"
+											on:click={() => {tab = 3}}
 
 									>
 										<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
@@ -269,9 +257,9 @@
 											<div class="absolute inset-0 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none w-[500px] h-[500px] rounded-full overflow-hidden [mask-image:_radial-gradient(black,_transparent_60%)]">
 												<div class="h-[200%] animate-endless">
 													<div class="absolute inset-0 [background:_repeating-linear-gradient(transparent,_transparent_48px,_theme(colors.white)_48px,_theme(colors.white)_49px)] blur-[2px] opacity-20"></div>
-													<div class="absolute inset-0 [background:_repeating-linear-gradient(transparent,_transparent_48px,_theme(colors.purple.500)_48px,_theme(colors.purple.500)_49px)]"></div>
+													<div class="absolute inset-0 [background:_repeating-linear-gradient(transparent,_transparent_48px,_theme(colors.blue.500)_48px,_theme(colors.blue.500)_49px)]"></div>
 													<div class="absolute inset-0 [background:_repeating-linear-gradient(90deg,transparent,_transparent_48px,_theme(colors.white)_48px,_theme(colors.white)_49px)] blur-[2px] opacity-20"></div>
-													<div class="absolute inset-0 [background:_repeating-linear-gradient(90deg,transparent,_transparent_48px,_theme(colors.purple.500)_48px,_theme(colors.purple.500)_49px)]"></div>
+													<div class="absolute inset-0 [background:_repeating-linear-gradient(90deg,transparent,_transparent_48px,_theme(colors.blue.500)_48px,_theme(colors.blue.500)_49px)]"></div>
 												</div>
 											</div>
 											<!-- Icons -->
@@ -333,6 +321,35 @@
 			</div>
 		</section>
 
+		<section class="relative">
+			<div class="relative max-w-6xl mx-auto px-4 sm:px-6">
+
+				<!-- Blurred shape -->
+				<div class="absolute top-0 -mt-24 left-0 -ml-16 blur-2xl opacity-70 pointer-events-none -z-10" aria-hidden="true">
+					<svg xmlns="http://www.w3.org/2000/svg" width="434" height="427">
+						<defs>
+							<linearGradient id="bs4-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
+								<stop offset="0%" stop-color="#4572D1" />
+								<stop offset="100%" stop-color="#1F3D70" stop-opacity="0" />
+							</linearGradient>
+						</defs>
+						<path fill="url(#bs4-a)" fill-rule="evenodd" d="m0 0 461 369-284 58z" transform="matrix(1 0 0 -1 0 427)" />
+					</svg>
+				</div>
+
+				<div class="pt-16 pb-12 md:pt-32 md:pb-20">
+
+					<!-- Section header -->
+					<div class="max-w-3xl pb-12 md:pb-20">
+						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Why us?</h2>
+						<p class="text-lg text-slate-400 px-4">We're on a mission to transform the way software education is delivered and experienced.
+							Our platform brings together cutting-edge technology and educational expertise to empower both educators and students in their coding journey.
+							With a focus on innovation, empowerment, and automation, providing a seamless environment for teaching, learning, and collaboration.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
 		<!-- Features #2 -->
 		<section class="relative">
 
@@ -370,7 +387,7 @@
 						<div class="grid md:grid-cols-12 gap-6 group" data-highlighter>
 							<!-- Box #1 -->
 							<div class="md:col-span-12" data-aos="fade-down">
-								<div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
+								<div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
 									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 										<div class="flex flex-col md:flex-row md:items-center md:justify-between">
 											<!-- Blurred shape -->
@@ -387,8 +404,8 @@
 											</div>
 											<!-- Radial gradient -->
 											<div class="absolute flex items-center justify-center bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 h-full aspect-square" aria-hidden="true">
-												<div class="absolute inset-0 translate-z-0 bg-purple-500 rounded-full blur-[120px] opacity-70"></div>
-												<div class="absolute w-1/4 h-1/4 translate-z-0 bg-purple-400 rounded-full blur-[40px]"></div>
+												<div class="absolute inset-0 translate-z-0 bg-blue-500 rounded-full blur-[120px] opacity-70"></div>
+												<div class="absolute w-1/4 h-1/4 translate-z-0 bg-blue-400 rounded-full blur-[40px]"></div>
 											</div>
 
 
@@ -403,7 +420,7 @@
 												<div>
 													<a class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none" href="#0">
                                                             <span class="relative inline-flex items-center">
-                                                                Learn more <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                                                                Learn more <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                                                             </span>
 													</a>
 												</div>
@@ -418,7 +435,7 @@
 							</div>
 							<!-- Box #2 -->
 							<div class="md:col-span-7" data-aos="fade-down">
-								<div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
+								<div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
 									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 										<div class="flex flex-col">
 											<!-- Radial gradient -->
@@ -442,7 +459,7 @@
 							</div>
 							<!-- Box #3 -->
 							<div class="md:col-span-5" data-aos="fade-down">
-								<div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
+								<div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
 									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 										<div class="flex flex-col">
 											<!-- Radial gradient -->
@@ -563,11 +580,11 @@
 					<div class="max-w-3xl mx-auto">
 						<div data-aos="fade-down">
 							<div class="group" data-highlighter>
-								<div class="relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
+								<div class="relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
 									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 										<!-- Radial gradient -->
 										<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/2 aspect-square" aria-hidden="true">
-											<div class="absolute inset-0 translate-z-0 bg-purple-500 rounded-full blur-[120px]"></div>
+											<div class="absolute inset-0 translate-z-0 bg-blue-500 rounded-full blur-[120px]"></div>
 										</div>
 										<img src="./images/feature-image-04.png" width="768" height="400" alt="Feature 04">
 									</div>
@@ -588,7 +605,7 @@
 					<!-- Section header -->
 					<div class="max-w-3xl mx-auto text-center pb-12 md:pb-20">
 						<div>
-							<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-200 pb-3">The security first platform</div>
+							<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-3">The security first platform</div>
 						</div>
 						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Spot issues faster</h2>
 						<p class="text-lg text-slate-400">All the lorem ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
@@ -601,7 +618,7 @@
 						<div class="testimonials-carousel swiper-container group">
 							<div class="swiper-wrapper w-fit" data-highlighter>
 								<!-- Carousel items -->
-								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
+								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
 									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 										<!-- Particles animation -->
 										<div class="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
@@ -609,7 +626,7 @@
 										</div>
 										<!-- Radial gradient -->
 										<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-purple-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
+											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-blue-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
 										</div>
 										<div class="flex flex-col p-6 h-full">
 											<img class="mb-3" src="./images/carousel-icon-01.svg" width="56" height="56" alt="Icon 01">
@@ -618,12 +635,12 @@
 												<div class="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
 											</div>
 											<div class="text-right">
-												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
+												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
+								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
 									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 										<!-- Particles animation -->
 										<div class="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
@@ -631,7 +648,7 @@
 										</div>
 										<!-- Radial gradient -->
 										<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-purple-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
+											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-blue-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
 										</div>
 										<div class="flex flex-col p-6 h-full">
 											<img class="mb-3" src="./images/carousel-icon-02.svg" width="56" height="56" alt="Icon 01">
@@ -640,12 +657,12 @@
 												<div class="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
 											</div>
 											<div class="text-right">
-												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
+												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
+								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
 									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 										<!-- Particles animation -->
 										<div class="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
@@ -653,7 +670,7 @@
 										</div>
 										<!-- Radial gradient -->
 										<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-purple-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
+											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-blue-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
 										</div>
 										<div class="flex flex-col p-6 h-full">
 											<img class="mb-3" src="./images/carousel-icon-03.svg" width="56" height="56" alt="Icon 01">
@@ -662,12 +679,12 @@
 												<div class="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
 											</div>
 											<div class="text-right">
-												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
+												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
+								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
 									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 										<!-- Particles animation -->
 										<div class="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
@@ -675,7 +692,7 @@
 										</div>
 										<!-- Radial gradient -->
 										<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-purple-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
+											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-blue-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
 										</div>
 										<div class="flex flex-col p-6 h-full">
 											<img class="mb-3" src="./images/carousel-icon-04.svg" width="56" height="56" alt="Icon 01">
@@ -684,12 +701,12 @@
 												<div class="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
 											</div>
 											<div class="text-right">
-												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
+												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
+								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
 									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 										<!-- Particles animation -->
 										<div class="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
@@ -697,7 +714,7 @@
 										</div>
 										<!-- Radial gradient -->
 										<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-purple-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
+											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-blue-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
 										</div>
 										<div class="flex flex-col p-6 h-full">
 											<img class="mb-3" src="./images/carousel-icon-05.svg" width="56" height="56" alt="Icon 05">
@@ -706,7 +723,7 @@
 												<div class="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
 											</div>
 											<div class="text-right">
-												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
+												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
 											</div>
 										</div>
 									</div>
@@ -719,13 +736,13 @@
 					<div class="flex mt-8 justify-end">
 						<button class="carousel-prev relative z-20 w-12 h-12 flex items-center justify-center group">
 							<span class="sr-only">Previous</span>
-							<svg class="w-4 h-4 fill-slate-500 group-hover:fill-purple-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+							<svg class="w-4 h-4 fill-slate-500 group-hover:fill-blue-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
 								<path d="M6.7 14.7l1.4-1.4L3.8 9H16V7H3.8l4.3-4.3-1.4-1.4L0 8z" />
 							</svg>
 						</button>
 						<button class="carousel-next relative z-20 w-12 h-12 flex items-center justify-center group">
 							<span class="sr-only">Next</span>
-							<svg class="w-4 h-4 fill-slate-500 group-hover:fill-purple-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+							<svg class="w-4 h-4 fill-slate-500 group-hover:fill-blue-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
 								<path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z" />
 							</svg>
 						</button>
@@ -765,7 +782,7 @@
 						<!-- Row -->
 						<div class="py-8 first-of-type:pt-0 last-of-type:pb-0">
 							<div>
-								<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-200 pb-6">API Authorization</div>
+								<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-6">API Authorization</div>
 							</div>
 							<div class="grid md:grid-cols-3 gap-8 md:gap-12 mb-2">
 								<!-- Feature -->
@@ -803,7 +820,7 @@
 						<!-- Row -->
 						<div class="py-8">
 							<div>
-								<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-200 pb-6">User Management</div>
+								<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-6">User Management</div>
 							</div>
 							<div class="grid md:grid-cols-3 gap-8 md:gap-12 mb-2">
 								<!-- Feature -->
@@ -841,7 +858,7 @@
 						<!-- Row -->
 						<div class="py-8">
 							<div>
-								<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-200 pb-6">Standard Security</div>
+								<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-6">Standard Security</div>
 							</div>
 							<div class="grid md:grid-cols-3 gap-8 md:gap-12 mb-2">
 								<!-- Feature -->
@@ -887,7 +904,7 @@
 			<!-- Radial gradient -->
 			<div class="absolute inset-0 overflow-hidden pointer-events-none -z-10" aria-hidden="true">
 				<div class="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 w-1/3 aspect-square">
-					<div class="absolute inset-0 translate-z-0 bg-purple-500 rounded-full blur-[120px] opacity-50"></div>
+					<div class="absolute inset-0 translate-z-0 bg-blue-500 rounded-full blur-[120px] opacity-50"></div>
 				</div>
 			</div>
 			<div class="max-w-6xl mx-auto px-4 sm:px-6">
@@ -895,7 +912,7 @@
 					<!-- Content -->
 					<div class="max-w-3xl mx-auto text-center pb-12 md:pb-20">
 						<div>
-							<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-200 pb-3">Pricing plans</div>
+							<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-3">Pricing plans</div>
 						</div>
 						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Flexible plans and features</h2>
 						<p class="text-lg text-slate-400">All the lorem ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
@@ -915,7 +932,7 @@
 							</svg>
 						</div>
 						<!-- Content -->
-						<div class="grid md:grid-cols-4 xl:-mx-6 text-sm [&>div:nth-of-type(-n+4)]:py-6 [&>div:nth-last-of-type(-n+4)]:pb-6 max-md:[&>div:nth-last-of-type(-n+4)]:mb-8 max-md:[&>div:nth-of-type(-n+4):nth-of-type(n+1)]:rounded-t-3xl max-md:[&>div:nth-last-of-type(-n+4)]:rounded-b-3xl md:[&>div:nth-of-type(2)]:rounded-tl-3xl md:[&>div:nth-of-type(4)]:rounded-tr-3xl md:[&>div:nth-last-of-type(3)]:rounded-bl-3xl md:[&>div:nth-last-of-type(1)]:rounded-br-3xl [&>div]:bg-slate-700/20 [&>div:nth-of-type(4n+1)]:bg-transparent max-md:[&>div:nth-of-type(4n+5)]:hidden max-md:[&>div:nth-of-type(4n+2)]:order-1 max-md:[&>div:nth-of-type(4n+3)]:order-2 max-md:[&>div:nth-of-type(4n+4)]:order-3 max-md:md:[&>div:nth-of-type(n)]:mb-0 [&>div:nth-of-type(4n+3)]:relative before:[&>div:nth-of-type(4n+3)]:absolute before:[&>div:nth-of-type(4n+3)]:-inset-px before:[&>div:nth-of-type(4n+3)]:rounded-[inherit] before:[&>div:nth-of-type(4n+3)]:border-x-2 before:[&>div:nth-of-type(3)]:border-t-2 before:[&>div:nth-last-of-type(2)]:border-b-2 before:[&>div:nth-of-type(4n+3)]:border-purple-500 before:[&>div:nth-of-type(4n+3)]:-z-10 before:[&>div:nth-of-type(4n+3)]:pointer-events-none">
+						<div class="grid md:grid-cols-4 xl:-mx-6 text-sm [&>div:nth-of-type(-n+4)]:py-6 [&>div:nth-last-of-type(-n+4)]:pb-6 max-md:[&>div:nth-last-of-type(-n+4)]:mb-8 max-md:[&>div:nth-of-type(-n+4):nth-of-type(n+1)]:rounded-t-3xl max-md:[&>div:nth-last-of-type(-n+4)]:rounded-b-3xl md:[&>div:nth-of-type(2)]:rounded-tl-3xl md:[&>div:nth-of-type(4)]:rounded-tr-3xl md:[&>div:nth-last-of-type(3)]:rounded-bl-3xl md:[&>div:nth-last-of-type(1)]:rounded-br-3xl [&>div]:bg-slate-700/20 [&>div:nth-of-type(4n+1)]:bg-transparent max-md:[&>div:nth-of-type(4n+5)]:hidden max-md:[&>div:nth-of-type(4n+2)]:order-1 max-md:[&>div:nth-of-type(4n+3)]:order-2 max-md:[&>div:nth-of-type(4n+4)]:order-3 max-md:md:[&>div:nth-of-type(n)]:mb-0 [&>div:nth-of-type(4n+3)]:relative before:[&>div:nth-of-type(4n+3)]:absolute before:[&>div:nth-of-type(4n+3)]:-inset-px before:[&>div:nth-of-type(4n+3)]:rounded-[inherit] before:[&>div:nth-of-type(4n+3)]:border-x-2 before:[&>div:nth-of-type(3)]:border-t-2 before:[&>div:nth-last-of-type(2)]:border-b-2 before:[&>div:nth-of-type(4n+3)]:border-blue-500 before:[&>div:nth-of-type(4n+3)]:-z-10 before:[&>div:nth-of-type(4n+3)]:pointer-events-none">
 							<!-- Pricing toggle -->
 							<div class="px-6 flex flex-col justify-end">
 								<div class="pb-5 md:border-b border-slate-800">
@@ -925,7 +942,7 @@
 											<div class="text-sm text-slate-500 font-medium mr-2 md:max-lg:hidden">Monthly</div>
 											<div class="relative">
 												<input type="checkbox" id="toggle" class="peer sr-only" x-model="annual" />
-												<label for="toggle" class="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-slate-400 px-0.5 outline-slate-400 transition-colors before:h-5 before:w-5 before:rounded-full before:bg-white before:shadow-sm before:transition-transform before:duration-150 peer-checked:bg-purple-500 peer-checked:before:translate-x-full peer-focus-visible:outline peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gray-400 peer-checked:peer-focus-visible:outline-purple-500">
+												<label for="toggle" class="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-slate-400 px-0.5 outline-slate-400 transition-colors before:h-5 before:w-5 before:rounded-full before:bg-white before:shadow-sm before:transition-transform before:duration-150 peer-checked:bg-blue-500 peer-checked:before:translate-x-full peer-focus-visible:outline peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gray-400 peer-checked:peer-focus-visible:outline-blue-500">
 													<span class="sr-only">Pay Yearly</span>
 												</label>
 											</div>
@@ -937,7 +954,7 @@
 							<!-- Pro price -->
 							<div class="px-6 flex flex-col justify-end">
 								<div class="grow pb-4 mb-4 border-b border-slate-800">
-									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-200 pb-0.5">Pro</div>
+									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Pro</div>
 									<div class="mb-1">
 										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50" x-text="annual ? '24' : '29'">24</span><span class="text-sm text-slate-600 font-medium">/mo</span>
 									</div>
@@ -945,29 +962,29 @@
 								</div>
 								<div class="pb-4 border-b border-slate-800">
 									<a class="btn-sm text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/auth">
-										Get Started <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+										Get Started <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
 									</a>
 								</div>
 							</div>
 							<!-- Team price -->
 							<div class="px-6 flex flex-col justify-end">
 								<div class="grow pb-4 mb-4 border-b border-slate-800">
-									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-200 pb-0.5">Team</div>
+									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Team</div>
 									<div class="mb-1">
 										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50" x-text="annual ? '49' : '54'">49</span><span class="text-sm text-slate-600 font-medium">/mo</span>
 									</div>
 									<div class="text-slate-500">Everything at your fingertips.</div>
 								</div>
 								<div class="pb-4 border-b border-slate-800">
-									<a class="btn-sm text-white bg-purple-500 hover:bg-purple-600 w-full transition duration-150 ease-in-out group" href="#0">
-										Get Started <span class="tracking-normal text-purple-300 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+									<a class="btn-sm text-white bg-blue-500 hover:bg-blue-600 w-full transition duration-150 ease-in-out group" href="#0">
+										Get Started <span class="tracking-normal text-blue-300 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
 									</a>
 								</div>
 							</div>
 							<!-- Enterprise price -->
 							<div class="px-6 flex flex-col justify-end">
 								<div class="grow pb-4 mb-4 border-b border-slate-800">
-									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-200 pb-0.5">Enterprise</div>
+									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Enterprise</div>
 									<div class="mb-1">
 										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50" x-text="annual ? '79' : '85'">79</span><span class="text-sm text-slate-600 font-medium">/mo</span>
 									</div>
@@ -975,7 +992,7 @@
 								</div>
 								<div class="pb-4 border-b border-slate-800">
 									<a class="btn-sm text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="#0">
-										Get Started <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+										Get Started <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
 									</a>
 								</div>
 							</div>
@@ -998,7 +1015,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span>100 <span class="md:hidden">Social Connections</span></span>
@@ -1006,7 +1023,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span>250 <span class="md:hidden">Social Connections</span></span>
@@ -1014,7 +1031,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span>Unlimited <span class="md:hidden">Social Connections</span></span>
@@ -1026,7 +1043,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span>4 <span class="md:hidden">Custom Domains</span></span>
@@ -1034,7 +1051,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span>Unlimited <span class="md:hidden">Custom Domains</span></span>
@@ -1042,7 +1059,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span>Unlimited <span class="md:hidden">Custom Domains</span></span>
@@ -1054,7 +1071,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span>Unlimited <span class="md:hidden">User Role Management</span></span>
@@ -1062,7 +1079,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span>Unlimited <span class="md:hidden">User Role Management</span></span>
@@ -1070,7 +1087,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span>Unlimited <span class="md:hidden">User Role Management</span></span>
@@ -1082,7 +1099,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span>1 <span class="md:hidden">External Databases</span></span>
@@ -1090,7 +1107,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span>5 <span class="md:hidden">External Databases</span></span>
@@ -1098,7 +1115,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span>Unlimited <span class="md:hidden">External Databases</span></span>
@@ -1123,7 +1140,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Custom Connection</span></span>
@@ -1131,7 +1148,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Custom Connection</span></span>
@@ -1139,7 +1156,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Custom Connection</span></span>
@@ -1151,7 +1168,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Advanced Deployment Options</span></span>
@@ -1159,7 +1176,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Advanced Deployment Options</span></span>
@@ -1167,7 +1184,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Advanced Deployment Options</span></span>
@@ -1179,7 +1196,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Extra Add-ons</span></span>
@@ -1187,7 +1204,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Extra Add-ons</span></span>
@@ -1195,7 +1212,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Extra Add-ons</span></span>
@@ -1217,7 +1234,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Admin Roles</span></span>
@@ -1239,7 +1256,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Deploy and Monitor</span></span>
@@ -1261,7 +1278,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Enterprise Add-ons</span></span>
@@ -1291,7 +1308,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Premium Support</span></span>
@@ -1299,7 +1316,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Premium Support</span></span>
@@ -1438,8 +1455,8 @@
 				<div class="relative px-8 py-12 md:py-20 rounded-[3rem] overflow-hidden">
 					<!-- Radial gradient -->
 					<div class="absolute flex items-center justify-center top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-						<div class="absolute inset-0 translate-z-0 bg-purple-500 rounded-full blur-[120px] opacity-70"></div>
-						<div class="absolute w-1/4 h-1/4 translate-z-0 bg-purple-400 rounded-full blur-[40px]"></div>
+						<div class="absolute inset-0 translate-z-0 bg-blue-500 rounded-full blur-[120px] opacity-70"></div>
+						<div class="absolute w-1/4 h-1/4 translate-z-0 bg-blue-400 rounded-full blur-[40px]"></div>
 					</div>
 					<!-- Blurred shape -->
 					<div class="absolute bottom-0 translate-y-1/2 left-0 blur-2xl opacity-50 pointer-events-none -z-10" aria-hidden="true">
@@ -1456,13 +1473,13 @@
 					<!-- Content -->
 					<div class="max-w-3xl mx-auto text-center">
 						<div>
-							<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-200 pb-3">The security first platform</div>
+							<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-3">The security first platform</div>
 						</div>
 						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Take control of your business</h2>
 						<p class="text-lg text-slate-400 mb-8">All the lorem ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
 						<div>
 							<a class="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white transition duration-150 ease-in-out group" href="#0">
-								Get Started <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+								Get Started <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
 							</a>
 						</div>
 					</div>
@@ -1494,21 +1511,21 @@
 						<!-- Social links -->
 						<ul class="flex">
 							<li>
-								<a class="flex justify-center items-center text-purple-500 hover:text-purple-400 transition duration-150 ease-in-out" href="#0" aria-label="Twitter">
+								<a class="flex justify-center items-center text-blue-500 hover:text-blue-400 transition duration-150 ease-in-out" href="#0" aria-label="Twitter">
 									<svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
 										<path d="M24 11.5c-.6.3-1.2.4-1.9.5.7-.4 1.2-1 1.4-1.8-.6.4-1.3.6-2.1.8-.6-.6-1.5-1-2.4-1-1.7 0-3.2 1.5-3.2 3.3 0 .3 0 .5.1.7-2.7-.1-5.2-1.4-6.8-3.4-.3.5-.4 1-.4 1.7 0 1.1.6 2.1 1.5 2.7-.5 0-1-.2-1.5-.4 0 1.6 1.1 2.9 2.6 3.2-.3.1-.6.1-.9.1-.2 0-.4 0-.6-.1.4 1.3 1.6 2.3 3.1 2.3-1.1.9-2.5 1.4-4.1 1.4H8c1.5.9 3.2 1.5 5 1.5 6 0 9.3-5 9.3-9.3v-.4c.7-.5 1.3-1.1 1.7-1.8z" />
 									</svg>
 								</a>
 							</li>
 							<li class="ml-2">
-								<a class="flex justify-center items-center text-purple-500 hover:text-purple-400 transition duration-150 ease-in-out" href="#0" aria-label="Dev.to">
+								<a class="flex justify-center items-center text-blue-500 hover:text-blue-400 transition duration-150 ease-in-out" href="#0" aria-label="Dev.to">
 									<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
 										<path class="w-8 h-8 fill-current" d="M12.29 14.3a.69.69 0 0 0-.416-.155h-.623v3.727h.623a.689.689 0 0 0 .416-.156.543.543 0 0 0 .21-.466v-2.488a.547.547 0 0 0-.21-.462ZM22.432 8H9.568C8.704 8 8.002 8.7 8 9.564v12.872A1.568 1.568 0 0 0 9.568 24h12.864c.864 0 1.566-.7 1.568-1.564V9.564A1.568 1.568 0 0 0 22.432 8Zm-8.925 9.257a1.631 1.631 0 0 1-1.727 1.687h-1.657v-5.909h1.692a1.631 1.631 0 0 1 1.692 1.689v2.533ZM17.1 14.09h-1.9v1.372h1.163v1.057H15.2v1.371h1.9v1.056h-2.217a.72.72 0 0 1-.74-.7v-4.471a.721.721 0 0 1 .7-.739H17.1v1.054Zm3.7 4.118c-.471 1.1-1.316.88-1.694 0l-1.372-5.172H18.9l1.058 4.064 1.056-4.062h1.164l-1.378 5.17Z" />
 									</svg>
 								</a>
 							</li>
 							<li class="ml-2">
-								<a class="flex justify-center items-center text-purple-500 hover:text-purple-400 transition duration-150 ease-in-out" href="#0" aria-label="Github">
+								<a class="flex justify-center items-center text-blue-500 hover:text-blue-400 transition duration-150 ease-in-out" href="#0" aria-label="Github">
 									<svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
 										<path d="M16 8.2c-4.4 0-8 3.6-8 8 0 3.5 2.3 6.5 5.5 7.6.4.1.5-.2.5-.4V22c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8.6-.2 1.3-.3 2-.3s1.4.1 2 .3c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.7 3.9.3.4.6.9.6 1.6v2.2c0 .2.1.5.6.4 3.2-1.1 5.5-4.1 5.5-7.6-.1-4.4-3.7-8-8.1-8z" />
 									</svg>
@@ -1611,4 +1628,3 @@
 
 </body>
 
-</html>

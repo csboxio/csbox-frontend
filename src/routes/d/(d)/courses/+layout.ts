@@ -7,14 +7,11 @@ export const prerender = false;
 //@ts-ignore
 
 export const load = async ({ fetch, data, request, url, parent }) => {
-  const parentData = await parent();
-  const session = parentData.session
-  if (!session) {
-    throw redirect(303, '/');
-  }
-  const response = await fetch('/api/courses')
-
-  return {
-      courses: await response.json()
-  };
+    const courses = async () => {
+        const response =  await fetch('/api/courses')
+        return response.json()
+    }
+    return {
+        courses: courses()
+    };
 };

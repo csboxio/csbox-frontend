@@ -16,7 +16,10 @@ export const POST: RequestHandler = async ({ request, locals: { getSession } }) 
                 persistSession: false,
             }
         });
-  const session = await getSession()
+    await supabase.auth.refreshSession()
+
+    const session = await getSession()
+    console.log(session.user.id)
   if (session) {
       const updates = await request.json();
       console.log(updates)

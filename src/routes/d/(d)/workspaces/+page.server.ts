@@ -34,7 +34,7 @@ export const actions: Actions = {
         }
 
         try {
-            const response = await fetch('https://ide.csbox.io/api/workspace/new', {
+            const response = await fetch('https://ide.csbox.io/api/v1/workspace/new', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

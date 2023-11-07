@@ -8,16 +8,24 @@ export const load = (async ({ fetch, data, request, url, parent, params }) => {
   if (!session) {
     throw redirect(303, '/');
   }
-  const assignments = await fetch(`/api/assignments/?course=${params.slug}`)
-  const modules = await fetch(`/api/modules/?course=${params.slug}`)
-  const groups = await fetch(`/api/groups/?course=${params.slug}`)
+  const assignments = async () => {
+    const response =  await fetch(`/api/assignments/?course=${params.slug}`)
+    return response.json()
+  }
+  const modules = async () => {
+    const response =  await fetch(`/api/modules/?course=${params.slug}`)
+    return response.json()
+  }
+
+  const groups = async () => {
+    const response =  await fetch(`/api/groups/?course=${params.slug}`)
+    return response.json()
+  }
 
   return {
-    assignments: {
-      assignmentData: await assignments.json(),
-    },
-    groups: await groups.json(),
-    modules: await modules.json(),
+    assignments: assignments(),
+    groups: groups(),
+    modules: modules(),
     session: session,
   };
 

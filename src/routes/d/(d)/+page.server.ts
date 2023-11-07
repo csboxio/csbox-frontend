@@ -29,17 +29,17 @@ export const actions: Actions = {
         const formData = await request.formData()
         const {data} = await supabase.auth.refreshSession()
         const {session, user} = data
-        const fullName = formData.get('name')
+        const first_name = formData.get('name')
         const website = formData.get('website')
         const updates = {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            id: user.id,
-            full_name: fullName,
+            first_name: first_name,
             website: website,
             updated_at: new Date()
         }
-        const {error} = await supabase.from('users').upsert(updates)
+        const {error} = await supabase.from('users').update(updates).eq('id', user.id)
+        console.log(error)
         throw redirect(303, '/')
     }
 }

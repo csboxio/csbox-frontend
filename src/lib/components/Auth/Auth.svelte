@@ -1,12 +1,9 @@
 <script lang="ts">
     import { Auth } from '$lib/auth-ui-svelte';
     import { ThemeSupa, type SocialLayout, type ViewType } from '$lib/auth-ui-shared';
-    import MenuIcon from './MenuIcon.svelte';
-    import ToggleButton from './ToggleButton.svelte';
     import { browser } from "$app/environment";
     import { Turnstile } from "svelte-turnstile";
-    import { blur } from 'svelte/transition';
-
+    import {authTitle} from "$lib/stores/stores.js";
 
 
     const colors = [
@@ -72,22 +69,29 @@
     let token;
     $: token;
 
+
 </script>
 
-<body class="antialiased bg-body text-body font-body bg-gray-600 h-screen">
+<body class="antialiased bg-body text-body font-body bg-gray-700 h-screen">
 <div class="">
-    <div class="dark:bg-scale-200 bg-scale-100 relative py-2 pb-16">
+    <div class="dark:bg-gray-700 bg-gray-700 relative py-2 pb-16">
         <div
           class="sm:py-18 gap container relative mx-auto grid  px-6 py-16 md:gap-16 md:py-24 lg:gap-16 lg:px-16 lg:py-24 xl:px-20"
         >
             <div class="relative col-span-12 mb-16 md:col-span-7 md:mb-0 lg:col-span-6">
+
                 <div class="relative lg:mx-auto lg:max-w-md bg-gray-600">
                     <div class={'auth-box-shadow'}>
                         <div class="border-scale-200 bg-scale-300 relative rounded-xl px-8 py-12 drop-shadow-sm">
                             <div class="mb-6 flex flex-col gap-6">
                                 <div class="flex items-center gap-3">
-                                    <img src="./logo-fullColor-white-text.png" width="150" height="100%" alt="CSBOX">
+                                    <img src="./favicon.png" width="50" height="100%" alt="CSBOX">
+
+                                    {#if authTitle !== undefined}
+                                    <div class="flex text-white font-semibold text-xl">{$authTitle?.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</div>
+                                        {/if}
                                 </div>
+                                <!-- Title -->
                             </div>
                             <Auth
                               supabaseClient={supabase}
@@ -96,7 +100,7 @@
                               appearance={{
 								theme: ThemeSupa,
 								style: {
-									button: `border-radius: ${'10px'}; border-color: rgba(0,0,0,0);`
+									button: `border-radius: ${'20px'}; border-color: rgba(0,0,0,0);`
 								},
 								variables: {
 									default: {
@@ -119,13 +123,14 @@
                                 hd: 'csbox.io',
                               }}
                               captchaToken={token}
-                              {socialLayout}
                             />
+
                             <div class="flex justify-center text-center">
                                 {#if browser}
                                     <Turnstile siteKey="0x4AAAAAAAFpCF8-h1TYQKHV" on:turnstile-callback={e => {token = e.detail.token}} />
                                 {/if}
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -138,7 +143,7 @@
 <style>
     .auth-box-shadow {
         min-width: 364px;
-        box-shadow: -2px 1px 69px 5px rgb(57, 60, 68);
-        border-radius: 1rem;
+        box-shadow: -2px 1px 69px 5px rgba(74, 95, 115, 0.52);
+        border-radius: 0.5rem;
     }
 </style>

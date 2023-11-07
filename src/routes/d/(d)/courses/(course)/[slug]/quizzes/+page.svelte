@@ -16,6 +16,7 @@
 	import {applyAction, deserialize} from "$app/forms";
 	import {page} from "$app/stores";
 	import {addNotification} from "../../../../../../../lib/utilities/notifications.js";
+	import {format, formatDistanceToNow, parseISO} from "date-fns";
 
 	export let data;
 	let { supabase, claim } = data
@@ -189,7 +190,7 @@
 									{#each filteredItems as { id, quiz_title, quiz_doc, quiz_attempts, question_count, due, points}, i}
 										<TableBodyRow on:click={() =>  handleQuiz(id)} class="cursor-pointer">
 											<TableBodyCell >{quiz_title ? quiz_title : 'No title'}</TableBodyCell>
-											<TableBodyCell >{due ? due.substring(0, 10) : "No date" }</TableBodyCell>
+											<TableBodyCell >{format(parseISO(due), "MMM dd hh:mm a")}</TableBodyCell>
 											<TableBodyCell >{points ? points : "No Points" }</TableBodyCell>
 
 											{#if claim !== 'student'}

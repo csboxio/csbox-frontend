@@ -14,6 +14,9 @@
 	import { goto, invalidateAll } from "$app/navigation";
 	import { addNotification } from "../../../../../../../lib/utilities/notifications.js";
 	import {navStore} from "../../../../../../../lib/stores/stores.js";
+	import Fa from 'svelte-fa/src/fa.svelte';
+	import {faCheck, faCopy} from "@fortawesome/free-solid-svg-icons";
+	import {formatDistanceToNow, parseISO} from "date-fns";
 
 
 	export let data;
@@ -37,9 +40,11 @@
 	);
 
 	let delete_people_id;
-	function delete_model_open(id) {
+	let delete_people_name;
+	function delete_model_open(id, name) {
 		removeModel = true;
 		delete_people_id = id;
+		delete_people_name = name;
 	}
 
 	function delete_model_close() {
@@ -103,6 +108,16 @@
 		await invalidateAll();
 	}
 
+	function copyCode() {
+		navigator.clipboard.writeText(code)
+				.then(() => {
+					console.log('Code copied to clipboard');
+				})
+				.catch(err => {
+					console.error('Unable to copy code to clipboard:', err);
+				});
+	}
+
 	onMount(() => {
 		// Set the selected item when the page is mounted
 		navStore.set('courses');
@@ -117,7 +132,7 @@
 
 			{#if claim !== 'student'}
 
-			<button on:click={() => peopleModel = true}
+			<button on:click={() => { peopleModel = true; handleGenerateCode() }}
 				class="ml-0.5 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
 				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
@@ -139,13 +154,15 @@
 								<TableHeadCell>Name</TableHeadCell>
 								{#if claim !== 'student'}
 								<TableHeadCell>Enrolled</TableHeadCell>
-								<TableHeadCell>
+									<TableHeadCell>Date Enrolled</TableHeadCell>
+									<TableHeadCell>
 									<span class="sr-only ">Edit</span>
 								</TableHeadCell>
 								{/if}
 							</TableHead>
 							<TableBody class="divide-y">
-								{#each filteredItems as {id, enrolled, first_name, last_name }}
+								{#key filteredItems}
+								{#each filteredItems as {id, enrolled, first_name, last_name, enrollment_date }}
 
 								<TableBodyRow  class="cursor-pointer">
 										<TableBodyCell>{first_name} {last_name}</TableBodyCell>
@@ -162,23 +179,32 @@
 											</span>
 												</button>
 											{#if enrolled}
-												TRUE
+												<Fa icon={faCheck} class="pl-6 text-green-500"/>
 											{/if}
 										</TableBodyCell>
 
+										<TableBodyCell>
+											<div class="text-gray-200 text-xs ">
+											{formatDistanceToNow(parseISO(enrollment_date), {addSuffix: true})}
+											</div>
+										</TableBodyCell>
+
 										<TableBodyCell tdClass="py-4 whitespace-nowrap font-medium">
+											{#if id !== $page.data.session.user.id}
 											<a class="font-medium
-								text-blue-600 hover:underline dark:text-blue-500 px-1">
+											text-blue-600 hover:underline dark:text-blue-500 px-1">
 												Edit
 											</a>
-											<a on:click|stopPropagation={() => delete_model_open(user_id)} class="font-medium text-blue-600
-								hover:underline dark:text-red-500">
+											<a on:click|stopPropagation={() => delete_model_open(id, `${first_name} ${last_name}`)} class="font-medium text-blue-600
+											hover:underline dark:text-red-500">
 												Remove
 											</a>
+											{/if}
 										</TableBodyCell>
 									{/if}
 									</TableBodyRow>
 									{/each}
+								{/key}
 							</TableBody>
 						</Table>
 					</TableSearch>
@@ -189,50 +215,32 @@
 	<div>
 
 		<!-- Model for add people -->
-		<Modal title="Add People" class="max-w-xs" bind:open={peopleModel}>
+		<Modal title="Generate Join Code" class="max-w-xs" bind:open={peopleModel}>
 			<form method="POST">
-				<div class="grid gap-4 mb-6 px-6 sm:grid-cols-1">
-
-					<div>
-						<label
-							for="type"
-							class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label
-						>
-						<select
-							name="type"
-							id="type"
-							class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-							required
-						>
-							<option selected="">Select type</option>
-							<option value="Basic">Student</option>
-							<option value="Basic">Teacher</option>
-							<option value="Basic">TA</option>
-						</select>
-					</div>
-
-					<div class="sm:col-span-2">
-						<button type="button" class="px-3 py-2 text-sm font-medium text-center text-white
+				<p  class=" font-semibold text-gray-900 dark:text-white px-2">Distribute this code to join your course, and you'll grant them access.</p>
+				<p  class="text-xs py-2 font-semibold text-gray-900 dark:text-gray-200 px-2">Valid for 48 hours.</p>
+					<div class="py-4 px-2 inline-block">
+						<button type="button" class="px-3 py-3 font-medium text-center text-white
 									 bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
-									  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" on:click={() => handleGenerateCode()}>Generate Code</button>
+									  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" on:click={() => handleGenerateCode()}>Generate</button>
 					</div>
 					{#if code !== ''}
-						<div class="sm:col-span-2">
-							<label
-								for="code"
-								class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Code</label
-							>
-							<h2 id="code" class="text-xl font-semibold text-gray-900 dark:text-white px-2.5">{code}</h2>
+						<div class=" inline-block px-2">
+							<h2 id="code" class="text-2xl font-semibold space-x-2  text-gray-900 dark:text-white py-2 px-2 border rounded tracking-widest">{code}</h2>
+						</div>
 
+						<div class="inline-block text-xl text-gray-200 hover:text-blue-500 cursor-pointer" title="Click to copy code" on:click={copyCode}>
+							<Fa icon={faCopy} size="xl"/>
 						</div>
 					{/if}
-				</div>
+
 			</form>
 		</Modal>
 
 		<!-- Model for remove people -->
 		<Modal title="Remove person" class="max-w-xs" bind:open={removeModel}>
-			<p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to delete this item?</p>
+			<p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to unenroll <b>{delete_people_name}</b>? </p>
+			<b>All data will be lost, instantly.</b>
 			<div class="flex justify-center items-center space-x-4">
 				<button on:click={() => removeModel = false} data-modal-toggle="deleteModal" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
 					No, cancel

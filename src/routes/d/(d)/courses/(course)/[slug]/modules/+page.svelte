@@ -6,11 +6,22 @@
 	import { AccordionItem, Accordion, Modal } from "flowbite-svelte";
 	import {onMount} from "svelte";
 	import {navStore} from "../../../../../../../lib/stores/stores.js";
-	import {faAdd, faCircleCheck, faFlag, faGear, faPencil} from "@fortawesome/free-solid-svg-icons";
+	import {
+		faAdd,
+		faCircleCheck, faClipboardQuestion, faFileCircleQuestion,
+		faFlag,
+		faGear,
+		faPencil,
+		faQuestionCircle,
+		faRocket
+	} from "@fortawesome/free-solid-svg-icons";
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-	import ModuleAccordion from "$lib/components/UI/ModuleAccordion.svelte";
-	import ModuleAccordionBody from "$lib/components/UI/ModuleAccordionBody.svelte";
+	import ModuleAccordionBody from "$lib/components/Course/modules/ModuleAccordionBody.svelte";
+	import ModuleAccordion from "$lib/components/Course/modules/ModuleAccordion.svelte";
+	import {format, parseISO} from "date-fns";
+	import ModuleAccordionRow from "$lib/components/Course/modules/ModuleAccordionRow.svelte";
+	import AssignmentAccordionRow from "$lib/components/Course/assignments/AssignmentAccordionRow.svelte";
 	export let data;
 
 
@@ -33,8 +44,8 @@
 
 	$: item_id;
 	$: modules = $page.data.modules
-	$: assignments = $page.data.assignments
-	$: quizzes = $page.data.quizzes
+	$: assignments = []
+	$: quizzes = []
 
 	function create_module() {
 		close_add_item();
@@ -45,9 +56,20 @@
 		show_create_box = false;
 	}
 
-	function add_item(id){
+	async function add_item_to_module(id){
+		const _assignments = async () => {
+			const response =  await fetch(`/api/assignments/?course=${$page.params.slug}`)
+			return response.json()
+		}
+
+		const _quizzes = async () => {
+			const response = await fetch(`/api/quizzes/?course=${$page.params.slug}`)
+			return response.json()
+		}
 		addAssignmentModel = true
 		item_id = id;
+		assignments = await _assignments()
+		quizzes = await _quizzes()
 	}
 
 	function close_add_item(){
@@ -56,6 +78,10 @@
 
 	function handleAssignment(id) {
 		goto('/d/courses/' + data.slug + '/assignments/' + id);
+	}
+
+	function handleQuiz(id) {
+		goto('/d/courses/' + data.slug + '/quizzes/' + id);
 	}
 
 	let left = 600;
@@ -82,22 +108,18 @@
 		await applyAction(result);
 	}
 
-	const items = Array(3);
-
-	const open_all = () => items.forEach((_,i)=> items[i] = true)
-	const close_all= () => items.forEach((_,i)=> items[i] = false)
-
 	onMount(() => {
 		// Set the selected item when the page is mounted
 		navStore.set('courses');
 	});
 
 	export let active = null;
+
 </script>
 
 <div class="w-full">
-	<section class="p-1 mt-4">
-		<div class="container">
+	<section class="pl-1 pt-1 mt-4">
+		<div class="">
 
 			{#if claim !== 'student'}
 
@@ -109,79 +131,62 @@
 			</button>
 			{/if}
 
-			<button on:click={open_all} type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300
-			font-medium rounded-lg text-sm px-5 py-3 mr-1 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
-				Open All
-			</button>
-			<button on:click={close_all} type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300
-			font-medium rounded-lg text-sm px-5 py-3 mr-1 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
-				Close All
-			</button>
-
-			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold mr-1">
-
-
+			<div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold mr-0.5 ">
 				{#key modules}
 					<ModuleAccordionBody bind:active>
-				{#each modules as { module_title, id, assignments }, i}
+				{#each modules as { module_title, module_id, assignments, quizzes, module_published }, i }
 					<div transition:blur|local={{ duration: 200 }} class="mb-1 mx-6 cursor-pointer">
 						<!--Module-->
 						<div id="accordion-collapse" data-accordion="collapse">
-
-							<ModuleAccordion id={i} title={module_title} >
-
-									<!-- Plus symbol to the right of the module title -->
-									{#if claim !== 'student'}
-										<div class="flex justify-between">
-											<div class="flex inline-flex ">
-									<a on:click|stopPropagation={() => {add_item(module_title)}}
-										 class="text-gray-200 pb-4 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
-										<div class="mr-1"><Fa icon={faAdd}  /> </div>
-										Item
-									</a>
-											</div>
-
-											<div class="flex inline-flex">
-									<a
-									   class="text-gray-200 pb-4 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
-										<div class="mr-1"><Fa icon={faGear}  /></div>
-										Settings
-									</a>
-										</div>
-										</div>
-
-									{/if}
-									<!-- End of plus symbol -->
-
+							<ModuleAccordion id={i} module_id={module_id}
+											 title={module_title}
+											 published={module_published}
+											 addAssignmentModel={addAssignmentModel}
+											 item_id={module_id}
+											 claim={claim}
+											 on:addItem={add_item_to_module}>
 									<!-- assignments -->
-									{#each assignments as {title, in_module}, i}
-										{#if in_module === id}
-											<a>
-											<div class="py-4 px-4 text-lg text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t"
-												 on:click={()=> {handleAssignment(assignments[i].assignment_id)}}>
-												<Fa class="inline-block pr-4" icon={faPencil}/>
-												{title === '' ? 'Assignment Error..' : title}
-											</div>
-											</a>
-											{/if}
+
+								  {#each assignments as assignment (assignment.assignment_id)}
+										<AssignmentAccordionRow
+												assignment_id={assignment.assignment_id}
+												slug={data.slug}
+												title={assignment.title}
+												due={assignment.due}
+												points={assignment.points}
+												claim={claim}
+												published={assignment.published}
+												displayas={assignment.display_as}
+												assignmentDueDate={assignment.due}
+												assignmentStartDate={assignment.available_start}
+												assignmentEndDate={assignment.available_end}
+												module_id={assignment.in_module}
+												modules={modules}
+										></AssignmentAccordionRow>
 									{/each}
 
 									<!-- quizzes -->
-									{#each quizzes as {quiz_title, in_module}, i}
-										{#if in_module === id}
-											<a>
-												<div class="py-4 px-4 text-lg text-gray-200 hover:text-white hover:bg-gray-500 text-white border-t">
-													<Fa class="inline-block pr-4" icon={faCircleCheck}/>
-													{quiz_title === '' ? 'Quizzes Error..' : quiz_title}
-												</div>
-											</a>
-										{/if}
-									{/each}
-							{#if assignments && quizzes}
-								{#if assignments.length === 0}
-									Nothing here
+
+								{#if false}
+								{#each quizzes as {id, title, in_module, due, points, published}, i}
+									<ModuleAccordionRow
+											id={id}
+											slug={data.slug}
+											title={title}
+											due={due}
+											points={points}
+											claim={claim}
+											published={published}
+											type="quiz"
+									></ModuleAccordionRow>
+								{/each}
 								{/if}
-							{/if}
+
+								{#if assignments && quizzes}
+									{#if assignments.length === 0 && quizzes.length === 0}
+										<div class="py-2 px-6 pb-4">Nothing here...</div>
+									{/if}
+								{/if}
 
 							</ModuleAccordion>
 
@@ -268,19 +273,22 @@
 
 			<div>
 				<label
-					for="modules"
-					class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						for="modules"
+						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 				>Module</label
 				>
+
 				<select
-					name="modules"
-					id="modules"
-					class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-					required
+						name="modules"
+						id="modules"
+						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+						required
 				>
-					{#each modules as { module_title, id }, i}
-						<option value="{id}" selected={id === add_item}>{module_title}</option>
+					{#key modules}
+					{#each modules as { module_title, module_id }, i}
+						<option value="{module_id}" selected={module_id === item_id}>{module_title}</option>
 					{/each}
+						{/key}
 				</select>
 			</div>
 
@@ -295,8 +303,8 @@
 						id="type"
 						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 						required>
-						<option value="assignment">Assignment</option>
-						<option value="quiz">Quiz</option>
+					<option value="assignment">Assignment</option>
+					<option value="quiz">Quiz</option>
 
 				</select>
 			</div>
@@ -305,37 +313,41 @@
 		</div>
 		<div>
 			{#if selectedTypeAddItem === "assignment"}
-			<label for="assignment_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an assignment</label>
-			<select multiple name="assignment_id" id="assignment_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-				{#each assignments as {assignment_id, title, due}}
-					<option value="{assignment_id}">{title} | Due - {new Date(due).toDateString()}</option>
-				{/each}
-			</select>
-				{/if}
+				<label for="assignment_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an assignment</label>
+				<select multiple name="assignment_id" id="assignment_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+					{#key assignments}
+					{#each assignments as {assignment_id, title, due}, i (assignment_id)}
+						<option value="{assignment_id}">{title} | Due - {new Date(due).toDateString()}</option>
+					{/each}
+						{/key}
+				</select>
+			{/if}
 			{#if selectedTypeAddItem === "quiz"}
 
-			<label for="quiz_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a quiz</label>
-			<select multiple name="quiz_id" id="quiz_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-				{#each quizzes as {id, quiz_title, due}}
-					<option value="{id}">{quiz_title} | Due - {new Date(due).toDateString()}</option>
-				{/each}
-			</select>
-				{/if}
+				<label for="quiz_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a quiz</label>
+				<select multiple name="quiz_id" id="quiz_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+					{#key quizzes}
+					{#each quizzes as {id, quiz_title, due}, i (id)}
+						<option value="{id}">{quiz_title} | Due - {new Date(due).toDateString()}</option>
+					{/each}
+						{/key}
+				</select>
+			{/if}
 		</div>
 		<button
-			type="submit"
-			class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+				type="submit"
+				class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
 		>
 			<svg
-				class="mr-1 -ml-1 w-6 h-6"
-				fill="currentColor"
-				viewBox="0 0 20 20"
-				xmlns="http://www.w3.org/2000/svg"
+					class="mr-1 -ml-1 w-6 h-6"
+					fill="currentColor"
+					viewBox="0 0 20 20"
+					xmlns="http://www.w3.org/2000/svg"
 			>
 				<path
-					fill-rule="evenodd"
-					d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-					clip-rule="evenodd"
+						fill-rule="evenodd"
+						d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+						clip-rule="evenodd"
 				/>
 			</svg>
 			Add new item

@@ -1,7 +1,8 @@
 <script>
   import {page} from "$app/stores";
   import {courseNavStore} from "$lib/stores/stores.ts";
-  import {onMount} from "svelte";
+  import {afterUpdate, onMount} from "svelte";
+  import {browser} from "$app/environment";
   export const ssr = false
 
   export let claim;
@@ -12,15 +13,29 @@
     { name: "Assignments", route: route + "assignments",  claim: [ "student", "instructor" ] },
     { name: "Modules", route: route + "modules",          claim: [ "student", "instructor" ] },
     { name: "Quizzes", route: route + "quizzes",          claim: [ "student", "instructor" ] },
+    { name: "Lessons", route: route + "lessons",          claim: [ "student", "instructor" ] },
     { name: "Grades", route: route + "grades",            claim: [ "student", "instructor" ] },
     { name: "People", route: route + "people",            claim: [ "student", "instructor" ] },
+    { name: "Metrics", route: route + "metrics",          claim: [ "instructor" ] },
     { name: "Settings", route: route + "settings",        claim: [ "instructor" ] },
   ];
 
+  let pathname = '';
+  let extractedName;
 
-  function handleClick(menuItem) {
-    $courseNavStore = menuItem.name;
+  function extractNameFromPath() {
+    pathname = $page.url.pathname;
+    const pathnameParts = pathname.split("/");
+    if (pathnameParts.length > 4 && browser) {
+      return pathnameParts[4].charAt(0).toUpperCase() + pathnameParts[4].substring(1)
+    }
+    else {
+      return "Home"
+    }
   }
+  afterUpdate(() => {
+    extractedName = extractNameFromPath();
+  });
 </script>
 
 <section class="sticky inset-y-0 z-1 flex-shrink-0 mr-5 bg-gray-700 border-r border-t border-gray-500 dark:border-primary-darker dark:bg-darker lg:static focus:outline-none">
@@ -28,11 +43,11 @@
     <!-- Panel content -->
     <div class="flex-1 pl-1.5 pr-1 mr-0.5 overflow-y-hidden font-semibold text-white">
       <!-- Content -->
-      {#each menuItems as menuItem, index}
+      {#each menuItems as menuItem, index (menuItem.name)}
         {#if menuItem.claim.includes(claim)}
-        <a href="{menuItem.route}" on:click={() => handleClick(menuItem)} key={index}>
-          <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg" class:bg-gray-600={$courseNavStore === menuItem.name}>
-            <p class="px-2 mx-1 text-gray-100" class:text-white={$courseNavStore === menuItem.name}>
+        <a href="{menuItem.route}" key={index}>
+          <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg" class:bg-gray-600={extractedName === menuItem.name}>
+            <p class="px-2 mx-1 text-gray-100" class:text-white={extractedName === menuItem.name}>
               {menuItem.name}
             </p>
           </div>

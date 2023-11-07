@@ -21,7 +21,6 @@
 	$: ({ supabase, session, user } = data)
 
 
-
 	onMount(() => {
 
 		const {
@@ -34,6 +33,17 @@
 
 		return () => subscription.unsubscribe()
 	});
+
+	if (browser) {
+		const urlParams = new URLSearchParams(window.location.search);
+
+		const code = urlParams.get('code')
+
+		if (code) {
+			goto('/auth')
+		}
+	}
+
 
 </script>
 <svelte:head>

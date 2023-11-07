@@ -8,7 +8,8 @@
 	import {Checkbox, FloatingLabelInput, Range, StepIndicator} from 'flowbite-svelte';
 	import CourseColorPicker from "$lib/components/CourseColorPicker.svelte";
 	import {createTemplateCourseData} from "../../../../../lib/utilities/templateCourse.js";
-	let steps = ['Step 1', 'Step 2', 'Step 3'];
+	import UploadCourseImage from "$lib/components/Image/UploadCourseImage.svelte";
+	let steps = ['Step 1', 'Step 2'];
 
 	let session = $page.data.session;
 	let loading;
@@ -107,13 +108,13 @@
 {#if claim !== 'student'}
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
 	<div class="from-gray-500 to-gray-500 bg-gradient-to-br antialiased bg-body text-body font-body">
-			<section class="py-3">
-				<div class="container px-6 mx-auto">
+			<section class="py-6">
+				<div class="container 2xl:w-[40%] xl:w-3/5 lg:w-2/3 md:w-2/3 sm:w-full mx-auto">
 					<div class="min-h-screen gap-4 flex justify-center items-center">
 
 						<div class="flex justify-around i items-center w-full">
 
-							<div class="p-9 bg-gray-600 rounded-xl w-full">
+							<div class="p-9 bg-gray-600 rounded-xl w-full ">
 
 								<!--Header-->
 								<div
@@ -131,7 +132,7 @@
 								{#if currentStep === 1}
 									<form action="?/createCourse" method="POST" on:submit|preventDefault={handleSubmit}>
 
-									<div class="grid gap-6 mb-6 md:grid-cols-2">
+									<div class="grid gap-6 mb-6 md:grid-cols-2 ">
 
 										<div class="mb-4">
 									<label for="course_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Title</label>
@@ -236,7 +237,10 @@
 
 								{#if currentStep === 2}
 									<form>
-										<CourseImage bind:courseID={currentCourseId} bind:data={data} />
+										<div class="mb-2 text-center">
+											<div class="text-xl font-bold tracking-wide text-white mb-1">Course Icon</div>
+										</div>
+										<UploadCourseImage bind:courseID={currentCourseId} bind:data={data} />
 									</form>
 									<div>
 										<!--Save and cancel buttons-->
@@ -247,9 +251,9 @@
 										>
 										<button
 												class="float-right inline-block py-2 px-4 text-xs text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-												on:click={() => handleSteps(3)}
+												on:click={() => goto("/d/courses")}
 										>
-											Next
+											Done
 										</button>
 									</div>
 
