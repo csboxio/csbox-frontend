@@ -21,22 +21,13 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, event, loc
     const headers = { Authorization: authenticationHeader };
 
     try {
-        response = await fetch('https://lti.csbox.io/api/idtoken', { headers });
+        response = await fetch('https://lti.csbox.io/api/memberships', { headers });
         const data = await response.json();
 
-        // You can store the retrieved data in a store or pass it to the component depending on your use case.
-        const userInfo = data.user;
-        const lmsInfo = data.platform;
-        const launchInfo = data.launch;
-        const servicesInfo = data.services;
 
-        const platformID = data.platform.id
-        const userID = data.user.id
-        const email = data.user.email
-
-        // Set the headers and return the data as JSON
+        console.log(data)
         setHeaders({ 'Content-Type': 'application/json' });
-        return json({ userInfo, lmsInfo, launchInfo, servicesInfo });
+        return json({ data });
     } catch (error) {
         return {
             status: 500,
