@@ -2,30 +2,55 @@
 	import { page } from '$app/stores';
 	import Auth from "$lib/components/Auth/Auth.svelte";
 	import {browser} from "$app/environment";
+	import {onMount} from "svelte";
+	import {invalidateAll} from "$app/navigation";
 
 	export let data
 
-	let { supabase, claim } = data
-	$: ({ supabase, claim  } = data)
+	let { supabase } = data
+	$: ({ supabase } = data)
+
+	let email = '';
+	let password = '';
+	let user;
+
+	const login = async () => {
+		try {
+			const { user, error } = await supabase.auth.signInWithPassword({ email, password });
+
+			console.log('User:', user, error);
+		} catch (error) {
+			console.error('Login error:', error.message);
+		}
 
 
-	const sendTokenToParent = (token) => {
-		window.opener.postMessage({ type: 'authentication_token', token }, 'https://joint-dear-lamb.ngrok-free.app');
-		window.close();
+			const { data, error } = await supabase.auth.refreshSession();
+			console.log(data, error);
+
 	};
 
-	if ($page.data.session) {
-		const userSession = {'access_token': $page.data.session.access_token,
-			'refresh_token': $page.data.session.refresh_token};
-		(sendTokenToParent(userSession))
-	}
+	onMount(async () => {
+		// Check if the user is already authenticated
+
+	});
+
 </script>
 
 
-{#if !$page.data.session }
+{#if !user }
 
-	<Auth bind:data={data} />
+	<div>
+		<label for="email">Email:</label>
+		<input type="email" bind:value={email} id="email" />
+
+		<label for="password">Password:</label>
+		<input type="password" bind:value={password} id="password" />
+
+		<button on:click={login}>Login</button>
+	</div>
 	{:else}
-	Session Found
+		<script type="module">
+			window.location.href = '/lti/deeplinking';
+		</script>
 {/if}
 

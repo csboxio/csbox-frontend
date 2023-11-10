@@ -9,8 +9,8 @@
 
 	let finishProfile;
 
-	let { supabase, session, user, claim } = data
-	$: ({ supabase, session, user, claim } = data)
+	let { supabase } = data
+	$: ({ supabase } = data)
 
 	onMount(async () => {
 		const {
