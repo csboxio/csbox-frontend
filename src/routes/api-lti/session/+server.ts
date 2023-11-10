@@ -4,7 +4,7 @@ import {createClient} from "@supabase/supabase-js";
 import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$env/static/public";
 
 /** @type {import('./$types').RequestHandler} */
-export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { supabase, getSession }, event }) => {
+export const GET: RequestHandler = async ({ cookies, request, url, setHeaders, locals: { supabase, getSession }, event }) => {
 
     const access_token = url.searchParams.get('access_token')
     const refresh_token = url.searchParams.get('refresh_token')
@@ -16,25 +16,23 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { 
         refresh_token
     })
 
-    // Check if the request contains Supabase cookies
-    const refreshToken = request.cookies['sb-refresh-token'];
-    const accessToken = request.cookies['sb-access-token'];
+    console.log(data, error)
+
+    const refreshToken = cookies['sb-refresh-token'];
+    const accessToken = cookies['sb-access-token'];
 
     if (refreshToken && accessToken) {
         // Set the Supabase session for the request
-        await supabase.auth.setSession(
+        const { data, error } = await supabase.auth.setSession(
             {
                 refresh_token: refreshToken,
                 access_token: accessToken,
             }
         );
+        console.log(data, error)
     } else {
         console.log("failed")
     }
-
-    console.log(data, error)
-
-    console.log(error)
 
     return json(data)
 }
