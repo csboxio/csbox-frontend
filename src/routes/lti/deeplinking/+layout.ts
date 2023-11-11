@@ -2,7 +2,6 @@
 
 import { redirect } from "@sveltejs/kit";
 import {browser} from "$app/environment";
-import {createSupabaseLoadClient} from "@supabase/auth-helpers-sveltekit";
 
 import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$env/static/public";
 import type {Database} from "../../../schema.js";

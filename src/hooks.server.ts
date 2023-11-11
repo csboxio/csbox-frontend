@@ -3,14 +3,14 @@ import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/publi
 import {redirect} from "@sveltejs/kit";
 import {createServerClient} from "@supabase/ssr";
 
+// TODO SCHEMA MATERIAL
 export const handle = async ({ event, resolve }) => {
+
   event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
+    db: { schema: "public" },
     auth: {
       autoRefreshToken: true,
       persistSession: true,
-    },
-    db: {
-      schema: "material",
     },
     cookies: {
       get: (key) => event.cookies.get(key),
