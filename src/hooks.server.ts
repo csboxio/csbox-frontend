@@ -2,16 +2,43 @@
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public'
 import {redirect} from "@sveltejs/kit";
 import {createServerClient} from "@supabase/ssr";
+import { error, json, text, Handle } from '@sveltejs/kit';
+
 
 // TODO SCHEMA MATERIAL
+
+const csrf = (allowedPaths: string[]): Handle => async ({ event, resolve }) => {
+          const forbidden =
+              event.request.method === 'POST' &&
+              event.request.headers.get('origin') !== event.url.origin &&
+              isFormContentType(event.request) &&
+              !allowedPaths.includes(event.url.pathname);
+
+          if (forbidden) {
+            const csrfError = error(
+                403,
+                `Cross-site ${event.request.method} form submissions are forbidden`,
+            );
+            if (event.request.headers.get('accept') === 'application/json') {
+              return json(csrfError.body, { status: csrfError.status });
+            }
+            return text(csrfError.body.message, { status: csrfError.status });
+          }
+
+          return resolve(event);
+        };
+function isContentType(request: Request, ...types: string[]) {
+  const type = request.headers.get('content-type')?.split(';', 1)[0].trim() ?? '';
+  return types.includes(type);
+}
+function isFormContentType(request: Request) {
+  return isContentType(request, 'application/x-www-form-urlencoded', 'multipart/form-data');
+}
+
 export const handle = async ({ event, resolve }) => {
 
   event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
     db: { schema: "public" },
-    auth: {
-      autoRefreshToken: true,
-      persistSession: true,
-    },
     cookies: {
       get: (key) => event.cookies.get(key),
       set: (key, value, options) => {
@@ -65,10 +92,12 @@ export const handle = async ({ event, resolve }) => {
     } = await event.locals.supabase.auth.getSession()
     return session
   }
+  await csrf(['/api-lti/login'])({ event, resolve });
 
   return resolve(event, {
     filterSerializedResponseHeaders(name) {
       return name === 'content-range'
     },
   })
-}
+
+};

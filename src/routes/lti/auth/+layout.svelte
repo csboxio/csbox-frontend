@@ -9,15 +9,14 @@
 
 	let finishProfile;
 
-	let { supabase } = data
-	$: ({ supabase } = data)
+	let { supabase, session, user, claim } = data
+	$: ({ supabase, session, user, claim } = data)
 
 	onMount(async () => {
 		const {
 			data: {subscription}
 		} = supabase.auth.onAuthStateChange(() => {
 			invalidateAll();
-			//goto("/");
 		});
 	});
 </script>

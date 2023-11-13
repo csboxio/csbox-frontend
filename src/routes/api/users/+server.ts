@@ -11,6 +11,7 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
                 persistSession: false,
             }
         });
+
     await supabase.auth.refreshSession()
     const session = await getSession()
     if (session) {
@@ -18,9 +19,7 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
             .select('updated_at, username, first_name, last_name, website, avatar_url, bio, country, completed_setup')
             .eq('id', session.user.id)
             .single()
-        setHeaders({
-            'cache-control': 'public, max-age=300'
-        })
+
         return json({data})
     }
     return new Response('An error occurred (500)');

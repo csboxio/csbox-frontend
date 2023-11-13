@@ -21,14 +21,10 @@ export const load = async ({ fetch, data, depends }) => {
   })*/
 
   const supabase = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
-    global: {
-      fetch,
-    },
     //serverSession: data.session,
     db: { schema: 'material' },
-    auth: {
-      autoRefreshToken: true,
-      persistSession: true,
+    global: {
+      fetch,
     },
     cookies: {
       get(key) {
