@@ -13,6 +13,9 @@
 
     let csbox_url;
 
+    // I want the session here
+    console.log(session, $page.data.session)
+
 
 
 </script>

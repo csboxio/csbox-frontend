@@ -1,9 +1,23 @@
 <script lang="ts">
 	import ErrorBoundary from "$lib/components/ErrorBoundary.svelte";
 	import {onMount} from "svelte";
-	import {invalidate} from "$app/navigation";
+	import {invalidate, invalidateAll} from "$app/navigation";
 
 	export let data
+
+	let { supabase, session, user, claim } = data
+	$: ({ supabase, session, user, claim } = data)
+
+
+
+	onMount(async () => {
+		const {
+			data: {subscription}
+		} = supabase.auth.onAuthStateChange(() => {
+			invalidateAll();
+			//goto("/");
+		});
+	});
 
 </script>
 <svelte:head>
