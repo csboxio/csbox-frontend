@@ -12,6 +12,7 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
     throw redirect(303, '/');
   }
   const id = url.searchParams.get('id')
+
   try {
     const response = await fetch(`https://ide.csbox.io/api/kube/deploy/${id}`)
     let data

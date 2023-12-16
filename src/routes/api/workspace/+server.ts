@@ -15,11 +15,5 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { 
     .select('id, inserted_at, instance_config, instance_title, instance_state')
     .eq('creator_id', session.user.id)
 
-
-
-  setHeaders({
-    'cache-control': 'public, max-age=60, s-maxage=60'
-  })
-
   return json(data)
 }

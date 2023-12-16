@@ -38,6 +38,11 @@
 	let healthcheck;
 	$: healthcheck = $page.data.health_check
 
+	let jwt_session;
+	$: jwt_session = $page.data.jwt_session
+
+	console.log(jwt_session)
+
 	// Create Workspace
 	let deployModal = false;
 	let failedApiModal = false;
