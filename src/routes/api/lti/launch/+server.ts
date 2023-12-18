@@ -8,6 +8,10 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, event, loc
     const ltik = searchParams.get('ltik');
     let response;
 
+    const session = await getSession()
+
+    console.log(session)
+
     if (!ltik) {
         return {
             status: 400,

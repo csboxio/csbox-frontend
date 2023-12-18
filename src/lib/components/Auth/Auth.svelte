@@ -31,11 +31,7 @@
     let borderRadius = radii[0];
     let view = views[0];
 
-    export let data
-
-    let { supabase, session, user } = data
-    $: ({ supabase, session, user } = data)
-    //console.log(supabase)
+    export let supabase
 
     const customTheme = {
         default: {

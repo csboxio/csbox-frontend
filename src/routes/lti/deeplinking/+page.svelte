@@ -5,18 +5,19 @@
     import * as url from "url";
     import {faExternalLink} from '@fortawesome/free-solid-svg-icons';
     import Fa from 'svelte-fa/src/fa.svelte';
+    import DeepLinking from "$lib/lti/DeepLinking.svelte";
+    import Settings from "$lib/components/Settings.svelte";
+    import Courses from "$lib/blocks/Courses.svelte";
 
 	export let data
 
 	let { session } = data
 	$: ({ session } = data)
 
-    let csbox_url;
-
-    // I want the session here
-    console.log(session, $page.data.session)
-
-
+    let courses;
+    $: courses = data.courses.data;
+    let hoverID;
+    $: hoverID;
 
 </script>
 
@@ -33,7 +34,34 @@
                 </span>
         </button>
         {:else}
-        SESSION
+        <section >
+            <div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
+                <div class="flex flex-wrap items-center justify-between -mx-2">
+                    <div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
+                        <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Select Content to Link To LMS</h4>
+                        <!--<div class="w-full lg:w-auto px-2" >
+                        <a href="https://csbox.io/d" target="_blank">
+                        <button class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                type="button">
+                            CSBOX
+                            <span class="inline-block align-middle ml-2">
+                    <div>
+                        <Fa icon={faExternalLink}/>
+                    </div>
+                </span>
+                        </button>
+                        </a>
+                    </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="px-4">
+            <Courses bind:courses={courses} bind:hoverID={hoverID} bind:data={data}/>
+            </div>-->
+
+        </section>
+
     {/if}
-    {$page.data.session}
 </body>

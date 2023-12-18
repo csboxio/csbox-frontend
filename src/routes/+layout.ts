@@ -39,6 +39,10 @@ export const load = async ({ fetch, data, depends }) => {
         return cookie
       },
     },
+    cookieOptions: {
+      sameSite: 'none',
+      secure: true,
+    }
   })
 
 

@@ -70,7 +70,6 @@
             <li>
             <li class:active={$navStore === item.id} on:click={() => { $navStore = item.id; }}>
             {#if item.disabled === "true"}
-
             {/if}
             <a class="flex items-center justify-center w-12 h-12 rounded-xl hover:bg-gray-800 mb-2 "
                  on:click={() => $navStore = item.id}

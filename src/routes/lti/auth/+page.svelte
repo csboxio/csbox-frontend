@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Auth from "$lib/components/Auth/Auth.svelte";
-	import {browser} from "$app/environment";
+	import DeepLinking from "$lib/lti/DeepLinking.svelte";
 
 	export let data
 
@@ -16,22 +16,13 @@
 	catch (e) {
 		console.log(e)
 	}
-
 </script>
 
-
 {#if !$page.data.session }
-
-	<Auth bind:data={data} />
+	<Auth bind:supabase={supabase} />
 	{:else}
-	{#if completed_setup === false}
-		<script type="module">
-			window.location.href = '/onboarding';
-		</script>
-		{:else}
-		<script type="module">
-			window.location.href = '/d';
-		</script>
-	{/if}
+	<script type="module">
+		history.back()
+	</script>
 {/if}
 
