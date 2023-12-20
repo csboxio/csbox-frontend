@@ -27,8 +27,8 @@
 
 	export let data
 
-	let { supabase, claim } = data
-	$: ({ supabase, claim } = data)
+	let { supabase, claim, session } = data
+	$: ({ supabase, claim, session } = data)
 
 	if ($page.data.session && browser) {
 		console.log($page.data)
@@ -61,8 +61,9 @@
 	let showMore;
 	$: showMore = false;
 </script>
-{#if !$page.data.session}
 
+<!--{JSON.stringify($page.data)}-->
+{#if !session}
 	<script type="module">
 		window.location.href = '/auth';
 	</script>

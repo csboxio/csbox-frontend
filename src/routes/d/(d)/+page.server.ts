@@ -5,6 +5,13 @@ import { browser } from "$app/environment";
 export const prerender = false;
 
 export const ssr = false
+export const load = async ({ locals: { getSession, getClaim, getLMSUserID, supabase } }) => {
+    const session = await getSession()
+    await supabase.auth.refreshSession()
+    return {
+        session
+    }
+}
 export const actions: Actions = {
     signin: async ({ request, url, locals: { supabase } }) => {
         if (!browser) {
