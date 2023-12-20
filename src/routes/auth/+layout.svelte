@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {onMount} from "svelte";
-	import { invalidateAll } from "$app/navigation";
+	import {invalidate, invalidateAll} from "$app/navigation";
 	import { browser } from "$app/environment";
 	import ErrorBoundary from "$lib/components/ErrorBoundary.svelte";
 	import {Modal} from "flowbite-svelte";
@@ -11,15 +11,6 @@
 
 	let { supabase, session, user, claim } = data
 	$: ({ supabase, session, user, claim } = data)
-
-	onMount(async () => {
-		const {
-			data: {subscription}
-		} = supabase.auth.onAuthStateChange(() => {
-			invalidateAll();
-			//goto("/");
-		});
-	});
 </script>
 <svelte:head>
 	<meta charset="utf-8" />

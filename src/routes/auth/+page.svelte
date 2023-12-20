@@ -28,10 +28,7 @@
 		<script type="module">
 			window.location.href = '/onboarding';
 		</script>
-		{:else}
-		<script type="module">
-			window.location.href = '/d';
-		</script>
+
 	{/if}
 {/if}
 

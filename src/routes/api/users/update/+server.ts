@@ -15,15 +15,7 @@ export const POST: RequestHandler = async ({ event, request, locals: { getSessio
             autoRefreshToken: true,
             persistSession: true,
         },
-        cookies: {
-            get: (key) => event.cookies.get(key),
-            set: (key, value, options) => {
-                event.cookies.set(key, value, options)
-            },
-            remove: (key, options) => {
-                event.cookies.delete(key, options)
-            },
-        },
+        cookies: {},
     })
     await supabase.auth.refreshSession()
 

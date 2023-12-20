@@ -7,34 +7,6 @@ import { error, json, text, Handle } from '@sveltejs/kit';
 
 // TODO SCHEMA MATERIAL
 
-const csrf = (allowedPaths: string[]): Handle => async ({ event, resolve }) => {
-          const forbidden =
-              event.request.method === 'POST' &&
-              event.request.headers.get('origin') !== event.url.origin &&
-              isFormContentType(event.request) &&
-              !allowedPaths.includes(event.url.pathname);
-
-          if (forbidden) {
-            const csrfError = error(
-                403,
-                `Cross-site ${event.request.method} form submissions are forbidden`,
-            );
-            if (event.request.headers.get('accept') === 'application/json') {
-              return json(csrfError.body, { status: csrfError.status });
-            }
-            return text(csrfError.body.message, { status: csrfError.status });
-          }
-
-          return resolve(event);
-        };
-function isContentType(request: Request, ...types: string[]) {
-  const type = request.headers.get('content-type')?.split(';', 1)[0].trim() ?? '';
-  return types.includes(type);
-}
-function isFormContentType(request: Request) {
-  return isContentType(request, 'application/x-www-form-urlencoded', 'multipart/form-data');
-}
-
 export const handle = async ({ event, resolve }) => {
 
   event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
@@ -81,6 +53,22 @@ export const handle = async ({ event, resolve }) => {
     }
   }
 
+  event.locals.getLMSUserID = async () => {
+    try {
+      const {
+        data: { session },
+      } = await event.locals.supabase.auth.getSession()
+      if (!session) {
+        throw redirect(303, '/')
+      } else {
+        return session.user?.app_metadata.lms_user_id
+      }
+    } catch(error) {
+      console.log(error)
+      return false
+    }
+  }
+
   /**
    * a little helper that is written for convenience so that instead
    * of calling `const { data: { session } } = await supabase.auth.getSession()`
@@ -92,7 +80,6 @@ export const handle = async ({ event, resolve }) => {
     } = await event.locals.supabase.auth.getSession()
     return session
   }
-  await csrf(['/api-lti/login'])({ event, resolve });
 
   return resolve(event, {
     filterSerializedResponseHeaders(name) {

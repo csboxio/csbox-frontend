@@ -5,24 +5,18 @@
 
 	export let data
 
-	let { supabase, claim, onboard } = data
-	$: ({ supabase, claim, onboard } = data)
-
-	let completed_setup
-	$: completed_setup
-	try {
-		completed_setup = onboard?.data.completed_setup
-	}
-	catch (e) {
-		console.log(e)
-	}
+	let { supabase, claim, session } = data
+	$: ({ supabase, claim, session } = data)
 </script>
 
+{session}
+{$page.data.session}
+{#key $page.data}
 {#if !$page.data.session }
 	<Auth bind:supabase={supabase} />
 	{:else}
-	<script type="module">
-		history.back()
-	</script>
+	<!-- TODO Assumes they are going to deeplinking which isn't always true. -->
+	Session
 {/if}
+{/key}
 

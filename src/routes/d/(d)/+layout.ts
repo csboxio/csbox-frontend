@@ -4,10 +4,9 @@ import { redirect } from "@sveltejs/kit";
 import {browser} from "$app/environment";
 
 
-export const load = async ({ fetch, url, parent}) => {
+export const load = async ({ fetch, url, parent, data}) => {
     const parentData = await parent();
-    const session = parentData.session;
-
+    const session = data.session;
 
     if (session) {
         const user = await fetch('/api/users');

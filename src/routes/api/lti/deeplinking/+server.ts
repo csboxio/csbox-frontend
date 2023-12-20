@@ -23,9 +23,8 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
         const idtoken = await fetch('https://lti.csbox.io/api/idtoken', { headers });
         const serviceAvailable = await idtoken.json();
 
-        //console.log(serviceAvailable)
+        console.log(serviceAvailable)
         if (!serviceAvailable) {
-            console.log("BAD")
             return {
                 status: 500,
                 body: 'Deep linking not available.'

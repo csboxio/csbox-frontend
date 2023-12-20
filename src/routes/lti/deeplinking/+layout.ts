@@ -14,7 +14,7 @@ export const load = async ({ fetch, url, parent, data}) => {
     const ltik = searchParams.get('ltik');
 
     const parentData = await parent();
-    const session = parentData.session;
+    const session = data.session;
 
     const courses = async () => {
         const response =  await fetch('/api/courses')
@@ -30,14 +30,14 @@ export const load = async ({ fetch, url, parent, data}) => {
                 title: 'Resource'
             }]
         }
-        /*const deeplinking = await fetch(`/api/lti/deeplinking?ltik=${ltik}`, {
+        const deeplinking = await fetch(`/api/lti/deeplinking?ltik=${ltik}`, {
             method: 'POST',
             body: JSON.stringify(requestBody)
-        });*/
+        });
         return {
-            //deeplinking: await deeplinking.json(),
+            deeplinking: await deeplinking.json(),
             session,
-            courses: courses()
+            //courses: courses()
         };
     }
     return {

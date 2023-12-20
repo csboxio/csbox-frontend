@@ -31,6 +31,7 @@
 	$: ({ supabase, claim } = data)
 
 	if ($page.data.session && browser) {
+		console.log($page.data)
 		const user = $page.data.user.data;
 		const updated = $page.data.user.updated_at;
 

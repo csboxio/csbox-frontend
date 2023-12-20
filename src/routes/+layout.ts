@@ -8,21 +8,13 @@ import { combineChunks, createBrowserClient, isBrowser, parse } from '@supabase/
 export const load = async ({ fetch, data, depends }) => {
   depends('supabase:auth')
 
-  /*const supabase = createSupabaseLoadClient<Database>({
-    supabaseUrl: PUBLIC_SUPABASE_URL,
-    supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
-    event: { fetch },
+  const supabase = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
     serverSession: data.session,
     db: { schema: 'material' },
     auth: {
       autoRefreshToken: true,
-      persistSession: true,
-    }
-  })*/
-
-  const supabase = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
-    //serverSession: data.session,
-    db: { schema: 'material' },
+      persistSession: false,
+    },
     global: {
       fetch,
     },

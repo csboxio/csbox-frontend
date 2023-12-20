@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
+	import {goto, invalidate} from "$app/navigation";
 	import {afterUpdate, onMount} from "svelte";
 	import { page } from "$app/stores";
 	import Notification from '$lib/components/NotificationBuilder.svelte';
@@ -22,13 +22,12 @@
 
 
 	onMount(async () => {
-		const {
-			data: { subscription }
-		} = supabase.auth.onAuthStateChange(() => {
-			invalidateAll();
-			//goto("/");
-		});
 
+	const { data: { subscription },} = supabase.auth.onAuthStateChange((event, _session) => {
+		if (_session?.expires_at !== session?.expires_at) {
+			invalidate('supabase:auth')
+		}
+	})
 
 		// TODO Optimization
 
@@ -118,7 +117,6 @@
 <ErrorBoundary>
 <slot />
 </ErrorBoundary>
-
 
 <div class="fixed bottom-5 right-5 w-200 overflow-y-auto">
 	{#each $notifications as notification, i}
