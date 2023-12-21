@@ -9,7 +9,7 @@
 	$: ({ supabase, claim, session, lms_user_id } = data)
 </script>
 
-{#key $page.data}
+
 {#if !$page.data.session}
 	<Auth bind:supabase={supabase} />
 	{:else}
@@ -20,5 +20,5 @@
 		No valid LMS user ID.
 	{/if}
 {/if}
-{/key}
+
 

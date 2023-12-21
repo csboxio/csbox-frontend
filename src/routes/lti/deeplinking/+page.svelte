@@ -31,28 +31,50 @@
         await invalidateAll();
     }
 
+    async function linkLMSAccount() {
+        const url = new URL('/api/lms/link_lms_account', window.location.origin);
+
+    }
+
+    async function getModules(assignment_id) {
+        //published = !published
+        const url = new URL('/api/assignments/publish/', window.location.origin);
+        url.searchParams.append('assignment_id', assignment_id);
+        const response = await fetch(url);
+        const { res, error, status } = await response.json();
+        //console.log(published)
+        await invalidateAll();
+    }
+
 </script>
 
 <body class="dark:bg-gray-600  bg-gray-100 antialiased bg-body text-body font-body">
 
     {#if !session}
-        <section class="flex justify-center items-center flex-col p-8">
-            <h2 class="text-xl font-bold dark:text-white tracking-wide leading-7 mb-4">Hey there! Let's get you logged in!</h2>
-            <button class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 mb-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                    on:click={() => { goto('/lti/auth'); }}>
-                Login
-            </button>
-            <a href="https://csbox.io/auth" target="_blank">
-                <button class="flex items-center justify-center text-white bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 dark:bg-gray-800 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-blue-800">
-                    I don't have an account...
-                    <span class="inline-block align-middle ml-2">
-                <div>
-                    <Fa icon={faExternalLink}/>
+        <div class="flex justify-center items-center h-screen bg-gray-700">
+            <div class="max-w-md w-full bg-gray-800 shadow-lg shadow-gray-600 rounded p-8">
+                <div class="flex justify-center mb-6">
+                    <img src="/logo-text-white.png" alt="Logo" class="h-12 w-auto">
                 </div>
-            </span>
-                </button>
-            </a>
-        </section>
+                <section class="flex flex-col items-center space-y-4 py-8">
+                    <h2 class="text-xl block truncate text-sm font-bold text-blue-500 animate-text bg-gradient-to-r from-blue-400 via-teal-500 to-purple-200 bg-clip-text text-transparent text-5xl font-black">Let's get you logged in!</h2>
+                    <button class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                            on:click={() => { goto('/lti/auth'); }}>
+                        Login
+                    </button>
+                    <a href="https://csbox.io/auth" target="_blank" class="w-full">
+                        <button class="w-full text-white bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 dark:bg-gray-800 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-blue-800">
+                            I don't have an account...
+                            <span class="inline-block align-middle ml-2">
+                        <div>
+                            <Fa icon={faExternalLink}/>
+                        </div>
+                    </span>
+                        </button>
+                    </a>
+                </section>
+            </div>
+        </div>
 
     {:else}
 
@@ -97,7 +119,16 @@
 
                 </section>
                 {:else}
-                No LMS user id
+                <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Link LMS to CSBOX?</h4>
+                <form action="?/lms_link_id" method="GET">
+                    <button class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                            type="submit">
+                        Yes!
+                        <span class="inline-block align-middle ml-2">
+                    </span>
+                    </button>
+                </form>
+                {deeplinking.user_id}
             {/if}
         {/if}
 

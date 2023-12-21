@@ -6,6 +6,8 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
     const {searchParams} = new URL(url);
     const ltik = searchParams.get('ltik');
 
+    console.log(url)
+
 
     if (!ltik) {
         return {
@@ -17,19 +19,23 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
     const API_KEY = PRIVATE_LTI_API_KEY;
 
     const authenticationHeader = `LTIK-AUTH-V2 ${API_KEY}:${ltik}`;
+    console.log(authenticationHeader)
     const headers = {Authorization: authenticationHeader};
 
     try {
         const idtoken = await fetch('https://lti.csbox.io/api/idtoken', { headers });
-        const serviceAvailable = await idtoken.json();
+        const launchData = await idtoken.json();
 
-        console.log(serviceAvailable)
-        if (!serviceAvailable) {
+        if (launchData.status === 401) {
+            setHeaders({'Content-Type': 'application/json'});
+            console.log(launchData)
             return {
                 status: 500,
                 body: 'Deep linking not available.'
             };
         }
+
+        const user_id = launchData.user.id
 
         const body = await request.json();
         const deepLinkingResponse = await fetch('https://lti.csbox.io/api/deeplinking/form', {
@@ -42,7 +48,11 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
         });
         const form = await deepLinkingResponse.json();
         setHeaders({'Content-Type': 'application/json'});
-        return json({form});
+        return json(
+            {
+                deepLinkingForm: form,
+                user_id: user_id
+            });
     } catch (error) {
         console.log(error)
         return {
