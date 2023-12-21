@@ -5,18 +5,20 @@
 
 	export let data
 
-	let { supabase, claim, session } = data
-	$: ({ supabase, claim, session } = data)
+	let { supabase, claim, session, lms_user_id } = data
+	$: ({ supabase, claim, session, lms_user_id } = data)
 </script>
 
-{session}
-{$page.data.session}
 {#key $page.data}
-{#if !$page.data.session }
+{#if !$page.data.session}
 	<Auth bind:supabase={supabase} />
 	{:else}
-	<!-- TODO Assumes they are going to deeplinking which isn't always true. -->
-	Session
+	Valid Sesssion
+	{#if lms_user_id}
+		lms_user_id
+		{:else}
+		No valid LMS user ID.
+	{/if}
 {/if}
 {/key}
 

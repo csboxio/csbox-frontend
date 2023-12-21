@@ -36,16 +36,25 @@
 <body class="dark:bg-gray-600  bg-gray-100 antialiased bg-body text-body font-body">
 
     {#if !session}
-        <button class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                type="button" on:click={() => {goto('/lti/auth');}}>
-            Authorize
-            <span class="inline-block align-middle ml-2">
-                    <div>
-                        <Fa icon={faExternalLink}/>
-                    </div>
-                </span>
-        </button>
-        {:else}
+        <section class="flex justify-center items-center flex-col p-8">
+            <h2 class="text-xl font-bold dark:text-white tracking-wide leading-7 mb-4">Hey there! Let's get you logged in!</h2>
+            <button class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 mb-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    on:click={() => { goto('/lti/auth'); }}>
+                Login
+            </button>
+            <a href="https://csbox.io/auth" target="_blank">
+                <button class="flex items-center justify-center text-white bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 dark:bg-gray-800 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-blue-800">
+                    I don't have an account...
+                    <span class="inline-block align-middle ml-2">
+                <div>
+                    <Fa icon={faExternalLink}/>
+                </div>
+            </span>
+                </button>
+            </a>
+        </section>
+
+    {:else}
 
         {#if claim === 'student'}
             <h4 class="font-bold dark:text-red-500 tracking-wide leading-7 mb-1">Error: Student role, trying signing out, then signing in. If issue persists contact: support@csbox.io</h4>
