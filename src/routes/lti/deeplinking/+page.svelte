@@ -31,20 +31,7 @@
         await invalidateAll();
     }
 
-    async function linkLMSAccount() {
-        const url = new URL('/api/lms/link_lms_account', window.location.origin);
 
-    }
-
-    async function getModules(assignment_id) {
-        //published = !published
-        const url = new URL('/api/assignments/publish/', window.location.origin);
-        url.searchParams.append('assignment_id', assignment_id);
-        const response = await fetch(url);
-        const { res, error, status } = await response.json();
-        //console.log(published)
-        await invalidateAll();
-    }
 
 </script>
 

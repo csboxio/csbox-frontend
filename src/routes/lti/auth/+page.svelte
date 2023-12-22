@@ -9,11 +9,10 @@
 	$: ({ supabase, claim, session, lms_user_id } = data)
 </script>
 
-
 {#if !$page.data.session}
 	<Auth bind:supabase={supabase} />
 	{:else}
-	Valid Sesssion
+	{history.back()}
 	{#if lms_user_id}
 		lms_user_id
 		{:else}
