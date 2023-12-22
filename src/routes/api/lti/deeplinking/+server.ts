@@ -6,9 +6,6 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
     const {searchParams} = new URL(url);
     const ltik = searchParams.get('ltik');
 
-    console.log(url)
-
-
     if (!ltik) {
         return {
             status: 400,
@@ -19,7 +16,6 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
     const API_KEY = PRIVATE_LTI_API_KEY;
 
     const authenticationHeader = `LTIK-AUTH-V2 ${API_KEY}:${ltik}`;
-    console.log(authenticationHeader)
     const headers = {Authorization: authenticationHeader};
 
     try {
@@ -36,6 +32,9 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
         }
 
         const user_id = launchData.user.id
+        const course_id = launchData.launch.context.id
+        const course_title = launchData.launch.context.title
+        const course_prefix = launchData.launch.context.label
 
         const body = await request.json();
         const deepLinkingResponse = await fetch('https://lti.csbox.io/api/deeplinking/form', {
@@ -51,7 +50,8 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
         return json(
             {
                 deepLinkingForm: form,
-                user_id: user_id
+                user_id: user_id,
+                course: { id: course_id, title: course_title, prefix: course_prefix}
             });
     } catch (error) {
         console.log(error)

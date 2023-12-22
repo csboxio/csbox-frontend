@@ -14,15 +14,23 @@ export const load = async ({ locals: { getSession, getClaim, getLMSUserID } }) =
 }
 
 export const actions: Actions = {
-    link_lms_id: async ({ request, url, locals: { supabase, getLMSUserID, getClaim } }) => {
+    link_lms_id: async ({ request, url, locals: { supabase, getLMSUserID, getClaim, getSession } }) => {
         const formData = await request.formData()
         const {data} = await supabase.auth.refreshSession()
         const {session, user} = data
 
-        const claim = await getClaim()
-        const lms_user_id = await getLMSUserID()
+        if (!session || !user) {
+            throw redirect(303, '/')
+        }
 
-        console.log(claim)
-        console.log(lms_user_id)
+        const claim = await getClaim()
+
+        const lms_user_id = formData.get('lms_user_id') as string
+
+
+        if (session) {
+            const {error, data} = await supabase.rpc('set_lms_id', {user_id: user.id, lms_user_id: lms_user_id})
+            console.log(error, data)
+        }
     }
 } satisfies Actions;

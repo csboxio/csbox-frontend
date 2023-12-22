@@ -4,10 +4,8 @@ export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url
     const { searchParams } = new URL(url);
     let ltik = searchParams.get('ltik');
 
-    console.log(ltik)
     // Token exists
     if (ltik !== null) {
-        console.log(cookies)
         cookies.set('ltik', ltik, {
             sameSite: 'none',
             secure: true,
@@ -35,8 +33,13 @@ export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url
             body: JSON.stringify(requestBody)
         });
 
+    const courses = async () => {
+        const response = await fetch('/api/courses')
+        return response.json()
+    }
 
     return {
+        courses: courses(),
         deeplinking: await deeplinking.json(),
         session: await getSession(),
         claim: await getClaim(),
