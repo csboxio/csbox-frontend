@@ -11,8 +11,16 @@
 	let { supabase, session, deeplinking, claim, lms_user_id} = data
 	$: ({ supabase, session, deeplinking, claim, lms_user_id } = data)
 
+
+    const courses_func = async () => {
+        const response = await fetch('/api/courses')
+        return response.json()
+    }
+
+
     let courses;
     $: courses = data.courses.data;
+
     let hoverID;
     $: hoverID;
 

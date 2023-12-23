@@ -7,3 +7,4 @@ export const prerender = false;
 // SSR should be off at the moment.
 export const ssr = false
 export const csr = true
+

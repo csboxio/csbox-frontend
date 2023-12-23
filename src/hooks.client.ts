@@ -4,7 +4,7 @@ export const handle = async ({ event, resolve }) => {
         const { session } = await event.locals.supabase.auth.getSession()
         console.log(session)
         if (!session) {
-            throw redirect(303, '/');
+            throw redirect(303, '/auth');
         }
     }
 };

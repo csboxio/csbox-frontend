@@ -1,7 +1,5 @@
-export const load = async ({ locals: { getSession, getClaim, getLMSUserID, supabase } }) => {
+export const load = async ({ locals: { getSession, supabase} }) => {
   return {
     session: await getSession(),
-    claim: await getClaim(),
-    lms_user_id: await getLMSUserID()
   }
 }

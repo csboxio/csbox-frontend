@@ -1,9 +1,11 @@
 import {browser} from "$app/environment";
+import {redirect} from "@sveltejs/kit";
 
 export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url, cookies, event, fetch }) => {
     const { searchParams } = new URL(url);
-    let ltik = searchParams.get('ltik');
+    const session = await getSession()
 
+    let ltik = searchParams.get('ltik');
     // Token exists
     if (ltik !== null) {
         cookies.set('ltik', ltik, {
@@ -20,6 +22,7 @@ export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url
             ltik = ltikFromCookie;
         }
     }
+
 
         const requestBody = {
             contentItems: [{

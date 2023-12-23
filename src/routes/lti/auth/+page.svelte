@@ -5,19 +5,18 @@
 
 	export let data
 
-	let { supabase, claim, session, lms_user_id } = data
-	$: ({ supabase, claim, session, lms_user_id } = data)
+	let { supabase, session } = data
+	$: ({ supabase, session } = data)
+
+	console.log(session)
 </script>
+
 
 {#if !$page.data.session}
 	<Auth bind:supabase={supabase} />
 	{:else}
 	{history.back()}
-	{#if lms_user_id}
-		lms_user_id
-		{:else}
-		No valid LMS user ID.
-	{/if}
+
 {/if}
 
 

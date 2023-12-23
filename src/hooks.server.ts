@@ -25,14 +25,14 @@ export const handle = async ({ event, resolve }) => {
   if (event.url.pathname.startsWith("/api")) {
     const session = event.locals.supabase.auth.getSession()
     if (!session) {
-      throw redirect(303, '/')
+      throw redirect(303, '/auth')
     }
   }
 
   if (event.url.pathname.startsWith("/d")) {
     const session = event.locals.supabase.auth.getSession()
     if (!session) {
-      throw redirect(303, '/')
+      throw redirect(303, '/auth')
     }
   }
 
@@ -43,7 +43,7 @@ export const handle = async ({ event, resolve }) => {
         data: { session },
       } = await event.locals.supabase.auth.getSession()
       if (!session) {
-        throw redirect(303, '/')
+        throw redirect(303, '/auth')
       } else {
         return session.user?.app_metadata.userrole
       }
@@ -59,7 +59,7 @@ export const handle = async ({ event, resolve }) => {
         data: { session },
       } = await event.locals.supabase.auth.getSession()
       if (!session) {
-        throw redirect(303, '/')
+        throw redirect(303, '/auth')
       } else {
         return session.user?.app_metadata.lms_user_id
       }
