@@ -13,6 +13,10 @@ export const GET = async (event) => {
     //await supabase.auth.refreshSession()
     const session = await getSession()
 
+    if (!session) {
+        return json({message: 'No session'})
+    }
+
     if (session) {
         const {data, error, status} = await supabase.from('users')
             .select('updated_at, username, first_name, last_name, website, avatar_url, bio, country, completed_setup')
@@ -21,5 +25,5 @@ export const GET = async (event) => {
 
         return json({data})
     }
-    console.log(session)
+    return
 }

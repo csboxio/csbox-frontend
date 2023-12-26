@@ -37,7 +37,7 @@
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
 	<div class={show_create_box ? '' : 'filter blur-[1px]'}>
-		<Navbar />
+		<Navbar bind:claim={claim}/>
 		<div class="mx-auto lg:ml-16">
 			<section>
 				<div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">

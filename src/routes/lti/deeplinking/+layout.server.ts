@@ -12,7 +12,7 @@ export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url
             sameSite: 'none',
             secure: true,
             path: '/',
-            maxAge: 60 * 15 // 15 minutes
+            maxAge: 60 * 60 // 1 Hour
         });
     }
     else {
