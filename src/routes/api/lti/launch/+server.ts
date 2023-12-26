@@ -8,6 +8,10 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, event, loc
     const ltik = searchParams.get('ltik');
     let response;
 
+    const session = await getSession()
+
+    console.log(session)
+
     if (!ltik) {
         return {
             status: 400,
@@ -33,6 +37,8 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, event, loc
         const platformID = data.platform.id
         const userID = data.user.id
         const email = data.user.email
+
+        console.log(data)
 
         // Set the headers and return the data as JSON
         setHeaders({ 'Content-Type': 'application/json' });

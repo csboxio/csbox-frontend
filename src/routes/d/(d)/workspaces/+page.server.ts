@@ -29,7 +29,7 @@ export const actions: Actions = {
             workspace_name: workspace_name,
             session: session,
             //type: "basic", // TODO not implemented
-            image: image,
+            image: 'lt1gt0/theia-python',
             language: 'python'
         }
 

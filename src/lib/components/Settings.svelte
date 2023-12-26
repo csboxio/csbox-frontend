@@ -14,13 +14,11 @@
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
   }
 
-  export let data
 
-  let { supabase } = data
-  $: ({ supabase } = data)
+  export let supabase
 
-  let user
-  $: user = $page.data.user.data
+  export let user
+  $: user
 
   let notificationsReceived
   $: notificationsReceived;
@@ -170,7 +168,7 @@
     <div class="w-full sm:w-auto">
       <div class="relative inline-block text-left z-20">
         <div>
-          {#if data}
+          {#if user}
           <Button pill color="light"  id="avatar_with_name" class="!p-1.5 ">
             <Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class="mr-4"/>
             <div class="mr-3 font-medium">{user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.last_name}</div>

@@ -1,24 +1,20 @@
 <script lang="ts">
 	import ErrorBoundary from "$lib/components/ErrorBoundary.svelte";
 	import {onMount} from "svelte";
-	import {invalidate} from "$app/navigation";
+	import {invalidate, invalidateAll} from "$app/navigation";
 
 	export let data
+
 	let { supabase, session, user, claim } = data
 	$: ({ supabase, session, user, claim } = data)
 
+
+
 	onMount(() => {
 
-		const {
-			data: { subscription },
-		} = supabase.auth.onAuthStateChange((event, _session) => {
-			if (_session?.expires_at !== session?.expires_at) {
-				invalidate('supabase:auth')
-			}
-		})
 
-		return () => subscription.unsubscribe()
 	});
+
 </script>
 <svelte:head>
 	<meta charset="utf-8" />

@@ -21,7 +21,7 @@ async function handleProviderSignIn(provider) {
     const { error: providerSigninError } = await supabaseClient.auth.signInWithOAuth({
         provider,
         options: {
-            redirectTo,
+			redirectTo: `https://csbox.io/auth/callback`,
             scopes: providerScopes?.[provider],
             queryParams
         }

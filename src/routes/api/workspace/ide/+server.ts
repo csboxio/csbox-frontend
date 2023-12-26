@@ -19,13 +19,8 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
       .single()
 
   if (error) {
-    console.log(data, error)
+    //console.log(data, error)
   }
-
-  setHeaders({
-    'cache-control': 'public, max-age=3600, s-maxage=3600'
-  })
-
 
 
   return json(data)

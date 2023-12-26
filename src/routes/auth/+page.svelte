@@ -22,7 +22,7 @@
 
 {#if !$page.data.session }
 
-	<Auth bind:data={data} />
+	<Auth bind:supabase={supabase} />
 	{:else}
 	{#if completed_setup === false}
 		<script type="module">

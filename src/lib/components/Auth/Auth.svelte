@@ -31,11 +31,7 @@
     let borderRadius = radii[0];
     let view = views[0];
 
-    export let data
-
-    let { supabase, session, user } = data
-    $: ({ supabase, session, user } = data)
-    //console.log(supabase)
+    export let supabase
 
     const customTheme = {
         default: {
@@ -72,20 +68,16 @@
 
 </script>
 
-<body class="antialiased bg-body text-body font-body bg-gray-700 h-screen">
-<div class="">
-    <div class="dark:bg-gray-700 bg-gray-700 relative py-2 pb-16">
-        <div
-          class="sm:py-18 gap container relative mx-auto grid  px-6 py-16 md:gap-16 md:py-24 lg:gap-16 lg:px-16 lg:py-24 xl:px-20"
-        >
-            <div class="relative col-span-12 mb-16 md:col-span-7 md:mb-0 lg:col-span-6">
-
-                <div class="relative lg:mx-auto lg:max-w-md bg-gray-600">
+<body class="antialiased bg-body text-body font-body bg-gray-700">
+<div class="min-h-screen">
+    <div class="dark:bg-gray-700 bg-gray-700 relative py-4 sm:py-8 lg:py-16 flex items-center justify-center h-screen ">
+        <div class="w-full max-w-sm sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-lg">
+            <div class="lg:mx-auto bg-gray-600 h-full sm:h-auto">
                     <div class={'auth-box-shadow'}>
-                        <div class="border-scale-200 bg-scale-300 relative rounded-xl px-8 py-12 drop-shadow-sm">
+                        <div class="border-scale-200 bg-scale-300 relative rounded-xl px-8 py-8 md:py-12 drop-shadow-sm">
                             <div class="mb-6 flex flex-col gap-6">
                                 <div class="flex items-center gap-3">
-                                    <img src="./favicon.png" width="50" height="100%" alt="CSBOX">
+                                    <img src="/favicon.png" width="50" height="100%" alt="CSBOX">
 
                                     {#if authTitle !== undefined}
                                     <div class="flex text-white font-semibold text-xl">{$authTitle?.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</div>
@@ -137,7 +129,6 @@
             </div>
         </div>
     </div>
-</div>
 </body>
 
 <style>

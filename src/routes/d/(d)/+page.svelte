@@ -20,32 +20,15 @@
 		faSchoolCircleCheck, faUserGraduate
 	} from "@fortawesome/free-solid-svg-icons";
 
-
-	let user;
 	let avatarUrl;
 	let updated;
 
 	export let data
 
-	let { supabase, claim } = data
-	$: ({ supabase, claim } = data)
+	let { supabase, claim, session } = data
+	$: ({ supabase, claim, session } = data)
 
-	if ($page.data.session && browser) {
-		const user = $page.data.user.data;
-		const updated = $page.data.user.updated_at;
 
-		const storedData = JSON.parse(localStorage.getItem('storedData') || '{}');
-		const storedEmail = storedData.email;
-		const storedAvatarUrl = storedData.avatarUrl;
-		const storedFullName = storedData.fullName;
-
-		const email = storedEmail || $page.data.session.user?.email;
-		const avatarUrl = storedAvatarUrl || `${user.avatar_url}?t=${updated}`;
-		const fullName = storedFullName || `${user.first_name} ${user.last_name}`;
-
-		const updatedStoredData = { ...storedData, email, avatarUrl, fullName };
-		localStorage.setItem('storedData', JSON.stringify(updatedStoredData));
-	}
 	export let fetchedCourses;
 	$: courses = $fetchedCourses;
 
@@ -57,11 +40,17 @@
 	let dashboard;
 	$: dashboard = $page.data.dashboard;
 
+	let user;
+	$: user = $page.data.user.data
+
+	console.log($page.data)
+
 	let showMore;
 	$: showMore = false;
 </script>
-{#if !$page.data.session}
 
+<!--{JSON.stringify($page.data)}-->
+{#if !$page.data.session}
 	<script type="module">
 		window.location.href = '/auth';
 	</script>
@@ -77,7 +66,7 @@
 							<h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Dashboard</h4>
 						</div>
 						<div class="w-full lg:w-auto px-2">
-						 <Settings bind:data={data} />
+						 <Settings bind:user={user} bind:supabase={supabase} />
 					</div>
 				</div>
 				</div>
@@ -102,7 +91,9 @@
 											<Fa icon={faBook} size="lg"></Fa>
 										</div>
 										<span class="text-xs text-gray-300 font-semibold">Courses</span>
+										{#if dashboard}
 										<h4 class="text-2xl leading-8 text-gray-100 font-semibold mb-4">{dashboard[0].num_courses}</h4>
+										{/if}
 										<div class="flex flex-wrap items-center justify-center -m-1">
 											<!--<div class="w-auto p-1">
 												<span
@@ -125,7 +116,9 @@
 											<Fa icon={faPeopleGroup} size="lg"></Fa>
 										</div>
 										<span class="text-xs text-gray-300 font-semibold">Students </span>
+										{#if dashboard}
 										<h4 class="text-2xl leading-8 text-gray-100 font-semibold mb-4">{dashboard[0].total_num_people}</h4>
+										{/if}
 										<div class="flex flex-wrap items-center justify-center -m-1">
 											<!--<div class="w-auto p-1">
 												<span
@@ -148,7 +141,9 @@
 											<Fa icon={faFileCircleXmark} size="lg"></Fa>
 										</div>
 										<span class="text-xs text-gray-300 font-semibold">Missing Assignments</span>
+										{#if dashboard}
 										<h4 class="text-2xl leading-8 text-gray-100 font-semibold mb-4">{dashboard[0].total_num_missing}</h4>
+										{/if}
 										<div class="flex flex-wrap items-center justify-center -m-1">
 											<!--<div class="w-auto p-1">
 												<span
@@ -171,7 +166,9 @@
 											<Fa icon={faUserGraduate} size="lg"></Fa>
 										</div>
 										<span class="text-xs text-gray-300 font-semibold">Average Grade</span>
+										{#if dashboard}
 										<h4 class="text-2xl leading-8 text-gray-100 font-semibold mb-4">{dashboard[0].avg_avg_grade}%</h4>
+										{/if}
 										<div class="flex flex-wrap items-center justify-center -m-1">
 											<!--<div class="w-auto p-1">
 												<span

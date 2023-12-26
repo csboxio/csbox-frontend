@@ -39,23 +39,21 @@ Follow these steps to set up and utilize the CSBOX Education LMS:
    ```
 
 4. **Start the Development Server:** Launch the SvelteKit development server by executing the following command:
-
+   ** Developers can have issues with ad-blockers blocking module imports. 
    ```bash
-   npm run dev
+   npm run dev --host
    ```
 
    The application will be accessible at `http://localhost:5173`. 
    
    Some platforms are `http://localhost:5174`.
 
+## DEV
+ngrok http 5173 --domain joint-dear-lamb.ngrok-free.app
 
 5. **Access the Protected API:**
 
    The internal API endpoint is `/api`. To access protected routes, implement authentication and authorization using Supabase. Refer to the `src/routes/api/` file for an example.
-
-## Production Deployment
-
-The repository includes GitHub Actions that automate deployment to the internal CSBOX production URL at `csbox.io`. Pushing changes to the `main` branch triggers the build and deployment process through GitHub Actions into a Cloudflare Worker.
 
 ## Ports Used
 

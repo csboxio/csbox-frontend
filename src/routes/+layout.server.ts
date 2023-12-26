@@ -1,5 +1,7 @@
 // src/routes/+layout.server.ts
-export const load = async ({ locals: { getSession, getClaim } }) => {
+import type { LayoutServerLoad } from './$types'
+
+export const load: LayoutServerLoad = async ({ locals: { getSession, getClaim } }) => {
   /*const originalConsoleLog = console.log;
 
   console.log = (...args) => {

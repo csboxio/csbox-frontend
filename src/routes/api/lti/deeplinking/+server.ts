@@ -6,7 +6,6 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
     const {searchParams} = new URL(url);
     const ltik = searchParams.get('ltik');
 
-
     if (!ltik) {
         return {
             status: 400,
@@ -21,14 +20,21 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
 
     try {
         const idtoken = await fetch('https://lti.csbox.io/api/idtoken', { headers });
-        const serviceAvailable = await idtoken.json();
+        const launchData = await idtoken.json();
 
-        if (!serviceAvailable) {
+        if (launchData.status === 401) {
+            setHeaders({'Content-Type': 'application/json'});
+            console.log(launchData)
             return {
                 status: 500,
                 body: 'Deep linking not available.'
             };
         }
+
+        const user_id = launchData.user.id
+        const course_id = launchData.launch.context.id
+        const course_title = launchData.launch.context.title
+        const course_prefix = launchData.launch.context.label
 
         const body = await request.json();
         const deepLinkingResponse = await fetch('https://lti.csbox.io/api/deeplinking/form', {
@@ -41,8 +47,14 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
         });
         const form = await deepLinkingResponse.json();
         setHeaders({'Content-Type': 'application/json'});
-        return json({form});
+        return json(
+            {
+                deepLinkingForm: form,
+                user_id: user_id,
+                course: { id: course_id, title: course_title, prefix: course_prefix}
+            });
     } catch (error) {
+        console.log(error)
         return {
             status: 500,
             body: 'Error fetching data'

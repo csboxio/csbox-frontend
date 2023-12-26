@@ -1,31 +1,38 @@
 // src/hooks.server.js
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public'
-import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit'
 import {redirect} from "@sveltejs/kit";
+import {createServerClient} from "@supabase/ssr";
+import { error, json, text, Handle } from '@sveltejs/kit';
+
+
+// TODO SCHEMA MATERIAL
 
 export const handle = async ({ event, resolve }) => {
-  event.locals.supabase = createSupabaseServerClient({
-    supabaseUrl: PUBLIC_SUPABASE_URL,
-    supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
-    event,
-    db: { schema: 'material' },
-    auth: {
-      autoRefreshToken: true,
-      persistSession: true,
-    }
+
+  event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
+    db: { schema: "public" },
+    cookies: {
+      get: (key) => event.cookies.get(key),
+      set: (key, value, options) => {
+        event.cookies.set(key, value, options)
+      },
+      remove: (key, options) => {
+        event.cookies.delete(key, options)
+      },
+    },
   })
 
   if (event.url.pathname.startsWith("/api")) {
     const session = event.locals.supabase.auth.getSession()
     if (!session) {
-      throw redirect(303, '/')
+      throw redirect(303, '/auth')
     }
   }
 
   if (event.url.pathname.startsWith("/d")) {
     const session = event.locals.supabase.auth.getSession()
     if (!session) {
-      throw redirect(303, '/')
+      throw redirect(303, '/auth')
     }
   }
 
@@ -36,9 +43,25 @@ export const handle = async ({ event, resolve }) => {
         data: { session },
       } = await event.locals.supabase.auth.getSession()
       if (!session) {
-        throw redirect(303, '/')
+        throw redirect(303, '/auth')
       } else {
         return session.user?.app_metadata.userrole
+      }
+    } catch(error) {
+      console.log(error)
+      return false
+    }
+  }
+
+  event.locals.getLMSUserID = async () => {
+    try {
+      const {
+        data: { session },
+      } = await event.locals.supabase.auth.getSession()
+      if (!session) {
+        throw redirect(303, '/auth')
+      } else {
+        return session.user?.app_metadata.lms_user_id
       }
     } catch(error) {
       console.log(error)
@@ -58,9 +81,28 @@ export const handle = async ({ event, resolve }) => {
     return session
   }
 
+  event.locals.getServerSession = async () => {
+    const refreshToken = event.refresh_token
+    const accessToken = event.access_token
+
+    if (refreshToken && accessToken) {
+      await event.supabase.auth.setSession({
+        refresh_token: refreshToken,
+        access_token: accessToken,
+    })
+    } else {
+      // make sure you handle this case!
+      throw new Error('User is not authenticated.')
+    }
+
+// returns user information
+    await event.supabase.auth.getSession()
+  }
+
   return resolve(event, {
     filterSerializedResponseHeaders(name) {
       return name === 'content-range'
     },
   })
-}
+
+};

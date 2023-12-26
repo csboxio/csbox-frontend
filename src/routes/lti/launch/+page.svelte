@@ -14,7 +14,6 @@
     const hasInstructorRole = roles.includes("Instructor");
 
     onMount(() => {
-
         console.log(roles)
 
     });
