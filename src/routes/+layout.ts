@@ -22,6 +22,10 @@ export const load = async ({ fetch, data, depends }) => {
     global: {
       fetch,
     },
+    auth: {
+      autoRefreshToken: true,
+      persistSession: false,
+    },
     cookies: {
       get(key) {
         if (!isBrowser()) {

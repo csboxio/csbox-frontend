@@ -6,6 +6,11 @@
 
 	let { supabase, session, user, claim } = data
 	$: ({ supabase, session, user, claim } = data)
+
+	onMount(() => {
+
+
+	});
 </script>
 <svelte:head>
 	<meta charset="utf-8" />

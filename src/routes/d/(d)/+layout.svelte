@@ -22,12 +22,6 @@
 
     onMount(async () => {
 
-		const {
-			data: { subscription }
-		} = supabase.auth.onAuthStateChange(() => {
-			invalidateAll();
-		});
-
         // TODO Optimization
 
         // Get the courses that the user created from browser store.
@@ -97,13 +91,9 @@
                 )
                 .subscribe()
             return () => {
-                subscription.unsubscribe();
                 channel.unsubscribe();
             };
         }
-        return () => {
-            subscription.unsubscribe();
-        };
     });
 </script>
 <svelte:head>

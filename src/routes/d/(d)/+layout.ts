@@ -8,7 +8,6 @@ export const load = async ({ fetch, parent } ) => {
     const parentData = await parent();
     const session = parentData.session;
 
-    console.log(session)
     if (session) {
         const user = await fetch('/api/users');
         const dashboard = await fetch('/api/dashboard/instructor/get')

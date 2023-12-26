@@ -25,9 +25,20 @@
 
 		const {
 			data: { subscription },
-		} = supabase.auth.onAuthStateChange((event, _session) => {
-			if (_session?.expires_at !== session?.expires_at) {
-				invalidate('supabase:auth')
+		} = supabase.auth.onAuthStateChange((event, session) => {
+			if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
+				// delete cookies on sign out
+				const expires = new Date(0).toUTCString()
+				document.cookie = `my-access-token=; path=/; expires=${expires}; SameSite=None; secure`
+				document.cookie = `my-refresh-token=; path=/; expires=${expires}; SameSite=None; secure`
+			} else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+				const maxAge = 60 * 60 * 24
+				if ("access_token" in session) {
+					document.cookie = `my-access-token=${session.access_token}; path=/; max-age=${maxAge}; SameSite=None; secure`
+				}
+				if ("refresh_token" in session) {
+					document.cookie = `my-refresh-token=${session.refresh_token}; path=/; max-age=${maxAge}; SameSite=None; secure`
+				}
 			}
 		})
 

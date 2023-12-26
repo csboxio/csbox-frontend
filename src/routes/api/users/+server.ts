@@ -1,9 +1,10 @@
-import type { RequestHandler } from "@sveltejs/kit";
-import {json, redirect} from "@sveltejs/kit";
+import {json} from "@sveltejs/kit";
 import { createClient } from '@supabase/supabase-js';
 import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$env/static/public";
 
-export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { getSession }, event }) => {
+export const GET = async (event) => {
+    const { locals: { getSession } } = event
+
     const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY,
         {
             db: { schema: 'private' }

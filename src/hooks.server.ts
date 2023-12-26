@@ -81,6 +81,24 @@ export const handle = async ({ event, resolve }) => {
     return session
   }
 
+  event.locals.getServerSession = async () => {
+    const refreshToken = event.refresh_token
+    const accessToken = event.access_token
+
+    if (refreshToken && accessToken) {
+      await event.supabase.auth.setSession({
+        refresh_token: refreshToken,
+        access_token: accessToken,
+    })
+    } else {
+      // make sure you handle this case!
+      throw new Error('User is not authenticated.')
+    }
+
+// returns user information
+    await event.supabase.auth.getSession()
+  }
+
   return resolve(event, {
     filterSerializedResponseHeaders(name) {
       return name === 'content-range'

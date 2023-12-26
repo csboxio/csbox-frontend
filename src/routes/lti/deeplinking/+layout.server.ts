@@ -42,7 +42,7 @@ export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url
     }
 
     return {
-        courses: courses(),
+        courses: await courses(),
         deeplinking: await deeplinking.json(),
         session: await getSession(),
         claim: await getClaim(),
