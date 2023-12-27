@@ -15,7 +15,9 @@
 {#if !$page.data.session}
 	<Auth bind:supabase={supabase} />
 	{:else}
-	{history.back()}
+	<script type="module">
+		window.location.href = '/lti/deeplinking';
+	</script>
 
 {/if}
 

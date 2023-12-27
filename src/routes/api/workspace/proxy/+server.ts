@@ -3,9 +3,7 @@ import { error, json, redirect } from "@sveltejs/kit";
 import {uuid} from "@supabase/supabase-js/dist/main/lib/helpers.js";
 
 /** @type {import('./$types').RequestHandler} */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-export const GET: RequestHandler = async ({ request, params, setHeaders,  url, locals: { supabase, getSession }, event }) => {
+export const GET = async ({ request, params, setHeaders,  url, locals: { supabase, getSession }, event }) => {
     const session = await getSession()
 
     if (!session) {

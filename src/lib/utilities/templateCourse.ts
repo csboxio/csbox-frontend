@@ -11,7 +11,7 @@ export const createPlaceHolderCourseDocument = async (courseId: bigint, user: an
     // Delete old html from block storage
     const filePath = `${courseId + "/" + "document/" + "home"}.HTML`;
     const { error } = await supabase.storage.from("courses").upload(filePath, file);
-    const { data } = supabase.storage.from("courses").getPublicUrl(filePath);
+    const { data } = await supabase.storage.from("courses").getPublicUrl(filePath);
 
     console.log(error, courseId, user, supabase)
     await updateCourseInsert(courseId, user, supabase)

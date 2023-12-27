@@ -1,7 +1,6 @@
 import { json, RequestHandler } from "@sveltejs/kit";
 
 /** @type {import('./$types').RequestHandler} */
-// @ts-ignore
 export const POST: RequestHandler = async ({ request, url, locals: { supabase, getSession }, event }) => {
   // Get path url from database
   // TODO server side user check this is insecure

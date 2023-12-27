@@ -9,19 +9,6 @@
     let {supabase} = data
     $: ({supabase} = data)
 
-    onMount(async () => {
-
-        const {
-            data: {subscription}
-        } = supabase.auth.onAuthStateChange(() => {
-            invalidateAll();
-        });
-
-        return () => {
-            subscription.unsubscribe();
-        };
-    });
-
 
 </script>
 

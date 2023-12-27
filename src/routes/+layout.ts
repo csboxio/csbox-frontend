@@ -4,8 +4,9 @@ import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/publi
 import type {Database} from "../schema.js";
 
 import { combineChunks, createBrowserClient, isBrowser, parse } from '@supabase/ssr'
+import type {LayoutLoad} from "./$types.js";
 
-export const load = async ({ fetch, data, depends }) => {
+export const load: LayoutLoad = async ({ fetch, data, depends }) => {
   depends('supabase:auth')
 
   /*
@@ -14,7 +15,7 @@ export const load = async ({ fetch, data, depends }) => {
       autoRefreshToken: true,
       persistSession: false,
     },
-    * Adding the above will break the Client. */
+    * Adding the above is unknown if it breaks client, or fixes, (for embedded) */
 
   const supabase = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
     serverSession: data.session,
@@ -24,7 +25,7 @@ export const load = async ({ fetch, data, depends }) => {
     },
     auth: {
       autoRefreshToken: true,
-      persistSession: false,
+      persistSession: true,
     },
     cookies: {
       get(key) {

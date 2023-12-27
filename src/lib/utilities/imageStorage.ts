@@ -66,7 +66,7 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const { error } = await supabase.storage.from('avatars').upload(filePath, rfile)
-    const { data } = supabase.storage.from('avatars').getPublicUrl(filePath)
+    const { data } = await supabase.storage.from('avatars').getPublicUrl(filePath)
     await updateProfile(data.publicUrl, session.user.id, supabase)
 
 
@@ -130,7 +130,7 @@ export const uploadCourseDocumentImage = async (files: FileList, uploading: bool
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const { error } = await supabase.storage.from('courses').upload(filePath, files)
-    const { data } = supabase.storage.from('courses').getPublicUrl(filePath)
+    const { data } = await supabase.storage.from('courses').getPublicUrl(filePath)
     loading = false;
 
     return data.publicUrl

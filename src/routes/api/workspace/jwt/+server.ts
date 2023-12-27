@@ -3,8 +3,6 @@ import { error, json, redirect } from "@sveltejs/kit";
 import jwt from 'jsonwebtoken';
 import {PRIVATE_SUPABASE_JWT} from "$env/static/private";
 
-
-
 /** @type {import('./$types').RequestHandler} */
 export const GET: RequestHandler = async ({ locals: { supabase, getSession }, event }) => {
   const session = await getSession()

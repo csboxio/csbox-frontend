@@ -36,16 +36,14 @@ export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url
             body: JSON.stringify(requestBody)
         });
 
-    let responseData;
-    try {
-        responseData = await deeplinking.json();
-    } catch (error) {
-        console.error('Error parsing JSON:', error);
-        responseData = null; // or any other appropriate action
+    const courses = async () => {
+        const response = await fetch('/api/courses')
+        return response.json()
     }
 
     return {
-        deeplinking: responseData,
+        courses: await courses(),
+        deeplinking: await deeplinking.json(),
         session: await getSession(),
         claim: await getClaim(),
         lms_user_id: await getLMSUserID()
