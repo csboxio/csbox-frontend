@@ -19,7 +19,7 @@
 	import {page} from "$app/stores";
 	import Settings from "$lib/components/Settings.svelte";
 	import Navbar from "$lib/components/Navbar.svelte";
-	import {navStore} from "../../../../lib/stores/stores.js";
+	import {navStore} from "$lib/stores/stores.js";
 	import {writable} from "svelte/store";
 	import {browser} from "$app/environment";
 	import Fa from 'svelte-fa/src/fa.svelte';
@@ -28,6 +28,12 @@
 
 	/** @type {import('./$types').PageData | null} */
 	export let data
+
+	let { supabase, session } = data
+	$: ({ supabase, session } = data)
+
+	let user;
+	$: user = $page.data.user;
 
 	let workspaces;
 	$: workspaces = $page.data.workspaces
@@ -63,25 +69,16 @@
 	onMount(() => {
 		// Set the selected item when the page is mounted
 		navStore.set('workspaces');
-		invalidate('/api/workspace/all')
 	});
 
 	let searchTerm = '';
 	let filteredItems
-
-
-
 
 	console.log(active_workspaces)
 
 		$: filteredItems = active_workspaces.filter(
 				(active_workspaces) => active_workspaces.workspace_name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
 		);
-
-
-
-
-
 
 	let ide;
 	$: ide = $page.data.ide;
@@ -149,7 +146,7 @@
 			console.log("Websocket closed.", event.code, event.reason)
 			await redirectWorkspace(workspace_id)
 			workspaceActionMessages.set([]);
-			await invalidate('/api/workspace')
+			//await invalidate('/api/workspace')
 		}
 
 		socket.onerror = (error) => {
@@ -166,7 +163,7 @@
 		deployModal = false
 		createWorkspaceModal = false
 		workspaceActionModal = false
-		invalidateAll()
+		//invalidateAll()
 	}
 
 	async function redirectWorkspace(workspace_id) {
@@ -275,32 +272,6 @@
 	let workspaceActionModalTitle = "Default Title"
 </script>
 
-<body class="bg-gray-600 antialiased bg-body text-body font-body">
-
-<!-- Nav bar on the left of the screen-->
-<Navbar/>
-
-<div class="mx-auto lg:ml-16">
-
-	<!-- Top bar of settings -->
-	<section>
-		<div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
-			<div class="flex flex-wrap items-center justify-between -mx-2">
-				<div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
-					<h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Workspaces</h4>
-				</div>
-				<div class="w-full lg:w-auto px-2">
-					<Settings bind:data={data}/>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<div class="flex ">
-	<!-- Work space navigation -->
-	<aside class=" sticky top-0 inline-block" >
-		<WorkspaceNav active_workspaces={active_workspaces} healthcheck={healthcheck}/>
-	</aside>
 			<!-- Content -->
 			<section class="flex flex-col p-8 inline-block w-full">
 
@@ -450,9 +421,6 @@
 				{/if}
 
 			</section>
-		</div>
-    </div>
-</body>
 
 <Modal title="{workspaceActionModalTitle}" bind:open={workspaceActionModal} class="max-w-xs" >
 	<div class="text-center">

@@ -76,18 +76,6 @@ export const handle: Handle = async ({ event, resolve, request }) => {
     }
   }
 
-  /**
-   * a little helper that is written for convenience so that instead
-   * of calling `const { data: { session } } = await supabase.auth.getSession()`
-   * you just call this `await getSession()`
-   */
-  event.locals.getSession = async () => {
-    const {
-      data: { session },
-    } = await event.locals.supabase.auth.getSession()
-    return session
-  }
-
   /*event.locals.getServerSession = async () => {
     const refreshToken = event.refresh_token
     const accessToken = event.access_token
@@ -108,6 +96,25 @@ export const handle: Handle = async ({ event, resolve, request }) => {
     } = await event.locals.supabase.auth.getSession()
     return session
   }*/
+
+  /**
+   * a little helper that is written for convenience so that instead
+   * of calling `const { data: { session } } = await supabase.auth.getSession()`
+   * you just call this `await getSession()`
+   */
+
+  event.locals.getSession = async () => {
+    const {
+      data: { session }
+    } = await event.locals.supabase.auth.getSession();
+    return session;
+  };
+
+
+  const { error: getSessionError } = await event.locals.supabase.auth.getSession()
+  if (getSessionError) {
+    console.error(getSessionError)
+  }
 
   return resolve(event, {
     filterSerializedResponseHeaders(name) {

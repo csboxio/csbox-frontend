@@ -2,6 +2,7 @@
 
   import {onMount} from "svelte";
   import { workspaceNavStore } from "$lib/stores/stores.ts";
+  import {page} from "$app/stores";
 
   export let healthcheck;
 
@@ -13,23 +14,13 @@
   ];
 
   const secondMenuItems = [
-    { name: "Workspaces", route: route },
+    { name: "Workspaces", route: route + 'view' },
     { name: "Projects", route: route + 'projects' },
     { name: "Templates", route: route + 'templates' },
   ];
 
   let statusIndicator
   $: statusIndicator = healthcheck
-
-  onMount(async () => {
-    const storedItem = localStorage.getItem('selectedWorkspaceItem');
-    $workspaceNavStore = storedItem ? JSON.parse(storedItem) : null;
-  });
-
-  function handleClick(menuItem) {
-    $workspaceNavStore = menuItem.name;
-    localStorage.setItem('selectedWorkspaceItem', JSON.stringify(menuItem.name));
-  }
 
 </script>
 
@@ -39,9 +30,9 @@
     <div class="flex-1 pl-1.5 pr-1 mr-0.5 overflow-y-hidden font-semibold text-white ">
 
       {#each secondMenuItems as menuItem, index}
-        <a href="{menuItem.route}" on:click={() => handleClick(menuItem)} key={index}>
-          <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg" class:bg-gray-600={$workspaceNavStore === menuItem.name}>
-            <p class="px-4 text-gray-100 whitespace-nowrap" class:text-white={$workspaceNavStore === menuItem.name}>
+        <a href="{menuItem.route}" key={index}>
+          <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg" class:bg-gray-600={$page.url.pathname === menuItem.route}>
+            <p class="px-4 text-gray-100 whitespace-nowrap" class:text-white={$page.url.pathname === menuItem.route}>
               {menuItem.name}
             </p>
           </div>

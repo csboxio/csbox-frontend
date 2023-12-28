@@ -1,18 +1,15 @@
 <script lang="ts">
   import {page} from "$app/stores";
-  import { DarkMode } from "flowbite-svelte";
-  import { navStore } from "../stores/stores.js";
-  import Fa from 'svelte-fa/src/fa.svelte';
+  import {DarkMode} from "flowbite-svelte";
+  import {navStore} from "../stores/stores.js";
+
   export const prerender = false;
-
-  import {faBook, faCrown, faSpinner} from '@fortawesome/free-solid-svg-icons';
-
 
   export let claim;
 
   let navItems = [
-    { url: '/d/workspaces/', id: "workspaces", disabled: "false", edge: "false", svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM16.4645 15.5355L20 12L16.4645 8.46447L15.0503 9.87868L17.1716 12L15.0503 14.1213L16.4645 15.5355ZM6.82843 12L8.94975 9.87868L7.53553 8.46447L4 12L7.53553 15.5355L8.94975 14.1213L6.82843 12ZM11.2443 17L14.884 7H12.7557L9.11597 17H11.2443Z" fill="currentColor"></path></svg>'},
-    { url: '/d/workspaces', id: "workspaces", disabled: "false", edge: "true", svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" aria-label="server" viewBox="0 0 512 512"><path d="M64 32C28.7 32 0 60.7 0 96v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM344 152c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm96-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24zM64 288c-35.3 0-64 28.7-64 64v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V352c0-35.3-28.7-64-64-64H64zM344 408c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm104-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24z"></path></svg>' },
+    { url: '/d/workspaces/view', id: "workspaces", disabled: "false", edge: "true", svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM16.4645 15.5355L20 12L16.4645 8.46447L15.0503 9.87868L17.1716 12L15.0503 14.1213L16.4645 15.5355ZM6.82843 12L8.94975 9.87868L7.53553 8.46447L4 12L7.53553 15.5355L8.94975 14.1213L6.82843 12ZM11.2443 17L14.884 7H12.7557L9.11597 17H11.2443Z" fill="currentColor"></path></svg>'},
+    //{ url: '/d/workspaces/view', id: "workspaces", disabled: "false", edge: "true", svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" aria-label="server" viewBox="0 0 512 512"><path d="M64 32C28.7 32 0 60.7 0 96v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM344 152c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm96-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24zM64 288c-35.3 0-64 28.7-64 64v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V352c0-35.3-28.7-64-64-64H64zM344 408c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm104-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24z"></path></svg>' },
 
     { url: '/d/', id: "d", disabled: "false", edge: "false", svg: '<svg class="svelte-fa svelte-1cj2gr0 " style="height:1em;line-height:.75em;font-size:1.33333em;vertical-align:-.225em;transform-origin:center;overflow:visible" viewBox="0 0 512 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(256 256)" transform-origin="128 0"><g transform="translate(0,0) scale(1,1)"><path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm320 96c0-15.9-5.8-30.4-15.3-41.6l76.6-147.4c6.1-11.8 1.5-26.3-10.2-32.4s-26.2-1.5-32.4 10.2L262.1 288.3c-2-.2-4-.3-6.1-.3c-35.3 0-64 28.7-64 64s28.7 64 64 64s64-28.7 64-64z" fill="currentColor" transform="translate(-256 -256)"></path></g></g></svg>' },
     { url: '/d/courses', id: "courses", disabled: "false", edge: "false", hover_svg: '', svg: '<svg class="svelte-fa svelte-1cj2gr0" style="height:1em;line-height:.75em;font-size:1.33333em;vertical-align:-.225em;transform-origin:center;overflow:visible" viewBox="0 0 448 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(224 256)" transform-origin="112 0"><g transform="translate(0,0) scale(1,1)"><path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z" fill="currentColor" transform="translate(-224 -256)"></path></g></g></svg>' },
@@ -22,21 +19,20 @@
 
   ];
 
+  function extractNameFromPath() {
+    const pathname = $page.url.pathname;
+    const segments = pathname.split("/");
+    // Edge case dashboard (/d)
+    if (segments[1] == 'd' && segments.length == 2)
+      return 'd'
+    return segments[2];
+  }
+
+  let currentRoute
+  $: currentRoute = extractNameFromPath();
 
   if (claim == 'student') {
     navItems = navItems.filter(item => item.id !== 'admin')
-  }
-
-  let selectedNav;
-
-
-
-  function selectNav(route) {
-    navStore.set(route);
-  }
-
-  function disabledItemUrl(itemId) {
-    //navItems = navItems.filter(item => item.id !== itemId)
   }
 
 </script>
@@ -68,13 +64,13 @@
         <ul>
           {#each navItems as item}
             <li>
-            <li class:active={$navStore === item.id} on:click={() => { $navStore = item.id; }}>
+            <li class:active={currentRoute === item.id} on:click={() => { currentRoute = item.id; }}>
             {#if item.disabled === "true"}
             {/if}
             <a class="flex items-center justify-center w-12 h-12 rounded-xl hover:bg-gray-800 mb-2 "
-                 on:click={() => $navStore = item.id}
-                 class:text-gray-400={$navStore !== item.id}
-                 class:text-blue-500={$navStore === item.id}
+                 on:click={() => currentRoute = item.id}
+                 class:text-gray-400={currentRoute !== item.id}
+                 class:text-blue-500={currentRoute === item.id}
                  href={item.url}
                  sveltekit:prefetch
               >
@@ -105,9 +101,9 @@
           </svelte:fragment>
         </DarkMode>
         <a class="flex items-center justify-center w-12 h-12 rounded-xl text-gray-400 hover:text-blue-500 hover:bg-gray-800" href="/d/profile"
-           on:click={() => $navStore = "profile"}
-           class:text-gray-400={$navStore !== "profile"}
-           class:text-blue-500={$navStore === "profile"}>
+           on:click={() => currentRoute = "profile"}
+           class:text-gray-400={currentRoute !== "profile"}
+           class:text-blue-500={currentRoute === "profile"}>
           <svg width="20" height="22" viewbox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M13.71 11.7099C14.6904 10.9385 15.406 9.8808 15.7572 8.68382C16.1085 7.48684 16.0779 6.21015 15.6698 5.03135C15.2617 3.85255 14.4963 2.83027 13.4801 2.10674C12.4639 1.3832 11.2474 0.994385 10 0.994385C8.75255 0.994385 7.53611 1.3832 6.51993 2.10674C5.50374 2.83027 4.73834 3.85255 4.33021 5.03135C3.92208 6.21015 3.89151 7.48684 4.24276 8.68382C4.59401 9.8808 5.3096 10.9385 6.29 11.7099C4.61007 12.3829 3.14428 13.4992 2.04889 14.9398C0.953495 16.3804 0.26956 18.0912 0.0699967 19.8899C0.0555513 20.0212 0.0671132 20.1541 0.104022 20.2809C0.140931 20.4078 0.202464 20.5261 0.285108 20.6292C0.452016 20.8374 0.69478 20.9707 0.959997 20.9999C1.22521 21.0291 1.49116 20.9517 1.69932 20.7848C1.90749 20.6179 2.04082 20.3751 2.07 20.1099C2.28958 18.1551 3.22168 16.3497 4.68822 15.0387C6.15475 13.7277 8.0529 13.0029 10.02 13.0029C11.9871 13.0029 13.8852 13.7277 15.3518 15.0387C16.8183 16.3497 17.7504 18.1551 17.97 20.1099C17.9972 20.3556 18.1144 20.5825 18.2991 20.7469C18.4838 20.9113 18.7228 21.0014 18.97 20.9999H19.08C19.3421 20.9697 19.5817 20.8372 19.7466 20.6311C19.9114 20.4251 19.9881 20.1622 19.96 19.8999C19.7595 18.0961 19.0719 16.3809 17.9708 14.9381C16.8698 13.4953 15.3969 12.3794 13.71 11.7099ZM10 10.9999C9.20887 10.9999 8.43551 10.7653 7.77772 10.3258C7.11992 9.88623 6.60723 9.26152 6.30448 8.53061C6.00173 7.79971 5.92251 6.99544 6.07686 6.21952C6.2312 5.4436 6.61216 4.73086 7.17157 4.17145C7.73098 3.61204 8.44371 3.23108 9.21964 3.07674C9.99556 2.9224 10.7998 3.00161 11.5307 3.30436C12.2616 3.60711 12.8863 4.1198 13.3259 4.7776C13.7654 5.4354 14 6.20876 14 6.99988C14 8.06075 13.5786 9.07816 12.8284 9.82831C12.0783 10.5785 11.0609 10.9999 10 10.9999Z" fill="currentColor"></path>
           </svg>

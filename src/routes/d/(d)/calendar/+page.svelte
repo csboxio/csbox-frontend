@@ -10,11 +10,15 @@
     import TimeGrid from '@event-calendar/time-grid';
     import Interaction from '@event-calendar/interaction'
     import DayGrid from '@event-calendar/day-grid';
+    import {page} from "$app/stores";
     export let data
 
-    let { supabase, session, user } = data
-    $: ({ supabase, session, user } = data)
+    let { supabase, session } = data
+    $: ({ supabase, session } = data)
 
+
+    let user;
+    $: user = $page.data.user;
 
     let plugins = [TimeGrid, Interaction, DayGrid];
 
@@ -89,7 +93,7 @@
                     <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Calendar</h4>
                 </div>
                 <div class="w-full lg:w-auto px-2">
-                    <Settings bind:data={data}/>
+                    <Settings bind:user={user} bind:supabase={supabase} />
                 </div>
             </div>
         </div>

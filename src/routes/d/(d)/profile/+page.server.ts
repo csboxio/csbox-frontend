@@ -2,6 +2,7 @@ import type {Actions} from "./$types";
 import {redirect} from '@sveltejs/kit'
 import {DEV} from "../../../../lib/dev/mode.js";
 
+export const ssr = false;
 export const prerender = false;
 export const actions: Actions = {
     updateProfile: async ({ request, url, fetch, locals: { supabase } }) => {

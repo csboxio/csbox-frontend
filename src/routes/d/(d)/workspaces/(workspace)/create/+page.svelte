@@ -77,7 +77,7 @@
           <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Workspaces - Create</h4>
         </div>
         <div class="w-full lg:w-auto px-2">
-          <Settings bind:data={data}/>
+          <Settings bind:user={user} bind:supabase={supabase} />
         </div>
       </div>
     </div>

@@ -26,10 +26,16 @@
     /** @type {import('./$types').PageData | null} */
     export let data
 
-    let templates;
-    $: templates = $page.data.templates;
+    let { supabase, session } = data
+    $: ({ supabase, session } = data)
 
-    let createTemplate;
+    let user;
+    $: user = $page.data.user;
+
+    let projects;
+    $: projects = $page.data.projects;
+
+    let createProject;
 
     let selectedOption = 'new'; // Default selected option
 
@@ -39,7 +45,7 @@
         selectedOption = option;
     }
 
-    async function handleCreateTemplateSubmit(event) {
+    async function handleCreateProjectSubmit(event) {
         const data = new FormData(this);
 
 
@@ -55,50 +61,22 @@
 
         await invalidateAll();
         await applyAction(result);
-        createTemplate = false
+        createProject = false
     }
 </script>
-
-
-<body class="bg-gray-600 antialiased bg-body text-body font-body">
-
-<!-- Nav bar on the left of the screen-->
-<Navbar/>
-
-<div class="mx-auto lg:ml-16">
-
-    <!-- Top bar of settings -->
-    <section>
-        <div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
-            <div class="flex flex-wrap items-center justify-between -mx-2">
-                <div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
-                    <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Workspaces - Templates</h4>
-                </div>
-                <div class="w-full lg:w-auto px-2">
-                    <Settings bind:data={data}/>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="flex ">
-        <!-- Work space navigation -->
-        <aside class=" sticky top-0 inline-block" >
-            <WorkspaceNav />
-        </aside>
 
 <!-- Content -->
 <section class="flex flex-col p-8 inline-block w-full">
 
-    {#if templates}
-        {#if templates.length === 0}
+    {#if projects}
+        {#if projects.length === 0}
             <div class="flex h-full pb-24 ">
                 <div class="m-auto">
                     <div class="text-center justify-center text-white font-semibold text-2xl">
-                        No Templates
+                        No Projects
                     </div>
                     <div class="text-center justify-center text-gray-200 pt-1 text-sm">
-                        Create a new template for re-use.
+                        Create a new project to save files, and track your changes.
                     </div>
                     <div class="text-center justify-center pt-4">
                         <div class="">
@@ -108,7 +86,7 @@
 													font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
 													group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
 													focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-                                        on:click={() => { createTemplate = true }}>
+                                        on:click={() => { createProject = true }}>
 												<span
                                                         class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
 													dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
@@ -116,7 +94,7 @@
 														<Fa icon={faAdd}/>
 													</div>
 													<div class="inline-block">
-														Template
+														Project
 													</div>
 												</span>
                                 </button>
@@ -128,8 +106,8 @@
         {/if}
     {/if}
 
-    {#if templates}
-        {#if templates.length !== 0}
+    {#if projects}
+        {#if projects.length !== 0}
         <div class="mx-0.5 mb-4 flex justify-between">
         <div class="">
             <button
@@ -137,12 +115,12 @@
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
 				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
 				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-                    on:click={() => {createTemplate = true;}}
+                    on:click={() => {createProject = true;}}
                     >
 				<span
                         class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
 					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-					<div class="inline-block"><Fa icon={faAdd}/></div> <div class="inline-block">Create Template</div>
+					<div class="inline-block"><Fa icon={faAdd}/></div> <div class="inline-block">Create Project</div>
 				</span>
             </button>
         </div>
@@ -160,12 +138,13 @@
                 </TableHeadCell>
             </TableHead>
             <TableBody class="divide-y">
-                {#key templates}
-                    {#each templates as { id, inserted_at, updated_at, template_name}}
+                {#key projects}
+                    {#each projects as { id, inserted_at, project_name, updated_at}}
                         <TableBodyRow class="cursor-pointer" >
-                            <TableBodyCell>{template_name}</TableBodyCell>
+                            <TableBodyCell>{project_name}</TableBodyCell>
                             <TableBodyCell>{inserted_at?.substring(0,10)}</TableBodyCell>
                             <TableBodyCell>{formatDistanceToNow(parseISO(updated_at), {addSuffix: true})}</TableBodyCell>
+
                             <TableBodyCell>
                                 <Button >
                                     <Chevron>Actions</Chevron>
@@ -181,7 +160,7 @@
 
             </TableBody>
         </Table>
-        {#if !templates}
+        {#if !projects}
             <div
                     class="flex p-4 mb-6 mt-4 ml-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50
 						dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
@@ -203,53 +182,29 @@
                 </svg>
                 <span class="sr-only">Info</span>
                 <div>
-                    <span class="font-medium">No templates found...</span>
+                    <span class="font-medium">No projects found...</span>
                 </div>
             </div>
         {/if}
     </div>
         {/if}
     {/if}
-
 </section>
-    </div>
-</div>
-</body>
 
-<Modal title="Create Template" bind:open={createTemplate} class="max-w-xs" >
+<Modal title="Create Project" bind:open={createProject} class="max-w-xs" >
     <div class="text-center ">
-
+        
         <div class="font-semibold text-white  pr-4 ">
-            <!-- Multi select -->
-            <div class="flex justify-center space-x-1 overflow-hidden ">
-                <button
-                        class="flex-1 px-4 py-2 rounded-l-md"
-                        class:bg-gray-500={selectedOption === 'new'}
-                        class:bg-gray-800={selectedOption !== 'new'}
-                        on:click={() => selectOption('new')}
-                        style="min-width: 0;">
-                    New
-                </button>
-                <button
-                        class="flex-1 px-4 py-2 rounded-r-md "
-                        class:bg-gray-500={selectedOption === 'git'}
-                        class:bg-gray-800={selectedOption !== 'git'}
-                        on:click={() => selectOption('git')}
-                        style="min-width: 0;">
-                    Git
-                </button>
-            </div>
 
-            {#if selectedOption === "new"}
-                <div class="p-4  space-y-4 mx-auto pt-8 ">
-                    <div class="space-y-4 ">
-                        <form method="POST" action="?/createTemplate" on:submit|preventDefault={handleCreateTemplateSubmit}>
-                            <div class="mb-2 mx-auto">
+                <div class="   mx-auto  ">
+                    <div class=" ">
+                        <form method="POST" action="?/createProject" on:submit|preventDefault={handleCreateProjectSubmit}>
+                            <div class="mb-3 mx-auto">
                                 <!-- Template Name-->
-                                <label for="template_name" class="block mb-2 font-medium text-white dark:text-white">
-                                    Template Name
+                                <label for="project_name" class="block mb-2 font-medium text-white dark:text-white">
+                                    Project Name
                                 </label>
-                                <input type="text" name="template_name" id="template_name"
+                                <input type="text" name="project_name" id="project_name"
                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 text-lg
 		                                focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
 		                                dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -263,13 +218,6 @@
                         </form>
                     </div>
                 </div>
-            {/if}
-
-            {#if selectedOption === "git"}
-                <div class="p-4">
-                    Nothing here yet...
-                </div>
-            {/if}
 
         </div>
     </div>

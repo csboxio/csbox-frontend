@@ -6,10 +6,14 @@
     import '$lib/styles/calendar.css'
 
     import AdminNav from "$lib/components/AdminNav.svelte";
+    import {page} from "$app/stores";
     export let data
 
-    let { supabase, session, user, claim } = data
-    $: ({ supabase, session, user, claim } = data)
+    let { supabase, session, claim } = data
+    $: ({ supabase, session, claim } = data)
+
+    let user;
+    $: user = $page.data.user;
 
 
     onMount(() => {
@@ -35,7 +39,7 @@
                     <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Admin - Dashboard</h4>
                 </div>
                 <div class="w-full lg:w-auto px-2">
-                    <Settings bind:data={data}/>
+                    <Settings bind:user={user} bind:supabase={supabase} />
                 </div>
             </div>
         </div>

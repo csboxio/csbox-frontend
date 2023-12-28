@@ -23,7 +23,7 @@
 	let files;
 	let uploading = false;
 	let user
-	$: user = $page.data.user.data
+	$: user = $page.data.user?.data
 
 	function initializeUser(user) {
 		const defaults = {
@@ -101,7 +101,7 @@
 					<h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Settings</h4>
 				</div>
 				<div class="w-full lg:w-auto px-2">
-					<Settings bind:data={data}/>
+					<Settings bind:user={user} bind:supabase={supabase} />
 
 				</div>
 			</div>
@@ -113,9 +113,9 @@
 				<div class="flex flex-wrap -mx-3 ">
 					<div class="w-full lg:w-1/3 px-3 mb-6 lg:mb-0">
 						<div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
-							<img class="rounded-full w-24 h-24 inline-block" src={user.avatar_url} alt="image description">
+							<img class="rounded-full w-24 h-24 inline-block" src={user?.avatar_url} alt="image description">
 							<div class="inline-block ml-4">
-								<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-800 dark:text-white">{$page.data.user.data.first_name} {user?.last_name}</h5>
+								<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-800 dark:text-white">{$page.data.user?.data.first_name} {user?.last_name}</h5>
 								<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{user?.website}</p>
 
 
@@ -149,7 +149,7 @@
 												<h4 class="text-2xl font-bold tracking-wide text-white mb-4">General Information</h4>
 												<div class="grid grid-cols-2 gap-6 w-full">
 													<div class="mb-6">
-														<Label for="first" class="block mb-2 text-red-500 {user.first_name == '' ? 'animate-pulse pulse-red text-red-500' : ''}">First Name:</Label>
+														<Label for="first" class="block mb-2 text-red-500 {user?.first_name == '' ? 'animate-pulse pulse-red text-red-500' : ''}">First Name:</Label>
 														<Input id="first" name="first" class="w-full" bind:value={user.first_name} />
 													</div>
 													<div class="mb-6">

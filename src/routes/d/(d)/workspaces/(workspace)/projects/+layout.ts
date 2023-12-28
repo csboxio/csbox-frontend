@@ -8,10 +8,7 @@ import { redirect } from "@sveltejs/kit";
 export const load = async ({ fetch, data, request, url, parent }) => {
     const parentData = await parent();
     const session = parentData.session;
-
-    if (!session) {
-        throw redirect(303, '/');
-    }
+    const user = parentData.user;
 
     try {
         const cacheOptions = {
@@ -24,6 +21,7 @@ export const load = async ({ fetch, data, request, url, parent }) => {
 
         return {
             projects: await projects.json(),
+            user: user,
         };
     } catch (error) {
         console.log("Workspace error:", error);

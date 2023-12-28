@@ -1,8 +1,10 @@
 
-export const load = (async ({ params,parent }) => {
+export const load = async ({ fetch, data, request, url, parent, params }) => {
     const parentData = await parent();
+    // Destructed data from previous layout.ts
+    const user = parentData.user;
 
-    console.log(parentData)
+    console.log(user)
 
     const { slug } = params
     if (parentData.courses.data.length === 0) {
@@ -12,8 +14,9 @@ export const load = (async ({ params,parent }) => {
     return {
         courses: parentData.courses,
         claim: parentData.session.user.app_metadata.userrole,
-        slug
+        slug,
+        user: user
     };
-});
+};
 
 

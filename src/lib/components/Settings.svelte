@@ -7,8 +7,6 @@
   import {browser} from "$app/environment";
   import { fade, slide } from 'svelte/transition'
 
-
-  export const ssr = true;
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
@@ -16,9 +14,6 @@
 
 
   export let supabase
-
-  export let user
-  $: user
 
   let notificationsReceived
   $: notificationsReceived;
@@ -39,18 +34,9 @@
   }
 
   async function getNotifications() {
-    const { data, error } = await supabase
-            .from("notifications")
-            .select("all_notifications")
-            .eq('user_id', $page.data.session.user.id)
-            .single()
-
-    if (error) {
-      console.log(data, error)
-    }
-
-    if (!error) {
-      return data;
+    const response = await fetch('/api/users/notifications');
+    if (response.ok) {
+      return await response.json()
     }
   }
 
@@ -74,7 +60,12 @@
     fetchNotifications();
   }
 
+  export let user;
+  $: user
+
+
   onMount(async () => {
+
     const storedNotifications = localStorage.getItem('storedNotifications');
 
     if(storedNotifications != 'undefined') {
@@ -168,7 +159,7 @@
     <div class="w-full sm:w-auto">
       <div class="relative inline-block text-left z-20">
         <div>
-          {#if user}
+          {#key user}
           <Button pill color="light"  id="avatar_with_name" class="!p-1.5 ">
             <Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class="mr-4"/>
             <div class="mr-3 font-medium">{user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.last_name}</div>
@@ -182,7 +173,7 @@
             <DropdownItem on:click={() => {goto('/d/profile')}}>Settings</DropdownItem>
             <DropdownItem on:click={signOut} slot="footer">Sign out</DropdownItem>
           </Dropdown>
-            {/if}
+            {/key}
         </div>
       </div>
     </div>

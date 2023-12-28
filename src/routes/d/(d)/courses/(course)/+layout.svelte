@@ -20,6 +20,9 @@
 	let pathname = '';
 	let extractedName;
 
+	let user;
+	$: user = $page.data.user
+
 	function extractNameFromPath() {
 		pathname = $page.url.pathname;
 		const pathnameParts = pathname.split("/");
@@ -52,7 +55,7 @@
 							{/key}
 						</div>
 						<div class="w-full lg:w-auto px-2">
-							<Settings bind:data={data} />
+							<Settings bind:user={user} bind:supabase={supabase} />
 						</div>
 					</div>
 				</div>

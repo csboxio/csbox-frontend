@@ -25,7 +25,7 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
     },
     auth: {
       autoRefreshToken: true,
-      persistSession: true,
+      persistSession: false,
     },
     cookies: {
       get(key) {
