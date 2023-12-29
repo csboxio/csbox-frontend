@@ -4,6 +4,10 @@
 	import { notificationStore } from "../lib/stores/stores.js";
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
+	import { fly } from 'svelte/transition';
+	import {cubicOut} from "svelte/easing";
+	import AOS from 'aos';
+	import Swiper from 'swiper'
 
 	export let data
 
@@ -26,7 +30,281 @@
 	});
 
 	let tab
-	$: tab
+	$: tab = 0;
+
+	function clickTab(num) {
+		console.log('here')
+		tab = num;
+	}
+
+	AOS.init({
+		once: true,
+		disable: 'phone',
+		duration: 1000,
+		easing: 'ease-out-cubic',
+	});
+
+	const clientsEl = document.querySelectorAll('.clients-carousel');
+	if (clientsEl.length > 0) {
+		const clients = new Swiper('.clients-carousel', {
+			slidesPerView: 'auto',
+			spaceBetween: 64,
+			centeredSlides: true,
+			loop: true,
+			speed: 5000,
+			noSwiping: true,
+			noSwipingClass: 'swiper-slide',
+			autoplay: {
+				delay: 0,
+				disableOnInteraction: true,
+			},
+		});
+	}
+
+	const carouselEl = document.querySelectorAll('.testimonials-carousel');
+	if (carouselEl.length > 0) {
+		const carousel = new Swiper('.testimonials-carousel', {
+			breakpoints: {
+				320: {
+					slidesPerView: 1
+				},
+				640: {
+					slidesPerView: 2
+				},
+				1024: {
+					slidesPerView: 3
+				}
+			},
+			grabCursor: true,
+			loop: false,
+			centeredSlides: false,
+			initialSlide: 0,
+			spaceBetween: 24,
+			navigation: {
+				nextEl: '.carousel-next',
+				prevEl: '.carousel-prev',
+			},
+		});
+	}
+
+	// Particle animation
+	class ParticleAnimation {
+		constructor(el, { quantity = 30, staticity = 50, ease = 50 } = {}) {
+			this.canvas = el;
+			if (!this.canvas) return;
+			this.canvasContainer = this.canvas.parentElement;
+			this.context = this.canvas.getContext('2d');
+			this.dpr = window.devicePixelRatio || 1;
+			this.settings = {
+				quantity: quantity,
+				staticity: staticity,
+				ease: ease,
+			};
+			this.circles = [];
+			this.mouse = {
+				x: 0,
+				y: 0,
+			};
+			this.canvasSize = {
+				w: 0,
+				h: 0,
+			};
+			this.onMouseMove = this.onMouseMove.bind(this);
+			this.initCanvas = this.initCanvas.bind(this);
+			this.resizeCanvas = this.resizeCanvas.bind(this);
+			this.drawCircle = this.drawCircle.bind(this);
+			this.drawParticles = this.drawParticles.bind(this);
+			this.remapValue = this.remapValue.bind(this);
+			this.animate = this.animate.bind(this);
+			this.init();
+		}
+
+		init() {
+			this.initCanvas();
+			this.animate();
+			window.addEventListener('resize', this.initCanvas);
+			window.addEventListener('mousemove', this.onMouseMove);
+		}
+
+		initCanvas() {
+			this.resizeCanvas();
+			this.drawParticles();
+		}
+
+		onMouseMove(event) {
+			const { clientX, clientY } = event;
+			const rect = this.canvas.getBoundingClientRect();
+			const { w, h } = this.canvasSize;
+			const x = clientX - rect.left - (w / 2);
+			const y = clientY - rect.top - (h / 2);
+			const inside = x < (w / 2) && x > -(w / 2) && y < (h / 2) && y > -(h / 2);
+			if(inside) {
+				this.mouse.x = x;
+				this.mouse.y = y;
+			}
+		}
+
+		resizeCanvas() {
+			this.circles.length = 0;
+			this.canvasSize.w = this.canvasContainer.offsetWidth;
+			this.canvasSize.h = this.canvasContainer.offsetHeight;
+			this.canvas.width = this.canvasSize.w * this.dpr;
+			this.canvas.height = this.canvasSize.h * this.dpr;
+			this.canvas.style.width = this.canvasSize.w + 'px';
+			this.canvas.style.height = this.canvasSize.h + 'px';
+			this.context.scale(this.dpr, this.dpr);
+		}
+
+		circleParams() {
+			const x = Math.floor(Math.random() * this.canvasSize.w);
+			const y = Math.floor(Math.random() * this.canvasSize.h);
+			const translateX = 0;
+			const translateY = 0;
+			const size = Math.floor(Math.random() * 2) + 1;
+			const alpha = 0;
+			const targetAlpha = parseFloat((Math.random() * 0.6 + 0.1).toFixed(1));
+			const dx = (Math.random() - 0.5) * 0.2;
+			const dy = (Math.random() - 0.5) * 0.2;
+			const magnetism = 0.1 + Math.random() * 4;
+			return { x, y, translateX, translateY, size, alpha, targetAlpha, dx, dy, magnetism };
+		}
+
+		drawCircle(circle, update = false) {
+			const { x, y, translateX, translateY, size, alpha } = circle;
+			this.context.translate(translateX, translateY);
+			this.context.beginPath();
+			this.context.arc(x, y, size, 0, 2 * Math.PI);
+			this.context.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+			this.context.fill();
+			this.context.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+			if (!update) {
+				this.circles.push(circle);
+			}
+		}
+
+		clearContext() {
+			this.context.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h);
+		}
+
+		drawParticles() {
+			this.clearContext();
+			const particleCount = this.settings.quantity;
+			for (let i = 0; i < particleCount; i++) {
+				const circle = this.circleParams();
+				this.drawCircle(circle);
+			}
+		}
+
+		// This function remaps a value from one range to another range
+		remapValue(value, start1, end1, start2, end2) {
+			const remapped = (value - start1) * (end2 - start2) / (end1 - start1) + start2;
+			return remapped > 0 ? remapped : 0;
+		}
+
+		animate() {
+			this.clearContext();
+			this.circles.forEach((circle, i) => {
+				// Handle the alpha value
+				const edge = [
+					circle.x + circle.translateX - circle.size, // distance from left edge
+					this.canvasSize.w - circle.x - circle.translateX - circle.size, // distance from right edge
+					circle.y + circle.translateY - circle.size, // distance from top edge
+					this.canvasSize.h - circle.y - circle.translateY - circle.size, // distance from bottom edge
+				];
+				const closestEdge = edge.reduce((a, b) => Math.min(a, b));
+				const remapClosestEdge = this.remapValue(closestEdge, 0, 20, 0, 1).toFixed(2);
+				if(remapClosestEdge > 1) {
+					circle.alpha += 0.02;
+					if(circle.alpha > circle.targetAlpha) circle.alpha = circle.targetAlpha;
+				} else {
+					circle.alpha = circle.targetAlpha * remapClosestEdge;
+				}
+				circle.x += circle.dx;
+				circle.y += circle.dy;
+				circle.translateX += ((this.mouse.x / (this.settings.staticity / circle.magnetism)) - circle.translateX) / this.settings.ease;
+				circle.translateY += ((this.mouse.y / (this.settings.staticity / circle.magnetism)) - circle.translateY) / this.settings.ease;
+				// circle gets out of the canvas
+				if (circle.x < -circle.size || circle.x > this.canvasSize.w + circle.size || circle.y < -circle.size || circle.y > this.canvasSize.h + circle.size) {
+					// remove the circle from the array
+					this.circles.splice(i, 1);
+					// create a new circle
+					const circle = this.circleParams();
+					this.drawCircle(circle);
+					// update the circle position
+				} else {
+					this.drawCircle({ ...circle, x: circle.x, y: circle.y, translateX: circle.translateX, translateY: circle.translateY, alpha: circle.alpha }, true);
+				}
+			});
+			window.requestAnimationFrame(this.animate);
+		}
+	}
+
+	// Init ParticleAnimation
+	const canvasElements = document.querySelectorAll('[data-particle-animation]');
+	canvasElements.forEach(canvas => {
+		const options = {
+			quantity: canvas.dataset.particleQuantity,
+			staticity: canvas.dataset.particleStaticity,
+			ease: canvas.dataset.particleEase,
+		};
+		new ParticleAnimation(canvas, options);
+	});
+
+
+	// Box highlighter
+	class Highlighter {
+		constructor(containerElement) {
+			this.container = containerElement;
+			this.boxes = Array.from(this.container.children);
+			this.mouse = {
+				x: 0,
+				y: 0,
+			};
+			this.containerSize = {
+				w: 0,
+				h: 0,
+			};
+			this.initContainer = this.initContainer.bind(this);
+			this.onMouseMove = this.onMouseMove.bind(this);
+			this.init();
+		}
+
+		initContainer() {
+			this.containerSize.w = this.container.offsetWidth;
+			this.containerSize.h = this.container.offsetHeight;
+		}
+
+		onMouseMove(event) {
+			const { clientX, clientY } = event;
+			const rect = this.container.getBoundingClientRect();
+			const { w, h } = this.containerSize;
+			const x = clientX - rect.left;
+			const y = clientY - rect.top;
+			const inside = x < w && x > 0 && y < h && y > 0;
+			if (inside) {
+				this.mouse.x = x;
+				this.mouse.y = y;
+				this.boxes.forEach((box) => {
+					const boxX = -(box.getBoundingClientRect().left - rect.left) + this.mouse.x;
+					const boxY = -(box.getBoundingClientRect().top - rect.top) + this.mouse.y;
+					box.style.setProperty('--mouse-x', `${boxX}px`);
+					box.style.setProperty('--mouse-y', `${boxY}px`);
+				});
+			}
+		}
+
+		init() {
+			this.initContainer();
+			window.addEventListener('resize', this.initContainer);
+			window.addEventListener('mousemove', this.onMouseMove);
+		}
+	}
+
+	// Init Highlighter
+	const highlighters = document.querySelectorAll('[data-highlighter]');
+	highlighters.forEach((highlighter) => {
+		new Highlighter(highlighter);
+	});
 </script>
 
 <head>
@@ -112,12 +390,12 @@
 								</a>
 							</div>
 						</div>
-						<h1 class="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">Elevate Software Education</h1>
-						<p class="text-lg text-slate-300 mb-8" data-aos="fade-down" data-aos-delay="200"> Empower, Innovate and Automate Excellence</p>
+						<h1 class="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">Elevate Coding Education</h1>
+						<p class="text-lg text-slate-300 mb-8" data-aos="fade-down" data-aos-delay="200">A code learning platform built for education</p>
 						<div class="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4" data-aos="fade-down" data-aos-delay="400">
 							<div>
 								<a class="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/auth">
-									Get Started <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1"><Fa icon={faArrowRight}/></span>
+									Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1"><Fa icon={faArrowRight}/></span>
 								</a>
 							</div>
 						</div>
@@ -186,26 +464,23 @@
 							<div class="md:w-7/12 lg:w-1/2 order-1 md:order-none max-md:text-center" data-aos="fade-down">
 								<!-- Content #1 -->
 								<div>
-									<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-3">The Next-Gen platform</div>
+									<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-3">Streamline learning and grading</div>
 								</div>
-								<h3 class="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-3">Simplify your workflow with integration</h3>
-								<p class="text-lg text-slate-400 mb-8">Integrate any LMS to our development environment.</p>
-								<div class="mt-8 max-w-xs max-md:mx-auto space-y-2">
-									<button
-											class="flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100
+								<h3 class="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-3">Integrate with any LMS</h3>
+								<p class="text-lg text-slate-400 mb-8">One-click to start coding, one-click to start grading.</p>
+								<div class="mt-8 max-w-xs max-md:mx-auto space-y-2" on:click={() => clickTab(1)}>
+									<button class="flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100
 													{tab !== 1 ? 'border-slate-700 opacity-50' : 'border-blue-700 shadow shadow-blue-500/25'}"
-											on:click={() => {tab = 1}}
-
-									>
+											onclick={() => clickTab(1)}>
 										<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
 											<path d="M14 0a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12Zm0 14V2H2v12h12Zm-3-7H5a1 1 0 1 1 0-2h6a1 1 0 0 1 0 2Zm0 4H5a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Z" />
 										</svg>
-										<span>Simplify your grading</span>
+										<span>Onboard</span>
 									</button>
 									<button
 											class="flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100
 											{tab !== 2 ? 'border-slate-700 opacity-50' : 'border-blue-700 shadow shadow-blue-500/25'}"
-											on:click={() => {tab = 2}}
+											onclick={() => clickTab(2)}
 
 									>
 										<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
@@ -216,7 +491,7 @@
 									<button
 											class="flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100
 												{tab !== 3 ? 'border-slate-700 opacity-50' : 'border-blue-700 shadow shadow-blue-500/25'}"
-											on:click={() => {tab = 3}}
+											onclick={() => {tab = 3}}
 
 									>
 										<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
@@ -242,9 +517,9 @@
 											<svg class="absolute inset-0 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 will-change-transform pointer-events-none blur-md" width="480" height="480" viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
 												<defs>
 													<linearGradient id="pulse-a" x1="50%" x2="50%" y1="100%" y2="0%">
-														<stop offset="0%" stop-color="#A855F7" />
-														<stop offset="76.382%" stop-color="#FAF5FF" />
-														<stop offset="100%" stop-color="#6366F1" />
+														<stop offset="0%" stop-color="#2b41ff" />
+														<stop offset="86.382%" stop-color="#adb6ff" />
+														<stop offset="100%" stop-color="#dee1ff" />
 													</linearGradient>
 												</defs>
 												<g fill-rule="evenodd">
@@ -263,51 +538,37 @@
 												</div>
 											</div>
 											<!-- Icons -->
-											<div
-													x-show="tab === '1'"
-													x-transition:enter="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 order-first"
-													x-transition:enter-start="opacity-0 -rotate-[60deg]"
-													x-transition:enter-end="opacity-100 rotate-0"
-													x-transition:leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 absolute"
-													x-transition:leave-start="opacity-100 rotate-0"
-													x-transition:leave-end="opacity-0 rotate-[60deg]"
-											>
-												<div class="relative flex items-center justify-center w-16 h-16 border border-transparent rounded-2xl shadow-2xl -rotate-[14deg] [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-2xl">
+											{tab}
+											{#if tab === 1}
+												<div
+														transition:fly="{{ duration: 700, delay: 0, easing: cubicOut, x: -100, y: 0 }}"
+														class="relative flex items-center justify-center w-16 h-16 border border-transparent rounded-2xl shadow-2xl rotate-[14deg] bg-gradient-rotated"
+												>
 													<svg class="relative fill-slate-200" xmlns="http://www.w3.org/2000/svg" width="23" height="25">
 														<path fill-rule="nonzero" d="M10.55 15.91H.442L14.153.826 12.856 9.91h10.107L9.253 24.991l1.297-9.082Zm.702-8.919L4.963 13.91h7.893l-.703 4.918 6.289-6.918H10.55l.702-4.918Z" />
 													</svg>
 												</div>
-											</div>
-											<div
-													x-show="tab === '2'"
-													x-transition:enter="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 order-first"
-													x-transition:enter-start="opacity-0 -rotate-[60deg]"
-													x-transition:enter-end="opacity-100 rotate-0"
-													x-transition:leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 absolute"
-													x-transition:leave-start="opacity-100 rotate-0"
-													x-transition:leave-end="opacity-0 rotate-[60deg]"
-											>
-												<div class="relative flex items-center justify-center w-16 h-16 border border-transparent rounded-2xl shadow-2xl -rotate-[14deg] [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-2xl">
+											{/if}
+											{#if tab === 2}
+												<div
+														transition:fly="{{ duration: 700, delay: 0, easing: cubicOut, x: -100, y: 0 }}"
+														class="relative flex items-center justify-center w-16 h-16 border border-transparent rounded-2xl shadow-2xl rotate-[14deg] bg-gradient-rotated"
+												>
 													<svg class="relative fill-slate-200" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
 														<path d="M18 14h-2V8h2c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4v2H8V4c0-2.2-1.8-4-4-4S0 1.8 0 4s1.8 4 4 4h2v6H4c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4v-2h6v2c0 2.2 1.8 4 4 4s4-1.8 4-4-1.8-4-4-4ZM16 4c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2h-2V4ZM2 4c0-1.1.9-2 2-2s2 .9 2 2v2H4c-1.1 0-2-.9-2-2Zm4 14c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2h2v2ZM8 8h6v6H8V8Zm10 12c-1.1 0-2-.9-2-2v-2h2c1.1 0 2 .9 2 2s-.9 2-2 2Z" />
 													</svg>
 												</div>
-											</div>
-											<div
-													x-show="tab === '3'"
-													x-transition:enter="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 order-first"
-													x-transition:enter-start="opacity-0 -rotate-[60deg]"
-													x-transition:enter-end="opacity-100 rotate-0"
-													x-transition:leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 absolute"
-													x-transition:leave-start="opacity-100 rotate-0"
-													x-transition:leave-end="opacity-0 rotate-[60deg]"
-											>
-												<div class="relative flex items-center justify-center w-16 h-16 border border-transparent rounded-2xl shadow-2xl -rotate-[14deg] [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-2xl">
+											{/if}
+											{#if tab === 3}
+												<div
+														transition:fly="{{ duration: 700, delay: 0, easing: cubicOut, x: -100, y: 0 }}"
+														class="relative flex items-center justify-center w-16 h-16 border border-transparent rounded-2xl shadow-2xl rotate-[14deg] bg-gradient-rotated"
+												>
 													<svg class="relative fill-slate-200" xmlns="http://www.w3.org/2000/svg" width="26" height="14">
 														<path fill-rule="nonzero" d="m10 5.414-8 8L.586 12 10 2.586l6 6 8-8L25.414 2 16 11.414z" />
 													</svg>
 												</div>
-											</div>
+											{/if}
 										</div>
 									</div>
 								</div>
@@ -941,7 +1202,7 @@
 										<div class="inline-flex items-center whitespace-nowrap">
 											<div class="text-sm text-slate-500 font-medium mr-2 md:max-lg:hidden">Monthly</div>
 											<div class="relative">
-												<input type="checkbox" id="toggle" class="peer sr-only" x-model="annual" />
+												<input type="checkbox" id="toggle" class="peer sr-only" />
 												<label for="toggle" class="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-slate-400 px-0.5 outline-slate-400 transition-colors before:h-5 before:w-5 before:rounded-full before:bg-white before:shadow-sm before:transition-transform before:duration-150 peer-checked:bg-blue-500 peer-checked:before:translate-x-full peer-focus-visible:outline peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gray-400 peer-checked:peer-focus-visible:outline-blue-500">
 													<span class="sr-only">Pay Yearly</span>
 												</label>
@@ -956,7 +1217,7 @@
 								<div class="grow pb-4 mb-4 border-b border-slate-800">
 									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Pro</div>
 									<div class="mb-1">
-										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50" x-text="annual ? '24' : '29'">24</span><span class="text-sm text-slate-600 font-medium">/mo</span>
+										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">24</span><span class="text-sm text-slate-600 font-medium">/mo</span>
 									</div>
 									<div class="text-slate-500">Everything at your fingertips.</div>
 								</div>
@@ -971,7 +1232,7 @@
 								<div class="grow pb-4 mb-4 border-b border-slate-800">
 									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Team</div>
 									<div class="mb-1">
-										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50" x-text="annual ? '49' : '54'">49</span><span class="text-sm text-slate-600 font-medium">/mo</span>
+										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">49</span><span class="text-sm text-slate-600 font-medium">/mo</span>
 									</div>
 									<div class="text-slate-500">Everything at your fingertips.</div>
 								</div>
@@ -986,7 +1247,7 @@
 								<div class="grow pb-4 mb-4 border-b border-slate-800">
 									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Enterprise</div>
 									<div class="mb-1">
-										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50" x-text="annual ? '79' : '85'">79</span><span class="text-sm text-slate-600 font-medium">/mo</span>
+										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">79</span><span class="text-sm text-slate-600 font-medium">/mo</span>
 									</div>
 									<div class="text-slate-500">Everything at your fingertips.</div>
 								</div>
@@ -1341,7 +1602,7 @@
 					</div>
 
 					<!-- Carousel -->
-					<div class="text-center" x-data="carousel">
+					<div class="text-center">
 						<!-- Testimonial image -->
 						<div class="relative h-32 [mask-image:_linear-gradient(0deg,transparent,theme(colors.white)_40%,theme(colors.white))]">
 							<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[480px] h-[480px] -z-10 pointer-events-none before:rounded-full rounded-full before:absolute before:inset-0 before:bg-gradient-to-b before:from-slate-400/20 before:to-transparent before:to-20% after:rounded-full after:absolute after:inset-0 after:bg-slate-900 after:m-px before:-z-20 after:-z-20">
@@ -1621,7 +1882,6 @@
 
 </div>
 
-<script src="./js/vendors/alpinejs.min.js" defer></script>
 <script src="./js/vendors/aos.js"></script>
 <script src="./js/vendors/swiper-bundle.min.js"></script>
 <script src="./js/main.js"></script>
