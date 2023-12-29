@@ -60,7 +60,7 @@
                 <section class="flex flex-col items-center space-y-4 py-8">
                     <h2 class="text-xl block truncate text-sm font-bold text-blue-500 animate-text bg-gradient-to-r from-blue-400 via-teal-500 to-purple-200 bg-clip-text text-transparent text-5xl font-black">Let's get you logged in!</h2>
                     <button class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                            on:click={() => { goto('/auth'); }}>
+                            on:click={() => { goto('/lti/auth'); }}>
                         Login
                     </button>
                     <a href="https://csbox.io/auth" target="_blank" class="w-full">

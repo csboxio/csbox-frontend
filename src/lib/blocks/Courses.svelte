@@ -240,17 +240,22 @@
     {#if courses.length === 0 && claim === "instructor"}
       <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div class="m-auto">
-          <div class="text-center justify-center text-white font-semibold text-2xl">
-            No Courses
+          <div class="text-center justify-center text-white font-semibold text-3xl pb-2">
+            No courses
           </div>
-          <div class="text-center justify-center text-gray-200 pt-1 text-sm">
-            Create a course to get started!
-          </div>
-          <div class="text-center justify-center text-gray-400 pt-1 text-xs inline-block pl-4">
-            Want to join a course?
+          <div class="text-center justify-center text-gray-300 text-xs inline-block pl-4">
+            Join a existing course?
           </div>
           <div on:click={() => joinCourse = true} class="inline-block text-blue-400 text-xs hover:underline cursor-pointer">
             Join
+          </div>
+          <div class="text-center">
+          <div class="text-center justify-center text-gray-300 pt-1 text-xs inline-block pl-4">
+            LTI Information?
+          </div>
+          <div on:click={() => goto('/lti/info')} class="inline-block text-red-400 text-xs hover:underline cursor-pointer">
+            Learn
+          </div>
           </div>
           <div class="text-center justify-center pt-4">
             <div class="">

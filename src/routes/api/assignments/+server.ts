@@ -13,6 +13,8 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { 
     .select('assignment_id, title, category, due, points, order_in_group')
     .eq('course_id', course)
 
+  console.log(data, error)
+
 
 
   return json(data)

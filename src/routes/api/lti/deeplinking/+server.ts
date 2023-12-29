@@ -58,6 +58,7 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
             });
     } catch (error) {
         console.log(error)
+        setHeaders({'Content-Type': 'application/json'});
         return json({
             status: 500,
             body: 'Error fetching data'

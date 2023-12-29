@@ -3,7 +3,6 @@ import {redirect} from "@sveltejs/kit";
 
 export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url, cookies, event, fetch }) => {
     const { searchParams } = new URL(url);
-    const session = await getSession()
 
     let ltik = searchParams.get('ltik');
     // Token exists
@@ -36,17 +35,19 @@ export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url
             body: JSON.stringify(requestBody)
         });
 
+    const session = await getSession()
+
     let responseData;
     try {
         responseData = await deeplinking.json();
     } catch (error) {
         console.error('Error parsing JSON:', error);
-        responseData = null; // or any other appropriate action
+        responseData = null;
     }
 
     return {
         deeplinking: responseData,
-        session: await getSession(),
+        session: session,
         claim: await getClaim(),
         lms_user_id: await getLMSUserID()
     }

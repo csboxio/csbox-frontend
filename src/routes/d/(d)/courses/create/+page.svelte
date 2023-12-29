@@ -106,8 +106,8 @@
 </style>
 
 {#if claim !== 'student'}
-<body class="bg-gray-600 antialiased bg-body text-body font-body">
-	<div class="from-gray-500 to-gray-500 bg-gradient-to-br antialiased bg-body text-body font-body">
+<body class="bg-gray-700 antialiased bg-body text-body font-body">
+	<div class="bg-gray-700 antialiased bg-body text-body font-body">
 			<section class="py-6">
 				<div class="container 2xl:w-[40%] xl:w-3/5 lg:w-2/3 md:w-2/3 sm:w-full mx-auto">
 					<div class="min-h-screen gap-4 flex justify-center items-center">
@@ -135,68 +135,80 @@
 									<div class="grid gap-6 mb-6 md:grid-cols-2 ">
 
 										<div class="mb-4">
-									<label for="course_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Title</label>
+									<label for="course_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Title *</label>
 
 														<input
 															name="course_title"
 															id="course_title"
 															type="text"
-															class="bg-gray-50 border border-gray-300
+															class="peer bg-gray-50 border border-gray-300
 											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
-											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+											block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500"
 															placeholder="Software Development I"
 															bind:value={course_title}
 															required
 														/>
+											<p class="mt-2 invisible peer-focus:visible text-pink-600 text-sm">
+												Please provide a course title.
+											</p>
 													</div>
 
 
 										<div class="mb-4">
-										<label for="course_prefix" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Prefix</label>
+										<label for="course_prefix" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Prefix *</label>
 														<input
 															name="course_prefix"
 															id="course_prefix"
 															type="text"
-															class="bg-gray-50 border border-gray-300
+															class="peer bg-gray-50 border border-gray-300
 											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
-											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+											block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500"
 															placeholder="CS100"
 															bind:value={course_prefix}
 															required />
+											<p class="mt-2 invisible peer-focus:visible text-pink-600 text-sm">
+												Please provide a course prefix.
+											</p>
 													</div>
 
 										<div class="mb-4">
-										<label for="course_number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Number</label>
+										<label for="course_number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Number *</label>
 														<input
 															name="course_number"
 															id="course_number"
 															type="text"
-															class="bg-gray-50 border border-gray-300
+															class="peer bg-gray-50 border border-gray-300
 											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
-											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+											block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500"
 															placeholder="12345"
 															bind:value={course_number}
 															required
 														/>
+											<p class="mt-2 invisible peer-focus:visible text-pink-600 text-sm">
+												Please provide a course number.
+											</p>
 													</div>
 
 										<div class="mb-4">
-										<label for="course_term" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Term</label>
+										<label for="course_term" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Term *</label>
 														<input
 															name="course_term"
 															id="course_term"
 															type="text"
-															class="bg-gray-50 border border-gray-300
+															class="peer bg-gray-50 border border-gray-300
 											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
-											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+											block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500"
 															placeholder="Spring 2023"
 															bind:value={course_term}
 															required
 														/>
+											<p class="mt-2 invisible peer-focus:visible text-pink-600 text-sm">
+												Please provide a course term.
+											</p>
 													</div>
 										<div class="mb-4">
 											<label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Color</label>
@@ -208,7 +220,13 @@
 											<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
 												<svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
 											</div>
-											<input type="text" name="course_contact" id="course_contact" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@csbox.io">
+											<input type="text" name="course_contact" id="course_contact"
+												   class="peer pl-10 bg-gray-50 border border-gray-300
+											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
+											block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500"
+
+												   placeholder="instructor@example.com">
 										</div>
 										</div>
 									</div>

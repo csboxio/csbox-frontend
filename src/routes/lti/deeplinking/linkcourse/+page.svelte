@@ -1,6 +1,6 @@
 <script lang="ts">
     import CoursePicker from "$lib/blocks/CoursePicker.svelte";
-    import {goto} from "$app/navigation";
+    import {goto, invalidate, invalidateAll} from "$app/navigation";
 
     export let data
     let { supabase, session, deeplinking, claim, lms_user_id} = data
@@ -19,26 +19,29 @@
             },
             body: JSON.stringify( {'lms_course_id': deeplinking.course.id, 'course_id': selected} )
         })
-        console.log(response.json())
 
+        await invalidateAll()
     }
 
     function checkLinkedCourseID() {
         if (!deeplinking || !deeplinking.course || !deeplinking.course.id || !Array.isArray(courses)) {
-            return false; // If any required parameters are missing or incorrect, return false
+            return false;
         }
 
         const courseId = deeplinking.course.id;
 
-        console.log(courseId)
         return courses.some(course => course.lms_course_id === courseId);
     }
+
+    let check_linked = checkLinkedCourseID();
+    $: check_linked = checkLinkedCourseID()
 
     let course_id
     $: course_id = courses.find(course => course.lms_course_id === deeplinking.course.id)?.id;
 
 </script>
 
+{#key check_linked}
 {#if checkLinkedCourseID()}
     <div class="flex justify-center items-center h-screen bg-gray-700">
         <div class="max-w-md w-full bg-gray-800 shadow-lg shadow-gray-600 rounded p-8">
@@ -52,7 +55,6 @@
                     on:click={() => goto(`/lti/deeplinking/${course_id}/assignments`)}>
                         Assignments
                     </button>
-
             </section>
         </div>
     </div>
@@ -87,3 +89,4 @@
         </div>
     </div>
 {/if}
+{/key}

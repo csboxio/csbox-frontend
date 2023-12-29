@@ -19,28 +19,37 @@
     }
 </script>
     <div class="flex justify-center items-center h-screen bg-gray-700">
-        <div class="  bg-gray-800 shadow-lg shadow-gray-600 rounded p-8 h-screen">
+        <div class="  bg-gray-800 shadow-lg shadow-gray-600 rounded pt-8 h-screen">
             <div class="flex justify-center mb-6">
-                <img src="/logo-text-white.png" alt="Logo" class="h-12 w-auto">
+                <img src="/logo-text-white.png" alt="Logo" class="h-12 ">
             </div>
-            <section class="flex flex-col items-center space-y-4 py-8">
-                <h2 class="text-xl block truncate text-sm font-bold text-blue-500 animate-text bg-gradient-to-r from-blue-400 via-teal-500 to-purple-200 bg-clip-text text-transparent  font-black">LTI Integration</h2>
-                <div class="bg-gray-600 p-8 rounded-lg shadow-lg">
-                    <p class="text-xl mb-6 font-bold text-white">
-                        To utilize LTI with CSBOX, follow these steps:
-                    </p>
-                    <ol class="list-decimal ml-8 text-xl space-y-2 text-white">
-                        <ol>Register with us by having your LMS administrator send an email to <span class="font-bold text-blue-300">dev@csbox.io</span> requesting access.</ol>
-                        <button type="button" on:click={openForm} class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Email Template</button>
-                        <ol>Receive instructions on setting up the external tool within your LMS.</ol>
-                        <ol>Once added to the LMS, find the CSBOX tool in the external tools section.</ol>
-                        <ol>Launch the tool from your LMS to verify its status.</ol>
-                        <ol>Link your LMS account to CSBOX and connect courses using the LMS external tool.</ol>
-                        <ol>Now you can link assignments in LMS to CSBOX or vise versa.</ol>
+            <section class="flex flex-col items-center space-y-6 py-4 px-2 w-screen">
+                <h2 class="text-2xl font-bold text-blue-500 bg-gradient-to-r from-blue-400 via-teal-500 to-purple-200 bg-clip-text text-transparent animate-pulse">LTI Integration with CSBOX</h2>
+                <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
+                    <p class="text-xl mb-4 font-bold text-white">What is LTI?</p>
+                    <p class="mb-6 text-white">LTI (Learning Tools Interoperability) is a standard used by Learning Management Systems (LMSs) like Canvas, Moodle, Blackboard to seamlessly integrate with tools such as CSBOX.</p>
+
+                    <p class="text-xl mb-4 font-bold text-white">Benefits for Instructors</p>
+                    <p class="mb-6 text-white">Connect your LMS to CSBOX for streamlined functions directly within CSBOX. Easily manage submissions, grades, all without leaving the platform.</p>
+
+                    <p class="text-xl mb-4 font-bold text-white">Benefits for Students</p>
+                    <p class="mb-6 text-white">Students can access assignments with one click, instantly accessing a comprehensive environment with instructions, unit testing, and easy submission. Future features include built-in git management and instructor comments.</p>
+
+                    <p class="text-xl mb-4 font-bold text-white">Why CSBOX?</p>
+                    <p class="mb-6 text-white">CSBOX stands out for its affordability, versatility, and scalability. Unlike typical education cloud developer environments, CSBOX runs on Debian, supporting all programming languages and environments including front-end, back-end, databases, dev-ops, and mobile device emulation. It adapts seamlessly to your workload and offers an intuitive interface through a flavor of VS Code, one of the most popular editors available.</p>
+
+                    <p class="text-xl mb-4 font-bold text-white">Steps to Utilize LTI with CSBOX:</p>
+                    <ol class="list-decimal ml-8 text-lg text-white">
+                        <li>Register by having your LMS administrator send an email to <span class="font-bold text-blue-300">dev@csbox.io</span> for access.</li>
+                        <ol><button type="button" on:click={openForm} class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Email Template</button></ol>
+                        <li>Receive setup instructions for the external tool in your LMS.</li>
+                        <li>Find and add CSBOX in the external tools section of your LMS.</li>
+                        <li>Verify the tool's status by launching it from your LMS.</li>
+                        <li>Link your LMS account to CSBOX and connect courses using the LMS external tool.</li>
+                        <li>Now seamlessly link assignments between LMS and CSBOX.</li>
                     </ol>
-                    <p class="mt-6 text-lg text-gray-custom text-white">
-                        For detailed instructions, please refer to the documentation provided by CSBOX.
-                    </p>
+
+                    <p class="mt-6 text-lg text-gray-400 text-white">For detailed instructions, refer to CSBOX's documentation.</p>
                 </div>
             </section>
             {#if isFormVisible}
