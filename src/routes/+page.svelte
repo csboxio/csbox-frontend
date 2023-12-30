@@ -4,321 +4,357 @@
 	import { notificationStore } from "../lib/stores/stores.js";
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
-	import { fly } from 'svelte/transition';
+	import { fly, blur, draw} from 'svelte/transition';
 	import {cubicOut} from "svelte/easing";
 	import AOS from 'aos';
 	import Swiper from 'swiper'
+	import {browser} from "$app/environment";
 
 	export let data
 
-	let { supabase } = data
-	$: ({ supabase } = data)
-
-	const handleSignOut = async () => {
-		await supabase.auth.signOut()
-	}
-
-	let notifications;
+	let clientsEl;
+	let carouselEl;
 
 	onMount(() => {
-		const unsubscribe = notificationStore.subscribe(value => {
-			notifications = value;
+
+		AOS.init({
+			once: true,
+			disable: 'phone',
+			duration: 1000,
+			easing: 'ease-out-cubic',
 		});
 
-		return unsubscribe;
+		clientsEl = document.querySelectorAll('.clients-carousel');
+		if (clientsEl.length > 0) {
+			const clients = new Swiper('.clients-carousel', {
+				slidesPerView: 'auto',
+				spaceBetween: 64,
+				centeredSlides: true,
+				loop: true,
+				speed: 5000,
+				noSwiping: true,
+				noSwipingClass: 'swiper-slide',
+				autoplay: {
+					delay: 0,
+					disableOnInteraction: true,
+				},
+			});
+		}
+
+		carouselEl = document.querySelectorAll('.testimonials-carousel');
+		if (carouselEl.length > 0) {
+			const carousel = new Swiper('.testimonials-carousel', {
+				breakpoints: {
+					320: {
+						slidesPerView: 1
+					},
+					640: {
+						slidesPerView: 2
+					},
+					1024: {
+						slidesPerView: 3
+					}
+				},
+				grabCursor: true,
+				loop: false,
+				centeredSlides: false,
+				initialSlide: 0,
+				spaceBetween: 24,
+				navigation: {
+					nextEl: '.carousel-next',
+					prevEl: '.carousel-prev',
+				},
+			});
+		}
+
+// Particle animation
+		class ParticleAnimation {
+			constructor(el, { quantity = 30, staticity = 50, ease = 50 } = {}) {
+				this.canvas = el;
+				if (!this.canvas) return;
+				this.canvasContainer = this.canvas.parentElement;
+				this.context = this.canvas.getContext('2d');
+				this.dpr = window.devicePixelRatio || 1;
+				this.settings = {
+					quantity: quantity,
+					staticity: staticity,
+					ease: ease,
+				};
+				this.circles = [];
+				this.mouse = {
+					x: 0,
+					y: 0,
+				};
+				this.canvasSize = {
+					w: 0,
+					h: 0,
+				};
+				this.onMouseMove = this.onMouseMove.bind(this);
+				this.initCanvas = this.initCanvas.bind(this);
+				this.resizeCanvas = this.resizeCanvas.bind(this);
+				this.drawCircle = this.drawCircle.bind(this);
+				this.drawParticles = this.drawParticles.bind(this);
+				this.remapValue = this.remapValue.bind(this);
+				this.animate = this.animate.bind(this);
+				this.init();
+			}
+
+			init() {
+				this.initCanvas();
+				this.animate();
+				window.addEventListener('resize', this.initCanvas);
+				window.addEventListener('mousemove', this.onMouseMove);
+			}
+
+			initCanvas() {
+				this.resizeCanvas();
+				this.drawParticles();
+			}
+
+			onMouseMove(event) {
+				const { clientX, clientY } = event;
+				const rect = this.canvas.getBoundingClientRect();
+				const { w, h } = this.canvasSize;
+				const x = clientX - rect.left - (w / 2);
+				const y = clientY - rect.top - (h / 2);
+				const inside = x < (w / 2) && x > -(w / 2) && y < (h / 2) && y > -(h / 2);
+				if(inside) {
+					this.mouse.x = x;
+					this.mouse.y = y;
+				}
+			}
+
+			resizeCanvas() {
+				this.circles.length = 0;
+				this.canvasSize.w = this.canvasContainer.offsetWidth;
+				this.canvasSize.h = this.canvasContainer.offsetHeight;
+				this.canvas.width = this.canvasSize.w * this.dpr;
+				this.canvas.height = this.canvasSize.h * this.dpr;
+				this.canvas.style.width = this.canvasSize.w + 'px';
+				this.canvas.style.height = this.canvasSize.h + 'px';
+				this.context.scale(this.dpr, this.dpr);
+			}
+
+			circleParams() {
+				const x = Math.floor(Math.random() * this.canvasSize.w);
+				const y = Math.floor(Math.random() * this.canvasSize.h);
+				const translateX = 0;
+				const translateY = 0;
+				const size = Math.floor(Math.random() * 2) + 1;
+				const alpha = 0;
+				const targetAlpha = parseFloat((Math.random() * 0.6 + 0.1).toFixed(1));
+				const dx = (Math.random() - 0.5) * 0.2;
+				const dy = (Math.random() - 0.5) * 0.2;
+				const magnetism = 0.1 + Math.random() * 4;
+				return { x, y, translateX, translateY, size, alpha, targetAlpha, dx, dy, magnetism };
+			}
+
+			drawCircle(circle, update = false) {
+				const { x, y, translateX, translateY, size, alpha } = circle;
+				this.context.translate(translateX, translateY);
+				this.context.beginPath();
+				this.context.arc(x, y, size, 0, 2 * Math.PI);
+				this.context.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+				this.context.fill();
+				this.context.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+				if (!update) {
+					this.circles.push(circle);
+				}
+			}
+
+			clearContext() {
+				this.context.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h);
+			}
+
+			drawParticles() {
+				this.clearContext();
+				const particleCount = this.settings.quantity;
+				for (let i = 0; i < particleCount; i++) {
+					const circle = this.circleParams();
+					this.drawCircle(circle);
+				}
+			}
+
+			// This function remaps a value from one range to another range
+			remapValue(value, start1, end1, start2, end2) {
+				const remapped = (value - start1) * (end2 - start2) / (end1 - start1) + start2;
+				return remapped > 0 ? remapped : 0;
+			}
+
+			animate() {
+				this.clearContext();
+				this.circles.forEach((circle, i) => {
+					// Handle the alpha value
+					const edge = [
+						circle.x + circle.translateX - circle.size, // distance from left edge
+						this.canvasSize.w - circle.x - circle.translateX - circle.size, // distance from right edge
+						circle.y + circle.translateY - circle.size, // distance from top edge
+						this.canvasSize.h - circle.y - circle.translateY - circle.size, // distance from bottom edge
+					];
+					const closestEdge = edge.reduce((a, b) => Math.min(a, b));
+					const remapClosestEdge = this.remapValue(closestEdge, 0, 20, 0, 1).toFixed(2);
+					if(remapClosestEdge > 1) {
+						circle.alpha += 0.02;
+						if(circle.alpha > circle.targetAlpha) circle.alpha = circle.targetAlpha;
+					} else {
+						circle.alpha = circle.targetAlpha * remapClosestEdge;
+					}
+					circle.x += circle.dx;
+					circle.y += circle.dy;
+					circle.translateX += ((this.mouse.x / (this.settings.staticity / circle.magnetism)) - circle.translateX) / this.settings.ease;
+					circle.translateY += ((this.mouse.y / (this.settings.staticity / circle.magnetism)) - circle.translateY) / this.settings.ease;
+					// circle gets out of the canvas
+					if (circle.x < -circle.size || circle.x > this.canvasSize.w + circle.size || circle.y < -circle.size || circle.y > this.canvasSize.h + circle.size) {
+						// remove the circle from the array
+						this.circles.splice(i, 1);
+						// create a new circle
+						const circle = this.circleParams();
+						this.drawCircle(circle);
+						// update the circle position
+					} else {
+						this.drawCircle({ ...circle, x: circle.x, y: circle.y, translateX: circle.translateX, translateY: circle.translateY, alpha: circle.alpha }, true);
+					}
+				});
+				window.requestAnimationFrame(this.animate);
+			}
+		}
+
+// Init ParticleAnimation
+		const canvasElements = document.querySelectorAll('[data-particle-animation]');
+		canvasElements.forEach(canvas => {
+			const options = {
+				quantity: canvas.dataset.particleQuantity,
+				staticity: canvas.dataset.particleStaticity,
+				ease: canvas.dataset.particleEase,
+			};
+			new ParticleAnimation(canvas, options);
+		});
+
+
+// Box highlighter
+		class Highlighter {
+			constructor(containerElement) {
+				this.container = containerElement;
+				this.boxes = Array.from(this.container.children);
+				this.mouse = {
+					x: 0,
+					y: 0,
+				};
+				this.containerSize = {
+					w: 0,
+					h: 0,
+				};
+				this.initContainer = this.initContainer.bind(this);
+				this.onMouseMove = this.onMouseMove.bind(this);
+				this.init();
+			}
+
+			initContainer() {
+				this.containerSize.w = this.container.offsetWidth;
+				this.containerSize.h = this.container.offsetHeight;
+			}
+
+			onMouseMove(event) {
+				const { clientX, clientY } = event;
+				const rect = this.container.getBoundingClientRect();
+				const { w, h } = this.containerSize;
+				const x = clientX - rect.left;
+				const y = clientY - rect.top;
+				const inside = x < w && x > 0 && y < h && y > 0;
+				if (inside) {
+					this.mouse.x = x;
+					this.mouse.y = y;
+					this.boxes.forEach((box) => {
+						const boxX = -(box.getBoundingClientRect().left - rect.left) + this.mouse.x;
+						const boxY = -(box.getBoundingClientRect().top - rect.top) + this.mouse.y;
+						box.style.setProperty('--mouse-x', `${boxX}px`);
+						box.style.setProperty('--mouse-y', `${boxY}px`);
+					});
+				}
+			}
+
+			init() {
+				this.initContainer();
+				window.addEventListener('resize', this.initContainer);
+				window.addEventListener('mousemove', this.onMouseMove);
+			}
+		}
+
+// Init Highlighter
+		const highlighters = document.querySelectorAll('[data-highlighter]');
+		highlighters.forEach((highlighter) => {
+			new Highlighter(highlighter);
+		});
 
 	});
 
 	let tab
-	$: tab = 0;
+	$: tab = 1;
 
 	function clickTab(num) {
-		console.log('here')
+		console.log('here' + num)
 		tab = num;
 	}
 
-	AOS.init({
-		once: true,
-		disable: 'phone',
-		duration: 1000,
-		easing: 'ease-out-cubic',
-	});
 
-	const clientsEl = document.querySelectorAll('.clients-carousel');
-	if (clientsEl.length > 0) {
-		const clients = new Swiper('.clients-carousel', {
-			slidesPerView: 'auto',
-			spaceBetween: 64,
-			centeredSlides: true,
-			loop: true,
-			speed: 5000,
-			noSwiping: true,
-			noSwipingClass: 'swiper-slide',
-			autoplay: {
-				delay: 0,
-				disableOnInteraction: true,
-			},
-		});
-	}
+	let categoryIndex = 0;
+	const categories = ['developers', 'students', 'instructors', 'teachers'];
+	let category = categories[categoryIndex];
 
-	const carouselEl = document.querySelectorAll('.testimonials-carousel');
-	if (carouselEl.length > 0) {
-		const carousel = new Swiper('.testimonials-carousel', {
-			breakpoints: {
-				320: {
-					slidesPerView: 1
-				},
-				640: {
-					slidesPerView: 2
-				},
-				1024: {
-					slidesPerView: 3
-				}
-			},
-			grabCursor: true,
-			loop: false,
-			centeredSlides: false,
-			initialSlide: 0,
-			spaceBetween: 24,
-			navigation: {
-				nextEl: '.carousel-next',
-				prevEl: '.carousel-prev',
-			},
-		});
-	}
+	onMount(() => {
+		const interval = setInterval(() => {
+			categoryIndex = (categoryIndex + 1) % categories.length;
+			category = categories[categoryIndex];
+		}, 2000); // Change category every 2 seconds (2000ms)
 
-	// Particle animation
-	class ParticleAnimation {
-		constructor(el, { quantity = 30, staticity = 50, ease = 50 } = {}) {
-			this.canvas = el;
-			if (!this.canvas) return;
-			this.canvasContainer = this.canvas.parentElement;
-			this.context = this.canvas.getContext('2d');
-			this.dpr = window.devicePixelRatio || 1;
-			this.settings = {
-				quantity: quantity,
-				staticity: staticity,
-				ease: ease,
-			};
-			this.circles = [];
-			this.mouse = {
-				x: 0,
-				y: 0,
-			};
-			this.canvasSize = {
-				w: 0,
-				h: 0,
-			};
-			this.onMouseMove = this.onMouseMove.bind(this);
-			this.initCanvas = this.initCanvas.bind(this);
-			this.resizeCanvas = this.resizeCanvas.bind(this);
-			this.drawCircle = this.drawCircle.bind(this);
-			this.drawParticles = this.drawParticles.bind(this);
-			this.remapValue = this.remapValue.bind(this);
-			this.animate = this.animate.bind(this);
-			this.init();
-		}
-
-		init() {
-			this.initCanvas();
-			this.animate();
-			window.addEventListener('resize', this.initCanvas);
-			window.addEventListener('mousemove', this.onMouseMove);
-		}
-
-		initCanvas() {
-			this.resizeCanvas();
-			this.drawParticles();
-		}
-
-		onMouseMove(event) {
-			const { clientX, clientY } = event;
-			const rect = this.canvas.getBoundingClientRect();
-			const { w, h } = this.canvasSize;
-			const x = clientX - rect.left - (w / 2);
-			const y = clientY - rect.top - (h / 2);
-			const inside = x < (w / 2) && x > -(w / 2) && y < (h / 2) && y > -(h / 2);
-			if(inside) {
-				this.mouse.x = x;
-				this.mouse.y = y;
-			}
-		}
-
-		resizeCanvas() {
-			this.circles.length = 0;
-			this.canvasSize.w = this.canvasContainer.offsetWidth;
-			this.canvasSize.h = this.canvasContainer.offsetHeight;
-			this.canvas.width = this.canvasSize.w * this.dpr;
-			this.canvas.height = this.canvasSize.h * this.dpr;
-			this.canvas.style.width = this.canvasSize.w + 'px';
-			this.canvas.style.height = this.canvasSize.h + 'px';
-			this.context.scale(this.dpr, this.dpr);
-		}
-
-		circleParams() {
-			const x = Math.floor(Math.random() * this.canvasSize.w);
-			const y = Math.floor(Math.random() * this.canvasSize.h);
-			const translateX = 0;
-			const translateY = 0;
-			const size = Math.floor(Math.random() * 2) + 1;
-			const alpha = 0;
-			const targetAlpha = parseFloat((Math.random() * 0.6 + 0.1).toFixed(1));
-			const dx = (Math.random() - 0.5) * 0.2;
-			const dy = (Math.random() - 0.5) * 0.2;
-			const magnetism = 0.1 + Math.random() * 4;
-			return { x, y, translateX, translateY, size, alpha, targetAlpha, dx, dy, magnetism };
-		}
-
-		drawCircle(circle, update = false) {
-			const { x, y, translateX, translateY, size, alpha } = circle;
-			this.context.translate(translateX, translateY);
-			this.context.beginPath();
-			this.context.arc(x, y, size, 0, 2 * Math.PI);
-			this.context.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-			this.context.fill();
-			this.context.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-			if (!update) {
-				this.circles.push(circle);
-			}
-		}
-
-		clearContext() {
-			this.context.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h);
-		}
-
-		drawParticles() {
-			this.clearContext();
-			const particleCount = this.settings.quantity;
-			for (let i = 0; i < particleCount; i++) {
-				const circle = this.circleParams();
-				this.drawCircle(circle);
-			}
-		}
-
-		// This function remaps a value from one range to another range
-		remapValue(value, start1, end1, start2, end2) {
-			const remapped = (value - start1) * (end2 - start2) / (end1 - start1) + start2;
-			return remapped > 0 ? remapped : 0;
-		}
-
-		animate() {
-			this.clearContext();
-			this.circles.forEach((circle, i) => {
-				// Handle the alpha value
-				const edge = [
-					circle.x + circle.translateX - circle.size, // distance from left edge
-					this.canvasSize.w - circle.x - circle.translateX - circle.size, // distance from right edge
-					circle.y + circle.translateY - circle.size, // distance from top edge
-					this.canvasSize.h - circle.y - circle.translateY - circle.size, // distance from bottom edge
-				];
-				const closestEdge = edge.reduce((a, b) => Math.min(a, b));
-				const remapClosestEdge = this.remapValue(closestEdge, 0, 20, 0, 1).toFixed(2);
-				if(remapClosestEdge > 1) {
-					circle.alpha += 0.02;
-					if(circle.alpha > circle.targetAlpha) circle.alpha = circle.targetAlpha;
-				} else {
-					circle.alpha = circle.targetAlpha * remapClosestEdge;
-				}
-				circle.x += circle.dx;
-				circle.y += circle.dy;
-				circle.translateX += ((this.mouse.x / (this.settings.staticity / circle.magnetism)) - circle.translateX) / this.settings.ease;
-				circle.translateY += ((this.mouse.y / (this.settings.staticity / circle.magnetism)) - circle.translateY) / this.settings.ease;
-				// circle gets out of the canvas
-				if (circle.x < -circle.size || circle.x > this.canvasSize.w + circle.size || circle.y < -circle.size || circle.y > this.canvasSize.h + circle.size) {
-					// remove the circle from the array
-					this.circles.splice(i, 1);
-					// create a new circle
-					const circle = this.circleParams();
-					this.drawCircle(circle);
-					// update the circle position
-				} else {
-					this.drawCircle({ ...circle, x: circle.x, y: circle.y, translateX: circle.translateX, translateY: circle.translateY, alpha: circle.alpha }, true);
-				}
-			});
-			window.requestAnimationFrame(this.animate);
-		}
-	}
-
-	// Init ParticleAnimation
-	const canvasElements = document.querySelectorAll('[data-particle-animation]');
-	canvasElements.forEach(canvas => {
-		const options = {
-			quantity: canvas.dataset.particleQuantity,
-			staticity: canvas.dataset.particleStaticity,
-			ease: canvas.dataset.particleEase,
-		};
-		new ParticleAnimation(canvas, options);
-	});
-
-
-	// Box highlighter
-	class Highlighter {
-		constructor(containerElement) {
-			this.container = containerElement;
-			this.boxes = Array.from(this.container.children);
-			this.mouse = {
-				x: 0,
-				y: 0,
-			};
-			this.containerSize = {
-				w: 0,
-				h: 0,
-			};
-			this.initContainer = this.initContainer.bind(this);
-			this.onMouseMove = this.onMouseMove.bind(this);
-			this.init();
-		}
-
-		initContainer() {
-			this.containerSize.w = this.container.offsetWidth;
-			this.containerSize.h = this.container.offsetHeight;
-		}
-
-		onMouseMove(event) {
-			const { clientX, clientY } = event;
-			const rect = this.container.getBoundingClientRect();
-			const { w, h } = this.containerSize;
-			const x = clientX - rect.left;
-			const y = clientY - rect.top;
-			const inside = x < w && x > 0 && y < h && y > 0;
-			if (inside) {
-				this.mouse.x = x;
-				this.mouse.y = y;
-				this.boxes.forEach((box) => {
-					const boxX = -(box.getBoundingClientRect().left - rect.left) + this.mouse.x;
-					const boxY = -(box.getBoundingClientRect().top - rect.top) + this.mouse.y;
-					box.style.setProperty('--mouse-x', `${boxX}px`);
-					box.style.setProperty('--mouse-y', `${boxY}px`);
-				});
-			}
-		}
-
-		init() {
-			this.initContainer();
-			window.addEventListener('resize', this.initContainer);
-			window.addEventListener('mousemove', this.onMouseMove);
-		}
-	}
-
-	// Init Highlighter
-	const highlighters = document.querySelectorAll('[data-highlighter]');
-	highlighters.forEach((highlighter) => {
-		new Highlighter(highlighter);
+		return () => clearInterval(interval);
 	});
 </script>
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link href="./css/vendors/aos.css" rel="stylesheet">
+<svelte:head>
 	<link href="./style.css" rel="stylesheet">
-</head>
+	<link href="./css/vendors/aos.css" rel="stylesheet">
+</svelte:head>
 
-<body class="font-inter antialiased bg-slate-900 text-slate-100 tracking-tight" data-sveltekit-preload-data="hover">
+<style>
+	@keyframes slideInFromLeft {
+		from {
+			filter: blur(1px);
+			opacity: 0;
+			transform: translateY(-100px);
+		}
+		to {
+			opacity: 1;
+			filter: blur(0);
+			transform: translateY(0);
+		}
+	}
 
+	.animate-slide-in {
+		animation: slideInFromLeft 700ms cubic-bezier(0.01, 0.20, 0.60, 0.94) 0s 1;
+	}
+
+	.blur-in-out {
+		animation: blurInOut 1s ease-in-out forwards;
+	}
+
+	@keyframes blurInOut {
+		0% {
+			filter: blur(0);
+			opacity: 1;
+		}
+		50% {
+			filter: blur(4px);
+			opacity: 0.5;
+		}
+		100% {
+			filter: blur(0);
+			opacity: 1;
+		}
+	}
+</style>
 <!-- Page wrapper -->
 <div class="flex flex-col min-h-screen overflow-hidden">
-
 	<!-- Site header -->
 	<header class="absolute w-full z-30">
 		<div class="max-w-6xl mx-auto px-4 sm:px-6">
@@ -337,11 +373,13 @@
 
 					<!-- Desktop sign in links -->
 					<ul class="flex grow justify-end flex-wrap items-center">
+						{#if browser}
 						<li>
 							<a class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out" href="/auth" >Sign in</a>
 						</li>
+						{/if}
 
-						{#if $page.data.session}
+						{#if $page.data.session && browser}
 							<li class="ml-6">
 								<a class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none" href="/auth">
                                     <span class="relative inline-flex items-center">
@@ -357,10 +395,8 @@
 			</div>
 		</div>
 	</header>
-
 	<!-- Page content -->
 	<main class="grow">
-
 		<!-- Hero -->
 		<section>
 			<div class="relative max-w-6xl mx-auto px-4 sm:px-6">
@@ -373,7 +409,7 @@
 				<!-- Illustration -->
 				<div class="absolute inset-0 -z-10 -mx-28 rounded-b-[3rem] pointer-events-none overflow-hidden" aria-hidden="true">
 					<div class="absolute left-1/2 -translate-x-1/2 bottom-0 -z-10">
-						<img src="./images/glow-bottom.svg" class="max-w-none" width="2146" height="774" alt="Hero Illustration">
+						<img src="/images/glow-bottom.svg" class="max-w-none" width="2146" height="774" alt="Hero Illustration">
 					</div>
 				</div>
 
@@ -405,7 +441,6 @@
 				</div>
 			</div>
 		</section>
-
 		<!-- Clients -->
 		<section>
 			<div class="relative max-w-6xl mx-auto px-4 sm:px-6">
@@ -438,25 +473,17 @@
 				</div>
 			</div>
 		</section>
-
-
-
-
 		<!-- Features -->
 		<section>
 			<div class="relative max-w-6xl mx-auto px-4 sm:px-6">
-
 				<!-- Illustration -->
 				<div class="absolute inset-0 -z-10 -mx-28 rounded-t-[3rem] pointer-events-none overflow-hidden" aria-hidden="true">
 					<div class="absolute left-1/2 -translate-x-1/2 top-0 -z-10">
 						<img src="./images/glow-top.svg" class="max-w-none" width="1404" height="658" alt="Features Illustration">
 					</div>
 				</div>
-
 				<div class="pt-16 pb-12 md:pt-52 md:pb-20">
-
-					<div >
-
+					<div>
 						<!-- Section content -->
 						<div class="max-w-xl mx-auto md:max-w-none flex flex-col md:flex-row md:space-x-8 lg:space-x-16 xl:space-x-20 space-y-8 space-y-reverse md:space-y-0">
 
@@ -468,36 +495,26 @@
 								</div>
 								<h3 class="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-3">Integrate with any LMS</h3>
 								<p class="text-lg text-slate-400 mb-8">One-click to start coding, one-click to start grading.</p>
-								<div class="mt-8 max-w-xs max-md:mx-auto space-y-2" on:click={() => clickTab(1)}>
+								<div class="mt-8 max-w-xs max-md:mx-auto space-y-2">
 									<button class="flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100
 													{tab !== 1 ? 'border-slate-700 opacity-50' : 'border-blue-700 shadow shadow-blue-500/25'}"
-											onclick={() => clickTab(1)}>
-										<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-											<path d="M14 0a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12Zm0 14V2H2v12h12Zm-3-7H5a1 1 0 1 1 0-2h6a1 1 0 0 1 0 2Zm0 4H5a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Z" />
-										</svg>
-										<span>Onboard</span>
+											on:click={() => clickTab(1)}>
+										<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" height="16" width="18" viewBox="0 0 576 512"><path d="M550.5 241l-50.1-86.8c1.1-2.1 1.9-4.6 1.9-7.2 0-8-6.7-14.7-14.7-15l-55.4-95.9c.5-1.6 1.1-3.2 1.1-4.8 0-8.6-7-15.3-15.3-15.3-4.8 0-8.8 2.1-11.8 5.6H299.5C296.8 18.1 292.8 16 288 16s-8.8 2.1-11.5 5.6H170.4C167.5 18.1 163.4 16 158.6 16c-8.3 0-15.3 6.7-15.3 15.3 0 1.6 .5 3.5 1.1 4.8l-56 97.2c-5.4 2.4-9.1 7.5-9.1 13.7 0 .5 .3 1.1 .3 1.6l-53.3 92.1c-7.2 1.3-12.6 7.5-12.6 15 0 7.2 5.1 13.4 12.1 15l55.2 95.4c-.5 1.6-.8 2.9-.8 4.8 0 7.2 5.1 13.4 12.1 14.7l51.7 89.7c-.5 1.6-1.1 3.5-1.1 5.4 0 8.6 7 15.3 15.3 15.3 4.8 0 8.8-2.1 11.5-5.4h106.9C279.2 493.9 283.4 496 288 496s8.8-2.1 11.5-5.4h107.1c2.7 2.9 6.7 4.8 11 4.8 8.6 0 15.3-7 15.3-15.3 0-1.6-.3-2.9-.8-4.3l51.7-90.3c7-1.3 12.1-7.5 12.1-14.7 0-1.6-.3-3.2-.8-4.8l54.9-95.4c7-1.3 12.3-7.5 12.3-15 0-7.2-5.1-13.4-11.8-14.7zM153.5 450.7l-43.7-75.8h43.7v75.8zm0-83.8h-43.7c-.3-1.1-.8-2.1-1.3-3.2l45-47.4v50.6zm0-62.4l-50.4 53.3c-1.3-.5-2.7-1.3-4-1.6L43.4 259.8c.5-1.3 .5-2.7 .5-4s0-2.4-.3-3.5l52-90c2.7-.3 5.4-1.1 7.8-2.7l50.1 52v92.9zm0-102.3l-45.8-47.4c1.3-2.1 2.1-4.8 2.1-7.8 0-.3-.3-.8-.3-1.1l43.9-15.8v72.1zm0-80.6l-43.7 15.8 43.7-75.5v59.7zm326.5 39.1l.8 1.3L445.5 329.1l-63.8-67.2 98-101.5 .3 .3zM291.8 355.1l11.5 11.8H280.5l11.3-11.8zm-.3-11.3l-83.3-85.4 79.6-84.4 83 87.6-79.3 82.2zm5.4 5.9l79.3-82.2 67.5 71.3-5.9 28.1H313.7l-16.9-17.1zM410.4 44.4c1.1 .5 2.1 1.1 3.5 1.3l57.9 100.7v.5c0 2.9 .8 5.6 2.1 7.8L376.4 256l-83-87.6L410.4 44.4zm-9.1-2.1L287.7 162.5l-57.1-60.3 166.3-60h4.3zm-123.5 0c2.7 2.7 6.2 4.3 10.2 4.3s7.5-1.6 10.2-4.3h75L224.8 95.8 173.9 42.3h103.9zm-116.2 5.6l1.1-2.1a33.8 33.8 0 0 0 2.7-.8l51.2 53.8-54.9 19.8V47.9zm0 79.3l60.8-22 59.7 63.2-79.6 84.1-41-42.1v-83.3zm0 92.7L198 257.6l-36.4 38.3v-76.1zm0 87.9l42.1-44.5 82.8 86-17.1 17.7H161.6v-59.2zm7 162.1c-1.6-1.6-3.5-2.7-5.9-3.5l-1.1-1.6v-89.7h99.9l-91.6 94.8h-1.3zm129.9 0c-2.7-2.4-6.4-4.3-10.4-4.3s-7.8 1.9-10.4 4.3h-96.4l91.6-94.8h38.3l91.6 94.8H298.4zm120-11.8l-4.3 7.5c-1.3 .3-2.4 .8-3.5 1.3l-89.2-91.9h114.4l-17.4 83zm12.9-22.2l12.9-60.8h22l-34.8 60.8zm34.8-68.8h-20.4l4.6-21.2 17.1 18.2c-.5 .8-1.1 1.9-1.3 2.9zm66.2-107.4l-55.4 96.7c-1.3 .5-2.7 1.1-4 1.9l-20.6-22 34.6-163.9 45.8 79.3c-.3 1.3-.8 2.7-.8 4.3 0 1.3 .3 2.4 .5 3.8z"/></svg>
+										<span>Seamless Integration</span>
 									</button>
 									<button
 											class="flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100
 											{tab !== 2 ? 'border-slate-700 opacity-50' : 'border-blue-700 shadow shadow-blue-500/25'}"
-											onclick={() => clickTab(2)}
-
-									>
-										<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-											<path d="M2 6H0V2a2 2 0 0 1 2-2h4v2H2v4ZM16 6h-2V2h-4V0h4a2 2 0 0 1 2 2v4ZM14 16h-4v-2h4v-4h2v4a2 2 0 0 1-2 2ZM6 16H2a2 2 0 0 1-2-2v-4h2v4h4v2Z" />
-										</svg>
-										<span>Link to LMS</span>
+											on:click={() => clickTab(2)}>
+										<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" height="16" width="20" viewBox="0 0 640 512"><path d="M160 64c0-35.3 28.7-64 64-64H576c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H336.8c-11.8-25.5-29.9-47.5-52.4-64H384V320c0-17.7 14.3-32 32-32h64c17.7 0 32 14.3 32 32v32h64V64L224 64v49.1C205.2 102.2 183.3 96 160 96V64zm0 64a96 96 0 1 1 0 192 96 96 0 1 1 0-192zM133.3 352h53.3C260.3 352 320 411.7 320 485.3c0 14.7-11.9 26.7-26.7 26.7H26.7C11.9 512 0 500.1 0 485.3C0 411.7 59.7 352 133.3 352z"/></svg>
+										<span>Empower Educators</span>
 									</button>
 									<button
 											class="flex items-center text-sm font-medium text-slate-50 rounded border bg-slate-800/25 w-full px-3 py-2 transition duration-150 ease-in-out hover:opacity-100
 												{tab !== 3 ? 'border-slate-700 opacity-50' : 'border-blue-700 shadow shadow-blue-500/25'}"
-											onclick={() => {tab = 3}}
-
-									>
-										<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-											<path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8ZM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1Z" />
-										</svg>
-										<span>Auto grade assignments</span>
+											on:click={() => clickTab(3)}>
+										<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" height="16" width="20" viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg>
+										<span>Enhance Learning</span>
 									</button>
 								</div>
 							</div>
@@ -529,6 +546,17 @@
 												</g>
 											</svg>
 											<!-- Grid -->
+											<!-- Icons -->
+											<!-- Make sure to use in: or they will glitch and transition at the same time -->
+											{#if tab === 1}
+												<div>
+													<img src="/icons/home/integration-preview.png" class="absolute animate-slide-in inset-1 z-10">
+												</div>
+											{:else if tab === 2}
+													<img src="/icons/home/dashboard.png" class="absolute animate-slide-in inset-1 z-10">
+											{:else}
+													<img src="/icons/home/rocket.png" class="absolute animate-slide-in inset-1 z-10">
+											{/if}
 											<div class="absolute inset-0 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none w-[500px] h-[500px] rounded-full overflow-hidden [mask-image:_radial-gradient(black,_transparent_60%)]">
 												<div class="h-[200%] animate-endless">
 													<div class="absolute inset-0 [background:_repeating-linear-gradient(transparent,_transparent_48px,_theme(colors.white)_48px,_theme(colors.white)_49px)] blur-[2px] opacity-20"></div>
@@ -537,38 +565,6 @@
 													<div class="absolute inset-0 [background:_repeating-linear-gradient(90deg,transparent,_transparent_48px,_theme(colors.blue.500)_48px,_theme(colors.blue.500)_49px)]"></div>
 												</div>
 											</div>
-											<!-- Icons -->
-											{tab}
-											{#if tab === 1}
-												<div
-														transition:fly="{{ duration: 700, delay: 0, easing: cubicOut, x: -100, y: 0 }}"
-														class="relative flex items-center justify-center w-16 h-16 border border-transparent rounded-2xl shadow-2xl rotate-[14deg] bg-gradient-rotated"
-												>
-													<svg class="relative fill-slate-200" xmlns="http://www.w3.org/2000/svg" width="23" height="25">
-														<path fill-rule="nonzero" d="M10.55 15.91H.442L14.153.826 12.856 9.91h10.107L9.253 24.991l1.297-9.082Zm.702-8.919L4.963 13.91h7.893l-.703 4.918 6.289-6.918H10.55l.702-4.918Z" />
-													</svg>
-												</div>
-											{/if}
-											{#if tab === 2}
-												<div
-														transition:fly="{{ duration: 700, delay: 0, easing: cubicOut, x: -100, y: 0 }}"
-														class="relative flex items-center justify-center w-16 h-16 border border-transparent rounded-2xl shadow-2xl rotate-[14deg] bg-gradient-rotated"
-												>
-													<svg class="relative fill-slate-200" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
-														<path d="M18 14h-2V8h2c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4v2H8V4c0-2.2-1.8-4-4-4S0 1.8 0 4s1.8 4 4 4h2v6H4c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4v-2h6v2c0 2.2 1.8 4 4 4s4-1.8 4-4-1.8-4-4-4ZM16 4c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2h-2V4ZM2 4c0-1.1.9-2 2-2s2 .9 2 2v2H4c-1.1 0-2-.9-2-2Zm4 14c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2h2v2ZM8 8h6v6H8V8Zm10 12c-1.1 0-2-.9-2-2v-2h2c1.1 0 2 .9 2 2s-.9 2-2 2Z" />
-													</svg>
-												</div>
-											{/if}
-											{#if tab === 3}
-												<div
-														transition:fly="{{ duration: 700, delay: 0, easing: cubicOut, x: -100, y: 0 }}"
-														class="relative flex items-center justify-center w-16 h-16 border border-transparent rounded-2xl shadow-2xl rotate-[14deg] bg-gradient-rotated"
-												>
-													<svg class="relative fill-slate-200" xmlns="http://www.w3.org/2000/svg" width="26" height="14">
-														<path fill-rule="nonzero" d="m10 5.414-8 8L.586 12 10 2.586l6 6 8-8L25.414 2 16 11.414z" />
-													</svg>
-												</div>
-											{/if}
 										</div>
 									</div>
 								</div>
@@ -582,36 +578,7 @@
 			</div>
 		</section>
 
-		<section class="relative">
-			<div class="relative max-w-6xl mx-auto px-4 sm:px-6">
-
-				<!-- Blurred shape -->
-				<div class="absolute top-0 -mt-24 left-0 -ml-16 blur-2xl opacity-70 pointer-events-none -z-10" aria-hidden="true">
-					<svg xmlns="http://www.w3.org/2000/svg" width="434" height="427">
-						<defs>
-							<linearGradient id="bs4-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
-								<stop offset="0%" stop-color="#4572D1" />
-								<stop offset="100%" stop-color="#1F3D70" stop-opacity="0" />
-							</linearGradient>
-						</defs>
-						<path fill="url(#bs4-a)" fill-rule="evenodd" d="m0 0 461 369-284 58z" transform="matrix(1 0 0 -1 0 427)" />
-					</svg>
-				</div>
-
-				<div class="pt-16 pb-12 md:pt-32 md:pb-20">
-
-					<!-- Section header -->
-					<div class="max-w-3xl pb-12 md:pb-20">
-						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Why us?</h2>
-						<p class="text-lg text-slate-400 px-4">We're on a mission to transform the way software education is delivered and experienced.
-							Our platform brings together cutting-edge technology and educational expertise to empower both educators and students in their coding journey.
-							With a focus on innovation, empowerment, and automation, providing a seamless environment for teaching, learning, and collaboration.</p>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<!-- Features #2 -->
+		<!-- Features #1 -->
 		<section class="relative">
 
 			<!-- Particles animation -->
@@ -623,10 +590,10 @@
 
 			<div class="max-w-6xl mx-auto px-4 sm:px-6">
 				<div class="pt-16 md:pt-32">
-
 					<!-- Section header -->
 					<div class="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Faster. Smarter.</h2>
+						<h2 class="h2 inline-block bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">A platform for</h2>
+						<h2 class="h2 inline-block bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">{category}</h2>
 						<p class="text-lg text-slate-400">Make grading a breeze, setup is simple, and connect better with students</p>
 					</div>
 
@@ -809,6 +776,35 @@
 						</div>
 					</div>
 
+				</div>
+			</div>
+		</section>
+
+		<section class="relative">
+			<div class="relative max-w-6xl mx-auto px-4 sm:px-6">
+
+				<!-- Blurred shape -->
+				<div class="absolute top-0 -mt-24 left-0 -ml-16 blur-2xl opacity-70 pointer-events-none -z-10" aria-hidden="true">
+					<svg xmlns="http://www.w3.org/2000/svg" width="434" height="427">
+						<defs>
+							<linearGradient id="bs4-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
+								<stop offset="0%" stop-color="#4572D1" />
+								<stop offset="100%" stop-color="#1F3D70" stop-opacity="0" />
+							</linearGradient>
+						</defs>
+						<path fill="url(#bs4-a)" fill-rule="evenodd" d="m0 0 461 369-284 58z" transform="matrix(1 0 0 -1 0 427)" />
+					</svg>
+				</div>
+
+				<div class="pt-16 pb-12 md:pt-32 md:pb-20">
+
+					<!-- Section header -->
+					<div class="max-w-3xl pb-12 md:pb-20">
+						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Why us?</h2>
+						<p class="text-lg text-slate-400 px-4">We're on a mission to transform the way software education is delivered and experienced.
+							Our platform brings together cutting-edge technology and educational expertise to empower both educators and students in their coding journey.
+							With a focus on innovation, empowerment, and automation, providing a seamless environment for teaching, learning, and collaboration.</p>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -1658,53 +1654,6 @@
 							</template>
 						</div>
 					</div>
-					<!-- Carousel data and functionality: https://github.com/alpinejs/alpine -->
-					<script>
-						document.addEventListener('alpine:init', () => {
-							Alpine.data('carousel', () => ({
-								active: 0,
-								autorotate: true,
-								autorotateTiming: 7000,
-								items: [
-									{
-										img: './images/testimonial-01.jpg',
-										quote: "The ability to capture responses is a game-changer. If a user gets tired of the sign up and leaves, that data is still persisted. Additionally, it's great to be able to select between formats.",
-										name: 'Jessie J',
-										role: 'Ltd Head of Product'
-									},
-									{
-										img: './images/testimonial-02.jpg',
-										quote: "I have been using this product for a few weeks now and I am blown away by the results. My skin looks visibly brighter and smoother, and I have received so many compliments on my complexion.",
-										name: 'Mark Luk',
-										role: 'Spark Founder & CEO'
-									},
-									{
-										img: './images/testimonial-03.jpg',
-										quote: "As a busy professional, I don't have a lot of time to devote to working out. But with this fitness program, I have seen amazing results in just a few short weeks. The workouts are efficient and effective.",
-										name: 'Jeff Kahl',
-										role: 'Appy Product Lead'
-									},
-								],
-								init() {
-									if (this.autorotate) {
-										this.autorotateInterval = setInterval(() => {
-											this.active = this.active + 1 === this.items.length ? 0 : this.active + 1
-										}, this.autorotateTiming)
-									}
-									this.$watch('active', callback => this.heightFix())
-								},
-								stopAutorotate() {
-									clearInterval(this.autorotateInterval)
-									this.autorotateInterval = null
-								},
-								heightFix() {
-									this.$nextTick(() => {
-										this.$refs.testimonials.style.height = this.$refs.testimonials.children[this.active + 1].offsetHeight + 'px'
-									})
-								}
-							}))
-						})
-					</script>
 
 				</div>
 			</div>
@@ -1882,9 +1831,4 @@
 
 </div>
 
-<script src="./js/vendors/aos.js"></script>
-<script src="./js/vendors/swiper-bundle.min.js"></script>
-<script src="./js/main.js"></script>
-
-</body>
 
