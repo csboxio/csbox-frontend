@@ -292,20 +292,19 @@
 	$: tab = 1;
 
 	function clickTab(num) {
-		console.log('here' + num)
 		tab = num;
 	}
 
 
 	let categoryIndex = 0;
-	const categories = ['developers', 'students', 'instructors', 'teachers'];
+	const categories = ['students', 'instructors', 'professors', 'developers'];
 	let category = categories[categoryIndex];
 
 	onMount(() => {
 		const interval = setInterval(() => {
 			categoryIndex = (categoryIndex + 1) % categories.length;
 			category = categories[categoryIndex];
-		}, 2000); // Change category every 2 seconds (2000ms)
+		}, 2500);
 
 		return () => clearInterval(interval);
 	});
@@ -591,12 +590,19 @@
 			<div class="max-w-6xl mx-auto px-4 sm:px-6">
 				<div class="pt-16 md:pt-32">
 					<!-- Section header -->
-					<div class="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-						<h2 class="h2 inline-block bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">A platform for</h2>
-						<h2 class="h2 inline-block bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">{category}</h2>
-						<p class="text-lg text-slate-400">Make grading a breeze, setup is simple, and connect better with students</p>
+					<div class="max-w-4xl mx-auto text-center relative">
+						<div class="flex justify-center">
+							<div class="flex items-center">
+								<span class="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4 pr-2">Code learning platform for</span>
+								{#key category}
+								<span class="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" in:blur >{category}</span>
+								{/key}
+							</div>
+						</div>
 					</div>
-
+					<div class="max-w-2xl mx-auto text-center pb-12 md:pb-20 relative">
+						<p class="text-lg text-slate-400 text-center">A cloud based environment for educating, and learning.</p>
+					</div>
 					<!-- Highlighted boxes -->
 					<div class="relative pb-12 md:pb-20">
 						<!-- Blurred shape -->
@@ -641,8 +647,8 @@
 											<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8 md:pr-0">
 												<div class="mb-5">
 													<div>
-														<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Optimized for efficiency</h3>
-														<p class="text-slate-400">Optimize for student experience and learning. Use LMS integrations, lower student friction, incorporate rich learning experiences, and facilitate more students.</p>
+														<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Platform</h3>
+														<p class="text-slate-400">Transforms learning by letting students code from anywhere, in one-click. No limits, just accessible, collaborative coding that empowers educators and makes learning to code easier and more engaging.</p>
 													</div>
 												</div>
 												<div>
@@ -655,31 +661,46 @@
 											</div>
 											<!-- Image -->
 											<div class="relative w-full h-64 md:h-auto overflow-hidden">
-												<img class="absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:relative md:left-0 md:translate-x-0" src="./images/feature-image-01.png" width="504" height="400" alt="Feature 01">
+												<img class="absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:relative md:left-0 md:translate-x-0 py-4" src="/icons/home/code.png" width="300" height="100%" alt="Feature 01">
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<!-- Box #2 -->
+
 							<div class="md:col-span-7" data-aos="fade-down">
 								<div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
 									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
-										<div class="flex flex-col">
-											<!-- Radial gradient -->
-											<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/2 aspect-square" aria-hidden="true">
-												<div class="absolute inset-0 translate-z-0 bg-slate-800 rounded-full blur-[80px]"></div>
+										<div class="flex flex-col md:flex-row md:items-center md:justify-between">
+											<!-- Blurred shape -->
+											<div class="absolute right-0 top-0 blur-2xl" aria-hidden="true">
+												<svg xmlns="http://www.w3.org/2000/svg" width="342" height="393">
+													<defs>
+														<linearGradient id="bs-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
+															<stop offset="0%" stop-color="#6366F1" />
+															<stop offset="100%" stop-color="#6366F1" stop-opacity="0" />
+														</linearGradient>
+													</defs>
+													<path fill="url(#bs-a)" fill-rule="evenodd" d="m104 .827 461 369-284 58z" transform="translate(0 -112.827)" opacity=".7" />
+												</svg>
 											</div>
+											<!-- Radial gradient -->
+											<div class="absolute flex items-center justify-center bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 h-full aspect-square" aria-hidden="true">
+												<div class="absolute inset-0 translate-z-0 bg-blue-500 rounded-full blur-[120px] opacity-70"></div>
+												<div class="absolute w-1/4 h-1/4 translate-z-0 bg-blue-400 rounded-full blur-[40px]"></div>
+											</div>
+
+
 											<!-- Text -->
 											<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8">
 												<div>
-													<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Extensibility</h3>
-													<p class="text-slate-400">There are no artificial limits, spin up an instant IDE, no limits, best in class performance.</p>
+													<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Cloud Environment</h3>
+													<p class="text-slate-400">Based on the industry standard, Visual Studio Code. Anything is supported, no artificial limits, best in class performance.</p>
 												</div>
 											</div>
 											<!-- Image -->
-											<div class="relative w-full h-64 md:h-auto overflow-hidden md:pb-8">
-												<img class="absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:max-w-full md:relative md:left-0 md:translate-x-0" src="./images/feature-image-02.png" width="536" height="230" alt="Feature 02">
+											<div class="relative w-full  md:h-auto overflow-hidden md:pb-8">
+												<img class="absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:max-w-full md:relative md:left-0 md:translate-x-0" src="/icons/home/cloud-storage.png" width="250" height="100%" alt="Feature 02">
 											</div>
 										</div>
 									</div>
@@ -697,14 +718,12 @@
 											<!-- Text -->
 											<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8">
 												<div>
-													<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Infinite options</h3>
-													<p class="text-slate-400">Quickly link to LMS and or Github Classroom.</p>
+													<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Integrate with (LMSs)</h3>
+													<p class="text-slate-400">Link any LTI 1.3 Learning Management to our platform.</p>
 												</div>
 											</div>
 											<!-- Image -->
-											<div class="relative w-full h-64 md:h-auto overflow-hidden md:pb-8">
-												<img class="absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:max-w-full md:relative md:left-0 md:translate-x-0" src="./images/feature-image-03.png" width="230" height="230" alt="Feature 03">
-											</div>
+
 										</div>
 									</div>
 								</div>
@@ -715,34 +734,16 @@
 					<!-- Features list -->
 					<div class="grid md:grid-cols-3 gap-8 md:gap-12">
 						<!-- Feature -->
-						<div>
-							<div class="flex items-center space-x-2 mb-1">
-								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-									<path d="M7.999 2.34a4.733 4.733 0 0 0-6.604 6.778l5.904 5.762a1 1 0 0 0 1.4 0l5.915-5.77a4.733 4.733 0 0 0-6.615-6.77Zm5.208 5.348-5.208 5.079-5.2-5.07a2.734 2.734 0 0 1 3.867-3.864c.182.19.335.404.455.638a1.04 1.04 0 0 0 1.756 0 2.724 2.724 0 0 1 5.122 1.294 2.7 2.7 0 0 1-.792 1.923Z" />
-								</svg>
-								<h4 class="font-medium text-slate-50">Filters</h4>
-							</div>
-							<p class="text-sm text-slate-400">Login box must find the right balance for the user convenience, privacy and security.</p>
-						</div>
+						<!-- Feature -->
 						<!-- Feature -->
 						<div>
 							<div class="flex items-center space-x-2 mb-1">
 								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-									<path d="M11 0c1.3 0 2.6.5 3.5 1.5 1 .9 1.5 2.2 1.5 3.5 0 1.3-.5 2.6-1.4 3.5l-1.2 1.2c-.2.2-.5.3-.7.3-.2 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l1.1-1.2c.6-.5.9-1.3.9-2.1s-.3-1.6-.9-2.2C12 1.7 10 1.7 8.9 2.8L7.7 4c-.4.4-1 .4-1.4 0-.4-.4-.4-1 0-1.4l1.2-1.1C8.4.5 9.7 0 11 0ZM8.3 12c.4-.4 1-.5 1.4-.1.4.4.4 1 0 1.4l-1.2 1.2C7.6 15.5 6.3 16 5 16c-1.3 0-2.6-.5-3.5-1.5C.5 13.6 0 12.3 0 11c0-1.3.5-2.6 1.5-3.5l1.1-1.2c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4L2.9 8.9c-.6.5-.9 1.3-.9 2.1s.3 1.6.9 2.2c1.1 1.1 3.1 1.1 4.2 0L8.3 12Zm1.1-6.8c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-4.2 4.2c-.2.2-.5.3-.7.3-.2 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l4.2-4.2Z" />
+									<path d="M14.574 5.67a13.292 13.292 0 0 1 1.298 1.842 1 1 0 0 1 0 .98C15.743 8.716 12.706 14 8 14a6.391 6.391 0 0 1-1.557-.2l1.815-1.815C10.97 11.82 13.06 9.13 13.82 8c-.163-.243-.39-.56-.669-.907l1.424-1.424ZM.294 15.706a.999.999 0 0 1-.002-1.413l2.53-2.529C1.171 10.291.197 8.615.127 8.49a.998.998 0 0 1-.002-.975C.251 7.29 3.246 2 8 2c1.331 0 2.515.431 3.548 1.038L14.293.293a.999.999 0 1 1 1.414 1.414l-14 14a.997.997 0 0 1-1.414 0ZM2.18 8a12.603 12.603 0 0 0 2.06 2.347l1.833-1.834A1.925 1.925 0 0 1 6 8a2 2 0 0 1 2-2c.178 0 .348.03.512.074l1.566-1.566C9.438 4.201 8.742 4 8 4 5.146 4 2.958 6.835 2.181 8Z" />
 								</svg>
-								<h4 class="font-medium text-slate-50">Configurable</h4>
+								<h4 class="font-medium text-slate-50">It works on</h4><h4 class="font-medium text-slate-50 line-through">my</h4><h4 class="font-medium text-slate-50">any machine</h4>
 							</div>
-							<p class="text-sm text-slate-400">Login box must find the right balance for the user convenience, privacy and security.</p>
-						</div>
-						<!-- Feature -->
-						<div>
-							<div class="flex items-center space-x-2 mb-1">
-								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-									<path d="M14 0a2 2 0 0 1 2 2v4a1 1 0 0 1-2 0V2H2v12h4a1 1 0 0 1 0 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12Zm-1.957 10.629 3.664 3.664a1 1 0 0 1-1.414 1.414l-3.664-3.664-.644 2.578a.5.5 0 0 1-.476.379H9.5a.5.5 0 0 1-.48-.362l-2-7a.5.5 0 0 1 .618-.618l7 2a.5.5 0 0 1-.017.965l-2.578.644Z" />
-								</svg>
-								<h4 class="font-medium text-slate-50">Adaptable</h4>
-							</div>
-							<p class="text-sm text-slate-400">Login box must find the right balance for the user convenience, privacy and security.</p>
+							<p class="text-sm text-slate-400">No more wasting time with mismatch enviroments and different operating systems.</p>
 						</div>
 						<!-- Feature -->
 						<div>
@@ -750,9 +751,48 @@
 								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
 									<path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8ZM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1Z" />
 								</svg>
-								<h4 class="font-medium text-slate-50">Authorization</h4>
+								<h4 class="font-medium text-slate-50">Decrease student attrition</h4>
 							</div>
-							<p class="text-sm text-slate-400">Login box must find the right balance for the user convenience, privacy and security.</p>
+							<p class="text-sm text-slate-400">No more setting up ide's, languages, dependencies, compiling, building, exporting, zipping, submitting</p>
+						</div>
+						<div>
+							<div class="flex items-center space-x-2 mb-1">
+								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+									<path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8ZM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1Z" />
+								</svg>
+								<h4 class="font-medium text-slate-50">More time teaching, less headache</h4>
+							</div>
+							<p class="text-sm text-slate-400">Managing files, downloading, unzipping, running, compiling, building, waiting.</p>
+						</div>
+
+						<div>
+							<div class="flex items-center space-x-2 mb-1">
+								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+									<path d="M11 0c1.3 0 2.6.5 3.5 1.5 1 .9 1.5 2.2 1.5 3.5 0 1.3-.5 2.6-1.4 3.5l-1.2 1.2c-.2.2-.5.3-.7.3-.2 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l1.1-1.2c.6-.5.9-1.3.9-2.1s-.3-1.6-.9-2.2C12 1.7 10 1.7 8.9 2.8L7.7 4c-.4.4-1 .4-1.4 0-.4-.4-.4-1 0-1.4l1.2-1.1C8.4.5 9.7 0 11 0ZM8.3 12c.4-.4 1-.5 1.4-.1.4.4.4 1 0 1.4l-1.2 1.2C7.6 15.5 6.3 16 5 16c-1.3 0-2.6-.5-3.5-1.5C.5 13.6 0 12.3 0 11c0-1.3.5-2.6 1.5-3.5l1.1-1.2c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4L2.9 8.9c-.6.5-.9 1.3-.9 2.1s.3 1.6.9 2.2c1.1 1.1 3.1 1.1 4.2 0L8.3 12Zm1.1-6.8c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-4.2 4.2c-.2.2-.5.3-.7.3-.2 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l4.2-4.2Z" />
+								</svg>
+								<h4 class="font-medium text-slate-50">Link to LMS</h4>
+							</div>
+							<p class="text-sm text-slate-400">Link to LMS, one-click to start coding, one-click to teaching.</p>
+						</div>
+						<!-- Feature -->
+						<div>
+							<div class="flex items-center space-x-2 mb-1">
+								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+									<path d="M14 0a2 2 0 0 1 2 2v4a1 1 0 0 1-2 0V2H2v12h4a1 1 0 0 1 0 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12Zm-1.957 10.629 3.664 3.664a1 1 0 0 1-1.414 1.414l-3.664-3.664-.644 2.578a.5.5 0 0 1-.476.379H9.5a.5.5 0 0 1-.48-.362l-2-7a.5.5 0 0 1 .618-.618l7 2a.5.5 0 0 1-.017.965l-2.578.644Z" />
+								</svg>
+								<h4 class="font-medium text-slate-50">No Limits</h4>
+							</div>
+							<p class="text-sm text-slate-400">Any language, backend, or framework. Runs full Linux environments in the cloud.</p>
+						</div>
+						<!-- Feature -->
+						<div>
+							<div class="flex items-center space-x-2 mb-1">
+								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+									<path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8ZM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1Z" />
+								</svg>
+								<h4 class="font-medium text-slate-50">Import</h4>
+							</div>
+							<p class="text-sm text-slate-400">Easily import existing content from your LMS, and start teaching.</p>
 						</div>
 						<!-- Feature -->
 						<div>
@@ -760,21 +800,23 @@
 								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
 									<path d="M14 0a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12Zm0 14V2H2v12h12Zm-3-7H5a1 1 0 1 1 0-2h6a1 1 0 0 1 0 2Zm0 4H5a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Z" />
 								</svg>
-								<h4 class="font-medium text-slate-50">Management</h4>
+								<h4 class="font-medium text-slate-50">Grading</h4>
 							</div>
-							<p class="text-sm text-slate-400">Login box must find the right balance for the user convenience, privacy and security.</p>
+							<p class="text-sm text-slate-400">One-click open and run, no more broken submissions.</p>
 						</div>
-						<!-- Feature -->
+
 						<div>
 							<div class="flex items-center space-x-2 mb-1">
 								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-									<path d="M14.574 5.67a13.292 13.292 0 0 1 1.298 1.842 1 1 0 0 1 0 .98C15.743 8.716 12.706 14 8 14a6.391 6.391 0 0 1-1.557-.2l1.815-1.815C10.97 11.82 13.06 9.13 13.82 8c-.163-.243-.39-.56-.669-.907l1.424-1.424ZM.294 15.706a.999.999 0 0 1-.002-1.413l2.53-2.529C1.171 10.291.197 8.615.127 8.49a.998.998 0 0 1-.002-.975C.251 7.29 3.246 2 8 2c1.331 0 2.515.431 3.548 1.038L14.293.293a.999.999 0 1 1 1.414 1.414l-14 14a.997.997 0 0 1-1.414 0ZM2.18 8a12.603 12.603 0 0 0 2.06 2.347l1.833-1.834A1.925 1.925 0 0 1 6 8a2 2 0 0 1 2-2c.178 0 .348.03.512.074l1.566-1.566C9.438 4.201 8.742 4 8 4 5.146 4 2.958 6.835 2.181 8Z" />
+									<path d="M7.999 2.34a4.733 4.733 0 0 0-6.604 6.778l5.904 5.762a1 1 0 0 0 1.4 0l5.915-5.77a4.733 4.733 0 0 0-6.615-6.77Zm5.208 5.348-5.208 5.079-5.2-5.07a2.734 2.734 0 0 1 3.867-3.864c.182.19.335.404.455.638a1.04 1.04 0 0 0 1.756 0 2.724 2.724 0 0 1 5.122 1.294 2.7 2.7 0 0 1-.792 1.923Z" />
 								</svg>
-								<h4 class="font-medium text-slate-50">Building</h4>
+								<h4 class="font-medium text-slate-50">Built for you</h4>
 							</div>
-							<p class="text-sm text-slate-400">Login box must find the right balance for the user convenience, privacy and security.</p>
+							<p class="text-sm text-slate-400">Built for educators by educators, built for students by students.</p>
 						</div>
+
 					</div>
+
 
 				</div>
 			</div>
@@ -800,10 +842,8 @@
 
 					<!-- Section header -->
 					<div class="max-w-3xl pb-12 md:pb-20">
-						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Why us?</h2>
-						<p class="text-lg text-slate-400 px-4">We're on a mission to transform the way software education is delivered and experienced.
-							Our platform brings together cutting-edge technology and educational expertise to empower both educators and students in their coding journey.
-							With a focus on innovation, empowerment, and automation, providing a seamless environment for teaching, learning, and collaboration.</p>
+						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Time is being burned</h2>
+						<p class="text-lg text-slate-400 px-4">Students and educators often spend an excessive amount of time configuring environments, tools, software, and managing dependencies. This leads to students losing valuable time on menial tasks, impeding their ability to engage in meaningful learning, practice coding, and apply their skills effectively. Consequently, this cycle contributes to increased student attrition rates and a decline in the overall quality of education. By enabling students to commence coding from the first day of class, educators can focus on their instructional role, answering coding-related queries instead of dealing with technical support issues. This shift allows educators to dedicate more time to teaching, reduces the time spent on grading, and ultimately enhances the quality of education provided.</p>
 					</div>
 				</div>
 			</div>
