@@ -42,30 +42,7 @@
 		}
 
 		carouselEl = document.querySelectorAll('.testimonials-carousel');
-		if (carouselEl.length > 0) {
-			const carousel = new Swiper('.testimonials-carousel', {
-				breakpoints: {
-					320: {
-						slidesPerView: 1
-					},
-					640: {
-						slidesPerView: 2
-					},
-					1024: {
-						slidesPerView: 3
-					}
-				},
-				grabCursor: true,
-				loop: false,
-				centeredSlides: false,
-				initialSlide: 0,
-				spaceBetween: 24,
-				navigation: {
-					nextEl: '.carousel-next',
-					prevEl: '.carousel-prev',
-				},
-			});
-		}
+
 
 // Particle animation
 		class ParticleAnimation {
@@ -308,6 +285,18 @@
 
 		return () => clearInterval(interval);
 	});
+
+	let activeSlide = 0;
+
+	const totalSlides = 5;
+
+	function nextSlide() {
+		activeSlide = (activeSlide + 1) % totalSlides;
+	}
+
+	function prevSlide() {
+		activeSlide = (activeSlide - 1 + totalSlides) % totalSlides;
+	}
 </script>
 
 <svelte:head>
@@ -395,7 +384,6 @@
 		</div>
 	</header>
 	<!-- Page content -->
-	<main class="grow">
 		<!-- Hero -->
 		<section>
 			<div class="relative max-w-6xl mx-auto px-4 sm:px-6">
@@ -417,20 +405,23 @@
 					<!-- Hero content -->
 					<div class="max-w-3xl mx-auto text-center">
 						<div class="mb-6" data-aos="fade-down">
-							<div class="inline-flex relative before:absolute before:inset-0 before:bg-blue-500 before:blur-md">
-								<a class="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.blue.500),_theme(colors.blue.500))_padding-box,_linear-gradient(theme(colors.blue.500),_theme(colors.blue.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow" href="/auth">
+						<div class="inline-flex relative before:absolute before:inset-0 before:bg-blue-500 before:blur-md">
+							<a class="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.blue.500),_theme(colors.blue.500))_padding-box,_linear-gradient(theme(colors.blue.500),_theme(colors.blue.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow" href="/auth">
                                         <span class="relative inline-flex items-center">
-                                             Now in pre-alpha <span class="tracking-normal text-blue-200 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1"><Fa icon={faArrowRight}/></span>
+                                             Read the white-paper <span class="tracking-normal text-blue-200 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1"><Fa icon={faArrowRight}/></span>
                                         </span>
-								</a>
-							</div>
+							</a>
 						</div>
-						<h1 class="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">Elevate Coding Education</h1>
-						<p class="text-lg text-slate-300 mb-8" data-aos="fade-down" data-aos-delay="200">A code learning platform built for education</p>
+						</div>
+						<h1 class="h1 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" data-aos="fade-down">Empower. Educate. Elevate.</h1>
+						<p class="text-lg text-slate-300 mb-8" data-aos="fade-down" data-aos-delay="200">A cloud-based code learning platform built for next-generation education.</p>
 						<div class="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4" data-aos="fade-down" data-aos-delay="400">
 							<div>
-								<a class="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/auth">
-									Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1"><Fa icon={faArrowRight}/></span>
+								<a class="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out" href="#0">
+									<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+										<path d="m1.999 0 1 2-1 2 2-1 2 1-1-2 1-2-2 1zM11.999 0l1 2-1 2 2-1 2 1-1-2 1-2-2 1zM11.999 10l1 2-1 2 2-1 2 1-1-2 1-2-2 1zM6.292 7.586l2.646-2.647L11.06 7.06 8.413 9.707zM0 13.878l5.586-5.586 2.122 2.121L2.12 16z" />
+									</svg>
+									<span>Read the docs</span>
 								</a>
 							</div>
 						</div>
@@ -472,6 +463,250 @@
 				</div>
 			</div>
 		</section>
+	<!-- Features #1 -->
+	<section class="relative">
+
+		<!-- Particles animation -->
+		<div class="absolute left-1/2 -translate-x-1/2 top-0 -z-10 w-80 h-80 -mt-24 -ml-32">
+			<div class="absolute inset-0 -z-10" aria-hidden="true">
+				<canvas data-particle-animation data-particle-quantity="6" data-particle-staticity="30"></canvas>
+			</div>
+		</div>
+
+		<div class="max-w-6xl mx-auto px-4 sm:px-6">
+			<div class="pb-16 md:pt-16">
+				<!-- Section header -->
+				<div class="max-w-4xl mx-auto text-center relative">
+					<div class="flex justify-center">
+						<div class="flex items-center">
+							<span class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4 pr-2">Code learning platform for</span>
+							{#key category}
+								<span class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" in:blur >{category}</span>
+							{/key}
+						</div>
+					</div>
+				</div>
+				<div class="max-w-2xl mx-auto text-center pb-12 md:pb-20 relative">
+					<p class="text-lg text-slate-400 text-center">A cloud based environment for educating, and learning.</p>
+				</div>
+				<!-- Highlighted boxes -->
+				<div class="relative pb-12 md:pb-20">
+					<!-- Blurred shape -->
+					<div class="absolute bottom-0 -mb-20 left-1/2 -translate-x-1/2 blur-2xl opacity-50 pointer-events-none" aria-hidden="true">
+						<svg xmlns="http://www.w3.org/2000/svg" width="434" height="427">
+							<defs>
+								<linearGradient id="bs2-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
+									<stop offset="0%" stop-color="#6366F1" />
+									<stop offset="100%" stop-color="#6366F1" stop-opacity="0" />
+								</linearGradient>
+							</defs>
+							<path fill="url(#bs2-a)" fill-rule="evenodd" d="m346 898 461 369-284 58z" transform="translate(-346 -898)" />
+						</svg>
+					</div>
+					<!-- Grid -->
+					<div class="grid md:grid-cols-12 gap-6 group" data-highlighter>
+						<!-- Box #1 -->
+						<div class="md:col-span-12" data-aos="fade-down">
+							<div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
+								<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
+									<div class="flex flex-col md:flex-row md:items-center md:justify-between">
+										<!-- Blurred shape -->
+										<div class="absolute right-0 top-0 blur-2xl" aria-hidden="true">
+											<svg xmlns="http://www.w3.org/2000/svg" width="342" height="393">
+												<defs>
+													<linearGradient id="bs-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
+														<stop offset="0%" stop-color="#6366F1" />
+														<stop offset="100%" stop-color="#6366F1" stop-opacity="0" />
+													</linearGradient>
+												</defs>
+												<path fill="url(#bs-a)" fill-rule="evenodd" d="m104 .827 461 369-284 58z" transform="translate(0 -112.827)" opacity=".7" />
+											</svg>
+										</div>
+										<!-- Radial gradient -->
+										<div class="absolute flex items-center justify-center bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 h-full aspect-square" aria-hidden="true">
+											<div class="absolute inset-0 translate-z-0 bg-blue-500 rounded-full blur-[120px] opacity-70"></div>
+											<div class="absolute w-1/4 h-1/4 translate-z-0 bg-blue-400 rounded-full blur-[40px]"></div>
+										</div>
+
+
+										<!-- Text -->
+										<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8 md:pr-0">
+											<div class="mb-5">
+												<div>
+													<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Platform</h3>
+													<p class="text-slate-400">Transforms learning by letting students code from anywhere, in one-click. No limits, just accessible, collaborative coding that empowers educators and makes learning to code easier and more engaging.</p>
+												</div>
+											</div>
+											<div>
+												<a class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none" href="#0">
+                                                            <span class="relative inline-flex items-center">
+                                                                Learn more <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                                                            </span>
+												</a>
+											</div>
+										</div>
+										<!-- Image -->
+										<div class="relative w-full h-64 md:h-auto overflow-hidden">
+											<img class="absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:relative md:left-0 md:translate-x-0 py-4" src="/icons/home/code.png" width="300" height="100%" alt="Feature 01">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="md:col-span-7" data-aos="fade-down">
+							<div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
+								<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
+									<div class="flex flex-col md:flex-row md:items-center md:justify-between">
+										<!-- Blurred shape -->
+										<div class="absolute right-0 top-0 blur-2xl" aria-hidden="true">
+											<svg xmlns="http://www.w3.org/2000/svg" width="342" height="393">
+												<defs>
+													<linearGradient id="bs-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
+														<stop offset="0%" stop-color="#6366F1" />
+														<stop offset="100%" stop-color="#6366F1" stop-opacity="0" />
+													</linearGradient>
+												</defs>
+												<path fill="url(#bs-a)" fill-rule="evenodd" d="m104 .827 461 369-284 58z" transform="translate(0 -112.827)" opacity=".7" />
+											</svg>
+										</div>
+										<!-- Radial gradient -->
+										<div class="absolute flex items-center justify-center bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 h-full aspect-square" aria-hidden="true">
+											<div class="absolute inset-0 translate-z-0 bg-blue-500 rounded-full blur-[120px] opacity-70"></div>
+											<div class="absolute w-1/4 h-1/4 translate-z-0 bg-blue-400 rounded-full blur-[40px]"></div>
+										</div>
+
+
+										<!-- Text -->
+										<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8">
+											<div>
+												<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Cloud Environment</h3>
+												<p class="text-slate-400">Based on the industry standard, Visual Studio Code. Anything is supported, no artificial limits, best in class performance.</p>
+											</div>
+										</div>
+										<!-- Image -->
+										<div class="relative w-full  md:h-auto overflow-hidden md:pb-8">
+											<img class="absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:max-w-full md:relative md:left-0 md:translate-x-0" src="/icons/home/cloud-storage.png" width="250" height="100%" alt="Feature 02">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Box #3 -->
+						<div class="md:col-span-5" data-aos="fade-down">
+							<div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
+								<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
+									<div class="flex flex-col">
+										<!-- Radial gradient -->
+										<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/2 aspect-square" aria-hidden="true">
+											<div class="absolute inset-0 translate-z-0 bg-slate-800 rounded-full blur-[80px]"></div>
+										</div>
+										<!-- Text -->
+										<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8">
+											<div>
+												<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Integrate with (LMSs)</h3>
+												<p class="text-slate-400">Link any LTI 1.3 Learning Management to our platform.</p>
+											</div>
+										</div>
+										<!-- Image -->
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Features list -->
+				<div class="grid md:grid-cols-3 gap-8 md:gap-12">
+					<!-- Feature -->
+					<!-- Feature -->
+					<!-- Feature -->
+					<div>
+						<div class="flex items-center space-x-2 mb-1">
+							<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+								<path d="M14.574 5.67a13.292 13.292 0 0 1 1.298 1.842 1 1 0 0 1 0 .98C15.743 8.716 12.706 14 8 14a6.391 6.391 0 0 1-1.557-.2l1.815-1.815C10.97 11.82 13.06 9.13 13.82 8c-.163-.243-.39-.56-.669-.907l1.424-1.424ZM.294 15.706a.999.999 0 0 1-.002-1.413l2.53-2.529C1.171 10.291.197 8.615.127 8.49a.998.998 0 0 1-.002-.975C.251 7.29 3.246 2 8 2c1.331 0 2.515.431 3.548 1.038L14.293.293a.999.999 0 1 1 1.414 1.414l-14 14a.997.997 0 0 1-1.414 0ZM2.18 8a12.603 12.603 0 0 0 2.06 2.347l1.833-1.834A1.925 1.925 0 0 1 6 8a2 2 0 0 1 2-2c.178 0 .348.03.512.074l1.566-1.566C9.438 4.201 8.742 4 8 4 5.146 4 2.958 6.835 2.181 8Z" />
+							</svg>
+							<h4 class="font-medium text-slate-50">It works on</h4><h4 class="font-medium text-slate-50 line-through">my</h4><h4 class="font-medium text-slate-50">any machine</h4>
+						</div>
+						<p class="text-sm text-slate-400">No more wasting time with mismatch enviroments and different operating systems.</p>
+					</div>
+					<!-- Feature -->
+					<div>
+						<div class="flex items-center space-x-2 mb-1">
+							<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+								<path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8ZM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1Z" />
+							</svg>
+							<h4 class="font-medium text-slate-50">Decrease student attrition</h4>
+						</div>
+						<p class="text-sm text-slate-400">No more setting up ide's, languages, dependencies, compiling, building, exporting, zipping, submitting</p>
+					</div>
+					<div>
+						<div class="flex items-center space-x-2 mb-1">
+							<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+								<path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8ZM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1Z" />
+							</svg>
+							<h4 class="font-medium text-slate-50">More time teaching, less headache</h4>
+						</div>
+						<p class="text-sm text-slate-400">Managing files, downloading, unzipping, running, compiling, building, waiting.</p>
+					</div>
+
+					<div>
+						<div class="flex items-center space-x-2 mb-1">
+							<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+								<path d="M11 0c1.3 0 2.6.5 3.5 1.5 1 .9 1.5 2.2 1.5 3.5 0 1.3-.5 2.6-1.4 3.5l-1.2 1.2c-.2.2-.5.3-.7.3-.2 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l1.1-1.2c.6-.5.9-1.3.9-2.1s-.3-1.6-.9-2.2C12 1.7 10 1.7 8.9 2.8L7.7 4c-.4.4-1 .4-1.4 0-.4-.4-.4-1 0-1.4l1.2-1.1C8.4.5 9.7 0 11 0ZM8.3 12c.4-.4 1-.5 1.4-.1.4.4.4 1 0 1.4l-1.2 1.2C7.6 15.5 6.3 16 5 16c-1.3 0-2.6-.5-3.5-1.5C.5 13.6 0 12.3 0 11c0-1.3.5-2.6 1.5-3.5l1.1-1.2c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4L2.9 8.9c-.6.5-.9 1.3-.9 2.1s.3 1.6.9 2.2c1.1 1.1 3.1 1.1 4.2 0L8.3 12Zm1.1-6.8c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-4.2 4.2c-.2.2-.5.3-.7.3-.2 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l4.2-4.2Z" />
+							</svg>
+							<h4 class="font-medium text-slate-50">Link to LMS</h4>
+						</div>
+						<p class="text-sm text-slate-400">Link to LMS, one-click to start coding, one-click to teaching.</p>
+					</div>
+					<!-- Feature -->
+					<div>
+						<div class="flex items-center space-x-2 mb-1">
+							<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+								<path d="M14 0a2 2 0 0 1 2 2v4a1 1 0 0 1-2 0V2H2v12h4a1 1 0 0 1 0 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12Zm-1.957 10.629 3.664 3.664a1 1 0 0 1-1.414 1.414l-3.664-3.664-.644 2.578a.5.5 0 0 1-.476.379H9.5a.5.5 0 0 1-.48-.362l-2-7a.5.5 0 0 1 .618-.618l7 2a.5.5 0 0 1-.017.965l-2.578.644Z" />
+							</svg>
+							<h4 class="font-medium text-slate-50">No Limits</h4>
+						</div>
+						<p class="text-sm text-slate-400">Any language, backend, or framework. Runs full Linux environments in the cloud.</p>
+					</div>
+					<!-- Feature -->
+					<div>
+						<div class="flex items-center space-x-2 mb-1">
+							<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+								<path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8ZM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1Z" />
+							</svg>
+							<h4 class="font-medium text-slate-50">Import</h4>
+						</div>
+						<p class="text-sm text-slate-400">Easily import existing content from your LMS, and start teaching.</p>
+					</div>
+					<!-- Feature -->
+					<div>
+						<div class="flex items-center space-x-2 mb-1">
+							<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+								<path d="M14 0a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12Zm0 14V2H2v12h12Zm-3-7H5a1 1 0 1 1 0-2h6a1 1 0 0 1 0 2Zm0 4H5a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Z" />
+							</svg>
+							<h4 class="font-medium text-slate-50">Grading</h4>
+						</div>
+						<p class="text-sm text-slate-400">One-click open and run, no more broken submissions.</p>
+					</div>
+
+					<div>
+						<div class="flex items-center space-x-2 mb-1">
+							<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+								<path d="M7.999 2.34a4.733 4.733 0 0 0-6.604 6.778l5.904 5.762a1 1 0 0 0 1.4 0l5.915-5.77a4.733 4.733 0 0 0-6.615-6.77Zm5.208 5.348-5.208 5.079-5.2-5.07a2.734 2.734 0 0 1 3.867-3.864c.182.19.335.404.455.638a1.04 1.04 0 0 0 1.756 0 2.724 2.724 0 0 1 5.122 1.294 2.7 2.7 0 0 1-.792 1.923Z" />
+							</svg>
+							<h4 class="font-medium text-slate-50">Built for you</h4>
+						</div>
+						<p class="text-sm text-slate-400">Built for educators by educators, built for students by students.</p>
+					</div>
+
+				</div>
+
+
+			</div>
+		</div>
+	</section>
 		<!-- Features -->
 		<section>
 			<div class="relative max-w-6xl mx-auto px-4 sm:px-6">
@@ -577,251 +812,6 @@
 			</div>
 		</section>
 
-		<!-- Features #1 -->
-		<section class="relative">
-
-			<!-- Particles animation -->
-			<div class="absolute left-1/2 -translate-x-1/2 top-0 -z-10 w-80 h-80 -mt-24 -ml-32">
-				<div class="absolute inset-0 -z-10" aria-hidden="true">
-					<canvas data-particle-animation data-particle-quantity="6" data-particle-staticity="30"></canvas>
-				</div>
-			</div>
-
-			<div class="max-w-6xl mx-auto px-4 sm:px-6">
-				<div class="pt-16 md:pt-32">
-					<!-- Section header -->
-					<div class="max-w-4xl mx-auto text-center relative">
-						<div class="flex justify-center">
-							<div class="flex items-center">
-								<span class="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4 pr-2">Code learning platform for</span>
-								{#key category}
-								<span class="h3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" in:blur >{category}</span>
-								{/key}
-							</div>
-						</div>
-					</div>
-					<div class="max-w-2xl mx-auto text-center pb-12 md:pb-20 relative">
-						<p class="text-lg text-slate-400 text-center">A cloud based environment for educating, and learning.</p>
-					</div>
-					<!-- Highlighted boxes -->
-					<div class="relative pb-12 md:pb-20">
-						<!-- Blurred shape -->
-						<div class="absolute bottom-0 -mb-20 left-1/2 -translate-x-1/2 blur-2xl opacity-50 pointer-events-none" aria-hidden="true">
-							<svg xmlns="http://www.w3.org/2000/svg" width="434" height="427">
-								<defs>
-									<linearGradient id="bs2-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
-										<stop offset="0%" stop-color="#6366F1" />
-										<stop offset="100%" stop-color="#6366F1" stop-opacity="0" />
-									</linearGradient>
-								</defs>
-								<path fill="url(#bs2-a)" fill-rule="evenodd" d="m346 898 461 369-284 58z" transform="translate(-346 -898)" />
-							</svg>
-						</div>
-						<!-- Grid -->
-						<div class="grid md:grid-cols-12 gap-6 group" data-highlighter>
-							<!-- Box #1 -->
-							<div class="md:col-span-12" data-aos="fade-down">
-								<div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
-									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
-										<div class="flex flex-col md:flex-row md:items-center md:justify-between">
-											<!-- Blurred shape -->
-											<div class="absolute right-0 top-0 blur-2xl" aria-hidden="true">
-												<svg xmlns="http://www.w3.org/2000/svg" width="342" height="393">
-													<defs>
-														<linearGradient id="bs-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
-															<stop offset="0%" stop-color="#6366F1" />
-															<stop offset="100%" stop-color="#6366F1" stop-opacity="0" />
-														</linearGradient>
-													</defs>
-													<path fill="url(#bs-a)" fill-rule="evenodd" d="m104 .827 461 369-284 58z" transform="translate(0 -112.827)" opacity=".7" />
-												</svg>
-											</div>
-											<!-- Radial gradient -->
-											<div class="absolute flex items-center justify-center bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 h-full aspect-square" aria-hidden="true">
-												<div class="absolute inset-0 translate-z-0 bg-blue-500 rounded-full blur-[120px] opacity-70"></div>
-												<div class="absolute w-1/4 h-1/4 translate-z-0 bg-blue-400 rounded-full blur-[40px]"></div>
-											</div>
-
-
-											<!-- Text -->
-											<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8 md:pr-0">
-												<div class="mb-5">
-													<div>
-														<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Platform</h3>
-														<p class="text-slate-400">Transforms learning by letting students code from anywhere, in one-click. No limits, just accessible, collaborative coding that empowers educators and makes learning to code easier and more engaging.</p>
-													</div>
-												</div>
-												<div>
-													<a class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none" href="#0">
-                                                            <span class="relative inline-flex items-center">
-                                                                Learn more <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
-                                                            </span>
-													</a>
-												</div>
-											</div>
-											<!-- Image -->
-											<div class="relative w-full h-64 md:h-auto overflow-hidden">
-												<img class="absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:relative md:left-0 md:translate-x-0 py-4" src="/icons/home/code.png" width="300" height="100%" alt="Feature 01">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="md:col-span-7" data-aos="fade-down">
-								<div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
-									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
-										<div class="flex flex-col md:flex-row md:items-center md:justify-between">
-											<!-- Blurred shape -->
-											<div class="absolute right-0 top-0 blur-2xl" aria-hidden="true">
-												<svg xmlns="http://www.w3.org/2000/svg" width="342" height="393">
-													<defs>
-														<linearGradient id="bs-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
-															<stop offset="0%" stop-color="#6366F1" />
-															<stop offset="100%" stop-color="#6366F1" stop-opacity="0" />
-														</linearGradient>
-													</defs>
-													<path fill="url(#bs-a)" fill-rule="evenodd" d="m104 .827 461 369-284 58z" transform="translate(0 -112.827)" opacity=".7" />
-												</svg>
-											</div>
-											<!-- Radial gradient -->
-											<div class="absolute flex items-center justify-center bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 h-full aspect-square" aria-hidden="true">
-												<div class="absolute inset-0 translate-z-0 bg-blue-500 rounded-full blur-[120px] opacity-70"></div>
-												<div class="absolute w-1/4 h-1/4 translate-z-0 bg-blue-400 rounded-full blur-[40px]"></div>
-											</div>
-
-
-											<!-- Text -->
-											<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8">
-												<div>
-													<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Cloud Environment</h3>
-													<p class="text-slate-400">Based on the industry standard, Visual Studio Code. Anything is supported, no artificial limits, best in class performance.</p>
-												</div>
-											</div>
-											<!-- Image -->
-											<div class="relative w-full  md:h-auto overflow-hidden md:pb-8">
-												<img class="absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:max-w-full md:relative md:left-0 md:translate-x-0" src="/icons/home/cloud-storage.png" width="250" height="100%" alt="Feature 02">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Box #3 -->
-							<div class="md:col-span-5" data-aos="fade-down">
-								<div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
-									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
-										<div class="flex flex-col">
-											<!-- Radial gradient -->
-											<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/2 aspect-square" aria-hidden="true">
-												<div class="absolute inset-0 translate-z-0 bg-slate-800 rounded-full blur-[80px]"></div>
-											</div>
-											<!-- Text -->
-											<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8">
-												<div>
-													<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Integrate with (LMSs)</h3>
-													<p class="text-slate-400">Link any LTI 1.3 Learning Management to our platform.</p>
-												</div>
-											</div>
-											<!-- Image -->
-
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Features list -->
-					<div class="grid md:grid-cols-3 gap-8 md:gap-12">
-						<!-- Feature -->
-						<!-- Feature -->
-						<!-- Feature -->
-						<div>
-							<div class="flex items-center space-x-2 mb-1">
-								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-									<path d="M14.574 5.67a13.292 13.292 0 0 1 1.298 1.842 1 1 0 0 1 0 .98C15.743 8.716 12.706 14 8 14a6.391 6.391 0 0 1-1.557-.2l1.815-1.815C10.97 11.82 13.06 9.13 13.82 8c-.163-.243-.39-.56-.669-.907l1.424-1.424ZM.294 15.706a.999.999 0 0 1-.002-1.413l2.53-2.529C1.171 10.291.197 8.615.127 8.49a.998.998 0 0 1-.002-.975C.251 7.29 3.246 2 8 2c1.331 0 2.515.431 3.548 1.038L14.293.293a.999.999 0 1 1 1.414 1.414l-14 14a.997.997 0 0 1-1.414 0ZM2.18 8a12.603 12.603 0 0 0 2.06 2.347l1.833-1.834A1.925 1.925 0 0 1 6 8a2 2 0 0 1 2-2c.178 0 .348.03.512.074l1.566-1.566C9.438 4.201 8.742 4 8 4 5.146 4 2.958 6.835 2.181 8Z" />
-								</svg>
-								<h4 class="font-medium text-slate-50">It works on</h4><h4 class="font-medium text-slate-50 line-through">my</h4><h4 class="font-medium text-slate-50">any machine</h4>
-							</div>
-							<p class="text-sm text-slate-400">No more wasting time with mismatch enviroments and different operating systems.</p>
-						</div>
-						<!-- Feature -->
-						<div>
-							<div class="flex items-center space-x-2 mb-1">
-								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-									<path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8ZM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1Z" />
-								</svg>
-								<h4 class="font-medium text-slate-50">Decrease student attrition</h4>
-							</div>
-							<p class="text-sm text-slate-400">No more setting up ide's, languages, dependencies, compiling, building, exporting, zipping, submitting</p>
-						</div>
-						<div>
-							<div class="flex items-center space-x-2 mb-1">
-								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-									<path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8ZM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1Z" />
-								</svg>
-								<h4 class="font-medium text-slate-50">More time teaching, less headache</h4>
-							</div>
-							<p class="text-sm text-slate-400">Managing files, downloading, unzipping, running, compiling, building, waiting.</p>
-						</div>
-
-						<div>
-							<div class="flex items-center space-x-2 mb-1">
-								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-									<path d="M11 0c1.3 0 2.6.5 3.5 1.5 1 .9 1.5 2.2 1.5 3.5 0 1.3-.5 2.6-1.4 3.5l-1.2 1.2c-.2.2-.5.3-.7.3-.2 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l1.1-1.2c.6-.5.9-1.3.9-2.1s-.3-1.6-.9-2.2C12 1.7 10 1.7 8.9 2.8L7.7 4c-.4.4-1 .4-1.4 0-.4-.4-.4-1 0-1.4l1.2-1.1C8.4.5 9.7 0 11 0ZM8.3 12c.4-.4 1-.5 1.4-.1.4.4.4 1 0 1.4l-1.2 1.2C7.6 15.5 6.3 16 5 16c-1.3 0-2.6-.5-3.5-1.5C.5 13.6 0 12.3 0 11c0-1.3.5-2.6 1.5-3.5l1.1-1.2c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4L2.9 8.9c-.6.5-.9 1.3-.9 2.1s.3 1.6.9 2.2c1.1 1.1 3.1 1.1 4.2 0L8.3 12Zm1.1-6.8c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-4.2 4.2c-.2.2-.5.3-.7.3-.2 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l4.2-4.2Z" />
-								</svg>
-								<h4 class="font-medium text-slate-50">Link to LMS</h4>
-							</div>
-							<p class="text-sm text-slate-400">Link to LMS, one-click to start coding, one-click to teaching.</p>
-						</div>
-						<!-- Feature -->
-						<div>
-							<div class="flex items-center space-x-2 mb-1">
-								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-									<path d="M14 0a2 2 0 0 1 2 2v4a1 1 0 0 1-2 0V2H2v12h4a1 1 0 0 1 0 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12Zm-1.957 10.629 3.664 3.664a1 1 0 0 1-1.414 1.414l-3.664-3.664-.644 2.578a.5.5 0 0 1-.476.379H9.5a.5.5 0 0 1-.48-.362l-2-7a.5.5 0 0 1 .618-.618l7 2a.5.5 0 0 1-.017.965l-2.578.644Z" />
-								</svg>
-								<h4 class="font-medium text-slate-50">No Limits</h4>
-							</div>
-							<p class="text-sm text-slate-400">Any language, backend, or framework. Runs full Linux environments in the cloud.</p>
-						</div>
-						<!-- Feature -->
-						<div>
-							<div class="flex items-center space-x-2 mb-1">
-								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-									<path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8ZM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1Z" />
-								</svg>
-								<h4 class="font-medium text-slate-50">Import</h4>
-							</div>
-							<p class="text-sm text-slate-400">Easily import existing content from your LMS, and start teaching.</p>
-						</div>
-						<!-- Feature -->
-						<div>
-							<div class="flex items-center space-x-2 mb-1">
-								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-									<path d="M14 0a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12Zm0 14V2H2v12h12Zm-3-7H5a1 1 0 1 1 0-2h6a1 1 0 0 1 0 2Zm0 4H5a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Z" />
-								</svg>
-								<h4 class="font-medium text-slate-50">Grading</h4>
-							</div>
-							<p class="text-sm text-slate-400">One-click open and run, no more broken submissions.</p>
-						</div>
-
-						<div>
-							<div class="flex items-center space-x-2 mb-1">
-								<svg class="shrink-0 fill-slate-300" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-									<path d="M7.999 2.34a4.733 4.733 0 0 0-6.604 6.778l5.904 5.762a1 1 0 0 0 1.4 0l5.915-5.77a4.733 4.733 0 0 0-6.615-6.77Zm5.208 5.348-5.208 5.079-5.2-5.07a2.734 2.734 0 0 1 3.867-3.864c.182.19.335.404.455.638a1.04 1.04 0 0 0 1.756 0 2.724 2.724 0 0 1 5.122 1.294 2.7 2.7 0 0 1-.792 1.923Z" />
-								</svg>
-								<h4 class="font-medium text-slate-50">Built for you</h4>
-							</div>
-							<p class="text-sm text-slate-400">Built for educators by educators, built for students by students.</p>
-						</div>
-
-					</div>
-
-
-				</div>
-			</div>
-		</section>
-
 		<section class="relative">
 			<div class="relative max-w-6xl mx-auto px-4 sm:px-6">
 
@@ -842,12 +832,42 @@
 
 					<!-- Section header -->
 					<div class="max-w-3xl pb-12 md:pb-20">
-						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Time is being burned</h2>
-						<p class="text-lg text-slate-400 px-4">Students and educators often spend an excessive amount of time configuring environments, tools, software, and managing dependencies. This leads to students losing valuable time on menial tasks, impeding their ability to engage in meaningful learning, practice coding, and apply their skills effectively. Consequently, this cycle contributes to increased student attrition rates and a decline in the overall quality of education. By enabling students to commence coding from the first day of class, educators can focus on their instructional role, answering coding-related queries instead of dealing with technical support issues. This shift allows educators to dedicate more time to teaching, reduces the time spent on grading, and ultimately enhances the quality of education provided.</p>
+						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Faculty Benefits</h2>
+						<p class="text-lg text-slate-400 px-4">
+							Faculty often spend significant time configuring technical environments, diverting attention from teaching. Simplifying these complexities allows educators to
+							focus on in-depth coding concepts, offer better guidance, and address complex queries effectively. This optimization creates a more immersive learning environment for both faculty and students.</p>
 					</div>
 				</div>
 			</div>
 		</section>
+
+	<section class="relative">
+		<div class="relative max-w-6xl mx-auto px-4 sm:px-6">
+
+			<!-- Blurred shape -->
+			<div class="absolute top-0 -mt-24 left-0 -ml-16 blur-2xl opacity-70 pointer-events-none -z-10" aria-hidden="true">
+				<svg xmlns="http://www.w3.org/2000/svg" width="434" height="427">
+					<defs>
+						<linearGradient id="bs4-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
+							<stop offset="0%" stop-color="#4572D1" />
+							<stop offset="100%" stop-color="#1F3D70" stop-opacity="0" />
+						</linearGradient>
+					</defs>
+					<path fill="url(#bs4-a)" fill-rule="evenodd" d="m0 0 461 369-284 58z" transform="matrix(1 0 0 -1 0 427)" />
+				</svg>
+			</div>
+
+			<div class="pt-16 pb-12 md:pt-32 md:pb-20">
+
+				<!-- Section header -->
+				<div class="max-w-3xl pb-12 md:pb-20">
+					<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Student Benefits</h2>
+					<p class="text-lg text-slate-400 px-4">Students' challenges with technical setup hinder their engagement and practical coding application, impacting effective learning and contributing to increased attrition rates.
+						Introducing coding activities from day one enables educators to prioritize teaching, optimizing instructional time, and significantly enhancing overall educational quality.</p>
+				</div>
+			</div>
+		</div>
+	</section>
 
 		<!-- Features #3 -->
 		<section class="relative">
@@ -895,161 +915,60 @@
 		</section>
 
 		<!-- Testimonials carousel -->
-		<section>
-			<div class="max-w-6xl mx-auto px-4 sm:px-6">
-				<div class="pt-12 md:pt-20">
+	<section>
+		<div class="max-w-6xl mx-auto px-4 sm:px-6">
+			<div class="pt-12 md:pt-20">
 
-					<!-- Section header -->
-					<div class="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-						<div>
-							<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-3">The security first platform</div>
-						</div>
-						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Spot issues faster</h2>
-						<p class="text-lg text-slate-400">All the lorem ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+				<!-- Section header -->
+				<div class="max-w-3xl mx-auto text-center pb-12 md:pb-20">
+					<div>
+						<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-200 pb-3">The security first platform</div>
 					</div>
+					<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Spot issues faster</h2>
+					<p class="text-lg text-slate-400">All the lorem ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+				</div>
 
-					<!-- Carousel built with Swiper.js [https://swiperjs.com/] -->
-					<!-- * Initialized in src/js/main.js -->
-					<!-- * Custom styles in src/css/additional-styles/theme.scss -->
-					<div class="relative before:absolute before:inset-0 before:-translate-x-full before:z-20 before:bg-gradient-to-l before:from-transparent before:to-slate-900 before:to-20% after:absolute after:inset-0 after:translate-x-full after:z-20 after:bg-gradient-to-r after:from-transparent after:to-slate-900 after:to-20%">
-						<div class="testimonials-carousel swiper-container group">
-							<div class="swiper-wrapper w-fit" data-highlighter>
-								<!-- Carousel items -->
-								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
-									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
-										<!-- Particles animation -->
-										<div class="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
-											<canvas data-particle-animation data-particle-quantity="3"></canvas>
-										</div>
-										<!-- Radial gradient -->
-										<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-blue-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
-										</div>
-										<div class="flex flex-col p-6 h-full">
-											<img class="mb-3" src="./images/carousel-icon-01.svg" width="56" height="56" alt="Icon 01">
-											<div class="grow">
-												<div class="font-bold text-lg mb-1">Anonymous User</div>
-												<div class="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
-											</div>
-											<div class="text-right">
-												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
-											</div>
-										</div>
+
+				<div class="relative before:absolute before:inset-0 before:-translate-x-full before:z-20 before:bg-gradient-to-l before:from-transparent before:to-slate-900 before:to-20% after:absolute after:inset-0 after:translate-x-full after:z-20 after:bg-gradient-to-r after:from-transparent after:to-slate-900 after:to-20%">
+					<div class="testimonials-carousel swiper-container group">
+						<div class="flex flex-wrap justify-center" data-highlighter>
+						{#each Array(totalSlides) as _, index}
+
+							<div class="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 swiper-slide mb-4 mx-2 h-auto relative bg-slate-800 rounded-3xl p-px  before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
+								<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
+									<!-- Particles animation -->
+									<div class="absolute inset-0 -z-10 opacity-0  group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
+										<canvas data-particle-animation data-particle-quantity="3"></canvas>
 									</div>
-								</div>
-								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
-									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
-										<!-- Particles animation -->
-										<div class="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
-											<canvas data-particle-animation data-particle-quantity="3"></canvas>
-										</div>
-										<!-- Radial gradient -->
-										<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-blue-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
-										</div>
-										<div class="flex flex-col p-6 h-full">
-											<img class="mb-3" src="./images/carousel-icon-02.svg" width="56" height="56" alt="Icon 01">
-											<div class="grow">
-												<div class="font-bold text-lg mb-1">Bot Detection</div>
-												<div class="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
-											</div>
-											<div class="text-right">
-												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
-											</div>
-										</div>
+									<!-- Radial gradient -->
+									<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
+										<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800  transition-colors duration-500 ease-in-out blur-[60px]"></div>
 									</div>
-								</div>
-								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
-									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
-										<!-- Particles animation -->
-										<div class="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
-											<canvas data-particle-animation data-particle-quantity="3"></canvas>
+									<div class="flex flex-col p-6 h-full">
+										<img class="mb-3" src="./images/carousel-icon-01.svg" width="56" height="56" alt="Icon 01">
+										<div class="grow">
+											<div class="font-bold text-lg mb-1">Anonymous User</div>
+											<div class="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
 										</div>
-										<!-- Radial gradient -->
-										<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-blue-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
-										</div>
-										<div class="flex flex-col p-6 h-full">
-											<img class="mb-3" src="./images/carousel-icon-03.svg" width="56" height="56" alt="Icon 01">
-											<div class="grow">
-												<div class="font-bold text-lg mb-1">Social integrations</div>
-												<div class="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
-											</div>
-											<div class="text-right">
-												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
-									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
-										<!-- Particles animation -->
-										<div class="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
-											<canvas data-particle-animation data-particle-quantity="3"></canvas>
-										</div>
-										<!-- Radial gradient -->
-										<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-blue-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
-										</div>
-										<div class="flex flex-col p-6 h-full">
-											<img class="mb-3" src="./images/carousel-icon-04.svg" width="56" height="56" alt="Icon 01">
-											<div class="grow">
-												<div class="font-bold text-lg mb-1">Progressive Profiling</div>
-												<div class="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
-											</div>
-											<div class="text-right">
-												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide h-auto relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
-									<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
-										<!-- Particles animation -->
-										<div class="absolute inset-0 -z-10 opacity-0 group-[.swiper-slide-active]/slide:opacity-100 group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
-											<canvas data-particle-animation data-particle-quantity="3"></canvas>
-										</div>
-										<!-- Radial gradient -->
-										<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/3 aspect-square" aria-hidden="true">
-											<div class="absolute inset-0 translate-z-0 rounded-full bg-slate-800 group-[.swiper-slide-active]/slide:bg-blue-500 transition-colors duration-500 ease-in-out blur-[60px]"></div>
-										</div>
-										<div class="flex flex-col p-6 h-full">
-											<img class="mb-3" src="./images/carousel-icon-05.svg" width="56" height="56" alt="Icon 05">
-											<div class="grow">
-												<div class="font-bold text-lg mb-1">Secure Access</div>
-												<div class="text-slate-400 mb-3">Incorporate rich user profiling, and facilitate more transactions.</div>
-											</div>
-											<div class="text-right">
-												<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
-											</div>
+										<div class="text-right">
+											<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
+						{/each}
 					</div>
-
-					<!-- Arrows -->
-					<div class="flex mt-8 justify-end">
-						<button class="carousel-prev relative z-20 w-12 h-12 flex items-center justify-center group">
-							<span class="sr-only">Previous</span>
-							<svg class="w-4 h-4 fill-slate-500 group-hover:fill-blue-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-								<path d="M6.7 14.7l1.4-1.4L3.8 9H16V7H3.8l4.3-4.3-1.4-1.4L0 8z" />
-							</svg>
-						</button>
-						<button class="carousel-next relative z-20 w-12 h-12 flex items-center justify-center group">
-							<span class="sr-only">Next</span>
-							<svg class="w-4 h-4 fill-slate-500 group-hover:fill-blue-500 transition duration-150 ease-in-out" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-								<path d="M9.3 14.7l-1.4-1.4L12.2 9H0V7h12.2L7.9 2.7l1.4-1.4L16 8z" />
-							</svg>
-						</button>
 					</div>
-
 				</div>
-			</div>
-		</section>
 
-		<!-- Features #4 -->
+				<!-- Arrows -->
+
+			</div>
+		</div>
+	</section>
+
+
+	<!-- Features #4 -->
 		<section class="relative">
 			<div class="relative max-w-6xl mx-auto px-4 sm:px-6">
 
@@ -1737,7 +1656,6 @@
 			</div>
 		</section>
 
-	</main>
 
 	<!-- Site footer -->
 	<footer>
