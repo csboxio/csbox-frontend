@@ -401,7 +401,6 @@
 				</div>
 
 				<div class="pt-32 pb-16 md:pt-52 md:pb-32">
-
 					<!-- Hero content -->
 					<div class="max-w-3xl mx-auto text-center">
 						<div class="mb-6" data-aos="fade-down">
@@ -442,7 +441,7 @@
 					</div>
 				</div>
 
-				<div class="py-12 md:py-16">
+				<div class="pb-12 md:py-16">
 					<div class="overflow-hidden">
 						<!-- Carousel built with Swiper.js [https://swiperjs.com/] -->
 						<!-- * Initialized in src/js/main.js -->
@@ -479,7 +478,7 @@
 				<div class="max-w-4xl mx-auto text-center relative">
 					<div class="flex justify-center">
 						<div class="flex items-center">
-							<span class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4 pr-2">Code learning platform for</span>
+							<span class="h2 text-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4 pr-2 sm:text-nowrap">Code learning platform for</span>
 							{#key category}
 								<span class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" in:blur >{category}</span>
 							{/key}
@@ -534,7 +533,8 @@
 											<div class="mb-5">
 												<div>
 													<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Platform</h3>
-													<p class="text-slate-400">Transforms learning by letting students code from anywhere, in one-click. No limits, just accessible, collaborative coding that empowers educators and makes learning to code easier and more engaging.</p>
+													<p class="text-slate-400">Elevate Your LMS into a Coding-Centric Platform
+														Empower Students, Simplify Teaching, Unleash Coding Potential.</p>
 												</div>
 											</div>
 											<div>
@@ -546,9 +546,9 @@
 											</div>
 										</div>
 										<!-- Image -->
-										<div class="relative w-full h-64 md:h-auto overflow-hidden">
-											<img class="absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:relative md:left-0 md:translate-x-0 py-4" src="/icons/home/code.png" width="300" height="100%" alt="Feature 01">
-										</div>
+
+												<img class="absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:relative md:left-0 md:translate-x-0 py-4" src="/icons/home/codingman.gif" width="550" alt="Feature 01">
+
 									</div>
 								</div>
 							</div>
@@ -1130,8 +1130,8 @@
 						<div>
 							<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-3">Pricing plans</div>
 						</div>
-						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Flexible plans and features</h2>
-						<p class="text-lg text-slate-400">All the lorem ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Competitive Pricing</h2>
+						<p class="text-lg text-slate-400">Our platform is lower-price and higher performance compared to any competitor.</p>
 					</div>
 					<!-- Pricing tabs -->
 					<div class="relative">
@@ -1167,29 +1167,27 @@
 									</div>
 								</div>
 							</div>
+							<!-- Competitor 1 --> 
+							<div class="px-6 flex flex-col justify-end">
+								<div class="grow pb-4 mb-4 border-b border-slate-800">
+									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Competitor 1</div>
+									<div class="mb-1">
+										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">1000</span><span class="text-sm text-slate-600 font-medium">/mo (platform fee)</span>
+									</div>
+									<div class="mb-1">
+										<span class="text-lg font-medium text-slate-500">$</span><span class="text-2xl font-bold text-slate-50">10</span><span class="text-sm text-slate-600 font-medium">/mo (per user)</span>
+									</div>
+									<div class="text-slate-500">Not Including Hosting ~$20-40/mo (per user).</div>
+								</div>
+							</div>
 							<!-- Pro price -->
 							<div class="px-6 flex flex-col justify-end">
 								<div class="grow pb-4 mb-4 border-b border-slate-800">
-									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Pro</div>
+									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5"><img src="/logo-fullColor-white-text.png" width="150" height="100%" alt="CSBOX"/></div>
 									<div class="mb-1">
-										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">24</span><span class="text-sm text-slate-600 font-medium">/mo</span>
+										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">10</span><span class="text-sm text-slate-600 font-medium">/mo (per user)</span>
 									</div>
-									<div class="text-slate-500">Everything at your fingertips.</div>
-								</div>
-								<div class="pb-4 border-b border-slate-800">
-									<a class="btn-sm text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="/auth">
-										Get Started <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
-									</a>
-								</div>
-							</div>
-							<!-- Team price -->
-							<div class="px-6 flex flex-col justify-end">
-								<div class="grow pb-4 mb-4 border-b border-slate-800">
-									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Team</div>
-									<div class="mb-1">
-										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">49</span><span class="text-sm text-slate-600 font-medium">/mo</span>
-									</div>
-									<div class="text-slate-500">Everything at your fingertips.</div>
+									<div class="text-slate-500">No limits.</div>
 								</div>
 								<div class="pb-4 border-b border-slate-800">
 									<a class="btn-sm text-white bg-blue-500 hover:bg-blue-600 w-full transition duration-150 ease-in-out group" href="#0">
@@ -1200,21 +1198,16 @@
 							<!-- Enterprise price -->
 							<div class="px-6 flex flex-col justify-end">
 								<div class="grow pb-4 mb-4 border-b border-slate-800">
-									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Enterprise</div>
+									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Competitor 2</div>
 									<div class="mb-1">
-										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">79</span><span class="text-sm text-slate-600 font-medium">/mo</span>
+										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">~30</span><span class="text-sm text-slate-600 font-medium">/mo (per user)</span>
 									</div>
-									<div class="text-slate-500">Everything at your fingertips.</div>
-								</div>
-								<div class="pb-4 border-b border-slate-800">
-									<a class="btn-sm text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white w-full transition duration-150 ease-in-out group" href="#0">
-										Get Started <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
-									</a>
+									<div class="text-slate-500">$0.36 per hour, per user.</div>
 								</div>
 							</div>
 							<!-- # Usage -->
 							<div class="px-6 flex flex-col justify-end">
-								<div class="py-2 text-slate-50 font-medium mt-4">Usage</div>
+								<div class="py-2 text-slate-50 font-medium mt-4">Features</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Usage</div>
@@ -1227,14 +1220,11 @@
 							</div>
 							<!-- Social Connections -->
 							<div class="px-6 flex flex-col justify-end">
-								<div class="py-2 text-slate-400 border-b border-slate-800">Social Connections</div>
+								<div class="py-2 text-slate-400 border-b border-slate-800">Fixed Monthly Price</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-									</svg>
-									<span>100 <span class="md:hidden">Social Connections</span></span>
+
 								</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
@@ -1242,7 +1232,7 @@
 									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
-									<span>250 <span class="md:hidden">Social Connections</span></span>
+									<span>$10 <span class="md:hidden">Fixed Total Platform Cost</span></span>
 								</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
@@ -1250,7 +1240,7 @@
 									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
-									<span>Unlimited <span class="md:hidden">Social Connections</span></span>
+									<span>Unlimited <span class="md:hidden">Fixed Monthly Price</span></span>
 								</div>
 							</div>
 							<!-- Custom Domains -->
