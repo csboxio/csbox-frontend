@@ -40,7 +40,7 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
         const course_prefix = launchData.launch.context.label
 
         const body = await request.json();
-        const deepLinkingResponse = await fetch('https://lti.csbox.io/api/deeplinking/form', {
+        const deepLinkingResponse = await fetch('https://lti.csbox.io/api/deeplinking/', {
             method: 'POST',
             headers: {
                 ...headers,
@@ -49,6 +49,7 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
             body: JSON.stringify(body),
         });
         const form = await deepLinkingResponse.json();
+        console.log(form)
         setHeaders({'Content-Type': 'application/json'});
         return json(
             {
