@@ -49,7 +49,6 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
             body: JSON.stringify(body),
         });
         const form = await deepLinkingResponse.json();
-        console.log(form)
         setHeaders({'Content-Type': 'application/json'});
         return json(
             {
@@ -58,7 +57,6 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
                 course: { id: course_id, title: course_title, prefix: course_prefix}
             });
     } catch (error) {
-        console.log(error)
         setHeaders({'Content-Type': 'application/json'});
         return json({
             status: 500,

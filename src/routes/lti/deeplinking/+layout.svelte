@@ -5,8 +5,8 @@
 
 	export let data
 
-	let { supabase, session, user, claim, deeplinking } = data
-	$: ({ supabase, session, user, claim, deeplinking } = data)
+	let { supabase, session, user, claim } = data
+	$: ({ supabase, session, user, claim } = data)
 
 
 </script>

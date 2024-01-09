@@ -2,6 +2,7 @@
 	import ErrorBoundary from "$lib/components/ErrorBoundary.svelte";
 	import {onMount} from "svelte";
 	import {invalidate, invalidateAll} from "$app/navigation";
+	import {page} from "$app/stores";
 	export let data
 
 	let { supabase, session, user, claim } = data

@@ -10,7 +10,6 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, event, loc
 
     const session = await getSession()
 
-    console.log(session)
 
     if (!ltik) {
         return {

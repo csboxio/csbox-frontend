@@ -3,8 +3,8 @@
     import {goto, invalidate, invalidateAll} from "$app/navigation";
 
     export let data
-    let { supabase, session, deeplinking, claim, lms_user_id} = data
-    $: ({ supabase, session, deeplinking, claim, lms_user_id } = data)
+    let { supabase, session, launch, claim, lms_user_id} = data
+    $: ({ supabase, session, launch, claim, lms_user_id } = data)
 
     let courses;
     $: courses = data.courses.data;
@@ -17,18 +17,19 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify( {'lms_course_id': deeplinking.course.id, 'course_id': selected} )
+            body: JSON.stringify( {'lms_course_id': launch.course.id, 'course_id': selected} )
         })
 
         await invalidateAll()
     }
 
     function checkLinkedCourseID() {
-        if (!deeplinking || !deeplinking.course || !deeplinking.course.id || !Array.isArray(courses)) {
+        // launch.launchInfo.context.id is the course id from the LMS
+        if (!launch || !launch.launchInfo.context|| !launch.launchInfo.context.id || !Array.isArray(courses)) {
             return false;
         }
 
-        const courseId = deeplinking.course.id;
+        const courseId = launch.launchInfo.context.id;
 
         return courses.some(course => course.lms_course_id === courseId);
     }
@@ -37,7 +38,7 @@
     $: check_linked = checkLinkedCourseID()
 
     let course_id
-    $: course_id = courses.find(course => course.lms_course_id === deeplinking.course.id)?.id;
+    $: course_id = courses.find(course => course.lms_course_id === launch.launchInfo.context.id)?.id;
 
 </script>
 

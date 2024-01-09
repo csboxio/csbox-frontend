@@ -23,32 +23,17 @@ export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url
     }
 
 
-        const requestBody = {
-            contentItems: [{
-                type: 'ltiResourceLink',
-                url: 'https://lti.csbox.io/lti/launch?resource=123',
-                title: 'Resource'
-            }]
-        }
-        const deeplinking = await fetch(`/api/lti/deeplinking?ltik=${ltik}`, {
-            method: 'POST',
-            body: JSON.stringify(requestBody)
-        });
-
     const session = await getSession()
 
-    let responseData;
-    try {
-        responseData = await deeplinking.json();
-    } catch (error) {
-        console.error('Error parsing JSON:', error);
-        responseData = null;
-    }
+    const launch = await fetch(`/api/lti/launch?ltik=${ltik}`);
 
-    return {
-        deeplinking: responseData,
-        session: session,
-        claim: await getClaim(),
-        lms_user_id: await getLMSUserID()
+    if (launch.ok) {
+        return {
+            launch: await launch.json(),
+            ltik: ltik,
+            session: session,
+            claim: await getClaim(),
+            lms_user_id: await getLMSUserID()
+        }
     }
 }

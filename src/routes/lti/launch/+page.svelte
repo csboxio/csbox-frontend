@@ -41,6 +41,7 @@
 
         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h1 class="text-2xl font-bold mb-2">Launch Info</h1>
+
             <p><span class="font-bold">Type:</span> {launch.launchInfo.type}</p>
             <p><span class="font-bold">Target:</span> {launch.launchInfo.target}</p>
             <p><span class="font-bold">Return URL:</span> {launch.launchInfo.presentation.returnUrl}</p>

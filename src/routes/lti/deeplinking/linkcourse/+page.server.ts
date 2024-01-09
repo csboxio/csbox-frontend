@@ -1,7 +1,9 @@
 import {browser} from "$app/environment";
 import {redirect} from "@sveltejs/kit";
 
-export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url, cookies, event, fetch }) => {
+export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url, parent, cookies, event, fetch }) => {
+    const parentData = await parent();
+    const launch = parentData.launch;
     const { searchParams } = new URL(url);
     const session = await getSession()
 
@@ -24,18 +26,6 @@ export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url
     }
 
 
-        const requestBody = {
-            contentItems: [{
-                type: 'ltiResourceLink',
-                url: 'https://lti.csbox.io/lti/launch?resource=123',
-                title: 'Resource'
-            }]
-        }
-        const deeplinking = await fetch(`/api/lti/deeplinking?ltik=${ltik}`, {
-            method: 'POST',
-            body: JSON.stringify(requestBody)
-        });
-
     const courses = async () => {
         const response = await fetch('/api/courses')
         return response.json()
@@ -43,7 +33,7 @@ export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url
 
     return {
         courses: await courses(),
-        deeplinking: await deeplinking.json(),
+        launch: launch,
         session: await getSession(),
         claim: await getClaim(),
         lms_user_id: await getLMSUserID()

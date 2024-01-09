@@ -6,8 +6,8 @@
     import {applyAction, deserialize} from "$app/forms";
     import CoursePicker from "$lib/blocks/CoursePicker.svelte";
 	export let data
-	let { supabase, session, deeplinking, claim, lms_user_id} = data
-	$: ({ supabase, session, deeplinking, claim, lms_user_id } = data)
+	let { supabase, session, claim, lms_user_id, launch} = data
+	$: ({ supabase, session, claim, lms_user_id, launch } = data)
 
     let hoverID;
     $: hoverID;
@@ -28,8 +28,7 @@
 
     async function handleSubmit(event) {
         const data = new FormData(this);
-        console.log(deeplinking.user_id)
-        data.append('lms_user_id', deeplinking.user_id)
+        data.append('lms_user_id', launch.userInfo.id)
 
         const response = await fetch(this.action, {
             method: 'POST',
