@@ -9,14 +9,13 @@ export const POST: RequestHandler = async ({ request, url, locals: { supabase, g
 
     const body = await request.json();
 
-    const { lms_course_id, lms_user_id, course_id } = body;
+    const { course } = body;
 
-    console.log(lms_course_id, course_id)
+    console.log(body)
 
-    const { data, error } = await supabase
-        .from('courses')
-        .update({lms_course_id: lms_course_id, lms_user_id: lms_user_id})
-        .eq('id', course_id)
+    const { data, error } = await supabase.rpc('create_lms_course', course);
+
+    console.log(data, error)
 
     if (error) {
         console.log(data, error)

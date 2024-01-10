@@ -93,7 +93,7 @@
                 <script type="module">
                 window.location.href = '/lti/deeplinking/linkcourse';
                 </script>
-                <!-- INSTRUCTOR & NOT LINKED LMS ID -->
+                <!-- INSTRUCTOR & NOT LINKED LMS USER ID -->
                 {:else}
                 <div class="flex justify-center items-center h-screen bg-gray-700">
                     <div class="max-w-md w-full bg-gray-800 shadow-lg shadow-gray-600 rounded p-8">
