@@ -3,11 +3,6 @@ import { error, json, redirect } from "@sveltejs/kit";
 
 /** @type {import('./$types').RequestHandler} */
 export const GET: RequestHandler = async ({ request, url, params, locals: { supabase, getSession }, event }) => {
-    const session = await getSession()
-
-    if (!session) {
-        throw redirect(303, '/');
-    }
 
     const assignmentId = url.searchParams.get('id')
 

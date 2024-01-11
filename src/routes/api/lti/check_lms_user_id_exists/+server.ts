@@ -26,12 +26,9 @@ export const GET: RequestHandler = async ({ request, url, event, locals: { supab
 
     const lms_user_id = id_token.user.id
     console.log(lms_user_id)
-
     // get lms_user_id from ltik token, so brute force attacks are difficult (impossible, maybe not really)
 
     const { data, error } = await supabase.rpc('check_lms_user_id_exists', {p_lms_user_id: lms_user_id})
-
-    console.log(data, error)
 
     return json(data)
 }

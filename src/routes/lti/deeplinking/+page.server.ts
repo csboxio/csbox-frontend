@@ -30,7 +30,7 @@ export const actions: Actions = {
 
 
         if (session) {
-            const {error, data} = await supabase.rpc('set_lms_id', {user_id: user.id, lms_user_id: lms_user_id})
+            const {error, data} = await supabase.rpc('set_lms_id', {p_user_id: user.id, p_lms_user_id: lms_user_id})
             console.log(error, data)
         }
     }

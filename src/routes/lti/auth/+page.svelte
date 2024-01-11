@@ -16,7 +16,7 @@
 	<Auth bind:supabase={supabase} />
 	{:else}
 	<script type="module">
-		window.location.href = '/lti/deeplinking';
+		history.back()
 	</script>
 
 {/if}

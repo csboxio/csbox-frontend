@@ -65,7 +65,7 @@
         const requestBody = {
             contentItems: [{
                 type: 'ltiResourceLink',
-                url: `https://lti.csbox.io/lti/launch?resource=A-${selected_assignment_id}`,
+                url: `https://lti.csbox.io/lti/launch?course=${$page.params.course}&assignment=${assignment_data.assignment_id}`,
                 title: assignment_data.title,
             }]
         }
@@ -161,7 +161,7 @@
 
         let formData = {
             type: 'ltiResourceLink',
-            url: `https://lti.csbox.io/lti/launch?resource=A-${_assignment_id}`,
+            url: `https://lti.csbox.io/lti/launch?course=${$page.params.course}&assignment=${_assignment_id}`,
         };
 
         await createLinkAssignment(formData);
