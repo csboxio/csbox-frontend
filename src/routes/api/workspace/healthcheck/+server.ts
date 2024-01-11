@@ -3,11 +3,6 @@ import { error, json, redirect } from "@sveltejs/kit";
 
 /** @type {import('./$types').RequestHandler} */
 export const GET: RequestHandler = async ({ request, url, locals: { supabase, getSession }, event }) => {
-  const session = await getSession()
-
-  if (!session) {
-    throw redirect(303, '/');
-  }
   let data
   try {
     const response = await fetch(`https://ide.csbox.io/api/`, {

@@ -2,9 +2,7 @@ import type {RequestHandler} from "@sveltejs/kit";
 import {error, json, redirect} from "@sveltejs/kit";
 import {PRIVATE_LTI_API_KEY} from "$env/static/private";
 
-export const GET: RequestHandler = async ({request, url, setHeaders, event, locals: {getSession, supabase}}) => {
-    console.log("Running API LTI/LINEITEMS")
-
+export const GET: RequestHandler = async ({ url }) => {
     const {searchParams} = new URL(url);
     const ltik = searchParams.get('ltik');
 

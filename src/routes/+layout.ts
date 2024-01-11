@@ -21,7 +21,7 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
 
   const supabase = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
     serverSession: data.session,
-    db: { schema: 'material' },
+    db: { schema: 'public' },
     global: {
       fetch,
     },

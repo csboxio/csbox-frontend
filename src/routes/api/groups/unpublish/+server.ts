@@ -1,14 +1,8 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import { error, json, redirect } from "@sveltejs/kit";
+import { json, redirect } from "@sveltejs/kit";
 
 /** @type {import('./$types').RequestHandler} */
-export const GET: RequestHandler = async ({ request, url, locals: { supabase, getSession }, event }) => {
-  const session = await getSession()
-
-  if (!session) {
-    throw redirect(303, '/');
-  }
-
+export const GET: RequestHandler = async ({ url, locals: { supabase, getSession } }) => {
   const group_id = url.searchParams.get('group_id')
   const {data, error } = await supabase.from('groups')
     .update({id: group_id, published: false, })

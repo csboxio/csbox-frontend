@@ -138,6 +138,7 @@
                 </TableHeadCell>
             </TableHead>
             <TableBody class="divide-y">
+
                 {#key projects}
                     {#each projects as { id, inserted_at, project_name, updated_at}}
                         <TableBodyRow class="cursor-pointer" >

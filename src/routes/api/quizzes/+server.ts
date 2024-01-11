@@ -4,18 +4,12 @@ import { error, json, redirect } from "@sveltejs/kit";
 /** @type {import('./$types').RequestHandler} */
 export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { supabase, getSession }, event }) => {
   try {
-    const session = await getSession()
-    if (!session) {
-      throw redirect(303, '/');
-    }
     const course = url.searchParams.get('course')
     const {data, error} = await supabase.from('quizzes')
         .select('id, quiz_title, quiz_doc, quiz_attempts, question_count, due, points, in_module')
         .eq('course_id', course)
 
     console.log(error)
-
-
 
     return json(data)
   } catch (error) {

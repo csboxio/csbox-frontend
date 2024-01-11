@@ -1,10 +1,8 @@
 import type {RequestHandler} from "@sveltejs/kit";
-import {error, json, redirect} from "@sveltejs/kit";
+import { json } from "@sveltejs/kit";
 import {PRIVATE_LTI_API_KEY} from "$env/static/private";
 
-export const POST: RequestHandler = async ({request, url, setHeaders, event, locals: {getSession, supabase}}) => {
-    console.log("Running API LTI/DEEPLINKING")
-
+export const POST: RequestHandler = async ({request, url, setHeaders, }) => {
     const {searchParams} = new URL(url);
     const ltik = searchParams.get('ltik');
 

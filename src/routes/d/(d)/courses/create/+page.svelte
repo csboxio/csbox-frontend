@@ -21,6 +21,7 @@
 	let course_number;
 	let course_term;
 	let course_color;
+	let course_contact;
 	let course_image_url;
 	let days_per_week = 1;
 	$: days_per_week;
@@ -31,23 +32,12 @@
 	let number_of_students = 1;
 	$: number_of_students;
 
-	let resources_low = false;
-	let resources_medium = false;
-	let resources_high = false;
-
 	//Progress bar step
 	let currentStep = 1;
 	$: currentStep;
 
-	function handleSteps(num, event) {
-		currentStep = num;
-	}
-
-	export let files;
-
-	export let form;
-
-	let currentCourseId;
+	let currentCourseId = null;
+	$: currentCourseId;
 
 
 	let { supabase, claim } = data
@@ -57,8 +47,13 @@
 		loading = true;
 		const data = new FormData(this);
 
-		// Add course color
+		data.append("course_title", course_title);
+		data.append("course_prefix", course_prefix);
+		data.append("course_number", course_number);
+		data.append("course_term", course_term);
+		data.append("course_contact", course_contact);
 		data.append("course_color", course_color);
+		data.append("course_image_url", course_image_url);
 
 		const response = await fetch(this.action, {
 			method: 'POST',
@@ -75,19 +70,14 @@
 			// re-run all `load` functions, following the successful update
 			currentStep = 2;
 
-
 			if (data) {
 				currentCourseId = result.data.id
-
 				console.log(result)
-
 				//console.log($page.data.session.user.id)
 				await createTemplateCourseData(currentCourseId, supabase, $page.data.session.user.id)
 			}
-
 			await invalidateAll();
 		}
-
 		await applyAction(result);
 	}
 
@@ -129,9 +119,8 @@
 								</div>
 
 								<!--Create course form-->
-								{#if currentStep === 1}
 									<form action="?/createCourse" method="POST" on:submit|preventDefault={handleSubmit}>
-
+										{#if currentStep === 1}
 									<div class="grid gap-6 mb-6 md:grid-cols-2 ">
 
 										<div class="mb-4">
@@ -225,7 +214,7 @@
 											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
 											block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400
 											dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500"
-
+												   bind:value={course_contact}
 												   placeholder="instructor@example.com">
 										</div>
 										</div>
@@ -238,10 +227,8 @@
 											</a>
 										</div>
 
-										<button
-											class="inline-block py-2 px-4 text-sm text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-											type="submit"
-										>
+										<button class="inline-block py-2 px-4 text-sm text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
+										on:click={() => {currentStep = 2;}}>
 											{#if loading}
 												<svg class="animate-spin h-4 w-4 mr-3 inline">
 													<Fa icon={faSpinner} size="xs" />
@@ -250,33 +237,32 @@
 											Next
 										</button>
 									</div>
+										{/if}
+										{#if currentStep === 2}
+											<div class="mb-2 text-center">
+												<div class="text-xl font-bold tracking-wide text-white mb-1">Course Icon</div>
+											</div>
+
+											<UploadCourseImage bind:course_image_url={course_image_url} />
+
+											<div>
+												<a class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
+														href="/d/courses">Cancel</a>
+												<button class="float-right inline-block py-2 px-4 text-xs text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
+														on:click={() => goto("/d/courses")}>
+													{#if loading}
+														<svg class="animate-spin h-4 w-4 mr-3 inline">
+															<Fa icon={faSpinner} size="xs" />
+														</svg>
+													{/if}
+													Done
+												</button>
+											</div>
+
+										{/if}
 									</form>
-								{/if}
-
-								{#if currentStep === 2}
-									<form>
-										<div class="mb-2 text-center">
-											<div class="text-xl font-bold tracking-wide text-white mb-1">Course Icon</div>
-										</div>
-										<UploadCourseImage bind:courseID={currentCourseId} bind:data={data} />
-									</form>
-									<div>
-										<!--Save and cancel buttons-->
-										<!--TODO cancel delete row-->
-										<a
-												class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
-												href="/d/courses">Cancel</a
-										>
-										<button
-												class="float-right inline-block py-2 px-4 text-xs text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-												on:click={() => goto("/d/courses")}
-										>
-											Done
-										</button>
-									</div>
 
 
-									{/if}
 
 								{#if currentStep === 3}
 									<p class="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose Class Type:</p>

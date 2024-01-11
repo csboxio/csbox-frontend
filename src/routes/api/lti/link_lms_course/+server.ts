@@ -1,17 +1,8 @@
 import {json, redirect, RequestHandler} from "@sveltejs/kit";
 
-export const POST: RequestHandler = async ({ request, url, locals: { supabase, getSession }, event }) => {
-    const session = await getSession()
-
-    if (!session) {
-        throw redirect(303, '/');
-    }
-
+export const POST: RequestHandler = async ({ request, locals: { supabase } }) => {
     const body = await request.json();
-
     const { lms_course_id, lms_user_id, course_id } = body;
-
-    console.log(lms_course_id, course_id)
 
     const { data, error } = await supabase
         .from('courses')

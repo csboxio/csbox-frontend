@@ -6,7 +6,6 @@ import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$env/static/public"
 /** @type {import('./$types').RequestHandler} */
 export const GET: RequestHandler = async ({ request, url, params, locals: { getSession }, event }) => {
 
-
     const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY,
         {
             db: { schema: 'material' },

@@ -2,7 +2,7 @@ import type { RequestHandler } from "@sveltejs/kit";
 import { error, json, redirect } from "@sveltejs/kit";
 
 /** @type {import('./$types').RequestHandler} */
-export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { supabase, getSession }, event }) => {
+export const GET: RequestHandler = async ({ locals: { supabase, getSession } }) => {
   const session = await getSession()
 
   if (!session) {

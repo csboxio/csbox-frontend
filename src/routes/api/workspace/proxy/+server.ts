@@ -4,11 +4,6 @@ import {uuid} from "@supabase/supabase-js/dist/main/lib/helpers.js";
 
 /** @type {import('./$types').RequestHandler} */
 export const GET = async ({ request, params, setHeaders,  url, locals: { supabase, getSession }, event }) => {
-    const session = await getSession()
-
-    if (!session) {
-        throw redirect(303, '/');
-    }
     try {
         const targetURL = `https://vscode.dev/`;
         const response = await fetch(targetURL);
