@@ -54,7 +54,7 @@ async function resizedFile(files: FileList) {
 
 export const uploadAvatar = async (files: FileList, uploading: boolean, url: string, session, supabase) => {
   console.log('here')
-  try {
+
     if (!files || files.length === 0) {
       throw new Error('You must select an image to upload.')
     }
@@ -72,13 +72,7 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
     await updateProfile(data.publicUrl, session.user.id, supabase)
 
 
-    // Error
-  } catch (error) {
-    if (error instanceof Error) {
-      alert(error.message)
-    }
-  }
-  alert('Success! It may take up to 10 minutes for the profile image to change.')
+
   await invalidateAll()
 
 }

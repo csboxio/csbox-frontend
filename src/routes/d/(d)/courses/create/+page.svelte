@@ -9,6 +9,7 @@
 	import CourseColorPicker from "$lib/components/CourseColorPicker.svelte";
 	import {createTemplateCourseData} from "../../../../../lib/utilities/templateCourse.js";
 	import UploadCourseImage from "$lib/components/Image/UploadCourseImage.svelte";
+	import {browser} from "$app/environment";
 	let steps = ['Step 1', 'Step 2'];
 
 	let session = $page.data.session;
@@ -74,7 +75,8 @@
 				currentCourseId = result.data.id
 				console.log(result)
 				//console.log($page.data.session.user.id)
-				await createTemplateCourseData(currentCourseId, supabase, $page.data.session.user.id)
+				if (browser)
+					await createTemplateCourseData(currentCourseId, $page.data.supabase, $page.data.session.user.id)
 			}
 			await invalidateAll();
 		}

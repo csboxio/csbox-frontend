@@ -40,7 +40,11 @@ export const createPlaceHolderAssignment = async (courseId: bigint, user: any, s
         p_available_end: new Date()
     }
 
+    console.log(updates)
+
     const { data, error } = await supabase.rpc('create_assignment', updates)
+
+        console.log(data, error)
 
     } catch (e) {
         console.log(e)

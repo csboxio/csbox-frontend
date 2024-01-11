@@ -11,7 +11,6 @@
 
 </script>
 
-<!-- TODO FIX AUTH LOGIN RELOAD -->
 {#if !$page.data.session}
 	<Auth bind:supabase={supabase} />
 	{:else}

@@ -45,6 +45,10 @@
 
 	console.log($page.data)
 
+	if ($page.data.user.data.completed_setup === false) {
+		goto('/onboarding')
+	}
+
 	let showMore;
 	$: showMore = false;
 </script>

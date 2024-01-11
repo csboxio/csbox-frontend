@@ -41,14 +41,11 @@
 		const result = deserialize(await response.text());
 		if (result.type === 'redirect') {
 			// re-run all `load` functions, following the successful update
-			await invalidate('/api/users');
+			await invalidateAll()
 			await goto('/d')
 		}
 		await applyAction(result);
 		await invalidateAll()
-		await invalidate('/api/users');
-		await invalidate(() => true)
-		await goto('/d')
 		if (browser) {
 			window.location.reload()
 		}
@@ -115,7 +112,6 @@
 				<div class="text-xl font-bold tracking-wide text-white mb-1">Profile Picture</div>
 			</div>
 			<UploadProfileImage bind:data={data}/>
-
 			<div class="flex justify-between w-full sm:w-auto mt-2">
 				<div>
 					<a class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200 cursor-not-allowed" disabled >
