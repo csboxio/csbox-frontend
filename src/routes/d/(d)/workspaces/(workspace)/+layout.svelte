@@ -63,7 +63,7 @@
         </section>
         <div class="flex flex-row ">
             <aside class="h-screen sticky top-0">
-                <WorkspaceNav active_workspaces={active_workspaces} healthcheck={healthcheck}/>
+                <WorkspaceNav healthcheck={healthcheck}/>
             </aside>
             <slot />
         </div>

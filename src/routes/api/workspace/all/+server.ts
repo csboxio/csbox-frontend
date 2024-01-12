@@ -13,5 +13,7 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
         .select('id, user_id, workspace_name, image, type, workspace_state, inserted_at')
         .eq('user_id', session.user.id)
 
+  console.log(error)
+
     return json(data);
 }

@@ -8,7 +8,9 @@ import {redirect} from "@sveltejs/kit";
 export const actions: Actions = {
 
     createWorkspace: async ({ request, url, fetch, locals: { supabase } }) => {
-        console.log('sdfsdfsdf')
+        console.log('create workspace')
+
+
         const formData = await request.formData()
 
         const {data} = await supabase.auth.refreshSession()
@@ -29,7 +31,7 @@ export const actions: Actions = {
             workspace_name: workspace_name,
             session: session,
             //type: "basic", // TODO not implemented
-            image: 'lt1gt0/theia-python',
+            image: 'ghcr.io/csboxio/codeserver-apps/python:latest',
             language: 'python'
         }
 
@@ -49,6 +51,7 @@ export const actions: Actions = {
             }
             else {
                 console.error("Error creating workspace")
+                alert("Error creating workspace" + response.statusText)
             }
         } catch (error) {
             console.log("Error creating workspace: " + error )

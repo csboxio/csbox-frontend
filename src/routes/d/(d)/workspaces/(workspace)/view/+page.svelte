@@ -41,6 +41,8 @@
 	let active_workspaces;
 	$: active_workspaces = data.active_workspaces;
 
+	console.log(data)
+
 	let healthcheck;
 	$: healthcheck = $page.data.health_check
 
@@ -74,17 +76,13 @@
 	let searchTerm = '';
 	let filteredItems
 
-	console.log(active_workspaces)
 
-		$: filteredItems = active_workspaces.filter(
+		$: filteredItems = active_workspaces?.filter(
 				(active_workspaces) => active_workspaces.workspace_name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
 		);
 
 	let ide;
 	$: ide = $page.data.ide;
-	export let show_create_box;
-	let selectedConfig = null;
-
 
 	async function handleSubmit(event) {
 		const data = new FormData(this);
@@ -275,15 +273,15 @@
 			<!-- Content -->
 			<section class="flex flex-col p-8 inline-block w-full">
 
-				{#if active_workspaces}
+				{#key active_workspaces}
 					{#if active_workspaces.length === 0}
 						<div class="flex h-full pb-24 ">
 							<div class="m-auto">
 						<div class="text-center justify-center text-white font-semibold text-2xl">
-							No Workspaces
+							No workspaces found.
 						</div>
 						<div class="text-center justify-center text-gray-200 pt-1 text-sm">
-							Create a new workspace to start developing with no limits.
+							Click here to create one.
 						</div>
 								<div class="text-center justify-center pt-4">
 									<div class="">
@@ -311,7 +309,7 @@
 							</div>
 						</div>
 					{/if}
-				{/if}
+				{/key}
 
 				{#if active_workspaces}
 					{#if active_workspaces.length !== 0}
