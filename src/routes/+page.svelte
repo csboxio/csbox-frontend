@@ -394,9 +394,9 @@
 					<div class="max-w-3xl mx-auto text-center">
 						<div class="mb-6" data-aos="fade-down">
 						<div class="inline-flex relative before:absolute before:inset-0 before:bg-blue-500 before:blur-md">
-							<a class="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.blue.500),_theme(colors.blue.500))_padding-box,_linear-gradient(theme(colors.blue.500),_theme(colors.blue.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow" href="/auth">
+							<a href="/auth" class="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.blue.500),_theme(colors.blue.500))_padding-box,_linear-gradient(theme(colors.blue.500),_theme(colors.blue.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow">
                                         <span class="relative inline-flex items-center">
-                                             Read the white-paper <span class="tracking-normal text-blue-200 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1"><Fa icon={faArrowRight}/></span>
+                                             Get started <span class="tracking-normal text-blue-200 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1"><Fa icon={faArrowRight}/></span>
                                         </span>
 							</a>
 						</div>
@@ -527,7 +527,7 @@
 												</div>
 											</div>
 											<div>
-												<a class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none" href="#0">
+												<a href="/auth" class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none">
                                                             <span class="relative inline-flex items-center">
                                                                 Learn more <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                                                             </span>
@@ -1076,12 +1076,13 @@
 					<p class="text-lg text-slate-400 inline-block">Our platform utilizes familiar developer environments such as Visual Studio Code. Students will employ identical tools, IDEs, and languages as they would outside of our platform.</p>
 				</div>
 
+				<!--
 				<div class="max-w-3xl mx-auto">
 					<div data-aos="fade-down">
 						<div class=" group" data-highlighter>
 							<div class="relative bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
 								<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
-									<!-- Radial gradient -->
+									<!- - Radial gradient - ->
 									<div class="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-1/2 aspect-square" aria-hidden="true">
 										<div class="absolute inset-0 translate-z-0 bg-blue-500 rounded-full blur-[120px]"></div>
 									</div>
@@ -1091,6 +1092,7 @@
 						</div>
 					</div>
 				</div>
+				-->
 
 			</div>
 		</div>
@@ -1669,10 +1671,10 @@
 					<!-- Content -->
 					<div class="max-w-3xl mx-auto text-center">
 						<div>
-							<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-3">The security first platform</div>
+							<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-3">Coding Education Sandbox</div>
 						</div>
-						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Take control of your business</h2>
-						<p class="text-lg text-slate-400 mb-8">All the lorem ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">What our customers say about us.</h2>
+						<p class="text-lg text-slate-400 mb-8">Placeholder...</p>
 						<div>
 							<a class="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white transition duration-150 ease-in-out group" href="#0">
 								Get Started <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
