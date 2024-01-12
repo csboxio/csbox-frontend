@@ -329,6 +329,24 @@
 			opacity: 1;
 		}
 	}
+
+	@media (min-width: 500px) {
+		.responsive-text {
+			font-size: 1.4rem; /* Adjust as needed */
+		}
+	}
+
+	@media (min-width: 640px) {
+		.responsive-text {
+			font-size: 2rem; /* Adjust as needed */
+		}
+	}
+
+	@media (min-width: 768px) {
+		.responsive-text {
+			font-size: 2.5rem; /* Adjust as needed */
+		}
+	}
 </style>
 <!-- Page wrapper -->
 <div class="flex flex-col min-h-screen overflow-hidden">
@@ -396,7 +414,7 @@
 						<div class="inline-flex relative before:absolute before:inset-0 before:bg-blue-500 before:blur-md">
 							<a href="/auth" class="btn-sm py-0.5 text-slate-300 hover:text-white transition duration-150 ease-in-out group [background:linear-gradient(theme(colors.blue.500),_theme(colors.blue.500))_padding-box,_linear-gradient(theme(colors.blue.500),_theme(colors.blue.200)_75%,_theme(colors.transparent)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow">
                                         <span class="relative inline-flex items-center">
-                                             Get started <span class="tracking-normal text-blue-200 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1"><Fa icon={faArrowRight}/></span>
+                                             Get Started <span class="tracking-normal text-blue-200 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1"><Fa icon={faArrowRight}/></span>
                                         </span>
 							</a>
 						</div>
@@ -405,7 +423,7 @@
 						<p class="text-lg text-slate-300 mb-8" data-aos="fade-down" data-aos-delay="200">A cloud-based code learning platform built for next-generation education.</p>
 						<div class="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4" data-aos="fade-down" data-aos-delay="400">
 							<div>
-								<a class="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out" href="#0">
+								<a class="btn text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full transition duration-150 ease-in-out" href="/auth">
 									<svg class="shrink-0 fill-slate-300 mr-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
 										<path d="m1.999 0 1 2-1 2 2-1 2 1-1-2 1-2-2 1zM11.999 0l1 2-1 2 2-1 2 1-1-2 1-2-2 1zM11.999 10l1 2-1 2 2-1 2 1-1-2 1-2-2 1zM6.292 7.586l2.646-2.647L11.06 7.06 8.413 9.707zM0 13.878l5.586-5.586 2.122 2.121L2.12 16z" />
 									</svg>
@@ -467,15 +485,15 @@
 				<div class="max-w-4xl mx-auto text-center relative">
 					<div class="flex justify-center">
 						<div class="flex items-center">
-							<span class="h2 text-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4 pr-2 sm:text-nowrap">Code learning platform for</span>
+							<span class="h2 responsive-text inline-block text-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4 pr-1.5 sm:pr-1.5 sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">Code learning platform for</span>
 							{#key category}
-								<span class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" in:blur >{category}</span>
+								<span class="h2 responsive-text inline-block bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" in:blur >{category}</span>
 							{/key}
 						</div>
 					</div>
 				</div>
 				<div class="max-w-2xl mx-auto text-center pb-12 md:pb-20 relative">
-					<p class="text-lg text-slate-400 text-center">A cloud based environment for educating, and learning.</p>
+					<p class="md:text-lg sm:text-md text-slate-400 text-center">A cloud based environment for educating, and learning.</p>
 				</div>
 				<!-- Highlighted boxes -->
 				<div class="relative pb-12 md:pb-20">
@@ -518,7 +536,7 @@
 
 
 										<!-- Text -->
-										<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8 md:pr-0">
+										<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 md:p-8 md:pr-0">
 											<div class="mb-5">
 												<div>
 													<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Platform</h3>
@@ -535,8 +553,7 @@
 											</div>
 										</div>
 										<!-- Image -->
-
-												<img class="absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:relative md:left-0 md:translate-x-0 py-4" src="/icons/home/codingman.gif" width="550" alt="Feature 01">
+												<img class="invisible sm:invisible md:invisible lg:visible absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:relative md:left-0 md:translate-x-0 py-4" src="/icons/home/codingman.gif" width="550" alt="Feature 01">
 
 									</div>
 								</div>
@@ -568,9 +585,9 @@
 
 
 										<!-- Text -->
-										<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8">
+										<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 md:p-8 pt-5">
 											<div>
-												<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Cloud Environment</h3>
+												<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1 ">Cloud Environment</h3>
 												<p class="text-slate-400">Based on the industry standard, Visual Studio Code. No artificial limits, best in class performance.</p>
 											</div>
 										</div>
@@ -592,7 +609,7 @@
 											<div class="absolute inset-0 translate-z-0 bg-slate-800 rounded-full blur-[80px]"></div>
 										</div>
 										<!-- Text -->
-										<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 pt-0 md:p-8">
+										<div class="md:max-w-[480px] shrink-0 order-1 md:order-none p-6 md:p-8">
 											<div>
 												<h3 class="inline-flex text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-1">Integrate with (LMSs)</h3>
 												<p class="text-slate-400">Link any LTI 1.3 LMS to our platform.</p>
@@ -862,7 +879,7 @@
 										<img class="mb-3" src="./images/carousel-icon-01.svg" width="56" height="56" alt="Icon 01">
 										<div class="grow">
 											<div class=" bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 font-bold text-lg mb-1">LMS integration</div>
-											<div class="text-slate-400 mb-3">Seamlessly integrates will all LMSs using LTI 1.3.</div>
+											<div class="text-slate-400 mb-3">Seamlessly integrate our platform with all LMSs using LTI 1.3.</div>
 										</div>
 										<div class="text-right">
 											<a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="#0">Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
