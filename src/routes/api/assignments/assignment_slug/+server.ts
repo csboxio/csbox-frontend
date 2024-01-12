@@ -10,5 +10,7 @@ export const GET: RequestHandler = async ({ url, locals: { supabase } }) => {
 
     const { data, error } = await supabase.rpc('get_assignment_data', body)
 
+    console.log(error)
+
     return json(data)
 }

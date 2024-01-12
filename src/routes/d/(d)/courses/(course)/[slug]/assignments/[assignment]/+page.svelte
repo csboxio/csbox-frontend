@@ -369,6 +369,7 @@
 	let modules;
 	$: modules = $page.data.modules;
 
+	console.log($page.data)
 </script>
 
 <div class="w-full">
