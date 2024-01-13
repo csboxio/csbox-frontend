@@ -25,7 +25,6 @@
 	import {format, formatDistanceToNow, parseISO} from "date-fns";
 	import EditAssignment from "$lib/components/Course/block/EditAssignment.svelte";
 
-
 	export let data;
 
 	let { supabase, claim } = data

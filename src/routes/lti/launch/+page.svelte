@@ -36,8 +36,13 @@
 
     // TODO BUILT ONLY FOR ASSIGNMENTS
     function redirectToResource() {
-        window.location.href = `/d/courses/${course_id}/assignments/${assignment_id}`;
+        const desiredUrl = `/d/courses/${course_id}/assignments/${assignment_id}`;
+
+        fetch(desiredUrl)
+            .then(response => response.ok ? window.location.href = desiredUrl : console.error(`Error: ${response.status} - ${response.statusText}`))
+            .catch(error => console.error('Error:', error));
     }
+
 
 </script>
 

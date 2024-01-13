@@ -1,4 +1,5 @@
 
+
 export const load = async ({ fetch, data, request, url, parent, params }) => {
     const parentData = await parent();
     // Destructed data from previous layout.ts
@@ -15,7 +16,7 @@ export const load = async ({ fetch, data, request, url, parent, params }) => {
         courses: parentData.courses,
         claim: parentData.session.user.app_metadata.userrole,
         slug,
-        user: user
+        user: user,
     };
 };
 

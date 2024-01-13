@@ -79,7 +79,7 @@
                     <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Courses</h4>
                 </div>
                 <div class="w-full lg:w-auto px-2">
-                    <Settings bind:user={user} bind:supabase={supabase} />
+                    <Settings bind:user={user.data} bind:supabase={supabase} />
                 </div>
             </div>
         </div>
@@ -91,6 +91,7 @@
         {#if courses}
         {#if claim === 'instructor'}
             {#if courses.length > 0}
+                <!-- TODO LTI BUTTON MOVE SOMEWHERE BETTER
                 <div class="inline-block">
                     <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-500 to-yellow-400 group-hover:from-red-500 group-hover:to-yellow-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-yellow-200 dark:focus:ring-yellow-700"
                             on:click={() => { goto('/lti/info')} }>
@@ -98,7 +99,7 @@
                     LTI
                 </span>
                     </button>
-                </div>
+                </div> -->
             <div class="inline-block">
             <a>
                 <button on:click={() => goto("/d/courses/create")}

@@ -1,5 +1,6 @@
 import {redirect} from "@sveltejs/kit";
 export const handle = async ({ event, resolve, request }) => {
+    console.log(`Incoming request: ${JSON.stringify(event)}}`);
 
     if (event.url.pathname.startsWith('/api')) {
         const {

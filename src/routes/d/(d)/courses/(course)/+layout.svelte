@@ -12,6 +12,7 @@
 
 	let courses = $page.data.courses.data;
 	let course = courses.filter((course) => course.id === parseInt($page.data.slug))[0];
+
 	export let data
 
 	let { supabase, claim } = data
@@ -55,7 +56,7 @@
 							{/key}
 						</div>
 						<div class=" lg:w-auto px-2">
-							<Settings bind:user={user} bind:supabase={supabase} />
+							<Settings bind:user={user.data} bind:supabase={supabase} />
 						</div>
 					</div>
 				</div>

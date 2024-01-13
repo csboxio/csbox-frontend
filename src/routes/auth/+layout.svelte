@@ -9,8 +9,8 @@
 
 	let finishProfile;
 
-	let { supabase, session, user, claim } = data
-	$: ({ supabase, session, user, claim } = data)
+	let { supabase, session, user } = data
+	$: ({ supabase, session, user } = data)
 </script>
 <svelte:head>
 	<meta charset="utf-8" />

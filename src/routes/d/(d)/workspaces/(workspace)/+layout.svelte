@@ -19,13 +19,12 @@
 
     export let data
 
-    let { supabase, claim } = data
-    $: ({ supabase, claim } = data)
+    let { supabase, claim, user } = data
+    $: ({ supabase, claim, user } = data)
 
     let pathname = '';
     let extractedName;
 
-    let user = $page.data.user;
 
 
     function extractNameFromPath() {
@@ -56,7 +55,7 @@
 
                     </div>
                     <div class="w-full lg:w-auto px-2">
-                        <Settings bind:user={user} bind:supabase={supabase} />
+                        <Settings bind:user={user.data} bind:supabase={supabase} />
                     </div>
                 </div>
             </div>
