@@ -3,20 +3,11 @@
 	import {goto, invalidate, invalidateAll} from '$app/navigation';
 	import {page} from "$app/stores";
 	import {
-		Button,
-		Chevron,
-		Dropdown,
-		DropdownItem,
-		Input,
-		Label,
-		Tabs,
-		TabItem,
 		Modal,
 		TableHead, TableHeadCell, TableBody, TableBodyRow, TableBodyCell, Table
 	} from "flowbite-svelte";
 	import QuillBlock from "$lib/blocks/quillBlock.svelte";
 	import {updateAssignmentInsert} from "../../../../../../../../lib/utilities/quill.js";
-	import WorkspaceStatus from "$lib/components/workspaceStatus.svelte";
 	import {browser} from "$app/environment";
 	import Fa from 'svelte-fa/src/fa.svelte';
 	import {faChain, faCheck, faCircleNotch, faPlus, faX} from '@fortawesome/free-solid-svg-icons';

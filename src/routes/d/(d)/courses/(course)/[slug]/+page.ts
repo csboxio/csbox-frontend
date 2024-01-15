@@ -7,6 +7,8 @@ export const load = (async ({ params,parent }) => {
         throw(302, "/d");
     }
 
+
+
     const todo = async () => {
         const response =  await fetch(`/api/todo/?course=${params.slug}`)
         return response.json()

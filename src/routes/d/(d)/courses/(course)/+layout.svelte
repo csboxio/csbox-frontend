@@ -44,10 +44,10 @@
 		<Navbar bind:claim={claim}/>
 		<div class="mx-auto lg:ml-16">
 			<section>
-				<div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
+				<div class="sm:py-3 py-1 px-8 dark:bg-gray-700 bg-white">
 					<div class="flex flex-wrap items-center justify-between -mx-2">
-						<div class=" lg:w-auto px-2 mt-6 mb-6 lg:mb-0 lg:mt-0">
-							<h4 class="text-lg font-bold dark:text-white text-black leading-7 mb-1 inline-block text-gray-100 inline-block">{course.course_title}</h4>
+						<div class=" lg:w-auto px-2 my-1 sm:my-2  ">
+							<h4 class="text-lg font-bold dark:text-white text-black leading-7 mb-1 inline-block text-gray-100 inline-block">{course?.course_title}</h4>
 							<div class="inline-block dark:text-white text-black">
 								<Fa icon={faArrowRight} size="xs" />
 							</div>
@@ -62,6 +62,7 @@
 				</div>
 			</section>
 			<div class="flex flex-row ">
+
 				<aside class="h-screen sticky top-0">
 					<CourseNav claim={claim}/>
 				</aside>

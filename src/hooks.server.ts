@@ -8,8 +8,13 @@ import { error, json, text, Handle } from '@sveltejs/kit';
 export const handle: Handle = async ({ event, resolve, request }) => {
   console.log(`Incoming request: ${JSON.stringify(event)}}`);
 
+  // Attempting to fix Rate limit exceeded with auth, this was not there before.
   event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
     db: { schema: "public" },
+    auth: {
+      autoRefreshToken: false,
+      persistSession: true,
+    },
     cookies: {
       get: (key) => event.cookies.get(key),
       set: (key, value, options) => {

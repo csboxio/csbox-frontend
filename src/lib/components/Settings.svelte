@@ -160,19 +160,22 @@
       <div class="relative inline-block text-left z-20 ">
         <div>
           {#key user}
-          <Button pill color="light"  id="avatar_with_name" class=" !p-1.5 ">
-            <Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class="mr-4 "/>
-            <div class="mr-3 font-medium text-nowrap ">{user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.last_name}</div>
-          </Button>
-          <Dropdown inline triggeredBy="#avatar_with_name" class="z-20">
-            <div slot="header" class="px-4 py-2">
-              <span class="block text-sm text-gray-900 dark:text-white "> {user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.last_name} </span>
-              <span class="block truncate text-sm font-medium"> {$page.data.session?.user?.email} </span>
-              <span class="block truncate text-sm font-bold text-blue-500 animate-text bg-gradient-to-r from-blue-500 via-teal-500 to-yellow-500 bg-clip-text text-transparent text-5xl font-black"> {$page.data.session?.user?.app_metadata.userrole.toUpperCase() } </span>
-            </div>
-            <DropdownItem on:click={() => {goto('/d/profile')}}>Settings</DropdownItem>
-            <DropdownItem on:click={signOut} slot="footer">Sign out</DropdownItem>
-          </Dropdown>
+              <Button pill color="light"  id="avatar_with_name" class=" !p-1.5 ">
+                <Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class=" "/>
+                <!-- Smaller than sm hide name -->
+                <div class="hidden sm:block">
+                <div class="ml-3 mr-3 font-medium text-nowrap ">{user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.last_name}</div>
+                </div>
+              </Button>
+              <Dropdown inline triggeredBy="#avatar_with_name" class="z-20">
+                <div slot="header" class="px-4 py-2">
+                  <span class="block text-sm text-gray-900 dark:text-white "> {user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.last_name} </span>
+                  <span class="block truncate text-sm font-medium"> {$page.data.session?.user?.email} </span>
+                  <span class="block truncate text-sm font-bold text-blue-500 animate-text bg-gradient-to-r from-blue-500 via-teal-500 to-yellow-500 bg-clip-text text-transparent text-5xl font-black"> {$page.data.session?.user?.app_metadata.userrole.toUpperCase() } </span>
+                </div>
+                <DropdownItem on:click={() => {goto('/d/profile')}}>Settings</DropdownItem>
+                <DropdownItem on:click={signOut} slot="footer">Sign out</DropdownItem>
+              </Dropdown>
             {/key}
         </div>
       </div>
