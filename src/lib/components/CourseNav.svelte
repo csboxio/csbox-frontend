@@ -58,6 +58,8 @@
 
       <!-- Content -->
 
+      <!-- This is required to not duplicate menu (the if statement)-->
+      {#if !isMenuVisible}
       <div class="hidden lg:block">
         {#each menuItems as menuItem, index (menuItem.name)}
           {#if menuItem.claim.includes(claim)}
@@ -71,6 +73,7 @@
           {/if}
         {/each}
       </div>
+      {/if}
 
       {#if isMenuVisible}
         {#each menuItems as menuItem, index (menuItem.name)}

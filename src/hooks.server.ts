@@ -3,6 +3,7 @@ import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/publi
 import {redirect} from "@sveltejs/kit";
 import {createServerClient} from "@supabase/ssr";
 import { error, json, text, Handle } from '@sveltejs/kit';
+import {invalidateAll} from "$app/navigation";
 
 
 export const handle: Handle = async ({ event, resolve, request }) => {
@@ -17,12 +18,18 @@ export const handle: Handle = async ({ event, resolve, request }) => {
     },
     cookies: {
       get: (key) => event.cookies.get(key),
+      /**
+       * Note: You have to add the `path` variable to the
+       * set and remove method due to sveltekit's cookie API
+       * requiring this to be set, setting the path to an empty string
+       * will replicate previous/standard behaviour (https://kit.svelte.dev/docs/types#public-types-cookies)
+       */
       set: (key, value, options) => {
-        event.cookies.set(key, value, options);
+        event.cookies.set(key, value, { ...options, path: '' })
       },
       remove: (key, options) => {
-        event.cookies.delete(key, options);
-      }
+        event.cookies.delete(key, { ...options, path: '' })
+      },
     },
     cookieOptions: {
       sameSite: 'none',
@@ -114,6 +121,53 @@ export const handle: Handle = async ({ event, resolve, request }) => {
     } = await event.locals.supabase.auth.getSession();
     return session;
   };
+
+  /**
+   *   event.locals.getSession = async () => {
+   *     try {
+   *       const {
+   *         data: { session }
+   *       } = await event.locals.supabase.auth.getSession();
+   *
+   *       if (!session) {
+   *         return null
+   *       }
+   *
+   *       // Fetch user data from the Supabase Auth server
+   *       const { user, error } = await event.locals.supabase.auth.getUser();
+   *
+   *       if (error) {
+   *         // Invalidate session, sign out, and redirect to /auth
+   *         await event.locals.supabase.auth.signOut();
+   *         // Redirect to the authentication page (adjust the path as needed)
+   *         console.log('error')
+   *       }
+   *
+   *       // Compare session data with user data
+   *       const sessionUserId = session?.user?.id;
+   *       const serverUserId = user?.id;
+   *
+   *       if (sessionUserId && serverUserId && sessionUserId === serverUserId) {
+   *         return session;
+   *       } else {
+   *         console.warn('Session and user data do not match.');
+   *         // Invalidate session, sign out, and redirect to /auth
+   *         await event.locals.supabase.auth.signOut();
+   *         // Redirect to the authentication page (adjust the path as needed)
+   *
+   *       }
+   *
+   *     } catch (error) {
+   *       console.error('Error fetching session:', error);
+   *       // Invalidate session, sign out, and redirect to /auth
+   *       await event.locals.supabase.auth.signOut();
+   *       // Redirect to the authentication page (adjust the path as needed)
+   *
+   *     }
+   *   };
+   *
+   */
+
 
 
   const { error: getSessionError } = await event.locals.supabase.auth.getSession()

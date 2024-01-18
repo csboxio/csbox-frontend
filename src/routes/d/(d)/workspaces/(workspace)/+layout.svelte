@@ -25,8 +25,6 @@
     let pathname = '';
     let extractedName;
 
-
-
     function extractNameFromPath() {
         pathname = $page.url.pathname;
         const pathnameParts = pathname.split("/");
@@ -35,7 +33,9 @@
         }
     }
 
-    extractedName = extractNameFromPath();
+    afterUpdate(() => {
+        extractedName = extractNameFromPath();
+    });
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
@@ -43,18 +43,21 @@
     <Navbar bind:claim={claim}/>
     <div class="mx-auto lg:ml-16">
         <section>
-            <div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
+            <div class="sm:py-3 py-1 px-8 dark:bg-gray-700 bg-white">
                 <div class="flex flex-wrap items-center justify-between -mx-2">
-                    <div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
-                        <h4 class="text-lg font-bold dark:text-white text-black leading-7 mb-1 inline-block text-gray-100 inline-block">Workspaces</h4>
-                        <div class="inline-block dark:text-white text-black">
-                            <Fa icon={faArrowRight} size="xs" />
-                        </div>
+                    <div class="lg:w-auto px-2 my-1 sm:my-2  ">
+                        {#if browser}
+                            <h4 class="text-lg font-bold dark:text-white text-black leading-7 mb-1 inline-block text-gray-100 inline-block">Workspaces</h4>
+                            <div class="inline-block dark:text-white text-black">
+                                <Fa icon={faArrowRight} size="xs" />
+                            </div>
 
-                            <h4 class="text-lg font-bold dark:text-white   leading-7 mb-1 inline-block"> {extractedName}</h4>
-
+                            {#key extractedName}
+                                <h4 class="text-lg font-bold dark:text-white   leading-7 mb-1 inline-block"> {extractedName}</h4>
+                            {/key}
+                        {/if}
                     </div>
-                    <div class="w-full lg:w-auto px-2">
+                    <div class="lg:w-auto px-2">
                         <Settings bind:user={user.data} bind:supabase={supabase} />
                     </div>
                 </div>

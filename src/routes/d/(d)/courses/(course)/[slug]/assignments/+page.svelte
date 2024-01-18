@@ -159,18 +159,16 @@
         deleteModel = false;
     }
 
-
-
     async function handleDeleteAssignment(aid) {
-        const {error, status} = await $page.data.supabase.from('assignments').delete().match({assignment_id: aid});
-        console.log(status)
+        const {error, status} = await supabase.from('assignments').delete().eq('assignment_id', aid);
+        console.log(aid, error, status, browser)
         if (status === 204) {
             const newNotification =
                 {
                     title: "Success! 🥳",
                     message: `Deleted Assignment!`
                 };
-            addNotification(newNotification, supabase, $page.data.session.user)
+            //addNotification(newNotification, supabase, $page.data.session.user)
             delete_model_close();
             await invalidateAll();
         }
@@ -232,6 +230,7 @@
     import {flip} from "svelte/animate";
     import {overrideItemIdKeyNameBeforeInitialisingDndZones, setDebugMode} from "svelte-dnd-action";
     import AssignmentAccordionRow from "$lib/components/Course/assignments/AssignmentAccordionRow.svelte";
+    import {browser} from "$app/environment";
     overrideItemIdKeyNameBeforeInitialisingDndZones("order_in_group");
     setDebugMode(true);
 

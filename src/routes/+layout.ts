@@ -35,11 +35,8 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
           return JSON.stringify(data.session)
         }
 
-        const cookie = combineChunks(key, (name) => {
-          const cookies = parse(document.cookie)
-          return cookies[name]
-        })
-        return cookie
+        const cookie = parse(document.cookie)
+        return cookie[key]
       },
     },
     cookieOptions: {
@@ -47,6 +44,10 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
       secure: true,
     }
   })
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
   return { supabase }
 }

@@ -89,13 +89,11 @@
                                         on:click={() => { createProject = true }}>
 												<span
                                                         class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-													dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+														dark:bg-gray-600 rounded-md group-hover:bg-opacity-0 flex items-center">
 													<div class="inline-block">
 														<Fa icon={faAdd}/>
 													</div>
-													<div class="inline-block">
-														Project
-													</div>
+													<div class="inline-block pl-1">Project</div>
 												</span>
                                 </button>
                             </div>

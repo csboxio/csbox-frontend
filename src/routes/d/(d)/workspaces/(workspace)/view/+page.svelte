@@ -293,16 +293,15 @@
 													focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
 													on:click={() => { createWorkspaceModal = true }}>
 												<span
-													class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-													dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+														class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+														dark:bg-gray-600 rounded-md group-hover:bg-opacity-0 flex items-center">
 													<div class="inline-block">
 														<Fa icon={faAdd}/>
 													</div>
-													<div class="inline-block">
-														Workspace
-													</div>
+													<div class="inline-block pl-1">Create</div>
 												</span>
 											</button>
+
 										</div>
 									</div>
 								</div>
@@ -351,8 +350,8 @@
 					<TableSearch placeholder="Search by name..." hoverable={true} bind:inputValue={searchTerm}>
 					<Table shadow hoverable class="mb-40">
 					<TableHead>
-						<TableHeadCell></TableHeadCell>
 						<TableHeadCell>Name</TableHeadCell>
+						<TableHeadCell>Status</TableHeadCell>
 						<TableHeadCell>Created</TableHeadCell>
 						<TableHeadCell>Type</TableHeadCell>
 
@@ -363,17 +362,17 @@
 					<TableBody class="divide-y">
 						{#key filteredItems}
 								{#each filteredItems as { id, inserted_at, workspace_name, type, workspace_state }}
-									<TableBodyRow class="cursor-pointer" >
-									<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> </TableBodyCell>
+									<TableBodyRow class="cursor-pointer bg-gray-800" color="custom" >
 									<TableBodyCell>{workspace_name}</TableBodyCell>
-									<TableBodyCell>{formatDistanceToNow(parseISO(inserted_at), {addSuffix: true})}</TableBodyCell>
+										<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> </TableBodyCell>
+										<TableBodyCell>{formatDistanceToNow(parseISO(inserted_at), {addSuffix: true})}</TableBodyCell>
 									<TableBodyCell>{type}</TableBodyCell>
 									<TableBodyCell>
-										<Button >
-											<Chevron>Actions</Chevron>
+										<Button>
+											<Chevron class="px-2 text-lg">Actions</Chevron>
 										</Button>
 
-									<Dropdown containerClass="absolute z-50">
+									<Dropdown containerClass="absolute z-50 px-4">
 										<DropdownItem> <div on:click={async () => await openWorkspace(id)}>Open</div> </DropdownItem>
 										<DropdownItem> <div on:click={async () => await stopWorkspace(id)}>Stop</div> </DropdownItem>
 										<DropdownItem> <div on:click={async () => await saveWorkspace(id)}>Save</div> </DropdownItem>
