@@ -10,7 +10,7 @@
 	import {updateAssignmentInsert} from "../../../../../../../../lib/utilities/quill.js";
 	import {browser} from "$app/environment";
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import {faChain, faCheck, faCircleNotch, faPlus, faX} from '@fortawesome/free-solid-svg-icons';
+	import {faChain, faCheck, faCircleNotch, faPencil, faPlus, faX} from '@fortawesome/free-solid-svg-icons';
 	import {writable} from "svelte/store";
 	import {beforeUpdate, onMount} from "svelte";
 	import {format, formatDistanceToNow, parseISO} from "date-fns";
@@ -360,6 +360,20 @@
 	$: modules = $page.data.modules;
 
 	console.log($page.data)
+
+	let buttonText = assignment_published ? 'Published' : 'Unpublished';
+	let buttonColor = assignment_published ? 'from-green-500 to-green-300' : 'from-blue-500 to-blue-300';
+
+	function toggleAssignment() {
+		buttonText = '...';
+		if (assignment_published) {
+			unpublishAssignment(assignment_slug);
+			buttonText = 'Unpublished';
+		} else {
+			publishAssignment(assignment_slug);
+			buttonText = 'Published';
+		}
+	}
 </script>
 
 <div class="w-full">
@@ -367,6 +381,11 @@
 	<div class="flex flex-wrap mt-4 space-x-2 px-4">
 		<div class="flex-grow text-white text-2xl font-semibold pt-4">
 			{assignment_data.title ? assignment_data.title : "No title"}
+
+			<button class="text-gray-100 hover:text-gray-200"
+					on:click={handleEdit}>
+				<Fa icon={faPencil} size="sm" class=""/>
+			</button>
 		</div>
 
 		<!-- Button group -->
@@ -374,52 +393,24 @@
 
 			{#if claim === 'instructor'}
 			{#key assignment_published}
-				{#if assignment_published}
-					<div>
-						<button
-								class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
-								font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-500 to-green-300
-								group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
-								focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
-								on:click|stopPropagation={async () => { await unpublishAssignment(assignment_slug); }}>
-						<span
-							class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-							Published
-						</span>
-						</button>
-					</div>
-				{:else}
-					<div>
-						<button
-								class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
-								font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
-								group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
-								focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-								on:click|stopPropagation={async () => { await publishAssignment(assignment_slug); }}>
-						<span
-								class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-							Unpublished
-						</span>
-						</button>
-					</div>
-				{/if}
-			{/key}
 				<div>
 					<button
-							class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
-								font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
-								group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
-								focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-								on:click={handleEdit}>
-						<span
-								class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-							{mode.edit ? 'View' : 'Edit'}
-						</span>
+							class={`relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
+             font-medium text-gray-900 rounded-lg group bg-gradient-to-br ${buttonColor}
+             group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+             focus:ring-4 focus:outline-none ${assignment_published ? 'focus:ring-green-200 dark:focus:ring-green-800' : 'focus:ring-blue-200 dark:focus:ring-blue-800'}`}
+							on:mouseenter={() => { buttonColor = assignment_published ? 'from-blue-300 to-blue-500' : 'from-green-300 to-green-500'; buttonText = 'Unpublished'; }}
+							on:mouseleave={() => { buttonColor = assignment_published ? 'from-green-500 to-green-300' : 'from-blue-500 to-blue-300'; buttonText = 'Published';} }
+							on:click|stopPropagation={toggleAssignment}
+					>
+    <span
+			class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+             dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+      {buttonText}
+    </span>
 					</button>
 				</div>
+			{/key}
 			{/if}
 			{#if claim === 'student'}
 				<div>

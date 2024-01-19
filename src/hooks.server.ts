@@ -33,7 +33,7 @@ export const handle: Handle = async ({ event, resolve, request }) => {
     },
     cookieOptions: {
       sameSite: 'none',
-      secure: true,
+      secure: true
     }
   })
 
