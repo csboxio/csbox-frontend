@@ -1,13 +1,11 @@
 // src/routes/+layout.ts
-import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public'
+import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from '$env/static/public'
 
-import type {Database} from "../schema.js";
-
-import { combineChunks, createBrowserClient, isBrowser, parse } from '@supabase/ssr'
+import {combineChunks, createBrowserClient, isBrowser, parse} from '@supabase/ssr'
 import type {LayoutLoad} from "./$types.js";
 
 export const load: LayoutLoad = async ({ fetch, data, depends }) => {
-
+  depends('supabase:auth')
   /*
   * Warning:
   * auth: {
@@ -35,16 +33,18 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
           return JSON.stringify(data.session)
         }
 
-        const cookie = parse(document.cookie)
-        return cookie[key]
+        return combineChunks(key, (name) => {
+          const cookies = parse(document.cookie)
+          return cookies[name]
+        })
       },
     },
     cookieOptions: {
       sameSite: 'none',
       secure: true,
+      maxAge: 60 * 60,
     }
   })
-
   const {
     data: { session },
   } = await supabase.auth.getSession()

@@ -33,7 +33,8 @@ export const handle: Handle = async ({ event, resolve, request }) => {
     },
     cookieOptions: {
       sameSite: 'none',
-      secure: true
+      secure: true,
+      maxAge: 60 * 60,
     }
   })
 
@@ -116,6 +117,7 @@ export const handle: Handle = async ({ event, resolve, request }) => {
    */
 
   event.locals.getSession = async () => {
+
     const {
       data: { session }
     } = await event.locals.supabase.auth.getSession();

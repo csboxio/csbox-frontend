@@ -268,6 +268,56 @@
 
 	let workspaceActionModal = false
 	let workspaceActionModalTitle = "Default Title"
+
+	let workspaceName = '';
+
+	function generateRandomWorkspaceName() {
+		const getRandomWord = () => {
+			const memorableWords = [
+				'apple', 'banana', 'cherry', 'dragon', 'elephant', 'fox', 'grape',
+				'harmony', 'island', 'jazz', 'kiwi', 'lemon', 'mango', 'nightingale',
+				'ocean', 'piano', 'quasar', 'rainbow', 'serendipity', 'tangerine', 'umbrella',
+				'vibrant', 'whisper', 'xanadu', 'yellow', 'zeppelin',
+				'butterfly', 'cascade', 'dolphin', 'eclipse', 'flamingo', 'giraffe', 'horizon',
+				'illusion', 'jubilee', 'kaleidoscope', 'lullaby', 'marvel', 'nirvana', 'opal',
+				'paradise', 'quiver', 'radiant', 'sapphire', 'tranquil', 'uplifting', 'velvet',
+				'whirlwind', 'xylophone', 'yonder', 'zephyr', 'ambrosia', 'blissful', 'cynosure',
+				'divinity', 'ethereal', 'felicity', 'gossamer', 'halcyon', 'infinite', 'jubilant',
+				'kismet', 'luminous', 'mellifluous', 'nectar', 'oblivion', 'pristine', 'quintessence',
+				'resplendent', 'serenity', 'talisman', 'upbeat', 'voluptuous', 'wonderment', 'xylograph',
+				'yearning', 'zestful', 'azure', 'bucolic', 'celestial', 'dandelion', 'effervescent',
+				'fandango', 'glisten', 'hallowed', 'ineffable', 'jocund', 'kowtow', 'labyrinthine',
+				'mirthful', 'nostalgia', 'opulent', 'placid', 'quintessential', 'radiant', 'seraphic',
+				'tranquility', 'uplifting', 'verdant', 'whimsical', 'yonder', 'zephyrous',
+				'acquiesce', 'benevolence', 'cachet', 'dexterity', 'effulgent', 'fruition', 'garrulous',
+				'idyllic', 'juxtapose', 'kaleidoscopic', 'lamentation', 'magnanimous',
+				'nepenthe', 'obfuscate', 'panache', 'sesquipedalian',
+				'tumultuous', 'ubiquitous', 'vicissitude', 'wherewithal', 'yarely', 'zenithal',
+				'alacrity', 'belligerent', 'cacophony', 'debilitate', 'effervesce', 'facetious', 'garrulity',
+				'haphazard', 'indomitable', 'juxtaposition', 'kaleidoscopic', 'loquacious', 'mellifluous',
+				'nonchalant', 'oscillation', 'peculiar', 'quagmire', 'resilient', 'sycophant', 'transcendent',
+				'ubiquitous', 'vernacular', 'whimsical', 'yonder', 'zealous', 'aberration',
+				'benevolent', 'cacophony', 'deleterious', 'effulgent', 'fallacious', 'gregarious', 'harangue',
+				'iconoclast', 'juxtapose', 'kowtow', 'labyrinthine', 'mellifluous', 'nefarious', 'obfuscate',
+				'peregrinate', 'quixotic', 'reverie', 'sycophant', 'taciturn', 'ubiquitous', 'verisimilitude',
+				'whimsical', 'yarely', 'zealous', 'aberration', 'benevolent', 'cacophony', 'deleterious',
+				'effulgent', 'fallacious', 'gregarious', 'harangue', 'iconoclast', 'juxtapose', 'kowtow',
+				'labyrinthine', 'mellifluous', 'nefarious', 'obfuscate', 'peregrinate', 'quixotic', 'reverie',
+				'sycophant', 'taciturn', 'ubiquitous', 'verisimilitude', 'whimsical', 'yarely', 'zealous',
+				'aberration', 'benevolent', 'cacophony', 'deleterious', 'effulgent', 'fallacious', 'gregarious', 'harangue',
+				'iconoclast', 'juxtapose', 'kowtow', 'labyrinthine', 'mellifluous', 'nefarious', 'obfuscate', 'peregrinate',
+			];
+			const randomIndex = Math.floor(Math.random() * memorableWords.length);
+			return memorableWords[randomIndex];
+		};
+
+		workspaceName = `${getRandomWord()}-${getRandomWord()}-${getRandomWord()}`;
+	}
+
+	function openCreateWorkSpaceModel() {
+		createWorkspaceModal = true;
+		generateRandomWorkspaceName();
+	}
 </script>
 
 			<!-- Content -->
@@ -291,7 +341,7 @@
 													font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
 													group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
 													focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-													on:click={() => { createWorkspaceModal = true }}>
+													on:click={() => { openCreateWorkSpaceModel() }}>
 												<span
 														class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
 														dark:bg-gray-600 rounded-md group-hover:bg-opacity-0 flex items-center">
@@ -320,7 +370,7 @@
 				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
 				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
 				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-						on:click={() => { createWorkspaceModal = true }}>
+						on:click={() => { openCreateWorkSpaceModel(); }}>
 				<span
 						class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
 					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
@@ -443,34 +493,42 @@
 </Modal>
 
 <!-- Create Modal -->
-<Modal title="Create Workspace" bind:open={createWorkspaceModal} class="max-w-xs" >
-	<div class="space-y-4">
+<Modal title="Create Workspace" bind:open={createWorkspaceModal} class="max-w-md" >
+	<div class="space-b-8">
 		<form method="POST" action="?/createWorkspace" on:submit|preventDefault={handleCreateWorkspaceSubmit}>
 				<div class="mb-2">
-					<!-- Workspace Name-->
-					<label for="workspace_name" class="block mb-2 font-medium text-white dark:text-white">
-						Workspace Name
+					<!-- Workspace Name -->
+					<label for="name" class="block mb-2 font-medium text-white dark:text-white">
+						Name <span class="text-red-500">*</span>
+						<p class="text-gray-500 dark:text-gray-400 text-sm mt-1">The workspace name to use.</p>
 					</label>
-					<input type="text" name="workspace_name" id="workspace_name"
-						   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 text-lg
-		focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-		dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-						   placeholder="Name"
-						   required />
+					<div class="flex items-center space-x-2">
+						<input
+								type="text"
+								name="name"
+								id="name"
+								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 text-lg
+              focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+              dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								required
+								value={workspaceName}
+						/>
+					</div>
 				</div>
 
-				<div class="mb-2">
+
+				<div class="mb-6">
 
 					<!-- Workspace Type-->
 					<label for="type" class="block mb-2 font-medium text-white dark:text-white">
-						Workspace Type
+						Type <span class="text-red-500">*</span>
 					</label>
 					<div id="type">
 						{#if ide}
-						<Button color="alternative" class="w-full">
+						<Button color="custom" class="w-full text-white bg-gray-600">
 							<Chevron> {selectedWorkspaceCreateType !== undefined ? ide.type.configurations[createWorkspaceTypeSelect].name : '. . .' }</Chevron>
 						</Button>
-						<Dropdown class="w-44 p-2 space-y-3 text-sm w-full">
+						<Dropdown class=" p-2 space-y-3 text-sm">
 								{#each Object.entries(ide.type.configurations) as [key, config]}
 									<li>
 										<Radio on:click={() => { selectedWorkspaceCreateType = config.name}} name="type" bind:group={createWorkspaceTypeSelect} value={key}>{config.name}</Radio>
@@ -482,12 +540,12 @@
 				</div>
 
 				<!-- Workspace Configuration -->
-				<div class="mb-2">
+				<div class="mb-6">
 					<label for="type" class="block mb-2 font-medium text-white dark:text-white">
-						Config
+						Config <span class="text-red-500">*</span>
 					</label>
 					<div id="config">
-						<Button color="alternative" class="w-full">
+						<Button color="custom" class="w-full text-white bg-gray-600">
 							<Chevron> {selectedWorkspaceCreateConfig !== undefined ? ide.language.languages[createWorkspaceConfigSelect].name : '. . .' }</Chevron>
 						</Button>
 						<Dropdown class="w-44 p-2 space-y-3 text-sm w-full">
@@ -505,12 +563,12 @@
 				</div>
 
 				<!-- Workspace storage size -->
-				<div class="mb-5">
+				<div class="mb-12">
 					<label for="storage" class="block mb-2 font-medium text-white dark:text-white">
-						Storage Size
+						Storage Size <span class="text-red-500">*</span>
 					</label>
 					<div id="storage">
-						<Button color="alternative" class="w-full">
+						<Button color="custom" class="w-full text-white bg-gray-600">
 							<Chevron> {selectedWorkspaceCreateStorage !== undefined ? ide.storage.configurations[createWorkspaceStorageSelect].name : '. . .' }</Chevron>
 						</Button>
 						<Dropdown class="w-44 p-2 space-y-3 text-sm w-full">
