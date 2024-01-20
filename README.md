@@ -83,6 +83,8 @@ Generate Report
 artillery report test.json
 ```
 
+If canvas has (page error) reinstall redis.
+
 
 
 
