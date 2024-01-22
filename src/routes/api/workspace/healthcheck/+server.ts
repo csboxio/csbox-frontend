@@ -1,19 +1,11 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import { error, json, redirect } from "@sveltejs/kit";
 
-// TODO UNKNOWN IF TRULY SECURE
-// https://github.com/supabase/auth-helpers/issues/408
 /** @type {import('./$types').RequestHandler} */
-// @ts-ignore
-export const GET: RequestHandler = async ({ request, url, locals: { supabase, getSession }, event }) => {
-  const session = await getSession()
-
-  if (!session) {
-    throw redirect(303, '/');
-  }
+export const GET: RequestHandler = async ({ setHeaders, request, url, locals: { supabase, getSession }, event }) => {
   let data
   try {
-    const response = await fetch(`https://ide.csbox.io/api/`, {
+    const response = await fetch(`https://ide.csbox.io/api/ping`, {
       headers: {
         'Content-Type': 'application/json'
       },
@@ -28,5 +20,9 @@ export const GET: RequestHandler = async ({ request, url, locals: { supabase, ge
   catch (e) {
     console.error("Error", e);
   }
+
+  setHeaders({
+    "cache-control": "public, max-age=120, s-maxage=120"
+  });
   return json(false)
 }

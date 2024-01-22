@@ -1,16 +1,17 @@
 import type {RequestHandler} from "@sveltejs/kit";
-import {error, json, redirect} from "@sveltejs/kit";
+import { json } from "@sveltejs/kit";
 import {PRIVATE_LTI_API_KEY} from "$env/static/private";
 
-export const POST: RequestHandler = async ({request, url, setHeaders, event, locals: {getSession, supabase}}) => {
+export const POST: RequestHandler = async ({request, url, setHeaders, }) => {
     const {searchParams} = new URL(url);
     const ltik = searchParams.get('ltik');
 
     if (!ltik) {
-        return {
+        console.log('No LTIK parameter')
+        return json({
             status: 400,
             body: 'LTIK parameter not found in the URL'
-        };
+        });
     }
 
     const API_KEY = PRIVATE_LTI_API_KEY;
@@ -37,7 +38,7 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
         const course_prefix = launchData.launch.context.label
 
         const body = await request.json();
-        const deepLinkingResponse = await fetch('https://lti.csbox.io/api/deeplinking/form', {
+        const deepLinkingResponse = await fetch('https://lti.csbox.io/api/deeplinking/', {
             method: 'POST',
             headers: {
                 ...headers,
@@ -54,10 +55,10 @@ export const POST: RequestHandler = async ({request, url, setHeaders, event, loc
                 course: { id: course_id, title: course_title, prefix: course_prefix}
             });
     } catch (error) {
-        console.log(error)
-        return {
+        setHeaders({'Content-Type': 'application/json'});
+        return json({
             status: 500,
             body: 'Error fetching data'
-        };
+        });
     }
 };

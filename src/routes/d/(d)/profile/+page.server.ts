@@ -2,7 +2,18 @@ import type {Actions} from "./$types";
 import {redirect} from '@sveltejs/kit'
 import {DEV} from "../../../../lib/dev/mode.js";
 
+export const ssr = false;
 export const prerender = false;
+
+export const load = async ({ locals: { getSession, getClaim, getLMSUserID } }) => {
+    const session = await getSession()
+    if (session) {
+        return {
+            session: session
+        }
+    }
+}
+
 export const actions: Actions = {
     updateProfile: async ({ request, url, fetch, locals: { supabase } }) => {
         const formData = await request.formData()

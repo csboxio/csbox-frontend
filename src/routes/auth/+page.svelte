@@ -5,8 +5,8 @@
 
 	export let data
 
-	let { supabase, claim, onboard } = data
-	$: ({ supabase, claim, onboard } = data)
+	let { supabase, onboard } = data
+	$: ({ supabase, onboard } = data)
 
 	let completed_setup
 	$: completed_setup

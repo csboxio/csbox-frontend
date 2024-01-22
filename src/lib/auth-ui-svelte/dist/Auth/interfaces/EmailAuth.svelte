@@ -17,6 +17,7 @@ export let magicLink = true;
 export let i18n;
 export let appearance;
 export let captchaToken;
+export let reload;
 let message = '';
 let error = '';
 let loading = false;
@@ -26,7 +27,7 @@ async function handleSubmit() {
     error = '';
     message = '';
     switch (authView) {
-        case VIEWS.SIGN_IN:
+		case VIEWS.SIGN_IN:
             const { error: signInError } = await supabaseClient.auth.signInWithPassword({
                 email,
                 password,
@@ -36,6 +37,8 @@ async function handleSubmit() {
             if (signInError)
                 error = signInError.message;
             loading = false;
+			// TODO HOTFIX HERE, NEEDS MORE TESTING
+			window.location.reload();
             break;
         case VIEWS.SIGN_UP:
             let options = {

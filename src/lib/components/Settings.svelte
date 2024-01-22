@@ -7,8 +7,6 @@
   import {browser} from "$app/environment";
   import { fade, slide } from 'svelte/transition'
 
-
-  export const ssr = true;
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
@@ -16,9 +14,6 @@
 
 
   export let supabase
-
-  export let user
-  $: user
 
   let notificationsReceived
   $: notificationsReceived;
@@ -39,18 +34,9 @@
   }
 
   async function getNotifications() {
-    const { data, error } = await supabase
-            .from("notifications")
-            .select("all_notifications")
-            .eq('user_id', $page.data.session.user.id)
-            .single()
-
-    if (error) {
-      console.log(data, error)
-    }
-
-    if (!error) {
-      return data;
+    const response = await fetch('/api/users/notifications');
+    if (response.ok) {
+      return await response.json()
     }
   }
 
@@ -74,7 +60,12 @@
     fetchNotifications();
   }
 
+  export let user;
+  $: user
+
+
   onMount(async () => {
+
     const storedNotifications = localStorage.getItem('storedNotifications');
 
     if(storedNotifications != 'undefined') {
@@ -109,12 +100,12 @@
 </script>
 
 <div class="w-full lg:w-auto px-2">
-  <div class="sm:flex items-center ">
-    <div class="w-full sm:w-auto mb-6 sm:mb-0 sm:mr-4 z-20">
+  <div class="flex sm:flex items-center ">
+    <div class="mr-4 z-20">
       <div class="flex flex-wrap items-center z-20 ">
 
         <!--Notifications-->
-        <div id="bell" class="inline-flex items-center text-sm font-medium z-20 text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400">
+        <div id="bell" class=" inline-flex items-center text-sm font-medium z-20 text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400">
           <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg>
           <div class="flex relative ">
             <div class="inline-flex relative z-10 -top-2 right-3 w-3 h-3 bg-red-500 animate-pulse rounded-full border-2 border-white dark:border-gray-900"></div>
@@ -165,24 +156,27 @@
 
       </div>
     </div>
-    <div class="w-full sm:w-auto">
-      <div class="relative inline-block text-left z-20">
+    <div class="w-full w-auto">
+      <div class="relative inline-block text-left z-20 ">
         <div>
-          {#if user}
-          <Button pill color="light"  id="avatar_with_name" class="!p-1.5 ">
-            <Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class="mr-4"/>
-            <div class="mr-3 font-medium">{user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.last_name}</div>
-          </Button>
-          <Dropdown inline triggeredBy="#avatar_with_name" class="z-20">
-            <div slot="header" class="px-4 py-2">
-              <span class="block text-sm text-gray-900 dark:text-white "> {user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.last_name} </span>
-              <span class="block truncate text-sm font-medium"> {$page.data.session?.user?.email} </span>
-              <span class="block truncate text-sm font-bold text-blue-500 animate-text bg-gradient-to-r from-blue-500 via-teal-500 to-yellow-500 bg-clip-text text-transparent text-5xl font-black"> {$page.data.session?.user?.app_metadata.userrole.toUpperCase() } </span>
-            </div>
-            <DropdownItem on:click={() => {goto('/d/profile')}}>Settings</DropdownItem>
-            <DropdownItem on:click={signOut} slot="footer">Sign out</DropdownItem>
-          </Dropdown>
-            {/if}
+          {#key user}
+              <Button pill color="light"  id="avatar_with_name" class=" !p-1.5 ">
+                <Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class=" "/>
+                <!-- Smaller than sm hide name -->
+                <div class="hidden sm:block">
+                <div class="ml-3 mr-3 font-medium text-nowrap ">{user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.last_name}</div>
+                </div>
+              </Button>
+              <Dropdown inline triggeredBy="#avatar_with_name" class="z-20">
+                <div slot="header" class="px-4 py-2">
+                  <span class="block text-sm text-gray-900 dark:text-white "> {user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.last_name} </span>
+                  <span class="block truncate text-sm font-medium"> {$page.data.session?.user?.email} </span>
+                  <span class="block truncate text-sm font-bold text-blue-500 animate-text bg-gradient-to-r from-blue-500 via-teal-500 to-yellow-500 bg-clip-text text-transparent text-5xl font-black"> {$page.data.session?.user?.app_metadata.userrole.toUpperCase() } </span>
+                </div>
+                <DropdownItem on:click={() => {goto('/d/profile')}}>Settings</DropdownItem>
+                <DropdownItem on:click={signOut} slot="footer">Sign out</DropdownItem>
+              </Dropdown>
+            {/key}
         </div>
       </div>
     </div>

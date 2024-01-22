@@ -3,7 +3,6 @@ import {redirect} from "@sveltejs/kit";
 
 export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url, cookies, event, fetch }) => {
     const { searchParams } = new URL(url);
-    const session = await getSession()
 
     let ltik = searchParams.get('ltik');
     // Token exists
@@ -12,7 +11,7 @@ export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url
             sameSite: 'none',
             secure: true,
             path: '/',
-            maxAge: 60 * 15 // 15 minutes
+            maxAge: 60 * 60 // 1 Hour
         });
     }
     else {
@@ -24,28 +23,17 @@ export const load = async ({ locals: { getSession, getClaim, getLMSUserID }, url
     }
 
 
-        const requestBody = {
-            contentItems: [{
-                type: 'ltiResourceLink',
-                url: 'https://lti.csbox.io/lti/launch?resource=123',
-                title: 'Resource'
-            }]
+    const session = await getSession()
+
+    const launch = await fetch(`/api/lti/launch?ltik=${ltik}`);
+
+    if (launch.ok) {
+        return {
+            launch: await launch.json(),
+            ltik: ltik,
+            session: session,
+            claim: await getClaim(),
+            lms_user_id: await getLMSUserID()
         }
-        const deeplinking = await fetch(`/api/lti/deeplinking?ltik=${ltik}`, {
-            method: 'POST',
-            body: JSON.stringify(requestBody)
-        });
-
-    const courses = async () => {
-        const response = await fetch('/api/courses')
-        return response.json()
-    }
-
-    return {
-        courses: await courses(),
-        deeplinking: await deeplinking.json(),
-        session: await getSession(),
-        claim: await getClaim(),
-        lms_user_id: await getLMSUserID()
     }
 }

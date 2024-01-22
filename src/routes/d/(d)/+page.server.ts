@@ -6,6 +6,20 @@ export const prerender = false;
 
 export const ssr = false
 
+export const load = async ({ fetch, parent } ) => {
+    const parentData = await parent();
+    const session = parentData.session;
+
+    if (session) {
+        const dashboard = await fetch('/api/dashboard/instructor/get')
+        return {
+            dashboard: await dashboard.json(),
+            session
+        };
+    }
+
+}
+
 export const actions: Actions = {
     signin: async ({ request, url, locals: { supabase } }) => {
         if (!browser) {

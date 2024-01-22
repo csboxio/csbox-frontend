@@ -1,15 +1,14 @@
 <script>
     import { fade } from 'svelte/transition';
-    import {uploadAvatar} from "$lib/utilities/imageStorage";
+    import {course_image_loading, deleteImage, loading, uploadAvatar} from "$lib/utilities/imageStorage";
     import Fa from 'svelte-fa/src/fa.svelte';
     import { faUpload} from "@fortawesome/free-solid-svg-icons";
-    import {uploadCourseImage} from "$lib/utilities/imageStorage";
     import {page} from "$app/stores";
+    import {browser} from "$app/environment";
+    import { resizeFile } from "$lib/utilities/image";
+    import {v4 as uuidv4} from "uuid";
 
-    export let data
-    export let courseID;
-    let { supabase, session } = data
-    $: ({ supabase, session } = data)
+    export let course_image_url;
 
     let showImage = false;
     let image;
@@ -24,19 +23,44 @@
 
         if (files.length > 0) {
             const file = files[0];
-            console.log(file)
             showImage = true;
-
             const reader = new FileReader();
-
             reader.addEventListener("load", function() {
                 image.setAttribute("src", reader.result);
             });
             reader.readAsDataURL(file);
-
             return;
         }
         showImage = false;
+    }
+
+    async function resizedFile(files) {
+        if (browser) {
+            const file = files[0]
+            return await resizeFile(file)
+        }
+    }
+
+    export const uploadCourseImage = async (files, supabase) => {
+
+        if (!files || files.length === 0) {
+            throw new Error('You must select an image to upload.')
+        }
+
+        // Delete old image from database
+        const filePath = `${uuidv4() + '-' + uuidv4() + "/" + "icon" + "_courseImage"}.WEBP`
+
+        await deleteImage(filePath, supabase)
+
+        const rfile = await resizedFile(files)
+
+        await supabase.storage.from('courses').upload(filePath, rfile, {})
+        const { data } = await supabase.storage.from('courses').getPublicUrl(filePath)
+
+        console.log(data)
+        course_image_url = data.publicUrl;
+
+        return course_image_url
     }
 </script>
 
@@ -53,7 +77,7 @@
             <label class="inline-flex items-center px-3 py-2 text-lg font-semibold text-center text-white
 									bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600
 									dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer">
-                <input class="hidden" type="file" id="single" accept="image/*" bind:files on:change={() => { uploadedCourseUrl = uploadCourseImage(files, courseID, user, supabase); onChangePreview(); }  } disabled={uploading}>
+                <input class="hidden" type="file" id="single" accept="image/*" bind:files on:change={() => { uploadedCourseUrl = uploadCourseImage(files, $page.data.supabase); onChangePreview(); }  } disabled={uploading}>
                 <div class="m-1">
                     <Fa icon={faUpload} size="xs" />
                 </div>

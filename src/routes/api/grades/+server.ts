@@ -1,24 +1,10 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import { error, json, redirect } from "@sveltejs/kit";
+import { json, redirect } from "@sveltejs/kit";
 
-// TODO UNKNOWN IF TRULY SECURE
-// https://github.com/supabase/auth-helpers/issues/408
 /** @type {import('./$types').RequestHandler} */
-// @ts-ignore
-export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { supabase, getSession }, event }) => {
-  const session = await getSession()
-
-  if (!session) {
-    throw redirect(303, '/');
-  }
+export const GET: RequestHandler = async ({ url, locals: { supabase, getSession } }) => {
   const course = url.searchParams.get('course')
-  console.log(course)
   const { data, error } = await supabase.rpc('get_course_grades', {p_course_id: course})
-
-
   console.log(data, error)
-
-
-
   return json(data)
 }

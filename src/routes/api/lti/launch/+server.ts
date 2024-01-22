@@ -1,16 +1,10 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import { error, json, redirect } from "@sveltejs/kit";
+import { json } from "@sveltejs/kit";
 import {PRIVATE_LTI_API_KEY} from "$env/static/private";
-
-
-export const GET: RequestHandler = async ({ request, url, setHeaders, event, locals: { getSession, supabase } }) => {
+export const GET: RequestHandler = async ({ url, setHeaders }) => {
     const { searchParams } = new URL(url);
     const ltik = searchParams.get('ltik');
     let response;
-
-    const session = await getSession()
-
-    console.log(session)
 
     if (!ltik) {
         return {
@@ -37,8 +31,6 @@ export const GET: RequestHandler = async ({ request, url, setHeaders, event, loc
         const platformID = data.platform.id
         const userID = data.user.id
         const email = data.user.email
-
-        console.log(data)
 
         // Set the headers and return the data as JSON
         setHeaders({ 'Content-Type': 'application/json' });

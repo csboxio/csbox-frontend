@@ -223,10 +223,6 @@ async function handleSubmit(event) {
                 </div>
 
                 <div>
-                    {#key group_id}
-                        {group_id}
-                        {JSON.stringify(groups)}
-                    {/key}
                     <label
                             for="groups"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"

@@ -9,6 +9,7 @@
 	import CourseColorPicker from "$lib/components/CourseColorPicker.svelte";
 	import {createTemplateCourseData} from "../../../../../lib/utilities/templateCourse.js";
 	import UploadCourseImage from "$lib/components/Image/UploadCourseImage.svelte";
+	import {browser} from "$app/environment";
 	let steps = ['Step 1', 'Step 2'];
 
 	let session = $page.data.session;
@@ -21,6 +22,7 @@
 	let course_number;
 	let course_term;
 	let course_color;
+	let course_contact;
 	let course_image_url;
 	let days_per_week = 1;
 	$: days_per_week;
@@ -31,23 +33,12 @@
 	let number_of_students = 1;
 	$: number_of_students;
 
-	let resources_low = false;
-	let resources_medium = false;
-	let resources_high = false;
-
 	//Progress bar step
 	let currentStep = 1;
 	$: currentStep;
 
-	function handleSteps(num, event) {
-		currentStep = num;
-	}
-
-	export let files;
-
-	export let form;
-
-	let currentCourseId;
+	let currentCourseId = null;
+	$: currentCourseId;
 
 
 	let { supabase, claim } = data
@@ -57,8 +48,13 @@
 		loading = true;
 		const data = new FormData(this);
 
-		// Add course color
+		data.append("course_title", course_title);
+		data.append("course_prefix", course_prefix);
+		data.append("course_number", course_number);
+		data.append("course_term", course_term);
+		data.append("course_contact", course_contact);
 		data.append("course_color", course_color);
+		data.append("course_image_url", course_image_url);
 
 		const response = await fetch(this.action, {
 			method: 'POST',
@@ -75,19 +71,15 @@
 			// re-run all `load` functions, following the successful update
 			currentStep = 2;
 
-
 			if (data) {
 				currentCourseId = result.data.id
-
 				console.log(result)
-
 				//console.log($page.data.session.user.id)
-				await createTemplateCourseData(currentCourseId, supabase, $page.data.session.user.id)
+				if (browser)
+					await createTemplateCourseData(currentCourseId, $page.data.supabase, $page.data.session.user.id)
 			}
-
 			await invalidateAll();
 		}
-
 		await applyAction(result);
 	}
 
@@ -106,8 +98,8 @@
 </style>
 
 {#if claim !== 'student'}
-<body class="bg-gray-600 antialiased bg-body text-body font-body">
-	<div class="from-gray-500 to-gray-500 bg-gradient-to-br antialiased bg-body text-body font-body">
+<body class="bg-gray-700 antialiased bg-body text-body font-body">
+	<div class="bg-gray-700 antialiased bg-body text-body font-body">
 			<section class="py-6">
 				<div class="container 2xl:w-[40%] xl:w-3/5 lg:w-2/3 md:w-2/3 sm:w-full mx-auto">
 					<div class="min-h-screen gap-4 flex justify-center items-center">
@@ -129,74 +121,85 @@
 								</div>
 
 								<!--Create course form-->
-								{#if currentStep === 1}
 									<form action="?/createCourse" method="POST" on:submit|preventDefault={handleSubmit}>
-
+										{#if currentStep === 1}
 									<div class="grid gap-6 mb-6 md:grid-cols-2 ">
 
 										<div class="mb-4">
-									<label for="course_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Title</label>
+									<label for="course_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Title *</label>
 
 														<input
 															name="course_title"
 															id="course_title"
 															type="text"
-															class="bg-gray-50 border border-gray-300
+															class="peer bg-gray-50 border border-gray-300
 											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
-											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+											block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500"
 															placeholder="Software Development I"
 															bind:value={course_title}
 															required
 														/>
+											<p class="mt-2 invisible peer-focus:visible text-pink-600 text-sm">
+												Please provide a course title.
+											</p>
 													</div>
 
 
 										<div class="mb-4">
-										<label for="course_prefix" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Prefix</label>
+										<label for="course_prefix" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Prefix *</label>
 														<input
 															name="course_prefix"
 															id="course_prefix"
 															type="text"
-															class="bg-gray-50 border border-gray-300
+															class="peer bg-gray-50 border border-gray-300
 											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
-											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+											block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500"
 															placeholder="CS100"
 															bind:value={course_prefix}
 															required />
+											<p class="mt-2 invisible peer-focus:visible text-pink-600 text-sm">
+												Please provide a course prefix.
+											</p>
 													</div>
 
 										<div class="mb-4">
-										<label for="course_number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Number</label>
+										<label for="course_number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Number *</label>
 														<input
 															name="course_number"
 															id="course_number"
 															type="text"
-															class="bg-gray-50 border border-gray-300
+															class="peer bg-gray-50 border border-gray-300
 											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
-											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+											block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500"
 															placeholder="12345"
 															bind:value={course_number}
 															required
 														/>
+											<p class="mt-2 invisible peer-focus:visible text-pink-600 text-sm">
+												Please provide a course number.
+											</p>
 													</div>
 
 										<div class="mb-4">
-										<label for="course_term" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Term</label>
+										<label for="course_term" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Term *</label>
 														<input
 															name="course_term"
 															id="course_term"
 															type="text"
-															class="bg-gray-50 border border-gray-300
+															class="peer bg-gray-50 border border-gray-300
 											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
-											block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-											dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+											block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500"
 															placeholder="Spring 2023"
 															bind:value={course_term}
 															required
 														/>
+											<p class="mt-2 invisible peer-focus:visible text-pink-600 text-sm">
+												Please provide a course term.
+											</p>
 													</div>
 										<div class="mb-4">
 											<label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Color</label>
@@ -208,7 +211,13 @@
 											<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
 												<svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
 											</div>
-											<input type="text" name="course_contact" id="course_contact" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@csbox.io">
+											<input type="text" name="course_contact" id="course_contact"
+												   class="peer pl-10 bg-gray-50 border border-gray-300
+											text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600
+											block w-full p-2.5 dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400
+											dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500"
+												   bind:value={course_contact}
+												   placeholder="instructor@example.com">
 										</div>
 										</div>
 									</div>
@@ -220,10 +229,8 @@
 											</a>
 										</div>
 
-										<button
-											class="inline-block py-2 px-4 text-sm text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-											type="submit"
-										>
+										<button class="inline-block py-2 px-4 text-sm text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
+										on:click={() => {currentStep = 2;}}>
 											{#if loading}
 												<svg class="animate-spin h-4 w-4 mr-3 inline">
 													<Fa icon={faSpinner} size="xs" />
@@ -232,33 +239,32 @@
 											Next
 										</button>
 									</div>
+										{/if}
+										{#if currentStep === 2}
+											<div class="mb-2 text-center">
+												<div class="text-xl font-bold tracking-wide text-white mb-1">Course Icon</div>
+											</div>
+
+											<UploadCourseImage bind:course_image_url={course_image_url} />
+
+											<div>
+												<a class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
+														href="/d/courses">Cancel</a>
+												<button class="float-right inline-block py-2 px-4 text-xs text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
+														on:click={() => goto("/d/courses")}>
+													{#if loading}
+														<svg class="animate-spin h-4 w-4 mr-3 inline">
+															<Fa icon={faSpinner} size="xs" />
+														</svg>
+													{/if}
+													Done
+												</button>
+											</div>
+
+										{/if}
 									</form>
-								{/if}
-
-								{#if currentStep === 2}
-									<form>
-										<div class="mb-2 text-center">
-											<div class="text-xl font-bold tracking-wide text-white mb-1">Course Icon</div>
-										</div>
-										<UploadCourseImage bind:courseID={currentCourseId} bind:data={data} />
-									</form>
-									<div>
-										<!--Save and cancel buttons-->
-										<!--TODO cancel delete row-->
-										<a
-												class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
-												href="/d/courses">Cancel</a
-										>
-										<button
-												class="float-right inline-block py-2 px-4 text-xs text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-												on:click={() => goto("/d/courses")}
-										>
-											Done
-										</button>
-									</div>
 
 
-									{/if}
 
 								{#if currentStep === 3}
 									<p class="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose Class Type:</p>

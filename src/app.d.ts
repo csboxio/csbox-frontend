@@ -8,6 +8,7 @@ declare global {
             getSession(): Promise<Session | null>
             getClaim(): Promise<Session | null>
             getLMSUserID(): Promise<Session | null>
+            getServerSession(): Promise<Session | null>
         }
         interface PageData {
             session: Session | null

@@ -30,7 +30,7 @@ export const uploadQuillDocument = async (files: FileList, courseId: bigint, use
     const { error } = await supabase.storage.from(bucket).upload(filePath, files);
     console.log(error)
   }
-  const { data } = supabase.storage.from(bucket).getPublicUrl(filePath);
+  const { data } = await supabase.storage.from(bucket).getPublicUrl(filePath);
   loading = false;
 };
 

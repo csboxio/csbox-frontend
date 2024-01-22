@@ -23,7 +23,7 @@
 	let files;
 	let uploading = false;
 	let user
-	$: user = $page.data.user.data
+	$: user = $page.data.user?.data
 
 	function initializeUser(user) {
 		const defaults = {
@@ -95,14 +95,13 @@
 
 <div class="mx-auto lg:ml-16">
 	<section>
-		<div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
+		<div class="sm:py-3 py-1 px-8 dark:bg-gray-700 bg-white">
 			<div class="flex flex-wrap items-center justify-between -mx-2">
-				<div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
-					<h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Settings</h4>
+				<div class="lg:w-auto px-2 my-1 sm:my-2  ">
+					<h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Profile Settings</h4>
 				</div>
-				<div class="w-full lg:w-auto px-2">
-					<Settings bind:data={data}/>
-
+				<div class="lg:w-auto px-2">
+					<Settings bind:user={user} bind:supabase={supabase} />
 				</div>
 			</div>
 		</div>
@@ -113,21 +112,18 @@
 				<div class="flex flex-wrap -mx-3 ">
 					<div class="w-full lg:w-1/3 px-3 mb-6 lg:mb-0">
 						<div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
-							<img class="rounded-full w-24 h-24 inline-block" src={user.avatar_url} alt="image description">
+							<img class="rounded-full w-24 h-24 inline-block" src={user?.avatar_url} alt="image description">
 							<div class="inline-block ml-4">
-								<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-800 dark:text-white">{$page.data.user.data.first_name} {user?.last_name}</h5>
-								<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{user?.website}</p>
-
-
+								<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-800 dark:text-white">{$page.data.user?.data.first_name} {user?.last_name}</h5>
 								<main>
 									<label class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white
 									bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600
 									dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-										<input class="hidden" type="file" id="single" accept="image/*" bind:files on:change={uploadAvatar(files, uploading, user.avatar_url, user_session, supabase)} disabled={uploading}>
+										<input class="hidden" type="file" id="single" accept="image/*" bind:files on:change={uploadAvatar(files, uploading, user.avatar_url, session, supabase)} disabled={uploading}>
 										<div class="m-1">
 											<Fa icon={faUpload} size="xs" />
 										</div>
-										Change Picture
+										Upload Profile Icon
 									</label>
 									<button class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white
 									bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
@@ -142,14 +138,14 @@
 					<div class="w-full lg:w-2/3 px-3">
 						<form action="?/updateProfile" method="POST" on:submit|preventDefault={handleSubmit}>
 							<div class="relative mb-8 mx-4 ">
-								<div class="  ">
+								<div class="">
 									<div class="relative group">
 										<div class="px-24 py-8 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
 											<div class="flex flex-wrap -mx-10 -mb-6 text-white font-semibold">
 												<h4 class="text-2xl font-bold tracking-wide text-white mb-4">General Information</h4>
 												<div class="grid grid-cols-2 gap-6 w-full">
 													<div class="mb-6">
-														<Label for="first" class="block mb-2 text-red-500 {user.first_name == '' ? 'animate-pulse pulse-red text-red-500' : ''}">First Name:</Label>
+														<Label for="first" class="block mb-2 text-red-500 {user?.first_name == '' ? 'animate-pulse pulse-red text-red-500' : ''}">First Name:</Label>
 														<Input id="first" name="first" class="w-full" bind:value={user.first_name} />
 													</div>
 													<div class="mb-6">

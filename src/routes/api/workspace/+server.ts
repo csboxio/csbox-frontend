@@ -1,11 +1,8 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import { error, json, redirect } from "@sveltejs/kit";
 
-// TODO UNKNOWN IF TRULY SECURE
-// https://github.com/supabase/auth-helpers/issues/408
 /** @type {import('./$types').RequestHandler} */
-// @ts-ignore
-export const GET: RequestHandler = async ({ request, url, setHeaders, locals: { supabase, getSession }, event }) => {
+export const GET: RequestHandler = async ({ locals: { supabase, getSession } }) => {
   const session = await getSession()
 
   if (!session) {

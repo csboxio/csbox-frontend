@@ -1,10 +1,6 @@
-export const load = async ({ locals: { getSession, supabase} }) => {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
-
-  console.log('auth layoutserverts session', session)
+export const load = async ({ locals: { getSession, getClaim } }) => {
   return {
-    session: session,
+    session: await getSession(),
+    claim: await getClaim()
   }
 }

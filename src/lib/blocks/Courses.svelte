@@ -100,9 +100,10 @@
                   <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200 "></div>
                   <div class="">
                     <div class="relative p-6 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500 ">
+
                       <img
-                        src={course_image_url === null ? 'https://dummyimage.com/150x150/000/fff' : course_image_url + '?t=' + inserted_at}
-                        class="relative inline-flex items-center justify-center w-20 h-20 mb-6 rounded-lg drop-shadow-2xl  mr-24"
+                        src={course_image_url === null ? '/favicon.png' : course_image_url + '?t=' + inserted_at}
+                        class="relative inline-flex items-center justify-center w-20 h-auto mb-6 rounded-lg drop-shadow-2xl  mr-24"
                         alt='Course Image'
                       />
                       <a on:click|stopPropagation={() => {
@@ -143,9 +144,9 @@
                       </div>
                       <h4 class="text-xl text-white font-bold mb-1" style="word-break: break-word;">
                         {course_prefix === '' ? 'Empty' : course_prefix}
-                        {course_number}
+                        {course_number === null ? '' : course_number}
                       </h4>
-                      <h4 class="text-gray-300 mb-1">{course_term}</h4>
+                      <h4 class="text-gray-300 mb-1">{course_term != null ? course_term : ''}</h4>
                     </div>
                   </div>
                 </a>
@@ -240,17 +241,22 @@
     {#if courses.length === 0 && claim === "instructor"}
       <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div class="m-auto">
-          <div class="text-center justify-center text-white font-semibold text-2xl">
-            No Courses
+          <div class="text-center justify-center text-white font-semibold text-3xl pb-2">
+            No courses
           </div>
-          <div class="text-center justify-center text-gray-200 pt-1 text-sm">
-            Create a course to get started!
-          </div>
-          <div class="text-center justify-center text-gray-400 pt-1 text-xs inline-block pl-4">
-            Want to join a course?
+          <div class="text-center justify-center text-gray-300 text-xs inline-block pl-4">
+            Join a existing course?
           </div>
           <div on:click={() => joinCourse = true} class="inline-block text-blue-400 text-xs hover:underline cursor-pointer">
             Join
+          </div>
+          <div class="text-center">
+          <div class="text-center justify-center text-gray-300 pt-1 text-xs inline-block pl-4">
+            LTI Information?
+          </div>
+          <div on:click={() => goto('/lti/info')} class="inline-block text-red-400 text-xs hover:underline cursor-pointer">
+            Learn
+          </div>
           </div>
           <div class="text-center justify-center pt-4">
             <div class="">

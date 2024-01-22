@@ -9,6 +9,8 @@ export const prerender = false;
 export const load = async ({ fetch, data, request, url, parent }) => {
   const parentData = await parent();
   const session = parentData.session
+  const user = parentData.user?.data;
+
   if (!session) {
     throw redirect(303, '/');
   }
@@ -17,7 +19,8 @@ export const load = async ({ fetch, data, request, url, parent }) => {
 
   return {
     messages: await response.json(),
-    session
+    session,
+    user: user
   };
 
 };
