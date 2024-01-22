@@ -1,6 +1,8 @@
 import {json, RequestHandler} from "@sveltejs/kit";
 import {PRIVATE_LTI_API_KEY} from "$env/static/private";
 
+export const prerender = false;
+
 export const GET: RequestHandler = async ({ url, locals: { supabase } }) => {
     const {searchParams} = new URL(url);
     const ltik = searchParams.get('ltik');
