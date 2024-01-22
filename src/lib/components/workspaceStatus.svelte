@@ -20,9 +20,8 @@
   {#each stateInfo as state}
     {#if workspace_state === state.id}
       {#key workspace_state}
-      <div class="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+      <div class="text-center items-center text-sm font-medium text-gray-900 dark:text-white inline-block">
         <span class={`flex w-3.5 h-3.5 animate-pulse bg-gradient-to-br ${state.gradient} rounded-full flex-shrink-0`} title={state.title}></span>
-        <span class="ml-2">{state.title}</span>
       </div>
       {/key}
     {/if}

@@ -117,8 +117,8 @@
                     >
 				<span
                         class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-					<div class="inline-block"><Fa icon={faAdd}/></div> <div class="inline-block">Create Project</div>
+					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0 flex items-center">
+					<div class="inline-block pr-1"><Fa icon={faAdd}/></div> <div class="inline-block">Create Project</div>
 				</span>
             </button>
         </div>

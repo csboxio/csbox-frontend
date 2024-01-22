@@ -23,7 +23,7 @@
 	import {writable} from "svelte/store";
 	import {browser} from "$app/environment";
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import {faAdd, faCircleNotch} from '@fortawesome/free-solid-svg-icons';
+	import {faAdd, faCircleNotch, faEllipsisV, faListDots} from '@fortawesome/free-solid-svg-icons';
 	import {formatDistanceToNow, parseISO} from "date-fns";
 
 	/** @type {import('./$types').PageData | null} */
@@ -342,8 +342,7 @@
 													group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
 													focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
 													on:click={() => { openCreateWorkSpaceModel() }}>
-												<span
-														class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+												<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
 														dark:bg-gray-600 rounded-md group-hover:bg-opacity-0 flex items-center">
 													<div class="inline-block">
 														<Fa icon={faAdd}/>
@@ -365,43 +364,38 @@
 
 				<div class="mx-0.5 flex justify-between">
 					<div class="">
-				<button
-						class="ml-0.5 relative inline-flex items-center justify-center p-0.5  mr-2 overflow-hidden text-sm
-				font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
-				group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
-				focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
-						on:click={() => { openCreateWorkSpaceModel(); }}>
-				<span
-						class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-					dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-					<div class="inline-block"><Fa icon={faAdd}/></div> <div class="inline-block">New Workspace</div>
-				</span>
-				</button>
+						<button class="ml-0.5 relative inline-flex items-center justify-center p-0.5  mr-2 overflow-hidden text-sm
+						font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
+						group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+						focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800"
+								on:click={() => { openCreateWorkSpaceModel(); }}>
+
+						<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+							dark:bg-gray-600 rounded-md group-hover:bg-opacity-0 flex items-center">
+							<div class="inline-block pr-1"><Fa icon={faAdd}/></div> <div class="inline-block">New Workspace</div>
+						</span>				</button>
 					</div>
 					{#if healthcheck}
 						<div class="py-2">
-      <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1 rounded-full dark:bg-green-900 dark:text-green-300">
-                <span class="w-2 h-2 mr-1 bg-green-500 rounded-full animate-pulse"></span>
-                Available
-            </span>
+							  <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1 rounded-full dark:bg-green-900 dark:text-green-300">
+										<span class="w-2 h-2 mr-1 bg-green-500 rounded-full animate-pulse"></span>
+										Available
+							  </span>
 						</div>
 					{:else}
 						<div class="py-2">
-      <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-3 py-1 rounded-full dark:bg-red-900 dark:text-red-300">
-                <span class="w-2 h-2 mr-1 bg-red-500 rounded-full animate-pulse"></span>
-                Unavailable
-            </span>
+							<span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-3 py-1 rounded-full dark:bg-red-900 dark:text-red-300">
+								<span class="w-2 h-2 mr-1 bg-red-500 rounded-full animate-pulse"></span>Unavailable</span>
 						</div>
 					{/if}
 				</div>
 
-
-				<div class="relative sm:rounded-lg w-full overflow-x-auto overflow-y-hidden">
+				<div class="relative sm:rounded-lg overflow-x-auto overflow-y-hidden">
 					<TableSearch placeholder="Search by name..." hoverable={true} bind:inputValue={searchTerm}>
-					<Table shadow hoverable class="mb-40">
+					<Table shadow hoverable class="mb-40 w-full">
 					<TableHead>
+
 						<TableHeadCell>Name</TableHeadCell>
-						<TableHeadCell>Status</TableHeadCell>
 						<TableHeadCell>Created</TableHeadCell>
 						<TableHeadCell>Type</TableHeadCell>
 
@@ -412,14 +406,14 @@
 					<TableBody class="divide-y">
 						{#key filteredItems}
 								{#each filteredItems as { id, inserted_at, workspace_name, type, workspace_state }}
-									<TableBodyRow class="cursor-pointer bg-gray-800" color="custom" >
-									<TableBodyCell>{workspace_name}</TableBodyCell>
-										<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> </TableBodyCell>
+									<TableBodyRow class=" hover:bg-gray-800" color="custom" >
+										<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> <div class="pl-2 cursor-pointer hover:text-blue-400 text-md inline-block" on:click={() => { openWorkspace(id); }}>{workspace_name}</div> </TableBodyCell>
+
 										<TableBodyCell>{formatDistanceToNow(parseISO(inserted_at), {addSuffix: true})}</TableBodyCell>
 									<TableBodyCell>{type}</TableBodyCell>
 									<TableBodyCell>
 										<Button>
-											<Chevron class="px-2 text-lg">Actions</Chevron>
+											<Fa icon={faEllipsisV} size="lg"/>
 										</Button>
 
 									<Dropdown containerClass="absolute z-50 px-4">
