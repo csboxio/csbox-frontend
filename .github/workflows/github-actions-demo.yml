@@ -26,6 +26,11 @@ jobs:
       - name: Build Svelte Kit
         run: npm run build
 
+      - name: Debug Environment Variables
+        run: |
+          echo "PRIVATE_LTI_API_KEY=${PRIVATE_LTI_API_KEY}"          
+          
+
       - name: Deploy Cloudflare Worker
         run: |
           npx wrangler build
