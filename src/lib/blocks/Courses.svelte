@@ -87,6 +87,7 @@
       {#each courses as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden, course_color }, i (id)}
         {#if !hidden}
 
+          {course_image_url}
           <div class="relative mb-8 mx-4 cursor-pointer">
             <div class=" min-w-xs max-w-xs">
               <div class="relative group">
