@@ -8,6 +8,7 @@ export const load = (async ({ fetch, data, request, url, parent, params }) => {
     throw redirect(303, '/');
   }
   const grades = await fetch(`/api/grades/?course=${params.slug}`)
+
   return {
     gradesData: await grades.json(),
     session: session,

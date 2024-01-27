@@ -1,5 +1,6 @@
 import type {Actions } from "./$types";
 import { redirect } from "@sveltejs/kit";
+import {invalidate} from "$app/navigation";
 
 
 export const prerender = false;

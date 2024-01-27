@@ -87,7 +87,6 @@
       {#each courses as { id, inserted_at, course_image_url, course_title, course_prefix, course_number, course_term, hidden, course_color }, i (id)}
         {#if !hidden}
 
-          {course_image_url}
           <div class="relative mb-8 mx-4 cursor-pointer">
             <div class=" min-w-xs max-w-xs">
               <div class="relative group">
@@ -103,10 +102,11 @@
                     <div class="relative p-6 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500 ">
 
                       <img
-                        src={course_image_url === null ? '/favicon.png' : course_image_url + '?t=' + inserted_at}
+                        src={course_image_url === '' ? '/favicon.png' : course_image_url + '?t=' + inserted_at}
                         class="relative inline-flex items-center justify-center w-20 h-auto mb-6 rounded-lg drop-shadow-2xl  mr-24"
                         alt='Course Image'
                       />
+
                       <a on:click|stopPropagation={() => {
 						hoverID = i;
 						open = true;

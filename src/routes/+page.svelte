@@ -348,6 +348,8 @@
 		}
 	}
 </style>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <!-- Page wrapper -->
 <div class="flex flex-col min-h-screen overflow-hidden">
 	<!-- Site header -->
@@ -553,7 +555,7 @@
 											</div>
 										</div>
 										<!-- Image -->
-												<img class="invisible sm:invisible md:invisible lg:visible absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:relative md:left-0 md:translate-x-0 py-4" src="/icons/home/codingman.gif" width="550" alt="Feature 01">
+												<img class="invisible sm:invisible md:invisible lg:visible absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:relative md:left-0 md:translate-x-0 py-4" src="/icons/home/codingman.gif" width="550" alt="Feature 01" loading="lazy">
 
 									</div>
 								</div>
@@ -1155,14 +1157,14 @@
 									<!-- Toggle switch -->
 									<div class="max-md:text-center">
 										<div class="inline-flex items-center whitespace-nowrap">
-											<div class="text-sm text-slate-500 font-medium mr-2 md:max-lg:hidden">Monthly</div>
+											<div class="text-sm text-slate-400 font-medium mr-2 md:max-lg:hidden">Monthly</div>
 											<div class="relative">
 												<input type="checkbox" id="toggle" class="peer sr-only" />
 												<label for="toggle" class="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-slate-400 px-0.5 outline-slate-400 transition-colors before:h-5 before:w-5 before:rounded-full before:bg-white before:shadow-sm before:transition-transform before:duration-150 peer-checked:bg-blue-500 peer-checked:before:translate-x-full peer-focus-visible:outline peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gray-400 peer-checked:peer-focus-visible:outline-blue-500">
 													<span class="sr-only">Pay Yearly</span>
 												</label>
 											</div>
-											<div class="text-sm text-slate-500 font-medium ml-2">Yearly <span class="text-teal-500">(-20%)</span></div>
+											<div class="text-sm text-slate-400 font-medium ml-2">Yearly <span class="text-teal-500">(-20%)</span></div>
 										</div>
 									</div>
 								</div>
@@ -1172,14 +1174,18 @@
 								<div class="grow pb-4 mb-4 border-b border-slate-800">
 									<div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Competitor 1</div>
 									<div class="mb-1">
-										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">1000</span><span class="text-sm text-slate-600 font-medium">/mo (platform fee)</span>
+										<span class="text-lg font-medium text-slate-400">$</span><span class="text-3xl font-bold text-slate-50">1000</span><span class="text-sm text-slate-500 font-medium">/mo (platform fee)</span>
 									</div>
 									<div class="mb-1">
-										<span class="text-lg font-medium text-slate-500">$</span><span class="text-2xl font-bold text-slate-50">10</span><span class="text-sm text-slate-600 font-medium">/mo (per user)</span>
+										<span class="text-lg font-medium text-slate-400">$</span><span class="text-2xl font-bold text-slate-50">40</span><span class="text-sm text-slate-500 font-medium">/mo (per user)</span>
 									</div>
-									<div class="text-slate-500">Not Including Hosting ~$20-40/mo (per user).</div>
+
+									<div class="text-slate-500">100 students: $20,000 (4 months)</div>
+
 								</div>
 							</div>
+
+
 							<!-- Pro price -->
 							<div class="px-6 flex flex-col justify-end">
 								<div class="grow pb-4 mb-4 border-b border-slate-800">
@@ -1187,7 +1193,8 @@
 									<div class="mb-1">
 										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">10</span><span class="text-sm text-slate-600 font-medium">/mo (per user)</span>
 									</div>
-									<div class="text-slate-500">No limits.</div>
+
+									<div class="text-slate-500">100 students: $4,000 (4 months)</div>
 								</div>
 								<div class="pb-4 border-b border-slate-800">
 									<a class="btn-sm text-white bg-blue-500 hover:bg-blue-600 w-full transition duration-150 ease-in-out group" href="#0">
@@ -1203,6 +1210,8 @@
 										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">~30</span><span class="text-sm text-slate-600 font-medium">/mo (per user)</span>
 									</div>
 									<div class="text-slate-500">$0.36 per hour, per user.</div>
+
+									<div class="text-slate-500">100 students: $12,000 (4 months)</div>
 								</div>
 							</div>
 							<!-- # Usage -->
@@ -1834,5 +1843,6 @@
 	</footer>
 
 </div>
+
 
 

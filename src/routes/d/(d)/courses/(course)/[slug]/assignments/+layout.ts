@@ -23,10 +23,10 @@ export const load = (async ({ fetch, data, request, url, parent, params }) => {
   }
 
   return {
-    assignments: assignments(),
-    groups: groups(),
-    modules: modules(),
-    session: session,
+    assignments: await assignments(),
+    groups: await groups(),
+    modules: await modules(),
+    session: session
   };
 
 });

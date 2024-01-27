@@ -18,7 +18,7 @@
 	let grades;
 	$: grades = data.gradesData;
 
-	console.log(grades)
+
 	// For search box on assignments
 	let searchTerm = '';
 

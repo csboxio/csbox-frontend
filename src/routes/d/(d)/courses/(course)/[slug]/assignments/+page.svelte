@@ -70,9 +70,10 @@
 
     // For search box on assignments
     let searchTerm = '';
-    $: filteredItems = assignments.filter(
-        (assignments) => assignments.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
-    );
+    $: filteredItems = assignments && Array.isArray(assignments)
+        ? assignments.filter(
+            (assignment) => assignment.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+        ) : [];
 
 
     // For assignment delete
@@ -160,18 +161,24 @@
     }
 
     async function handleDeleteAssignment(aid) {
-        const {error, status} = await supabase.from('assignments').delete().eq('assignment_id', aid);
-        console.log(aid, error, status, browser)
-        if (status === 204) {
-            const newNotification =
-                {
-                    title: "Success! 🥳",
-                    message: `Deleted Assignment!`
-                };
-            //addNotification(newNotification, supabase, $page.data.session.user)
-            delete_model_close();
-            await invalidateAll();
-        }
+        const response = await fetch('/api/assignments/delete/', {
+            method: 'POST',
+            body: JSON.stringify({assignment_id: aid}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        console.log(response)
+
+        const newNotification =
+        {
+            title: "Success! 🥳",
+            message: `Deleted Assignment!`
+        };
+        addNotification(newNotification, supabase, $page.data.session.user)
+        delete_model_close();
+        await invalidateAll();
     }
 
     function hover(h) {
@@ -201,6 +208,7 @@
         }
         console.log(result)
         await applyAction(result);
+        await invalidateAll();
     }
 
     // For drag me
@@ -320,7 +328,6 @@
             {#key showAllAssignments}
             {#if !showAllAssignments}
                 <div class="flex flex-col -mx-20 my-2 pl-14 -mb-6 text-white font-semibold mr-0.5">
-                    {groups}
                     {#if groups.length === 0}
                         <div class="flex p-4 mb-6 mt-4 mx-6 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">
                             <svg
@@ -691,7 +698,7 @@
                 class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
             No, cancel
         </button>
-        <button on:click={() => handleDeleteAssignment(delete_assignment_id)} type="submit"
+        <button on:click={async () => await handleDeleteAssignment(delete_assignment_id)} type="submit"
                 class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">
             Yes, I'm sure
         </button>

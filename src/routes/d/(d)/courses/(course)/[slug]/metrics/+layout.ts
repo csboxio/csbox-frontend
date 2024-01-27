@@ -15,7 +15,7 @@ export const load = (async ({ fetch, data, request, url, parent, params }) => {
   }
 
   return {
-    metrics: metrics(),
+    metrics: await metrics(),
     session: session
   };
 

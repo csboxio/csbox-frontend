@@ -14,7 +14,7 @@ export const load = async ({ fetch, data, request, url, parent, params }) => {
 
     return {
         courses: parentData.courses,
-        claim: parentData.session.user.app_metadata.userrole,
+        claim: parentData.session?.user.app_metadata.userrole,
         slug,
         user: user,
     };
