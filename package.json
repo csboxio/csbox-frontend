@@ -33,7 +33,7 @@
 		"@sveltejs/adapter-auto": "^2.1.0",
 		"@sveltejs/adapter-cloudflare-workers": "^1.1.2",
 		"@sveltejs/adapter-static": "^2.0.3",
-		"@sveltejs/kit": "^2.00.0",
+		"@sveltejs/kit": "^2.4.3",
 		"@types/aos": "^3.0.7",
 		"@types/quill": "^2.0.10",
 		"@types/uuid": "^9.0.2",
