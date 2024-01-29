@@ -109,6 +109,7 @@
 				</div>-->
 			</div>
 
+				<!--
 				<ul class="text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
 				{#key menuItemsSelector}
 					{#each menuItemsSelector as item, index}
@@ -121,7 +122,10 @@
 					{/each}
 				{/key}
 				</ul>
+				-->
 
+				<!-- Delete course -->
+				<div class="w-full pt-8">
 				<div class="border border-red-500 p-3 w-full rounded-xl flex justify-between">
 					<div class="inline-block flex items-center">
 						<div>
@@ -132,6 +136,7 @@
 					<div class="inline-block flex items-center justify-center"> <!-- Added 'items-center justify-center' classes -->
 						<button type="button" on:click={() => {deleteModel = true}} class="px-5 py-2.5 text-sm font-medium text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Delete</button>
 					</div>
+				</div>
 				</div>
 
 			</div>

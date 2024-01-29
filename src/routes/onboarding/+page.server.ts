@@ -4,6 +4,22 @@ import {invalidateAll} from "$app/navigation";
 
 export const prerender = false;
 export const actions: Actions = {
+    updateRole: async  ({ request, url, params, locals: { supabase } }) => {
+        const formData = await request.formData()
+        const {data} = await supabase.auth.refreshSession()
+        let user;
+        if (data == null) {
+            const {data} = await supabase.auth.refreshSession()
+            user = data.user
+        }
+        user = data.user
+
+        if (user != null) {
+
+            const {error} = await supabase.rpc('set_claim', {uid: user.id, claim: 'userrole', value: 'instructor'});
+            console.log(error)
+        }
+    },
     updateProfile: async ({ request, url, fetch, locals: { supabase } }) => {
         const formData = await request.formData()
 

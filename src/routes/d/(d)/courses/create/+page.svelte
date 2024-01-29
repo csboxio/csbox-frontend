@@ -250,15 +250,17 @@
 											<div>
 												<a class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
 														href="/d/courses">Cancel</a>
-												<button class="float-right inline-block py-2 px-4 text-xs text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
-														on:click={() => goto("/d/courses")}>
-													{#if loading}
-														<svg class="animate-spin h-4 w-4 mr-3 inline">
-															<Fa icon={faSpinner} size="xs" />
-														</svg>
-													{/if}
-													Done
-												</button>
+												{#if course_image_url}
+													<button class="float-right inline-block py-2 px-4 text-xs text-center font-bold leading-normal text-gray-200 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
+															on:click={() => goto("/d/courses")}>
+														{#if loading}
+															<svg class="animate-spin h-4 w-4 mr-3 inline">
+																<Fa icon={faSpinner} size="xs" />
+															</svg>
+														{/if}
+															Next
+													</button>
+												{/if}
 											</div>
 
 										{/if}
