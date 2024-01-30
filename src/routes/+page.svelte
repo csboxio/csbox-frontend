@@ -277,14 +277,54 @@
 	const categories = ['students', 'instructors', 'professors', 'developers'];
 	let category = categories[categoryIndex];
 
+
+
+
 	onMount(() => {
 		const interval = setInterval(() => {
 			categoryIndex = (categoryIndex + 1) % categories.length;
 			category = categories[categoryIndex];
+
 		}, 2500);
 
-		return () => clearInterval(interval);
+		const interval2 = setInterval(() => {
+			active = active + 1 === testimonials.length ? 0 : active + 1;
+
+		}, 12000);
+
+		return () => {
+			clearInterval(interval);
+			clearInterval(interval2);
+		}
+
 	});
+
+
+
+
+	let active;
+	$: active = 0;
+	let testimonials = [
+		{
+			img: './images/testimonial-01.jpg',
+			quote: "This platform revolutionized the way I teach coding. The seamless integration with LMSs and the performance-driven environment have made coding assignments a breeze for both me and my students.",
+			name: 'Dr. Emily Johnson',
+			role: 'Computer Science Professor'
+		},
+		{
+			img: './images/testimonial-02.jpg',
+			quote: "As a student, this coding platform has been a game-changer. The cloud-based environment allows me to access my assignments from any machine, and the one-click start feature saves me time and hassle. It's truly education without boundaries.",
+			name: 'Alex Rodriguez',
+			role: 'Computer Science Student'
+		},
+		{
+			img: './images/testimonial-03.jpg',
+			quote: "Teaching coding has never been this efficient. The ability to import content from our LMS and the automatic code grading feature make my job easier. My students are mastering fundamentals faster, leading to better outcomes.",
+			name: 'Prof. Sarah Williams',
+			role: 'IT Department Chair'
+		},
+	];
+
 
 </script>
 
@@ -821,7 +861,7 @@
 						<div class="flex flex-wrap justify-center" data-highlighter>
 
 
-							<div class="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 swiper-slide mb-4 mx-2 h-auto relative bg-slate-800 rounded-3xl p-px  before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
+							<div class="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 swiper-slide mb-4 mx-2 h-auto relative bg-slate-800 rounded-3xl p-px  before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
 								<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 									<!-- Particles animation -->
 									<div class="absolute inset-0 -z-10 opacity-0  group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
@@ -844,7 +884,7 @@
 								</div>
 							</div>
 
-							<div class="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 swiper-slide mb-4 mx-2 h-auto relative bg-slate-800 rounded-3xl p-px  before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
+							<div class="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 swiper-slide mb-4 mx-2 h-auto relative bg-slate-800 rounded-3xl p-px  before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
 								<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 									<!-- Particles animation -->
 									<div class="absolute inset-0 -z-10 opacity-0  group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
@@ -867,7 +907,7 @@
 								</div>
 							</div>
 
-							<div class="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 swiper-slide mb-4 mx-2 h-auto relative bg-slate-800 rounded-3xl p-px  before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
+							<div class="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 swiper-slide mb-4 mx-2 h-auto relative bg-slate-800 rounded-3xl p-px  before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
 								<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 									<!-- Particles animation -->
 									<div class="absolute inset-0 -z-10 opacity-0  group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
@@ -890,7 +930,7 @@
 								</div>
 							</div>
 
-							<div class="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 swiper-slide mb-4 mx-2 h-auto relative bg-slate-800 rounded-3xl p-px  before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
+							<div class="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 swiper-slide mb-4 mx-2 h-auto relative bg-slate-800 rounded-3xl p-px  before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
 								<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 									<!-- Particles animation -->
 									<div class="absolute inset-0 -z-10 opacity-0  group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
@@ -913,7 +953,7 @@
 								</div>
 							</div>
 
-							<div class="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 swiper-slide mb-4 mx-2 h-auto relative bg-slate-800 rounded-3xl p-px  before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-purple-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
+							<div class="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 swiper-slide mb-4 mx-2 h-auto relative bg-slate-800 rounded-3xl p-px  before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
 								<div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
 									<!-- Particles animation -->
 									<div class="absolute inset-0 -z-10 opacity-0  group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
@@ -963,6 +1003,7 @@
 						<path fill="url(#bs4-a)" fill-rule="evenodd" d="m0 0 461 369-284 58z" transform="matrix(1 0 0 -1 0 427)" />
 					</svg>
 				</div>
+
 				<div class="pt-16 pb-12 md:pt-32 md:pb-20">
 
 					<!-- Section header -->
@@ -1086,6 +1127,7 @@
 			</svg>
 		</div>
 
+
 		<div class="max-w-6xl mx-auto px-4 sm:px-6">
 			<div class="pt-16 pb-12 md:pt-16 md:pb-32 border-b border-slate-800">
 
@@ -1142,8 +1184,8 @@
 							<svg xmlns="http://www.w3.org/2000/svg" width="434" height="427">
 								<defs>
 									<linearGradient id="bs5-a" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
-										<stop offset="0%" stop-color="#A855F7" />
-										<stop offset="100%" stop-color="#6366F1" stop-opacity="0" />
+										<stop offset="0%" stop-color="#4572D1" />
+										<stop offset="100%" stop-color="#1F3D70" stop-opacity="0" />
 									</linearGradient>
 								</defs>
 								<path fill="url(#bs5-a)" fill-rule="evenodd" d="m661 736 461 369-284 58z" transform="matrix(1 0 0 -1 -661 1163)" />
@@ -1180,11 +1222,10 @@
 										<span class="text-lg font-medium text-slate-400">$</span><span class="text-2xl font-bold text-slate-50">40</span><span class="text-sm text-slate-500 font-medium">/mo (per user)</span>
 									</div>
 
-									<div class="text-slate-500">100 students: $20,000 (4 months)</div>
+
 
 								</div>
 							</div>
-
 
 							<!-- Pro price -->
 							<div class="px-6 flex flex-col justify-end">
@@ -1194,7 +1235,7 @@
 										<span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">10</span><span class="text-sm text-slate-600 font-medium">/mo (per user)</span>
 									</div>
 
-									<div class="text-slate-500">100 students: $4,000 (4 months)</div>
+
 								</div>
 								<div class="pb-4 border-b border-slate-800">
 									<a class="btn-sm text-white bg-blue-500 hover:bg-blue-600 w-full transition duration-150 ease-in-out group" href="#0">
@@ -1211,7 +1252,7 @@
 									</div>
 									<div class="text-slate-500">$0.36 per hour, per user.</div>
 
-									<div class="text-slate-500">100 students: $12,000 (4 months)</div>
+
 								</div>
 							</div>
 							<!-- # Usage -->
@@ -1227,9 +1268,9 @@
 							<div class="px-6 flex flex-col justify-end">
 								<div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Usage</div>
 							</div>
-							<!-- Social Connections -->
+							<!-- Education First Platform -->
 							<div class="px-6 flex flex-col justify-end">
-								<div class="py-2 text-slate-400 border-b border-slate-800">Fixed Monthly Price</div>
+								<div class="py-2 text-slate-400 border-b border-slate-800">Education First Platform</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
@@ -1238,7 +1279,7 @@
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+									<svg class="shrink-0 fill-blue-200 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span> <span class="md:hidden">Fixed Total Platform Cost</span></span>
@@ -1250,16 +1291,16 @@
 									<span></span>
 								</div>
 							</div>
-							<!-- Custom Domains -->
+							<!-- LMS Integration -->
 							<div class="px-6 flex flex-col justify-end">
-								<div class="py-2 text-slate-400 border-b border-slate-800">Custom Domains</div>
+								<div class="py-2 text-slate-400 border-b border-slate-800">LMS Integration</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
 									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
-									<span>Two <span class="md:hidden">Custom Domains</span></span>
+									<span><span class="md:hidden">Custom Domains</span></span>
 								</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
@@ -1267,27 +1308,24 @@
 									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
-									<span>Three <span class="md:hidden">Custom Domains</span></span>
+									<span><span class="md:hidden">Custom Domains</span></span>
 								</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-									</svg>
-									<span>Four <span class="md:hidden">Custom Domains</span></span>
+
 								</div>
 							</div>
 							<!-- User Role Management -->
 							<div class="px-6 flex flex-col justify-end">
-								<div class="py-2 text-slate-400 border-b border-slate-800">User Role Management</div>
+								<div class="py-2 text-slate-400 border-b border-slate-800">Auto Import Content</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
 									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
-									<span>Five <span class="md:hidden">User Role Management</span></span>
+									<span><span class="md:hidden">User Role Management</span></span>
 								</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
@@ -1295,7 +1333,7 @@
 									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
-									<span>Six <span class="md:hidden">User Role Management</span></span>
+									<span><span class="md:hidden">User Role Management</span></span>
 								</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
@@ -1303,19 +1341,19 @@
 									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
-									<span>Seven <span class="md:hidden">User Role Management</span></span>
+									<span><span class="md:hidden">User Role Management</span></span>
 								</div>
 							</div>
 							<!-- External Databases -->
 							<div class="px-6 flex flex-col justify-end">
-								<div class="py-2 text-slate-400 border-b border-slate-800">External Databases</div>
+								<div class="py-2 text-slate-400 border-b border-slate-800">Auto Grading</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
 									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
-									<span>Eight <span class="md:hidden">External Databases</span></span>
+									<span><span class="md:hidden">External Databases</span></span>
 								</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
@@ -1323,7 +1361,7 @@
 									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
-									<span>Nine <span class="md:hidden">External Databases</span></span>
+									<span><span class="md:hidden">External Databases</span></span>
 								</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
@@ -1331,7 +1369,175 @@
 									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
-									<span>Ten <span class="md:hidden">External Databases</span></span>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<!-- Automatic Code Testing -->
+							<div class="px-6 flex flex-col justify-end">
+								<div class="py-2 text-slate-400 border-b border-slate-800">Automatic Code Testing</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<!-- Online Workspace -->
+							<div class="px-6 flex flex-col justify-end">
+								<div class="py-2 text-slate-400 border-b border-slate-800">Online Workspace</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<!-- High Performance -->
+							<div class="px-6 flex flex-col justify-end">
+								<div class="py-2 text-slate-400 border-b border-slate-800">High Performance</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<!-- Full Stack Development -->
+							<div class="px-6 flex flex-col justify-end">
+								<div class="py-2 text-slate-400 border-b border-slate-800">Full Stack Development</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<!-- Remote Desktop -->
+							<div class="px-6 flex flex-col justify-end">
+								<div class="py-2 text-slate-400 border-b border-slate-800">Remote Desktop</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<!-- No Artificial Limitations -->
+							<div class="px-6 flex flex-col justify-end">
+								<div class="py-2 text-slate-400 border-b border-slate-800">No Artificial Limitations</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">External Databases</span></span>
 								</div>
 							</div>
 							<!-- # Features -->
@@ -1349,7 +1555,7 @@
 							</div>
 							<!-- Custom Connection -->
 							<div class="px-6 flex flex-col justify-end">
-								<div class="py-2 text-slate-400 border-b border-slate-800">Custom Connection</div>
+								<div class="py-2 text-slate-400 border-b border-slate-800">Content Import</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
@@ -1377,7 +1583,7 @@
 							</div>
 							<!-- Advanced Deployment Options -->
 							<div class="px-6 flex flex-col justify-end">
-								<div class="py-2 text-slate-400 border-b border-slate-800">Advanced Deployment Options</div>
+								<div class="py-2 text-slate-400 border-b border-slate-800">Familiar Developer Environment</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
@@ -1405,7 +1611,7 @@
 							</div>
 							<!-- Extra Add-ons -->
 							<div class="px-6 flex flex-col justify-end">
-								<div class="py-2 text-slate-400 border-b border-slate-800">Extra Add-ons</div>
+								<div class="py-2 text-slate-400 border-b border-slate-800">Multiple Price Models</div>
 							</div>
 							<div class="px-6 flex flex-col justify-end">
 								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
@@ -1429,6 +1635,94 @@
 										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
 									</svg>
 									<span><span class="md:hidden">Extra Add-ons</span></span>
+								</div>
+							</div>
+							<!-- External Connections -->
+							<div class="px-6 flex flex-col justify-end">
+								<div class="py-2 text-slate-400 border-b border-slate-800">Multi-User Workspaces</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
+									<span><span class="md:hidden">Admin Roles</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
+									<span><span class="md:hidden">Admin Roles</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">Admin Roles</span></span>
+								</div>
+							</div>
+							<!-- SSO -->
+							<div class="px-6 flex flex-col justify-end">
+								<div class="py-2 text-slate-400 border-b border-slate-800">Single Sign On</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
+									<span><span class="md:hidden">Admin Roles</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
+									<span><span class="md:hidden">Admin Roles</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">Admin Roles</span></span>
+								</div>
+							</div>
+							<!-- Templates -->
+							<div class="px-6 flex flex-col justify-end">
+								<div class="py-2 text-slate-400 border-b border-slate-800">Pre-built Templates</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
+									<span><span class="md:hidden">Admin Roles</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
+									<span><span class="md:hidden">Admin Roles</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">Admin Roles</span></span>
+								</div>
+							</div>
+							<!-- Course Material -->
+							<div class="px-6 flex flex-col justify-end">
+								<div class="py-2 text-slate-400 border-b border-slate-800">Pre-built Course Material</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
+									<span><span class="md:hidden">Admin Roles</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
+									<span><span class="md:hidden">Admin Roles</span></span>
+								</div>
+							</div>
+							<div class="px-6 flex flex-col justify-end">
+								<div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
+									<svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+										<path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
+									</svg>
+									<span><span class="md:hidden">Admin Roles</span></span>
 								</div>
 							</div>
 							<!-- Admin Roles -->
@@ -1600,78 +1894,61 @@
 	</section>
 
 		<!-- Testimonials -->
-		<section>
-			<div class="max-w-3xl mx-auto px-4 sm:px-6">
-				<div class="relative pb-12 md:pb-20">
+	<section>
+		<div class="max-w-3xl mx-auto px-4 sm:px-6">
+			<div class="relative pb-12 md:pb-20">
 
-					<!-- Particles animation -->
-					<div class="absolute left-1/2 -translate-x-1/2 top-0 -z-10 w-80 h-80 -mt-6">
-						<div class="absolute inset-0 -z-10" aria-hidden="true">
-							<canvas data-particle-animation data-particle-quantity="10" data-particle-staticity="30"></canvas>
-						</div>
+				<!-- Particles animation -->
+				<div class="absolute left-1/2 -translate-x-1/2 top-0 -z-10 w-80 h-80 -mt-6">
+					<div class="absolute inset-0 -z-10" aria-hidden="true">
+						<canvas data-particle-animation data-particle-quantity="10" data-particle-staticity="30"></canvas>
 					</div>
-
-					<!-- Carousel -->
-					<div class="text-center">
-						<!-- Testimonial image -->
-						<div class="relative h-32 [mask-image:_linear-gradient(0deg,transparent,theme(colors.white)_40%,theme(colors.white))]">
-							<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[480px] h-[480px] -z-10 pointer-events-none before:rounded-full rounded-full before:absolute before:inset-0 before:bg-gradient-to-b before:from-slate-400/20 before:to-transparent before:to-20% after:rounded-full after:absolute after:inset-0 after:bg-slate-900 after:m-px before:-z-20 after:-z-20">
-								<!-- Alpine.js template for testimonial images: https://github.com/alpinejs/alpine#x-for -->
-								<template x-for="(item, index) in items" :key="index">
-									<div
-											x-show="active === index"
-											class="absolute inset-0 -z-10"
-											x-transition:enter="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 order-first"
-											x-transition:enter-start="opacity-0 -rotate-[60deg]"
-											x-transition:enter-end="opacity-100 rotate-0"
-											x-transition:leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700"
-											x-transition:leave-start="opacity-100 rotate-0"
-											x-transition:leave-end="opacity-0 rotate-[60deg]"
-									>
-										<img class="relative top-11 left-1/2 -translate-x-1/2 rounded-full" :src="item.img" width="56" height="56" :alt="item.name">
-									</div>
-								</template>
-							</div>
-						</div>
-						<!-- Text -->
-						<div class="mb-10">
-							<div class="relative flex flex-col transition-all duration-150 delay-300 ease-in-out" x-ref="testimonials">
-								<!-- Alpine.js template for testimonials: https://github.com/alpinejs/alpine#x-for -->
-								<template x-for="(item, index) in items" :key="index">
-									<div
-											x-show="active === index"
-											x-transition:enter="transition ease-in-out duration-500 delay-200 order-first"
-											x-transition:enter-start="opacity-0 -translate-x-4"
-											x-transition:enter-end="opacity-100 translate-x-0"
-											x-transition:leave="transition ease-out duration-300 delay-300 absolute"
-											x-transition:leave-start="opacity-100 translate-x-0"
-											x-transition:leave-end="opacity-0 translate-x-4"
-									>
-										<div class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60" x-text="item.quote"></div>
-									</div>
-								</template>
-							</div>
-						</div>
-						<!-- Buttons -->
-						<div class="flex flex-wrap justify-center -m-1.5">
-							<!-- Alpine.js template for buttons: https://github.com/alpinejs/alpine#x-for -->
-							<template x-for="(item, index) in items" :key="index">
-								<button
-										class="btn-sm m-1.5 text-xs py-1.5 text-slate-300 transition duration-150 ease-in-out [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none"
-										:class="active === index ? 'opacity-100' : 'opacity-30 hover:opacity-60'"
-
-								>
-                                        <span class="relative">
-                                            <span class="text-slate-50" x-text="item.name"></span> <span class="text-slate-600">-</span> <span x-text="item.role"></span>
-                                        </span>
-								</button>
-							</template>
-						</div>
-					</div>
-
 				</div>
+
+				<!-- Carousel -->
+				<div class="text-center" >
+					<!-- Testimonial image -->
+					<div class="relative h-32 mask">
+						<div class="absolute top-0 left-1/2 -translate-x-1/2">
+							<!-- Svelte template for testimonial images -->
+							{#each testimonials as item, index (index)}
+								{#if active === index}
+									<img in:blur class="relative top-11 left-1/2 -translate-x-1/2 rounded-full" src={item.img} width="56" height="56" alt={item.name}>
+								{/if}
+							{/each}
+						</div>
+					</div>
+					<!-- Text -->
+					<div class="mb-10">
+						<div class="relative flex flex-col transition-all duration-150 delay-300 ease-in-out">
+							<!-- Svelte template for testimonials -->
+							{#each testimonials as item, index (index)}
+								{#if active === index}
+									<div in:blur class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60">{item.quote}</div>
+								{/if}
+							{/each}
+						</div>
+					</div>
+					<!-- Buttons -->
+					<div class="flex flex-wrap justify-center -m-1.5">
+						<!-- Svelte template for buttons -->
+						{#each testimonials as item, index (index)}
+							<button in:blur
+									class={`btn-sm m-1.5 text-xs py-1.5 text-slate-300 transition duration-150 ease-in-out
+              ${active === index ? 'opacity-100' : 'opacity-30 hover:opacity-60'}`}
+									on:click={() => { active = index; }}
+							>
+              <span class="relative">
+                <span class="text-slate-50">{item.name}</span> <span class="text-slate-600">-</span> <span>{item.role}</span>
+              </span>
+							</button>
+						{/each}
+					</div>
+				</div>
+
 			</div>
-		</section>
+		</div>
+	</section>
 
 		<!-- CTA -->
 		<section>
@@ -1697,19 +1974,22 @@
 					<!-- Content -->
 					<div class="max-w-3xl mx-auto text-center">
 						<div>
-							<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-3">Coding Education Sandbox</div>
+							<div class="inline-flex font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-3">Education first platform.</div>
 						</div>
-						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">What our customers say about us.</h2>
-						<p class="text-lg text-slate-400 mb-8">Placeholder...</p>
+						<h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Revolutionize Coding Education</h2>
+						<p class="text-lg text-slate-400 mb-8">Join us to simplify your technical environment, focus on in-depth coding concepts, and elevate your teaching experience. Start your free demo!</p>
 						<div>
-							<a class="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white transition duration-150 ease-in-out group" href="#0">
-								Get Started <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+							<a class="btn text-slate-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white transition duration-150 ease-in-out group" href="#pricing-section">
+								Free Demo <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
 							</a>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</section>
+
+
 
 
 	<!-- Site footer -->
@@ -1726,35 +2006,11 @@
 							<div class="mb-4">
 								<!-- Logo -->
 								<a class="block" href="/" aria-label="CSBOX">
-									<img src="./images/logo.svg" width="38" height="38" alt="Stellar">
+									<img src="./favicon.png" width="38" height="38" alt="Stellar">
 								</a>
 							</div>
 							<div class="text-sm text-slate-300">&copy; CSBOX.com <span class="text-slate-500">-</span> All rights reserved.</div>
 						</div>
-						<!-- Social links -->
-						<ul class="flex">
-							<li>
-								<a class="flex justify-center items-center text-blue-500 hover:text-blue-400 transition duration-150 ease-in-out" href="#0" aria-label="Twitter">
-									<svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-										<path d="M24 11.5c-.6.3-1.2.4-1.9.5.7-.4 1.2-1 1.4-1.8-.6.4-1.3.6-2.1.8-.6-.6-1.5-1-2.4-1-1.7 0-3.2 1.5-3.2 3.3 0 .3 0 .5.1.7-2.7-.1-5.2-1.4-6.8-3.4-.3.5-.4 1-.4 1.7 0 1.1.6 2.1 1.5 2.7-.5 0-1-.2-1.5-.4 0 1.6 1.1 2.9 2.6 3.2-.3.1-.6.1-.9.1-.2 0-.4 0-.6-.1.4 1.3 1.6 2.3 3.1 2.3-1.1.9-2.5 1.4-4.1 1.4H8c1.5.9 3.2 1.5 5 1.5 6 0 9.3-5 9.3-9.3v-.4c.7-.5 1.3-1.1 1.7-1.8z" />
-									</svg>
-								</a>
-							</li>
-							<li class="ml-2">
-								<a class="flex justify-center items-center text-blue-500 hover:text-blue-400 transition duration-150 ease-in-out" href="#0" aria-label="Dev.to">
-									<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
-										<path class="w-8 h-8 fill-current" d="M12.29 14.3a.69.69 0 0 0-.416-.155h-.623v3.727h.623a.689.689 0 0 0 .416-.156.543.543 0 0 0 .21-.466v-2.488a.547.547 0 0 0-.21-.462ZM22.432 8H9.568C8.704 8 8.002 8.7 8 9.564v12.872A1.568 1.568 0 0 0 9.568 24h12.864c.864 0 1.566-.7 1.568-1.564V9.564A1.568 1.568 0 0 0 22.432 8Zm-8.925 9.257a1.631 1.631 0 0 1-1.727 1.687h-1.657v-5.909h1.692a1.631 1.631 0 0 1 1.692 1.689v2.533ZM17.1 14.09h-1.9v1.372h1.163v1.057H15.2v1.371h1.9v1.056h-2.217a.72.72 0 0 1-.74-.7v-4.471a.721.721 0 0 1 .7-.739H17.1v1.054Zm3.7 4.118c-.471 1.1-1.316.88-1.694 0l-1.372-5.172H18.9l1.058 4.064 1.056-4.062h1.164l-1.378 5.17Z" />
-									</svg>
-								</a>
-							</li>
-							<li class="ml-2">
-								<a class="flex justify-center items-center text-blue-500 hover:text-blue-400 transition duration-150 ease-in-out" href="#0" aria-label="Github">
-									<svg class="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-										<path d="M16 8.2c-4.4 0-8 3.6-8 8 0 3.5 2.3 6.5 5.5 7.6.4.1.5-.2.5-.4V22c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8.6-.2 1.3-.3 2-.3s1.4.1 2 .3c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.7 3.9.3.4.6.9.6 1.6v2.2c0 .2.1.5.6.4 3.2-1.1 5.5-4.1 5.5-7.6-.1-4.4-3.7-8-8.1-8z" />
-									</svg>
-								</a>
-							</li>
-						</ul>
 					</div>
 				</div>
 
@@ -1787,18 +2043,6 @@
 						<li>
 							<a class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">About us</a>
 						</li>
-						<li>
-							<a class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">Diversity & Inclusion</a>
-						</li>
-						<li>
-							<a class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">Blog</a>
-						</li>
-						<li>
-							<a class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">Careers</a>
-						</li>
-						<li>
-							<a class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">Financial statements</a>
-						</li>
 					</ul>
 				</div>
 
@@ -1806,9 +2050,6 @@
 				<div class="sm:col-span-6 md:col-span-3 lg:col-span-2">
 					<h6 class="text-sm text-slate-50 font-medium mb-2">Resources</h6>
 					<ul class="text-sm space-y-2">
-						<li>
-							<a class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">Community</a>
-						</li>
 						<li>
 							<a class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">Terms of service</a>
 						</li>
@@ -1824,15 +2065,6 @@
 					<ul class="text-sm space-y-2">
 						<li>
 							<a class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">Refund policy</a>
-						</li>
-						<li>
-							<a class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">Terms & Conditions</a>
-						</li>
-						<li>
-							<a class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">Privacy policy</a>
-						</li>
-						<li>
-							<a class="text-slate-400 hover:text-slate-200 transition duration-150 ease-in-out" href="#0">Brand Kit</a>
 						</li>
 					</ul>
 				</div>
