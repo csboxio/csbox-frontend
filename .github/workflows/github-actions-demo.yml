@@ -41,7 +41,7 @@ jobs:
           echo "CF_API_TOKEN=${CF_API_TOKEN}" >> .env
           echo "PRIVATE_LTI_API_KEY=${PRIVATE_LTI_API_KEY}" >> .env
           cat .env
-          npx wrangler build
+          npx wrangler build --legacy-peer-deps
           npx wrangler publish
         env:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
