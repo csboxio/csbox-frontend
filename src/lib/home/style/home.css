@@ -1,0 +1,53 @@
+@keyframes slideInFromLeft {
+    from {
+        filter: blur(1px);
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+    }
+}
+
+.animate-slide-in {
+    animation: slideInFromLeft 700ms cubic-bezier(0.01, 0.20, 0.60, 0.94) 0s 1;
+}
+
+.blur-in-out {
+    animation: blurInOut 1s ease-in-out forwards;
+}
+
+@keyframes blurInOut {
+    0% {
+        filter: blur(0);
+        opacity: 1;
+    }
+    50% {
+        filter: blur(4px);
+        opacity: 0.5;
+    }
+    100% {
+        filter: blur(0);
+        opacity: 1;
+    }
+}
+
+@media (min-width: 500px) {
+    .responsive-text {
+        font-size: 1.4rem; /* Adjust as needed */
+    }
+}
+
+@media (min-width: 640px) {
+    .responsive-text {
+        font-size: 2rem; /* Adjust as needed */
+    }
+}
+
+@media (min-width: 768px) {
+    .responsive-text {
+        font-size: 2.5rem; /* Adjust as needed */
+    }
+}

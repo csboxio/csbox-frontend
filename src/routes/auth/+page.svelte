@@ -1,37 +1,30 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Auth from "$lib/components/Auth/Auth.svelte";
-	import {browser} from "$app/environment";
+	import {goto} from "$app/navigation";
 
 	export let data
 
 	let { supabase, onboard } = data
 	$: ({ supabase, onboard } = data)
 
-	let completed_setup
-	$: completed_setup
-	try {
-		completed_setup = onboard?.data.completed_setup
-	}
-	catch (e) {
-		console.log(e)
-	}
+	let isSetupCompleted
+	$: isSetupCompleted = onboard?.data.completed_setup
 
+	let isAuthenticated = false
+	$: isAuthenticated = !!$page.data.session
+
+	$: {
+		if (isAuthenticated) {
+			if (isSetupCompleted) {
+				goto('/d');
+			} else {
+				goto('/onboarding');
+			}
+		}
+	}
 </script>
 
-
-{#if !$page.data.session }
-
+{#if !isAuthenticated }
 	<Auth bind:supabase={supabase} />
-	{:else}
-	{#if completed_setup === false}
-		<script type="module">
-			window.location.href = '/onboarding';
-		</script>
-		{:else}
-		<script type="module">
-			window.location.href = '/d';
-		</script>
-	{/if}
 {/if}
-
