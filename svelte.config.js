@@ -17,9 +17,6 @@ const config = {
 		csrf: {
 			checkOrigin: false,
 		},
-		optimizeDeps: {
-			include: ['@stitches/core'],
-		},
 	}
 };
 
