@@ -11,10 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy
     steps:
-      - uses: actions/checkout@v3
-      - name: Deploy
-        uses: cloudflare/wrangler-action@3.0.0
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -32,12 +28,19 @@ jobs:
       - name: Build Svelte Kit
         run: npm run build
 
-      - name: Debug Environment Variables
+      - uses: actions/checkout@v3
+      - name: Deploy
         run: |
-          echo "PRIVATE_LTI_API_KEY=${PRIVATE_LTI_API_KEY}"          
-
-      - name: Deploy Cloudflare Worker
-        run: |
+          echo "Deploying to Cloudflare Worker"
+          echo "CF_ACCOUNT_ID=${CF_ACCOUNT_ID}"
+          echo "CF_ZONE_ID=${CF_ZONE_ID}"
+          echo "CF_API_TOKEN=${CF_API_TOKEN}"
+          echo "PRIVATE_LTI_API_KEY=${PRIVATE_LTI_API_KEY}"
+          echo "CF_ACCOUNT_ID=${CF_ACCOUNT_ID}" > .env
+          echo "CF_ZONE_ID=${CF_ZONE_ID}" >> .env
+          echo "CF_API_TOKEN=${CF_API_TOKEN}" >> .env
+          echo "PRIVATE_LTI_API_KEY=${PRIVATE_LTI_API_KEY}" >> .env
+          cat .env
           npx wrangler build
           npx wrangler publish
         env:
