@@ -1,6 +1,8 @@
 <script>
     import {onMount} from "svelte";
     import {blur} from 'svelte/transition';
+    import { fade } from 'svelte/transition';
+
 
 
     const categories = ['students', 'instructors', 'professors', 'developers'];
@@ -47,6 +49,12 @@
                 <p class="md:text-lg sm:text-md text-slate-400 text-center">A cloud based environment for educating, and
                     learning.</p>
             </div>
+
+            <!-- Particles animation -->
+            <div class="absolute inset-0 -z-10" aria-hidden="true">
+                <canvas data-particle-animation></canvas>
+            </div>
+
             <!-- Highlighted boxes -->
             <div class="relative pb-12 md:pb-20">
                 <!-- Blurred shape -->
@@ -66,7 +74,7 @@
                 <!-- Grid -->
                 <div class="grid md:grid-cols-12 gap-6 group" data-highlighter>
                     <!-- Box #1 -->
-                    <div class="md:col-span-12" data-aos="fade-down">
+                    <div class="md:col-span-12" transition:fade|local={{ delay: 250, duration: 300 }}>
                         <div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
                             <div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
                                 <div class="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -121,7 +129,7 @@
                         </div>
                     </div>
 
-                    <div class="md:col-span-7" data-aos="fade-down">
+                    <div class="md:col-span-7" in:fade={{ delay: 250, duration: 300 }}>
                         <div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
                             <div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
                                 <div class="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -167,7 +175,7 @@
                         </div>
                     </div>
                     <!-- Box #3 -->
-                    <div class="md:col-span-5" data-aos="fade-down">
+                    <div class="md:col-span-5" in:fade={{ delay: 250, duration: 300 }}>
                         <div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
                             <div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
                                 <div class="flex flex-col">
@@ -192,6 +200,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- Features list -->
             <div class="grid md:grid-cols-3 gap-8 md:gap-12">
                 <div>

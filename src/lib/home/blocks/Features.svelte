@@ -3,6 +3,7 @@
 </script>
 
 <section>
+
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
         <div class="pt-12 md:pt-20">
 

@@ -15,11 +15,19 @@
 	import Footer from "../lib/home/blocks/Footer.svelte";
     import {onMount} from "svelte";
     import {init} from "../lib/home/scripts/init.js";
+    import {navigating} from "$app/stores";
+
+    let animate = !$navigating;
+    let loaded = false;
 
     onMount(() => {
         // Main init function for home page.
         init();
+        // Wait until page load, to start animations.
+        loaded = true;
     });
+
+
 
 </script>
 
@@ -37,7 +45,6 @@
 <div class="flex flex-col min-h-screen overflow-hidden">
     <!-- Site header -->
     <Header/>
-
     <!-- Hero -->
     <Hero/>
     <!-- Clients TODO Empty obviously -->

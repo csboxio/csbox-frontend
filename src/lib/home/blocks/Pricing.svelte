@@ -30,7 +30,7 @@
                     </svg>
                 </div>
                 <!-- Content -->
-                <div class="grid md:grid-cols-4 xl:-mx-6 text-sm [&>div:nth-of-type(-n+4)]:py-6 [&>div:nth-last-of-type(-n+4)]:pb-6 max-md:[&>div:nth-last-of-type(-n+4)]:mb-8 max-md:[&>div:nth-of-type(-n+4):nth-of-type(n+1)]:rounded-t-3xl max-md:[&>div:nth-last-of-type(-n+4)]:rounded-b-3xl md:[&>div:nth-of-type(2)]:rounded-tl-3xl md:[&>div:nth-of-type(4)]:rounded-tr-3xl md:[&>div:nth-last-of-type(3)]:rounded-bl-3xl md:[&>div:nth-last-of-type(1)]:rounded-br-3xl [&>div]:bg-slate-700/20 [&>div:nth-of-type(4n+1)]:bg-transparent max-md:[&>div:nth-of-type(4n+5)]:hidden max-md:[&>div:nth-of-type(4n+2)]:order-1 max-md:[&>div:nth-of-type(4n+3)]:order-2 max-md:[&>div:nth-of-type(4n+4)]:order-3 max-md:md:[&>div:nth-of-type(n)]:mb-0 [&>div:nth-of-type(4n+3)]:relative before:[&>div:nth-of-type(4n+3)]:absolute before:[&>div:nth-of-type(4n+3)]:-inset-px before:[&>div:nth-of-type(4n+3)]:rounded-[inherit] before:[&>div:nth-of-type(4n+3)]:border-x-2 before:[&>div:nth-of-type(3)]:border-t-2 before:[&>div:nth-last-of-type(2)]:border-b-2 before:[&>div:nth-of-type(4n+3)]:border-blue-500 before:[&>div:nth-of-type(4n+3)]:-z-10 before:[&>div:nth-of-type(4n+3)]:pointer-events-none">
+                <div class="grid md:grid-cols-4 xl:-mx-6 text-sm max-md:mb-8 max-md:rounded-b-3xl md:rounded-tr-3xl md:rounded-bl-3xl :bg-slate-700/20 :bg-transparent max-md::hidden max-md::order-1 max-md::order-2 max-md::order-3 max-md:md::mb-0 :relative before::absolute before::-inset-px before::rounded-before::border-x-2 before::border-t-2 before::border-b-2 before::border-blue-500 before::-z-10 before::pointer-events-none">
                     <!-- Pricing toggle -->
                     <div class="px-6 flex flex-col justify-end">
                         <div class="pb-5 md:border-b border-slate-800">
@@ -49,6 +49,7 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- Competitor 1 -->
                     <div class="px-6 flex flex-col justify-end">
                         <div class="grow pb-4 mb-4 border-b border-slate-800">
@@ -62,9 +63,9 @@
                         </div>
                     </div>
 
-                    <!-- Pro price -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="grow pb-4 mb-4 border-b border-slate-800">
+                    <!-- CSBOX -->
+                    <div class="px-6 flex flex-col justify-end border-x border-t border-blue-500">
+                        <div class="grow pb-4 mb-4 border-b border-slate-800 ">
                             <div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5"><img src="/logo-fullColor-white-text.png" width="150" height="100%" alt="CSBOX"/></div>
                             <div class="mb-1">
                                 <span class="text-lg font-medium text-slate-500">$</span><span class="text-3xl font-bold text-slate-50">10</span><span class="text-sm text-slate-600 font-medium">/mo (per user)</span>
@@ -76,7 +77,8 @@
                             </a>
                         </div>
                     </div>
-                    <!-- Enterprise price -->
+
+                    <!-- Competitor 2 -->
                     <div class="px-6 flex flex-col justify-end">
                         <div class="grow pb-4 mb-4 border-b border-slate-800">
                             <div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Competitor 2</div>
@@ -86,45 +88,37 @@
                             <div class="text-slate-500">$0.36 per hour, per user.</div>
                         </div>
                     </div>
-                    <!-- # Usage -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4">Features</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Usage</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Usage</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Usage</div>
-                    </div>
-                    <!-- Education First Platform -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Education First Platform</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
 
-                        </div>
+                    <!-- Desktop Size Feature Set -->
+                    <div class="px-6 flex flex-col justify-end">
+                        <div class="py-2 text-slate-50 font-medium mt-4">Feature Set 1</div>
                     </div>
+                    <!-- Desktop Size Feature Set 1 End -->
+
+                    <!-- Feature Checkbox Competitor 1 (No Feature) -->
+                    <div class="px-6 flex flex-col justify-end">
+                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Competitor 1</div>
+                    </div>
+                    <!-- End -->
+
+
+                    <!-- Feature Checkbox Competitor 2 (Has Feature) -->
                     <div class="px-6 flex flex-col justify-end">
                         <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
+                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
                                 <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
                             </svg>
-
-
-
-                            <span> <span class="md:hidden">Education First Platform</span></span>
+                            <span><span class="md:hidden">Feature 1</span></span>
                         </div>
                     </div>
+                    <!-- End -->
+
+                    <!-- Feature Checkbox Competitor 2 (No Feature) -->
                     <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-
-                            <span></span>
-                        </div>
+                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Competitor 2</div>
                     </div>
+                    <!-- End -->
+
                     <!-- LMS Integration -->
                     <div class="px-6 flex flex-col justify-end">
                         <div class="py-2 text-slate-400 border-b border-slate-800">LMS Integration</div>
@@ -134,259 +128,51 @@
                             <svg class="shrink-0  mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" >
                                 <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
                             </svg>
-                            <span><span class="md:hidden">Custom Domains</span></span>
+                            <span><span class="md:hidden">LMS Integration</span></span>
                         </div>
                     </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Custom Domains</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
 
-                        </div>
-                    </div>
-                    <!-- User Role Management -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Auto Import Content</div>
-                    </div>
                     <div class="px-6 flex flex-col justify-end">
                         <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
+                            <svg class="shrink-0  mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" >
                                 <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
                             </svg>
-                            <span><span class="md:hidden">User Role Management</span></span>
+                            <span><span class="md:hidden">LMS Integration</span></span>
                         </div>
                     </div>
+
+
                     <div class="px-6 flex flex-col justify-end">
                         <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
+                            <svg class="shrink-0  mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" >
                                 <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
                             </svg>
-                            <span><span class="md:hidden">User Role Management</span></span>
+                            <span><span class="md:hidden">LMS Integration</span></span>
                         </div>
                     </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">User Role Management</span></span>
-                        </div>
-                    </div>
-                    <!-- External Databases -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Auto Grading</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <!-- Automatic Code Testing -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Automatic Code Testing</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <!-- Online Workspace -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Online Workspace</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <!-- High Performance -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">High Performance</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <!-- Full Stack Development -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Full Stack Development</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <!-- Remote Desktop -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Remote Desktop</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <!-- No Artificial Limitations -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">No Artificial Limitations</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">External Databases</span></span>
-                        </div>
-                    </div>
+
                     <!-- # Features -->
+
+                    <!-- Desktop Size Feature Set 2-->
                     <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4">Features</div>
+                        <div class="py-2 text-slate-50 font-medium mt-4">Feature Set 2</div>
                     </div>
+                    <!-- Desktop Size Feature Set 2 End -->
+
+                    <!-- Mobile Size Feature Set-->
                     <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Features</div>
+                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Feature Set 2</div>
                     </div>
+                    <!-- Mobile Size End -->
+
                     <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Features</div>
+
                     </div>
+
                     <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Features</div>
+
                     </div>
+
                     <!-- Custom Connection -->
                     <div class="px-6 flex flex-col justify-end">
                         <div class="py-2 text-slate-400 border-b border-slate-800">Content Import</div>
@@ -396,244 +182,15 @@
                             <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
                                 <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
                             </svg>
-                            <span><span class="md:hidden">Custom Connection</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Custom Connection</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Custom Connection</span></span>
-                        </div>
-                    </div>
-                    <!-- Advanced Deployment Options -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Familiar Developer Environment</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Advanced Deployment Options</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Advanced Deployment Options</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Advanced Deployment Options</span></span>
-                        </div>
-                    </div>
-                    <!-- Extra Add-ons -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Multiple Price Models</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Extra Add-ons</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Extra Add-ons</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Extra Add-ons</span></span>
-                        </div>
-                    </div>
-                    <!-- External Connections -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Multi-User Workspaces</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <!-- SSO -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Single Sign On</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <!-- Templates -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Pre-built Templates</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <!-- Course Material -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Pre-built Course Material</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <!-- Admin Roles -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Admin Roles</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Admin Roles</span></span>
-                        </div>
-                    </div>
-                    <!-- Deploy and Monitor -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Deploy and Monitor</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <span><span class="md:hidden">Deploy and Monitor</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Monitoring</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Deploy and Monitor</span></span>
+                            <span><span class="md:hidden">Content Import</span></span>
                         </div>
                     </div>
                     <!-- # Support -->
+                    <!-- Mobile Size Feature Set-->
                     <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4">Support</div>
+                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Feature Set 3</div>
                     </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4 hidden">Support</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Support</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Support</div>
-                    </div>
+                    <!-- Mobile Size End -->
                     <!-- Premium Support -->
                     <div class="px-6 flex flex-col justify-end">
                         <div class="py-2 text-slate-400 border-b border-slate-800">Premium Support 24/7</div>
