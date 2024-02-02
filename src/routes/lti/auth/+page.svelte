@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Auth from "$lib/components/Auth/Auth.svelte";
+	import Auth from "$lib/auth/Auth.svelte";
 	import DeepLinking from "$lib/lti/DeepLinking.svelte";
 	import {browser} from "$app/environment";
 

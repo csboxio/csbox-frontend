@@ -40,7 +40,7 @@ let iconTitle = (provider) => template(i18n['sign_in']?.social_provider_text, {
 </script>
 
 {#if providers.length}
-	<Container direction="vertical" gap="large" {appearance}>
+	<Container direction="vertical" gap="large" >
 		<Container
 			direction={verticalSocialLayout ? 'vertical' : 'horizontal'}
 			gap={verticalSocialLayout ? 'small' : 'medium'}
@@ -52,6 +52,7 @@ let iconTitle = (provider) => template(i18n['sign_in']?.social_provider_text, {
 					on:click={() => handleProviderSignIn(provider)}
 					type="submit"
 					color="default"
+					social="true"
 					{loading}
 					{appearance}
 				>

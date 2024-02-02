@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Auth from "$lib/components/Auth/Auth.svelte";
 	import {goto} from "$app/navigation";
+	import Auth from "$lib/auth/Auth.svelte";
+	import {onMount} from "svelte";
+	import {init} from "../../lib/home/scripts/init.js";
 
 	export let data
+
 
 	let { supabase, onboard } = data
 	$: ({ supabase, onboard } = data)

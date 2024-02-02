@@ -1,5 +1,5 @@
 <script>import { createStitches, createTheme } from '@stitches/core';
-import { merge, VIEWS, en } from '@supabase/auth-ui-shared';
+import {merge, VIEWS, en, ThemeSupa} from '@supabase/auth-ui-shared';
 import EmailAuth from './interfaces/EmailAuth.svelte';
 import ForgottenPassword from './interfaces/ForgottenPassword.svelte';
 import MagicLink from './interfaces/MagicLink.svelte';
@@ -18,7 +18,25 @@ export let redirectTo = undefined;
 export let onlyThirdPartyProviders = false;
 export let magicLink = false;
 export let showLinks = true;
-export let appearance = {};
+export let appearance = {
+	theme: ThemeSupa,
+	style: {
+		button: `border-radius: ${'20px'}; border-color: rgba(0,0,0,0);`
+	},
+	variables: {
+		default: {
+			colors: {
+				brand: 'rgb(72,159,194)',
+				brandAccent: `rgb(94,187,224)`
+			},
+			radii: {
+				borderRadiusButton: '10px',
+				buttonBorderRadius: '10px',
+				inputBorderRadius: '10px'
+			}
+		}
+	}
+};
 export let theme = 'ThemeSupa';
 export let localization = {};
 export let otpType = 'email';

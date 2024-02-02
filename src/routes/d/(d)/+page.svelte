@@ -4,7 +4,6 @@
 	import Settings from '$lib/components/Settings.svelte';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import { fetchCourses } from "$lib/utilities/utils.js";
-	import Auth from "$lib/components/Auth/Auth.svelte";
 	import {onMount} from "svelte";
 	import {navStore} from "../../../lib/stores/stores.js";
 	import { fade, fly } from 'svelte/transition';

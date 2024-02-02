@@ -1,0 +1,155 @@
+<script lang="ts">
+    import { Auth } from '$lib/auth-ui-svelte';
+    import { ThemeSupa, type SocialLayout, type ViewType } from '$lib/auth-ui-shared';
+    import { browser } from "$app/environment";
+    import { Turnstile } from "svelte-turnstile";
+    import {authTitle} from "$lib/stores/stores.js";
+    import { onMount } from 'svelte';
+    import { afterUpdate } from 'svelte';
+    import {init} from "../home/scripts/init.js";
+
+
+    const colors = [
+        'rgb(202, 37, 37)',
+        'rgb(65, 163, 35)',
+        'rgb(8, 107, 177)',
+        'rgb(235, 115, 29)'
+    ] as const;
+
+    const socialAlignments = ['horizontal', 'vertical'] as const;
+
+    const radii = ['5px', '10px', '20px'] as const;
+
+    const views: { id: ViewType; title: string }[] = [
+        { id: 'sign_in', title: 'Sign In' },
+        { id: 'sign_up', title: 'Sign Up' },
+        { id: 'magic_link', title: 'Magic Link' },
+        { id: 'forgotten_password', title: 'Forgotten Password' },
+        { id: 'update_password', title: 'Update Password' },
+        { id: 'verify_otp', title: 'Verify Otp' }
+    ];
+
+    let brandColor = colors[0];
+    let socialLayout = socialAlignments[0] satisfies SocialLayout;
+    let borderRadius = radii[0];
+    let view = views[0];
+
+    export let supabase
+
+    let token;
+    $: token;
+
+    let showPlaceholder = true;
+
+    afterUpdate(() => {
+        // Hide the placeholder after the Turnstile component is loaded
+        showPlaceholder = false;
+    });
+
+    onMount(() => {
+        init();
+    });
+</script>
+
+<style>
+
+    .turnstile-placeholder {
+        width: 300px; /* Set the width and height to match your Turnstile component */
+        height: 300px;
+        visibility: hidden;
+    }
+
+    .auth-box-shadow {
+        min-width: 364px;
+    }
+
+    button[class^="social"] {
+        background-color: grey !important;
+    }
+
+</style>
+
+<!-- Particles animation -->
+<div class="absolute inset-0 z-10" aria-hidden="true">
+    <canvas data-particle-animation></canvas>
+</div>
+<body class="antialiased bg-body text-body font-body bg-gray-700">
+<div class="min-h-screen">
+
+    <div class="dark:bg-gray-800 bg-gray-800 relative py-4 sm:py-8 lg:py-16 flex items-center justify-center h-screen ">
+
+        <div class="w-full max-w-sm sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-lg z-10 ">
+
+            <div class="lg:mx-auto bg-gray-600 h-full sm:h-auto rounded-xl shadow-gray-400 drop-shadow-lg  ">
+                    <div class={'auth-box-shadow'}>
+                        <div class="border-scale-200 bg-scale-300 relative  px-8 py-8 md:py-12 drop-shadow-sm ">
+                            <div class="mb-6 flex flex-col gap-6">
+                                <div class="flex items-center gap-3">
+                                    <img src="/favicon.png" width="50" height="100%" alt="CSBOX">
+
+                                    {#if authTitle !== undefined}
+                                    <div class="flex text-white font-semibold text-xl">{$authTitle?.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</div>
+                                        {/if}
+                                </div>
+                                <!-- Title -->
+                            </div>
+
+                            <Auth
+                                    supabaseClient={supabase}
+                                    showLinks={true}
+                                    theme="dark"
+                                    providers={['google', 'github']}
+                                    captchaToken={token}
+                                    queryParams={{
+                                        access_type: 'offline',
+                                        prompt: 'consent',
+                                        hd: 'csbox.io',
+                                     }}
+                                    appearance={{
+                                        style: {
+									button: `border-radius: ${'20px'}; border-color: rgba(0,0,0,0); padding: 5px; space-y-1;`,
+								},
+								variables: {
+									default: {
+										colors: {
+											brand: 'rgb(72,159,194)',
+											brandAccent: `rgb(94,187,224)`
+										},
+										radii: {
+											borderRadiusButton: '10px',
+											buttonBorderRadius: '10px',
+											inputBorderRadius: '10px'
+										}
+									}
+								},
+                                    extend: false, // necessary in order to not render default styles
+                                    className: {
+                                      container: "",
+                                      label: "text-white py-2 mb-2 block w-full",
+                                      divider: "text-white text-center my-4",
+                                      input: "py-2 px-3 border text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 rounded w-full mb-0",
+                                      message: "font-regular text-center mb-4 block w-full p-4 text-base text-red-500 mt-5",
+                                      anchor: "flex text-center justify-center text-white text-blue-300 hover:bg-blue-300 hover:bg-opacity-50 text-gray-800 py-2 px-4 rounded-full mt-1 text-sm",
+                                    },
+                                  }}
+                            />
+
+                            <div class="flex justify-center text-center">
+
+                                {#if browser}
+                                    <div>
+                                        {#if showPlaceholder}
+                                            <div class="turnstile-placeholder"></div>
+                                        {/if}
+                                        <Turnstile siteKey="0x4AAAAAAAFpCF8-h1TYQKHV" on:turnstile-callback={e => {token = e.detail.token}} />
+                                    </div>
+                                {/if}
+
+                           </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>

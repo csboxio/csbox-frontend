@@ -2,10 +2,14 @@
 export let color = 'default';
 export let appearance = {};
 export let loading = false;
+export let social;
 $: classNames = generateClassNames('button', color, appearance);
+
+let buttonStyle = 'border-radius: 20px; border-color: rgba(0,0,0,0); padding: 5px; space-y-1;'
 </script>
 
-<button on:click {...$$restProps} disabled={loading} style={appearance?.style?.button} class={classNames.join(' ')}>
+<!-- Changed to have difference between social button and non social button -->
+<button on:click {...$$restProps} disabled={loading} style={social ? buttonStyle + ' background-color: #3D485B;' : buttonStyle + ' background-color: #2c5afb;' + classNames} class={social ? 'social' : ''}>
 	<slot />
 </button>
 

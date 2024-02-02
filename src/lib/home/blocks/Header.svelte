@@ -1,6 +1,9 @@
 <script>
     import {browser} from "$app/environment";
     import {page} from "$app/stores";
+    import Fa from 'svelte-fa/src/fa.svelte';
+    import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
+
 </script>
 
 <header class="absolute w-full z-30">

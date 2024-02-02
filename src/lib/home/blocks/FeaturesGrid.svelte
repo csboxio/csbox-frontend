@@ -15,7 +15,6 @@
         </div>
 
         <div class=" pb-12 md:pt-32 md:pb-20">
-
             <!-- Section header -->
             <div class="max-w-3xl pb-12 md:pb-20">
                 <h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Benefits</h2>

@@ -1,3 +1,35 @@
+<script>
+    import PricingRow from "../components/PricingRow.svelte";
+    import PricingSubHeader from "../components/PricingSubHeader.svelte";
+
+    // Pricing table data, header, checked is the row.
+    // 0 is CSBOX, 1 is Competitor 1, 2 is Competitor 2.
+    let featuresSetOne = [
+        { header: "Education-First Platform", checked: [true, false, false] },
+        { header: "Tailored for Higher Education", checked: [true, false, false] },
+        { header: "LMS Integration", checked: [true, true, false] },
+    ];
+
+    let featuresSetTwo = [
+        { header: "Robust Online Workspace", checked: [true, true, true] },
+        { header: "Unmatched Performance", checked: [true, false, false] },
+        { header: "1 TB of Storage per Class", checked: [true, false, false] },
+    ];
+
+    let featuresSetThree = [
+        { header: "Any Programming Language Support", checked: [true, true, true] },
+        { header: "Standardized Developer Environment", checked: [true, true, false] },
+        { header: "Pre-built Templates Library", checked: [true, false, true] },
+    ];
+
+    let featuresSetFour = [
+        { header: "Effortless Deployment and Monitoring", checked: [true, false, false] },
+        { header: "Premium 24/7 Support", checked: [true, false, false] },
+        { header: "Engaging Instructor Workshops", checked: [true, false, false] },
+    ];
+
+</script>
+
 <section class="relative">
     <!-- Radial gradient -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none -z-10" aria-hidden="true">
@@ -31,7 +63,8 @@
                 </div>
                 <!-- Content -->
                 <div class="grid md:grid-cols-4 xl:-mx-6 text-sm max-md:mb-8 max-md:rounded-b-3xl md:rounded-tr-3xl md:rounded-bl-3xl :bg-slate-700/20 :bg-transparent max-md::hidden max-md::order-1 max-md::order-2 max-md::order-3 max-md:md::mb-0 :relative before::absolute before::-inset-px before::rounded-before::border-x-2 before::border-t-2 before::border-b-2 before::border-blue-500 before::-z-10 before::pointer-events-none">
-                    <!-- Pricing toggle -->
+
+                    <!-- Pricing toggle Column -->
                     <div class="px-6 flex flex-col justify-end">
                         <div class="pb-5 md:border-b border-slate-800">
                             <!-- Toggle switch -->
@@ -50,21 +83,8 @@
                         </div>
                     </div>
 
-                    <!-- Competitor 1 -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="grow pb-4 mb-4 border-b border-slate-800">
-                            <div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Competitor 1</div>
-                            <div class="mb-1">
-                                <span class="text-lg font-medium text-slate-400">$</span><span class="text-3xl font-bold text-slate-50">1000</span><span class="text-sm text-slate-500 font-medium">/mo (platform fee)</span>
-                            </div>
-                            <div class="mb-1">
-                                <span class="text-lg font-medium text-slate-400">$</span><span class="text-2xl font-bold text-slate-50">40</span><span class="text-sm text-slate-500 font-medium">/mo (per user)</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- CSBOX -->
-                    <div class="px-6 flex flex-col justify-end border-x border-t border-blue-500">
+                    <!-- Pricing header - CSBOX -->
+                    <div class="px-6 flex flex-col justify-end border-t border-x border-blue-500">
                         <div class="grow pb-4 mb-4 border-b border-slate-800 ">
                             <div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5"><img src="/logo-fullColor-white-text.png" width="150" height="100%" alt="CSBOX"/></div>
                             <div class="mb-1">
@@ -78,7 +98,19 @@
                         </div>
                     </div>
 
-                    <!-- Competitor 2 -->
+                    <!-- Pricing header - Competitor 1 -->
+                    <div class="px-6 flex flex-col justify-end">
+                        <div class="grow pb-4 mb-4 border-b border-slate-800">
+                            <div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Competitor 1</div>
+                            <div class="mb-1">
+                                <span class="text-lg font-medium text-slate-400">$</span><span class="text-3xl font-bold text-slate-50">1000</span><span class="text-sm text-slate-500 font-medium">/mo (platform fee)</span>
+                            </div>
+                            <div class="mb-1">
+                                <span class="text-lg font-medium text-slate-400">$</span><span class="text-2xl font-bold text-slate-50">40</span><span class="text-sm text-slate-500 font-medium">/mo (per user)</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="px-6 flex flex-col justify-end">
                         <div class="grow pb-4 mb-4 border-b border-slate-800">
                             <div class="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-200 pb-0.5">Competitor 2</div>
@@ -89,185 +121,56 @@
                         </div>
                     </div>
 
-                    <!-- Desktop Size Feature Set -->
                     <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4">Feature Set 1</div>
+                        <div class="py-2 text-slate-50 font-medium mt-4">Features</div>
                     </div>
-                    <!-- Desktop Size Feature Set 1 End -->
 
-                    <!-- Feature Checkbox Competitor 1 (No Feature) -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Competitor 1</div>
-                    </div>
-                    <!-- End -->
-
-
-                    <!-- Feature Checkbox Competitor 2 (Has Feature) -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Feature 1</span></span>
-                        </div>
-                    </div>
-                    <!-- End -->
-
-                    <!-- Feature Checkbox Competitor 2 (No Feature) -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Competitor 2</div>
-                    </div>
-                    <!-- End -->
-
-                    <!-- LMS Integration -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">LMS Integration</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0  mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" >
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">LMS Integration</span></span>
-                        </div>
+                    <div class="px-6 flex flex-col justify-end border-x border-blue-500">
+                        <div class="py-2 text-slate-50 font-medium mt-4"></div>
                     </div>
 
                     <div class="px-6 flex flex-col justify-end">
                         <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0  mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" >
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">LMS Integration</span></span>
+                            <span><span class=""></span></span>
                         </div>
                     </div>
 
-
                     <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0  mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" >
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">LMS Integration</span></span>
-                        </div>
+                        <div class="py-2 text-slate-50 font-medium mt-4"></div>
                     </div>
 
-                    <!-- # Features -->
+                    <PricingSubHeader subHeader={'Platform'}/>
 
-                    <!-- Desktop Size Feature Set 2-->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4">Feature Set 2</div>
-                    </div>
-                    <!-- Desktop Size Feature Set 2 End -->
+                    {#each featuresSetOne as { header, checked }}
+                        <PricingRow {header} {checked} />
+                    {/each}
 
-                    <!-- Mobile Size Feature Set-->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Feature Set 2</div>
-                    </div>
-                    <!-- Mobile Size End -->
+                    <PricingSubHeader subHeader={'Workspace'}/>
+
+                    {#each featuresSetTwo as { header, checked }}
+                        <PricingRow {header} {checked} />
+                    {/each}
+
+                    <PricingSubHeader subHeader={'Environment'}/>
+
+                    {#each featuresSetThree as { header, checked }}
+                        <PricingRow {header} {checked} />
+                    {/each}
+
+                    <PricingSubHeader subHeader={'Addons'}/>
+
+                    {#each featuresSetFour as { header, checked }}
+                        <PricingRow {header} {checked} />
+                    {/each}
 
                     <div class="px-6 flex flex-col justify-end">
-
-                    </div>
-
-                    <div class="px-6 flex flex-col justify-end">
-
-                    </div>
-
-                    <!-- Custom Connection -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Content Import</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Content Import</span></span>
-                        </div>
-                    </div>
-                    <!-- # Support -->
-                    <!-- Mobile Size Feature Set-->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-50 font-medium mt-4 md:hidden">Feature Set 3</div>
-                    </div>
-                    <!-- Mobile Size End -->
-                    <!-- Premium Support -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Premium Support 24/7</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <span><span class="md:hidden">Premium Support</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Premium Support</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Premium Support</span></span>
-                        </div>
+                        <div class="py-2 text-slate-50 font-medium mt-4"></div>
                     </div>
 
-                    <!-- Instructor Workshops -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Instructor Workshops</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <span><span class="md:hidden">Premium Support</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Premium Support</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Premium Support</span></span>
-                        </div>
+                    <div class="px-6 flex flex-col justify-end border-t border-blue-500">
+                        <div class="py-2 text-slate-50 font-medium mt-4"></div>
                     </div>
 
-                    <!-- Student Workshops -->
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="py-2 text-slate-400 border-b border-slate-800">Student Workshops</div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center border-b border-slate-800 py-2 text-slate-400 max-md:hidden">
-                            <span><span class="md:hidden">Premium Support</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9" style="fill: #194BFB;">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Premium Support</span></span>
-                        </div>
-                    </div>
-                    <div class="px-6 flex flex-col justify-end">
-                        <div class="flex items-center h-full border-b border-slate-800 py-2 text-slate-400">
-                            <svg class="shrink-0 fill-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" width="12" height="9">
-                                <path d="M10.28.28 3.989 6.575 1.695 4.28A1 1 0 0 0 .28 5.695l3 3a1 1 0 0 0 1.414 0l7-7A1 1 0 0 0 10.28.28Z" />
-                            </svg>
-                            <span><span class="md:hidden">Premium Support</span></span>
-                        </div>
-                    </div>
 
                 </div>
             </div>
