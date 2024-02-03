@@ -24,7 +24,7 @@
         <div class="pt-32 pb-16 md:pt-52 md:pb-32">
             <!-- Hero content -->
             <div class="max-w-3xl mx-auto text-center">
-                <div class="mb-6" in:fade={{ delay: 250, duration: 300 }}>
+                <div class="mb-6" in:fade={{ delay: 0, duration: 300 }}>
                     <div class="inline-flex relative before:absolute before:inset-0 before:bg-blue-500 before:blur-md">
                         <button class="btn-sm border-none py-0.5 text-slate-300 hover:text-white group relative before:absolute before:inset-0 before:bg-slate-800/50 before:rounded-full before:pointer-events-none shadow">
                             <span class="relative inline-flex items-center">
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <h1 class="h1 text-gray-300 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" in:fade={{ delay: 250, duration: 300 }}>Empower. Educate. Elevate.</h1>
-                <p class="text-lg  text-gray-300 text-slate-300 mb-8" in:fade={{ delay: 250, duration: 300 }}> A cloud-based code learning platform built for next-generation education.</p>
+                <p class="text-lg text-gray-300 mb-8" > A cloud-based code learning platform built for next-generation education.</p>
                 <div class="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4" in:fade={{ delay: 250, duration: 300 }}>
                     <div>
                         <a class="btn border-none text-slate-200 hover:text-white bg-slate-900 bg-opacity-25 hover:bg-opacity-30 w-full" href="/auth">

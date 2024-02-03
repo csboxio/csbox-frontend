@@ -1,7 +1,8 @@
+
 <section class="relative">
     <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
 
-        <!-- Blurred shape -->
+        <!-- Blurred shape (benefits one, its weird okay) -->
         <div class="absolute top-0 -mt-24 left-0 -ml-16 blur-2xl opacity-70 pointer-events-none -z-10" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" width="434" height="427">
                 <defs>
@@ -15,6 +16,7 @@
         </div>
 
         <div class=" pb-12 md:pt-32 md:pb-20">
+
             <!-- Section header -->
             <div class="max-w-3xl pb-12 md:pb-20">
                 <h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Benefits</h2>

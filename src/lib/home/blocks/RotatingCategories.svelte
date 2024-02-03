@@ -74,7 +74,7 @@
                 <!-- Grid -->
                 <div class="grid md:grid-cols-12 gap-6 group" data-highlighter>
                     <!-- Box #1 -->
-                    <div class="md:col-span-12" transition:fade|local={{ delay: 250, duration: 300 }}>
+                    <div class="md:col-span-12">
                         <div class="relative h-full bg-slate-800 rounded-3xl p-px before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden">
                             <div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden">
                                 <div class="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -122,8 +122,7 @@
                                     </div>
                                     <!-- Image -->
                                     <img alt="Feature 01"
-                                         class="invisible sm:invisible md:invisible lg:visible absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:relative md:left-0 md:translate-x-0 py-4" loading="lazy" src="/icons/home/codingman.gif" width="550">
-
+                                         class="invisible sm:invisible md:invisible lg:visible absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto max-w-none md:relative md:left-0 md:translate-x-0 py-4" loading="lazy" src="/icons/home/codingman.gif?v=1" width="550">
                                 </div>
                             </div>
                         </div>

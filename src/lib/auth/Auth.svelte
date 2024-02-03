@@ -94,11 +94,18 @@
                                 <!-- Title -->
                             </div>
 
+                            <!-- Notice: Auth operation & Button styling has been changed from Library.
+                                 Change: Custom styling on the component to allow difference between social and other buttons (Ex. Sign in).
+                                 Change: Cloudflare Turnstile support
+                                 See: \src\lib\auth-ui-svelte\dist\Auth\Auth.svelte
+                                 See: \src\lib\auth-ui-svelte\dist\UI\Button.svelte
+                                 This is some jank shit, but like if Supabase Auth changes, I would have to rebuild this, or my own version.
+                                 They did an alright job, so, sort of a loose loose.-->
                             <Auth
                                     supabaseClient={supabase}
                                     showLinks={true}
                                     theme="dark"
-                                    providers={['google', 'github']}
+                                    providers={['google', 'github', 'azure', 'apple']}
                                     captchaToken={token}
                                     queryParams={{
                                         access_type: 'offline',
@@ -107,7 +114,7 @@
                                      }}
                                     appearance={{
                                         style: {
-									button: `border-radius: ${'20px'}; border-color: rgba(0,0,0,0); padding: 5px; space-y-1;`,
+									button: ``,
 								},
 								variables: {
 									default: {
@@ -122,19 +129,21 @@
 										}
 									}
 								},
+								// Notice: Button styling has been changed from Library.
+								// Change: Custom styling on the component to allow difference between social and other buttons (Ex. Sign in).
                                     extend: false, // necessary in order to not render default styles
                                     className: {
                                       container: "",
-                                      label: "text-white py-2 mb-2 block w-full",
+                                      label: "text-white py-2 mb-0 block w-full",
                                       divider: "text-white text-center my-4",
-                                      input: "py-2 px-3 border text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 rounded w-full mb-0",
+                                      input: "py-2 px-3 border text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 rounded w-full mb-2",
                                       message: "font-regular text-center mb-4 block w-full p-4 text-base text-red-500 mt-5",
                                       anchor: "flex text-center justify-center text-white text-blue-300 hover:bg-blue-300 hover:bg-opacity-50 text-gray-800 py-2 px-4 rounded-full mt-1 text-sm",
                                     },
                                   }}
                             />
 
-                            <div class="flex justify-center text-center">
+                            <div class="flex justify-center text-center pt-4">
 
                                 {#if browser}
                                     <div>

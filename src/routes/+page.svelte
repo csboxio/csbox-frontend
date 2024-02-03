@@ -17,14 +17,10 @@
     import {init} from "../lib/home/scripts/init.js";
     import {navigating} from "$app/stores";
 
-    let animate = !$navigating;
-    let loaded = false;
 
     onMount(() => {
         // Main init function for home page.
         init();
-        // Wait until page load, to start animations.
-        loaded = true;
     });
 
 
@@ -34,10 +30,9 @@
 <svelte:head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
-    <link href="./style.css" rel="stylesheet">
-    <link href="./src/lib/home/style/home.css" rel="stylesheet">
-    <link href="./css/vendors/aos.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="/style.css?v=1" as="style">
+    <link rel="stylesheet" href="/src/lib/home/style/home.css?v=1" as="style">
+    <link rel="stylesheet" href="/css/vendors/aos.css?v=1" as="style">
     <title>CSBOX</title>
 </svelte:head>
 

@@ -1,8 +1,6 @@
 import type {Actions} from "./$types";
 import {redirect} from '@sveltejs/kit'
 import { browser } from "$app/environment";
-
-export const ssr = false;
 export const load = async ({ locals: { getSession, getClaim } }) => {
 
 }
