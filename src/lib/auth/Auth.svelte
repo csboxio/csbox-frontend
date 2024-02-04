@@ -62,11 +62,6 @@
     .auth-box-shadow {
         min-width: 364px;
     }
-
-    button[class^="social"] {
-        background-color: grey !important;
-    }
-
 </style>
 
 <!-- Particles animation -->
@@ -105,7 +100,7 @@
                                     supabaseClient={supabase}
                                     showLinks={true}
                                     theme="dark"
-                                    providers={['google', 'github', 'azure', 'apple']}
+                                    providers={['google', 'github']}
                                     captchaToken={token}
                                     queryParams={{
                                         access_type: 'offline',
@@ -113,9 +108,7 @@
                                         hd: 'csbox.io',
                                      }}
                                     appearance={{
-                                        style: {
-									button: ``,
-								},
+
 								variables: {
 									default: {
 										colors: {
@@ -123,8 +116,8 @@
 											brandAccent: `rgb(94,187,224)`
 										},
 										radii: {
-											borderRadiusButton: '10px',
-											buttonBorderRadius: '10px',
+											borderRadiusButton: '2px',
+											buttonBorderRadius: '2px',
 											inputBorderRadius: '10px'
 										}
 									}
@@ -133,12 +126,11 @@
 								// Change: Custom styling on the component to allow difference between social and other buttons (Ex. Sign in).
                                     extend: false, // necessary in order to not render default styles
                                     className: {
-                                      container: "",
-                                      label: "text-white py-2 mb-0 block w-full",
-                                      divider: "text-white text-center my-4",
+                                      label: "text-xs text-white py-2 mb-0 block w-full",
+                                      divider: "text-white text-center my-2",
                                       input: "py-2 px-3 border text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 rounded w-full mb-2",
                                       message: "font-regular text-center mb-4 block w-full p-4 text-base text-red-500 mt-5",
-                                      anchor: "flex text-center justify-center text-white text-blue-300 hover:bg-blue-300 hover:bg-opacity-50 text-gray-800 py-2 px-4 rounded-full mt-1 text-sm",
+                                      anchor: "flex text-center justify-center text-white text-blue-300 hover:bg-gray-300 hover:bg-opacity-20 text-gray-800 py-2 px-4 rounded-md mt-1 text-sm",
                                     },
                                   }}
                             />
@@ -162,3 +154,5 @@
     </div>
     </div>
 </body>
+
+

@@ -51,8 +51,7 @@ let iconTitle = (provider) => template(i18n['sign_in']?.social_provider_text, {
 					aria-label={iconTitle(provider)}
 					on:click={() => handleProviderSignIn(provider)}
 					type="submit"
-					color="default"
-					social="true"
+					color="social"
 					{loading}
 					{appearance}
 				>
