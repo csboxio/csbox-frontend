@@ -7,6 +7,7 @@
     import { onMount } from 'svelte';
     import { afterUpdate } from 'svelte';
     import {init} from "../home/scripts/init.js";
+    import {fade, fly} from 'svelte/transition';
 
 
     const colors = [
@@ -39,13 +40,6 @@
     let token;
     $: token;
 
-    let showPlaceholder = true;
-
-    afterUpdate(() => {
-        // Hide the placeholder after the Turnstile component is loaded
-        showPlaceholder = false;
-    });
-
     onMount(() => {
         init();
     });
@@ -68,23 +62,23 @@
 <div class="absolute inset-0 z-10" aria-hidden="true">
     <canvas data-particle-animation></canvas>
 </div>
-<body class="antialiased bg-body text-body font-body bg-gray-700">
+<body class="antialiased bg-body text-body font-body bg-gray-700" data-sveltekit-preload-data="hover">
 <div class="min-h-screen">
 
     <div class="dark:bg-gray-800 bg-gray-800 relative py-4 sm:py-8 lg:py-16 flex items-center justify-center h-screen ">
 
         <div class="w-full max-w-sm sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-lg z-10 ">
 
-            <div class="lg:mx-auto bg-gray-600 h-full sm:h-auto rounded-xl shadow-gray-400 drop-shadow-lg  ">
+            <div class="lg:mx-auto bg-gray-600  sm:h-auto rounded-xl shadow-gray-400 drop-shadow-lg  ">
                     <div class={'auth-box-shadow'}>
-                        <div class="border-scale-200 bg-scale-300 relative  px-8 py-8 md:py-12 drop-shadow-sm ">
+                        <div class="border-scale-200 bg-scale-300 relative h-full px-8 py-8 md:py-12 drop-shadow-sm ">
                             <div class="mb-6 flex flex-col gap-6">
                                 <div class="flex items-center gap-3">
                                     <img src="/favicon.png" width="50" height="100%" alt="CSBOX">
 
                                     {#if authTitle !== undefined}
                                     <div class="flex text-white font-semibold text-xl">{$authTitle?.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</div>
-                                        {/if}
+                                    {/if}
                                 </div>
                                 <!-- Title -->
                             </div>
@@ -105,7 +99,7 @@
                                     queryParams={{
                                         access_type: 'offline',
                                         prompt: 'consent',
-                                        hd: 'csbox.io',
+                                        hd: 'csbox.io/auth',
                                      }}
                                     appearance={{
 
@@ -134,19 +128,11 @@
                                     },
                                   }}
                             />
-
-                            <div class="flex justify-center text-center pt-4">
-
-                                {#if browser}
-                                    <div>
-                                        {#if showPlaceholder}
-                                            <div class="turnstile-placeholder"></div>
-                                        {/if}
-                                        <Turnstile siteKey="0x4AAAAAAAFpCF8-h1TYQKHV" on:turnstile-callback={e => {token = e.detail.token}} />
-                                    </div>
-                                {/if}
-
-                           </div>
+                            <div class="flex justify-center text-center pt-4 pb-14" >
+                                <div class="absolute">
+                                    <Turnstile siteKey="0x4AAAAAAAFpCF8-h1TYQKHV" on:turnstile-callback={e => {token = e.detail.token}} />
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>

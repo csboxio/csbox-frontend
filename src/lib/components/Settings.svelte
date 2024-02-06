@@ -6,6 +6,7 @@
   import {afterUpdate, onMount} from "svelte";
   import {browser} from "$app/environment";
   import { fade, slide } from 'svelte/transition'
+  import {PUBLIC_SUPABASE_ID} from "$env/static/public";
 
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s) {
@@ -22,7 +23,18 @@
 
   async function signOut() {
     try {
-      let { error } = await  $page.data.supabase.auth.signOut()
+      let { error } = await $page.data.supabase.auth.signOut()
+
+      await invalidateAll();
+      // Attempt to refresh session through getUser;
+      //await $page.data.supabase.auth.getUser();
+      // Attempt to refresh session through refreshSession;
+      await $page.data.supabase.auth.refreshSession();
+      // Sign out, assuming the above make the server session invalid.
+      await $page.data.supabase.auth.signOut();
+      // Delete cookie on browser TODO THIS CAN CHANGE BASED ON SUPABASE ID
+      document.cookie = `sb-${PUBLIC_SUPABASE_ID}-auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+
       if (error) throw error
     } catch (error) {
       if (error instanceof Error) {
@@ -30,7 +42,7 @@
       }
     }
     await invalidateAll();
-    await goto('/')
+    await goto('/auth')
   }
 
   async function getNotifications() {

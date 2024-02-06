@@ -25,6 +25,7 @@ export const GET: RequestHandler = async ({ locals: { supabase, getSession, getC
     status: 303,
     headers: {
       'Content-Type': 'application/json',
+      "Cache-Control": "public, max-age=120, s-maxage=120"
     },
   })
 }

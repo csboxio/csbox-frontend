@@ -32,13 +32,13 @@ async function handleSubmit() {
                 email,
                 password,
 				// Modifications
-				options: { captchaToken, redirectTo: 'https://csbox.io/d/' },
+				options: { captchaToken, redirectTo: `${window.location.origin}/d`, emailRedirectTo: `${window.location.origin}/d`},
             });
             if (signInError)
                 error = signInError.message;
             loading = false;
-			// TODO HOTFIX HERE, NEEDS MORE TESTING
-			window.location.reload();
+			// TODO OLD HOTFIX (NOT IMPORTANT) BUT KEEPING HERE FOR REFERENCE
+			// window.location.reload();
             break;
         case VIEWS.SIGN_UP:
             let options = {
@@ -51,7 +51,7 @@ async function handleSubmit() {
                 email,
                 password,
 				// Modifications
-				options: { captchaToken, redirectTo: 'https://csbox.io/d/profile/setup/' },
+				options: { captchaToken, redirectTo: `${window.location.origin}/auth/onboarding`, emailRedirectTo: `${window.location.origin}/auth/onboarding` },
             });
 			console.log(error)
             if (signUpError)

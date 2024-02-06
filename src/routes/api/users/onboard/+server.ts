@@ -9,10 +9,11 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
         {
             db: { schema: 'private' }
         });
-    //await supabase.auth.refreshSession()
 
+    await supabase.auth.refreshSession()
     console.log(session)
     if (session) {
+        console.log('here')
         const {data, error, status} = await supabase.from('users')
             .select('completed_setup')
             .eq('id', session.user.id)
@@ -20,6 +21,6 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
 
         console.log(data, error, status)
 
-        return json({data})
+        return json({ data })
     }
 }

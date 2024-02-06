@@ -1,4 +1,5 @@
 import {redirect} from "@sveltejs/kit";
+import {invalidate, invalidateAll} from "$app/navigation";
 export const handle = async ({ event, resolve, request, response }) => {
     console.log(`Incoming request: ${JSON.stringify(event)}}`);
 
@@ -8,7 +9,7 @@ export const handle = async ({ event, resolve, request, response }) => {
         } = await event.locals.supabase.auth.getSession()
         console.log(session)
         if (!session) {
-            console.log('Hooks client, no session')
+            console.log('Hooks client, no session');
             throw redirect(303, '/auth');
         }
     }

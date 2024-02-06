@@ -5,6 +5,8 @@
     import {PUBLIC_SUPABASE_ID} from "$env/static/public";
 
     onMount(async () => {
+        await invalidateAll();
+        await fixError();
         await goto('/');
     });
 

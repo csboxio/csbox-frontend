@@ -15,5 +15,5 @@ export const GET = async (event) => {
         }
     }
 
-    throw redirect(303, '/onboarding')
+    throw redirect(303, '/auth')
 };
