@@ -48,7 +48,7 @@
 
 </script>
 
-<section class="sticky inset-y-0 z-1 flex-shrink-0 mr-5 bg-gray-700 border-r border-t border-gray-500 dark:border-primary-darker dark:bg-darker lg:static focus:outline-none">
+<section class="sticky inset-y-0 z-1 flex-shrink-0 mr-5 dark:bg-gray-700 bg-gray-100 border-r border-t border-gray-500 dark:border-primary-darker dark:bg-darker lg:static focus:outline-none">
   <div class="flex flex-col h-screen">
     <!-- Panel content -->
     <div class="flex-1 pl-1.5 pr-1 mr-0.5 overflow-y-hidden font-semibold text-white">
@@ -63,8 +63,8 @@
         <div class="hidden lg:block">
           {#each menuItems as menuItem, index (menuItem.name)}
             <a href="{menuItem.route}" key={index}>
-              <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg" class:bg-gray-600={$page.url.pathname === menuItem.route}>
-                <p class="px-4 text-gray-100 whitespace-nowrap" class:text-white={$page.url.pathname === menuItem.route}>
+              <div class="space-y-8 py-2 my-5 dark:hover:bg-gray-800 hover:bg-gray-200 rounded-lg dark:{$page.url.pathname === menuItem.route ? 'bg-gray-600' : ''} {$page.url.pathname === menuItem.route ? 'bg-gray-300' : ''}">
+                <p class="px-4 text-black dark:text-gray-100 whitespace-nowrap dark:{$page.url.pathname === menuItem.route ? 'text-white' : ''} ">
                   {menuItem.name}
                 </p>
               </div>

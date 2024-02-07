@@ -1053,6 +1053,7 @@ module.exports = {
     width: ['responsive', 'group-hover'],
     wordBreak: ['responsive'],
     zIndex: ['responsive', 'focus-within', 'focus'],
+    extend: { display: ['dark'], },
   },
   plugins: [
   ],
