@@ -23,7 +23,13 @@
 	import {writable} from "svelte/store";
 	import {browser} from "$app/environment";
 	import Fa from 'svelte-fa/src/fa.svelte';
-	import {faAdd, faCircleNotch, faEllipsisV, faListDots} from '@fortawesome/free-solid-svg-icons';
+	import {
+		faAdd, faArrowRight, faArrowRightArrowLeft, faArrowUpWideShort,
+		faChevronCircleDown,
+		faCircleNotch,
+		faEllipsisV, faGear, faHourglassStart,
+		faListDots
+	} from '@fortawesome/free-solid-svg-icons';
 	import {formatDistanceToNow, parseISO} from "date-fns";
 
 	/** @type {import('./$types').PageData | null} */
@@ -131,7 +137,7 @@
 	async function openWorkspace(workspace_id) {
 		workspaceActionModal = true;
 		workspaceActionModalTitle = "Opening Workspace"
-		const websocketUrl = `wss://ide.csbox.io/api/user/${$page.data.session.user.id}/workspace/${workspace_id}/open/`
+		const websocketUrl = `wss://ide.csbox.io/api/user/${$page.data.session.user.id}/workspace/${workspace_id}/open`
 
 		const socket = new WebSocket(websocketUrl);
 
@@ -168,7 +174,7 @@
 		if (browser) {
 			try {
 
-				const response = await fetch(`https://ide.csbox.io/api/user/${$page.data.session.user.id}/workspace/${workspace_id}/redirect/`, {
+				const response = await fetch(`https://ide.csbox.io/api/user/${$page.data.session.user.id}/workspace/${workspace_id}/redirect`, {
 					method: 'GET',
 					mode: 'cors',
 					credentials: 'omit'
@@ -392,7 +398,7 @@
 
 				<div class="relative sm:rounded-lg overflow-x-auto overflow-y-hidden">
 					<TableSearch placeholder="Search by name..." hoverable={true} bind:inputValue={searchTerm}>
-					<Table shadow hoverable class="mb-40 w-full">
+					<Table shadow hoverable class="mb-40 w-full bg-gray-800">
 					<TableHead>
 
 						<TableHeadCell>Name</TableHeadCell>
@@ -406,22 +412,25 @@
 					<TableBody class="divide-y">
 						{#key filteredItems}
 								{#each filteredItems as { id, inserted_at, workspace_name, type, workspace_state }}
-									<TableBodyRow class=" hover:bg-gray-800" color="custom" >
-										<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> <div class="pl-2 cursor-pointer hover:text-blue-400 text-md inline-block" on:click={() => { openWorkspace(id); }}>{workspace_name}</div> </TableBodyCell>
+									<TableBodyRow class=" hover:bg-gray-900" color="custom" >
+										<TableBodyCell> <WorkspaceStatus workspace_state={workspace_state}/> <div class="pl-2 cursor-pointer hover:text-blue-400 text-md inline-block"
+																												  on:click={() => { openWorkspace(id); }}>{workspace_name}</div> </TableBodyCell>
 
 										<TableBodyCell>{formatDistanceToNow(parseISO(inserted_at), {addSuffix: true})}</TableBodyCell>
 									<TableBodyCell>{type}</TableBodyCell>
 									<TableBodyCell>
 										<Button>
-											<Fa icon={faEllipsisV} size="lg"/>
+											<Fa icon={faGear} size="lg" class="text-white"/>
 										</Button>
-
-									<Dropdown containerClass="absolute z-50 px-4">
-										<DropdownItem> <div on:click={async () => await openWorkspace(id)}>Open</div> </DropdownItem>
-										<DropdownItem> <div on:click={async () => await stopWorkspace(id)}>Stop</div> </DropdownItem>
-										<DropdownItem> <div on:click={async () => await saveWorkspace(id)}>Save</div> </DropdownItem>
-										<DropdownItem slot="footer"> <div on:click={async () => await deleteWorkspace(id)}>Delete</div> </DropdownItem>
-									</Dropdown>
+										<Dropdown containerClass="absolute z-50 px-4">
+											<DropdownItem> <div on:click={async () => await openWorkspace(id)}>Open</div> </DropdownItem>
+											<DropdownItem> <div on:click={async () => await stopWorkspace(id)}>Stop</div> </DropdownItem>
+											<DropdownItem> <div on:click={async () => await saveWorkspace(id)}>Save</div> </DropdownItem>
+											<DropdownItem slot="footer"> <div on:click={async () => await deleteWorkspace(id)}>Delete</div> </DropdownItem>
+										</Dropdown>
+										<Button>
+											<Fa icon={faArrowUpWideShort} size="lg" class="text-white" on:click={async () => await openWorkspace(id)}/>
+										</Button>
 									</TableBodyCell>
 									</TableBodyRow>
 								{/each}
