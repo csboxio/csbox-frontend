@@ -69,8 +69,8 @@
       <div class="flex items-center justify-center">
         <!-- Logo in the center -->
         <a class="inline-flex items-center h-8" href="#">
-          <img src="/text-whiteAsset%202ldpi.png" class="object-contain block dark:hidden darken-white" width="100" height="100%" alt="">
-          <img src="/text-whiteAsset%202ldpi.png" class="object-contain hidden dark:block " width="100" height="100%" alt="">
+          <img src="/text-whiteAsset2.png" class="object-contain block dark:hidden darken-white" width="100" height="100%" alt="">
+          <img src="/text-whiteAsset2.png" class="object-contain hidden dark:block " width="100" height="100%" alt="">
 
         </a>
       </div>

@@ -10,12 +10,14 @@
 
 
 	let { supabase, onboard, session } = data
-	$: ({ supabase, onboard, session} = data)
+	$: ({ supabase, onboard, session } = data)
 
 	let isSetupCompleted = onboard?.data.completed_setup
 
 	let isAuthenticated
 	$: isAuthenticated = $page.data.session
+
+	console.log($page.data.session)
 
 	$: {
 		if (isAuthenticated) {

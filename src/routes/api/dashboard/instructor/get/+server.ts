@@ -1,9 +1,13 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import { json } from "@sveltejs/kit";
 
-export const GET: RequestHandler = async ({ locals: { supabase, getSession, getClaim } }) => {
+export const GET: RequestHandler = async ({ locals: { supabase, getSession, getClaim }, setHeaders }) => {
   const session = await getSession()
   const claim = await getClaim()
+
+  setHeaders({
+    "cache-control": "public, max-age=120, s-maxage=120"
+  });
 
   if (session) {
     //if (claim === 'instructor') {
