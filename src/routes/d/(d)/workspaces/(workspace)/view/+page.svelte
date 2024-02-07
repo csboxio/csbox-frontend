@@ -103,7 +103,7 @@
 		const data = new FormData(this);
 
 		console.log(selectedWorkspaceCreateConfig)
-		//data.set('type', selectedConfig);
+		data.set('workspace_name', workspaceName);
 		data.set('user_id', $page.data.session.user.id);
 		data.set('image', selectedWorkspaceCreateConfig);
 
@@ -131,9 +131,9 @@
 	async function openWorkspace(workspace_id) {
 		workspaceActionModal = true;
 		workspaceActionModalTitle = "Opening Workspace"
-		const websocketUrl = 'wss://ide.csbox.io/api/v1/workspace/open/'
+		const websocketUrl = `wss://ide.csbox.io/api/user/${$page.data.session.user.id}/workspace/${workspace_id}/open/`
 
-		const socket = new WebSocket(websocketUrl + workspace_id);
+		const socket = new WebSocket(websocketUrl);
 
 		socket.onmessage = (event) => {
 			const message = event.data;
@@ -168,7 +168,7 @@
 		if (browser) {
 			try {
 
-				const response = await fetch('https://ide.csbox.io/api/v1/workspace/redirect/' + workspace_id, {
+				const response = await fetch(`https://ide.csbox.io/api/user/${$page.data.session.user.id}/workspace/${workspace_id}/redirect/`, {
 					method: 'GET',
 					mode: 'cors',
 					credentials: 'omit'
