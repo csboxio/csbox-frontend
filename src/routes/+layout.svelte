@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {goto, invalidateAll} from "$app/navigation";
+    import {goto, invalidate, invalidateAll} from "$app/navigation";
     import {onMount} from "svelte";
     import '../app.css';
     import {browser} from "$app/environment";
@@ -14,7 +14,26 @@
         const {
             data: {subscription},
         } = supabase.auth.onAuthStateChange((event, session) => {
-            invalidateAll()
+
+            if (event === 'INITIAL_SESSION') {
+                console.log('initial session')
+            } else if (event === 'SIGNED_IN') {
+                console.log('signed in')
+            } else if (event === 'SIGNED_OUT') {
+                // NEVER DO THIS supabase.auth.signOut()
+                console.log('signed out')
+            } else if (event === 'PASSWORD_RECOVERY') {
+                console.log('password recovery')
+            } else if (event === 'TOKEN_REFRESHED') {
+                console.log('token refreshed')
+            } else if (event === 'USER_UPDATED') {
+                console.log('user updated')
+            }
+
+            invalidateAll();
+
+            invalidate('supabase:auth')
+
         })
         return () => subscription.unsubscribe()
     });

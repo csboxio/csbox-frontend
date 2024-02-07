@@ -25,15 +25,9 @@
     try {
       let { error } = await $page.data.supabase.auth.signOut()
 
-      await invalidateAll();
-      // Attempt to refresh session through getUser;
-      //await $page.data.supabase.auth.getUser();
-      // Attempt to refresh session through refreshSession;
-      await $page.data.supabase.auth.refreshSession();
-      // Sign out, assuming the above make the server session invalid.
-      await $page.data.supabase.auth.signOut();
-      // Delete cookie on browser TODO THIS CAN CHANGE BASED ON SUPABASE ID
-      document.cookie = `sb-${PUBLIC_SUPABASE_ID}-auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      // Do not invalidate here!
+
+      await goto('/auth');
 
       if (error) throw error
     } catch (error) {
@@ -41,7 +35,6 @@
         alert(error.message)
       }
     }
-    await invalidateAll();
     await goto('/auth')
   }
 
@@ -127,8 +120,8 @@
         <Dropdown triggeredBy="#bell" class="w-full max-w-sm rounded divide-y divide-gray-100 z-20 shadow dark:bg-gray-800 dark:divide-gray-700" >
           <div slot="header" class="text-center py-2 font-bold z-10">Notifications</div>
 
-          {#if notificationsReceived !== undefined && notificationsReceived.all_notifications != null && JSON.stringify(notificationsReceived) !== JSON.stringify([])}
-          {#each notificationsReceived.all_notifications.notifications as notification, id}
+          {#if notificationsReceived}
+          {#each notificationsReceived.data.all_notifications.notifications as notification, id}
           <DropdownItem class="flex space-x-4 z-20" >
             <div class="pl-3 w-full" transition:slide|local>
               <span class="font-semibold text-gray-900 dark:text-white" transition:slide|local>{notification.title}</span>: {notification.message}</div>
