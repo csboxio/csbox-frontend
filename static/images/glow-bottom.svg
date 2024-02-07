@@ -6,7 +6,7 @@
       <stop offset="1" stop-color="#6366F1"/>
     </linearGradient>
     <linearGradient id="f" x1="19.609%" x2="50%" y1="14.544%" y2="100%">
-      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="0" stop-color="#A855F7"/>
       <stop offset="1" stop-color="#6366F1" stop-opacity="0"/>
     </linearGradient>
     <filter id="e" width="145.2%" height="187%" x="-22.6%" y="-43.5%" filterUnits="objectBoundingBox">
@@ -16,7 +16,7 @@
       <feGaussianBlur in="SourceGraphic" stdDeviation="50"/>
     </filter>
     <radialGradient id="c" cx="50%" cy="100%" r="77.678%" gradientTransform="matrix(0 -1 .37746 0 .123 1.5)">
-      <stop offset="0" stop-color="#E9D5FF"/>
+      <stop offset="0" stop-color="#D5DFFF"/>
       <stop offset="0.2235" stop-color="#A855F7"/>
       <stop offset="1" stop-color="#0F172A" stop-opacity="0"/>
     </radialGradient>
