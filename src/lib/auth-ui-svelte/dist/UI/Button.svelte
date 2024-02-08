@@ -57,6 +57,8 @@ $: classNames = generateClassNames('button', color, appearance);
     }
 
     button.social {
+        margin-top: 20px;
+        margin-bottom: 20px;
         background-color: #232B3A;
         color: #3D485B;
         border-color: #232B3A;

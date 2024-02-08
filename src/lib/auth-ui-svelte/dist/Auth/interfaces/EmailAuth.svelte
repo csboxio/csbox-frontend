@@ -20,7 +20,8 @@ export let captchaToken;
 export let reload;
 let message = '';
 let error = '';
-let loading = false;
+let loading;
+$: loading = captchaToken === undefined;
 let lngKey = authView === 'sign_in' ? 'sign_in' : 'sign_up';
 async function handleSubmit() {
     loading = true;
@@ -95,9 +96,10 @@ async function handleSubmit() {
 			</div>
 			<slot />
 		</Container>
-		<Button type="submit" color="primary" {loading} {appearance}
-			>{i18n?.[lngKey]?.button_label}</Button
-		>
+
+		<Button type="submit" color="{loading ? 'social' : 'primary'}" {loading} {appearance}
+			>{i18n?.[lngKey]?.button_label}</Button>
+
 
 		{#if showLinks}
 			<Container direction="vertical" gap="small" {appearance}>
