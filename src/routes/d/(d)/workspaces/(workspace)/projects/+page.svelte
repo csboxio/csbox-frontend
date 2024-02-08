@@ -1,7 +1,6 @@
 <script>
     import Fa from 'svelte-fa/src/fa.svelte';
     import {faAdd} from "@fortawesome/free-solid-svg-icons";
-    import {fade, slide} from 'svelte/transition';
 
     import {
         Button,
@@ -14,10 +13,6 @@
         TableHeadCell
     } from "flowbite-svelte";
     import {page} from "$app/stores";
-    import Settings from "$lib/components/Settings.svelte";
-    import WorkspaceNav from "$lib/components/WorkspaceNav.svelte";
-    import Navbar from "$lib/components/Navbar.svelte";
-    import { create_in_transition } from "svelte/internal";
     import {applyAction, deserialize} from "$app/forms";
     import {invalidateAll} from "$app/navigation";
     import {formatDistanceToNow, parseISO} from "date-fns";
@@ -66,7 +61,7 @@
 </script>
 
 <!-- Content -->
-<section class="flex flex-col p-8 inline-block w-full">
+<section class="flex flex-col py-8 px-2 mr-4 inline-block w-full">
 
     {#if projects}
         {#if projects.length === 0}
@@ -190,17 +185,15 @@
     {/if}
 </section>
 
-<Modal title="Create Project" bind:open={createProject} class="max-w-xs" >
-    <div class="text-center ">
-        
+<Modal title="Create Project" bind:open={createProject} class="max-w-xs dark:bg-gray-500 bg-gray-200 dark:text-white text-black" color="custom">
+    <div class="text-center">
         <div class="font-semibold text-white  pr-4 ">
-
-                <div class="   mx-auto  ">
-                    <div class=" ">
+                <div class="mx-auto">
+                    <div class="">
                         <form method="POST" action="?/createProject" on:submit|preventDefault={handleCreateProjectSubmit}>
                             <div class="mb-3 mx-auto">
                                 <!-- Template Name-->
-                                <label for="project_name" class="block mb-2 font-medium text-white dark:text-white">
+                                <label for="project_name" class="block mb-2 font-medium dark:text-white text-black">
                                     Project Name
                                 </label>
                                 <input type="text" name="project_name" id="project_name"

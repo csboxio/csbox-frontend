@@ -10,16 +10,10 @@ export const load = async ({ fetch, data, request, url, parent }) => {
         return response.json();
     };
 
-    const user = await fetchAndParse('/api/users');
     const health_check = await fetchAndParse(`/api/workspace/healthcheck`);
-    const ide = await fetchAndParse(`/api/workspace/ide?v=1`);
-    const active_workspaces = await fetchAndParse("/api/workspace/all");
 
         return {
-            user,
-            ide,
-            active_workspaces,
-            health_check,
+            health_check
         };
 
 };

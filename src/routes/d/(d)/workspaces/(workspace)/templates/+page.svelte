@@ -14,10 +14,6 @@
         TableHeadCell
     } from "flowbite-svelte";
     import {page} from "$app/stores";
-    import Settings from "$lib/components/Settings.svelte";
-    import WorkspaceNav from "$lib/components/WorkspaceNav.svelte";
-    import Navbar from "$lib/components/Navbar.svelte";
-    import { create_in_transition } from "svelte/internal";
     import {applyAction, deserialize} from "$app/forms";
     import {invalidateAll} from "$app/navigation";
     import {formatDistanceToNow, parseISO} from "date-fns";
@@ -66,7 +62,7 @@
 </script>
 
 <!-- Content -->
-<section class="flex flex-col p-8 inline-block w-full">
+<section class="flex flex-col py-8 px-2 mr-4 inline-block w-full">
 
     {#if templates}
         {#if templates.length === 0}
@@ -188,12 +184,11 @@
     {/if}
 </section>
 
-<Modal title="Create Template" bind:open={createTemplate} class="max-w-xs" >
+<Modal title="Create Template" bind:open={createTemplate} class="max-w-xs dark:bg-gray-500 bg-gray-200 bg-gray-200 dark:text-white text-black" color="custom">
     <div class="text-center ">
-
         <div class="font-semibold text-white  pr-4 ">
             <!-- Multi select -->
-            <div class="flex justify-center space-x-1 overflow-hidden ">
+            <!--<div class="flex justify-center space-x-1 overflow-hidden ">
                 <button
                         class="flex-1 px-4 py-2 rounded-l-md"
                         class:bg-gray-500={selectedOption === 'new'}
@@ -210,15 +205,15 @@
                         style="min-width: 0;">
                     Git
                 </button>
-            </div>
+            </div>-->
 
             {#if selectedOption === "new"}
-                <div class="p-4  space-y-4 mx-auto pt-8 ">
-                    <div class="space-y-4 ">
+                <div class="p-4  space-y-4 mx-auto pt-2 ">
+                    <div class="space-y-6 ">
                         <form method="POST" action="?/createTemplate" on:submit|preventDefault={handleCreateTemplateSubmit}>
                             <div class="mb-2 mx-auto">
                                 <!-- Template Name-->
-                                <label for="template_name" class="block mb-2 font-medium text-white dark:text-white">
+                                <label for="template_name" class="block mb-2 font-medium text-black dark:text-white">
                                     Template Name
                                 </label>
                                 <input type="text" name="template_name" id="template_name"

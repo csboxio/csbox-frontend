@@ -1,5 +1,4 @@
 <script>
-    import CourseNav from '$lib/components/CourseNav.svelte';
     import Navbar from '$lib/components/Navbar.svelte';
     import Settings from '$lib/components/Settings.svelte';
     import {page} from '$app/stores';
@@ -8,11 +7,8 @@
     import Fa from 'svelte-fa/src/fa.svelte';
     import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
     import {afterUpdate, onMount, tick} from "svelte";
-    import WorkspaceNav from "$lib/components/WorkspaceNav.svelte";
+    import WorkspaceNav from "$lib/workspaces/components/WorkspaceNav.svelte";
 
-
-    let active_workspaces;
-    $: active_workspaces = data.active_workspaces;
 
     let healthcheck;
     $: healthcheck = $page.data.health_check
@@ -38,7 +34,7 @@
     });
 </script>
 
-<body class="bg-gray-600 antialiased bg-body text-body font-body">
+<body class="dark:bg-gray-600 bg-gray-300 antialiased bg-body text-body font-body">
 <div>
     <Navbar bind:claim={claim}/>
     <div class="mx-auto lg:ml-16">

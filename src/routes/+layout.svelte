@@ -30,7 +30,7 @@
                 console.log('user updated')
             }
 
-            invalidateAll();
+            // TODO testing without this invalidateAll();
 
             invalidate('supabase:auth')
 
@@ -54,6 +54,5 @@
 
 
 </svelte:head>
-
 
 <slot/>

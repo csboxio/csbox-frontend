@@ -3,7 +3,6 @@
   import { applyAction, deserialize } from "$app/forms";
   import { Range, Label } from 'flowbite-svelte'
   import {page} from "$app/stores";
-  import WorkspaceNav from "$lib/components/WorkspaceNav.svelte";
   import Settings from "$lib/components/Settings.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
 
