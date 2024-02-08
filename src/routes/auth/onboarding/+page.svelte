@@ -105,6 +105,15 @@
 		}
 		showImage = false;
 	}
+
+	if (browser) {
+		const urlParams = new URLSearchParams(window.location.search);
+		const code = urlParams.get('code')
+		if (code) {
+			supabase.auth.exchangeCodeForSession(code);
+			invalidate('supabase:auth');
+		}
+	}
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">

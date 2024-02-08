@@ -43,7 +43,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code')
         if (code) {
-            goto('/auth')
+            goto('/auth?code=' + code)
         }
     }
 </script>

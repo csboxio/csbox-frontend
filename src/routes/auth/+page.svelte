@@ -19,6 +19,15 @@
 
 	console.log($page.data.session)
 
+	if (browser) {
+		const urlParams = new URLSearchParams(window.location.search);
+		const code = urlParams.get('code')
+		if (code) {
+			supabase.auth.exchangeCodeForSession(code);
+			invalidate('supabase:auth');
+		}
+	}
+
 	$: {
 		if (isAuthenticated) {
 			goto('/d');
