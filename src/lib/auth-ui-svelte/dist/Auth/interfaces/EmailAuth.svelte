@@ -5,12 +5,12 @@ import Input from '../../UI/Input.svelte';
 import Label from '../../UI/Label.svelte';
 import Message from '../../UI/Message.svelte';
 import { VIEWS } from '@supabase/auth-ui-shared';
-import { invalidateAll } from "$app/navigation";
+import {goto, invalidateAll} from "$app/navigation";
 export let authView = 'sign_in';
 export let email = '';
 export let password = '';
 export let supabaseClient;
-export let redirectTo = undefined;
+export let redirectTo = '/d';
 export let additionalData = undefined;
 export let showLinks = false;
 export let magicLink = true;
@@ -40,6 +40,7 @@ async function handleSubmit() {
             loading = false;
 			// TODO OLD HOTFIX (NOT IMPORTANT) BUT KEEPING HERE FOR REFERENCE
 			// window.location.reload();
+				await goto('/d');
             break;
         case VIEWS.SIGN_UP:
             let options = {

@@ -235,10 +235,7 @@
 
         const response = await fetch(this.action, {
             method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            body: data
         });
 
         const result = deserialize(await response.text());
@@ -256,7 +253,6 @@
 </script>
 
 <section class="flex flex-col py-8 px-2 mr-4 inline-block w-full">
-
     {#key active_workspaces}
         {#if active_workspaces.length === 0}
             <div class="flex h-full pb-24 ">
@@ -331,14 +327,14 @@
 
                             <TableHeadCell>Name</TableHeadCell>
                             <TableHeadCell>Created</TableHeadCell>
-                            <TableHeadCell>Type</TableHeadCell>
+                            <TableHeadCell>Tier</TableHeadCell>
                             <TableHeadCell>
                                 <span class="sr-only ">Actions</span>
                             </TableHeadCell>
                         </TableHead>
                         <TableBody class="divide-y">
                             {#key filteredItems}
-                                {#each filteredItems as {id, inserted_at, workspace_name, type, workspace_state}}
+                                {#each filteredItems as {id, inserted_at, workspace_name, tier, workspace_state}}
                                     <TableBodyRow>
                                         <TableBodyCell>
                                             <WorkspaceStatus workspace_state={workspace_state}/>
@@ -346,7 +342,7 @@
                                                  on:click={() => { openWorkspace(id); }}>{workspace_name}</div>
                                         </TableBodyCell>
                                         <TableBodyCell>{formatDistanceToNow(parseISO(inserted_at), {addSuffix: true})}</TableBodyCell>
-                                        <TableBodyCell>{type}</TableBodyCell>
+                                        <TableBodyCell>{tier}</TableBodyCell>
                                         <TableBodyCell>
                                             <!-- Gear Icon -->
                                             <button class="dark:hover:bg-gray-800 hover:bg-gray-300  p-2 rounded" >

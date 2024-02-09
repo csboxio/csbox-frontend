@@ -12,6 +12,8 @@ export let redirectTo = undefined;
 export let email = '';
 export let showLinks = false;
 export let appearance;
+export let captchaToken;
+
 let message = '';
 let error = '';
 let loading = false;
@@ -20,8 +22,8 @@ async function handleSubmit() {
     error = '';
     message = '';
     const { error: resetPasswordError } = await supabaseClient.auth.resetPasswordForEmail(email, {
-        redirectTo
-    });
+		captchaToken, redirectTo: `${window.location.origin}/auth?view=update_password`,
+	});
     if (resetPasswordError)
         error = resetPasswordError.message;
     else

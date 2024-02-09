@@ -10,6 +10,7 @@ export let supabaseClient;
 export let authView;
 export let otpType = 'email';
 export let appearance;
+export let captchaToken;
 export let showLinks = false;
 export let email = '';
 export let phone = '';
@@ -30,8 +31,9 @@ async function handleSubmit() {
         verifyOpts = {
             phone,
             token,
-            type: otpType
-        };
+            type: otpType,
+			options: { captchaToken, redirectTo: `${window.location.origin}/auth?view=verify_otp`, emailRedirectTo: `${window.location.origin}/auth?view=verify_otp`},
+		};
     }
     const { error: err } = await supabaseClient.auth.verifyOtp(verifyOpts);
     if (err)

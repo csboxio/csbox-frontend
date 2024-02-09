@@ -13,7 +13,11 @@
         // Auth state change, invalidate everything.
         const {
             data: {subscription},
-        } = supabase.auth.onAuthStateChange((event, session) => {
+        } = supabase.auth.onAuthStateChange((event, _session) => {
+
+            if (_session?.expires_at !== session?.expires_at) {
+                invalidate('supabase:auth')
+            }
 
             if (event === 'INITIAL_SESSION') {
                 console.log('initial session')

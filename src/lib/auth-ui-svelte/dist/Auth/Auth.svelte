@@ -55,9 +55,6 @@ onMount(() => {
     });
     () => authListener.subscription.unsubscribe();
 
-
-
-
 });
 $: i18n = merge(en, localization.variables ?? {});
 $: createStitches({
@@ -123,16 +120,16 @@ $: authTitle.set(view)
 		{/if}
 	{/if}
 	{#if view === VIEWS.FORGOTTEN_PASSWORD}
-		<ForgottenPassword {i18n} {supabaseClient} bind:authView={view} {showLinks} {appearance} />
+		<ForgottenPassword {i18n} {supabaseClient} bind:authView={view} {showLinks} {appearance} {captchaToken} />
 	{/if}
 	{#if view === VIEWS.MAGIC_LINK}
-		<MagicLink {i18n} {supabaseClient} bind:authView={view} {appearance} {redirectTo} {showLinks} />
+		<MagicLink {i18n} {supabaseClient} bind:authView={view} {appearance} {redirectTo} {showLinks} {captchaToken} />
 	{/if}
 	{#if view === VIEWS.UPDATE_PASSWORD}
-		<UpdatePassword {i18n} {supabaseClient} bind:authView={view} {appearance} {showLinks} />
+		<UpdatePassword {i18n} {supabaseClient} bind:authView={view} {appearance} {showLinks} {captchaToken} />
 	{/if}
 	{#if view === VIEWS.VERIFY_OTP}
-		<VerifyOtp {i18n} {supabaseClient} bind:authView={view} {appearance} {showLinks} {otpType} />
+		<VerifyOtp {i18n} {supabaseClient} bind:authView={view} {appearance} {showLinks} {otpType} {captchaToken} />
 	{/if}
 </div>
 	{/key}

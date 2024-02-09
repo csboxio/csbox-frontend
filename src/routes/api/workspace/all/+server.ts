@@ -10,7 +10,7 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
   }
 
     const {data, error } = await supabase.from('workspaces')
-        .select('id, user_id, workspace_name, image_type, type, workspace_state, inserted_at')
+        .select('id, user_id, workspace_name, image_type, tier, workspace_state, inserted_at')
         .eq('user_id', session.user.id)
 
   console.log(error)

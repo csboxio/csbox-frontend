@@ -10,6 +10,7 @@ export let supabaseClient;
 export let authView;
 export let redirectTo = undefined;
 export let appearance;
+export let captchaToken;
 export let showLinks = false;
 export let email = '';
 let message = '';
@@ -21,10 +22,8 @@ async function handleSubmit() {
     message = '';
     const { error: resetPasswordError } = await supabaseClient.auth.signInWithOtp({
         email,
-        options: {
-            emailRedirectTo: redirectTo
-        }
-    });
+		options: { captchaToken, emailRedirectTo: `${window.location.origin}/auth?view=magic_link`},
+	});
     if (resetPasswordError)
         error = resetPasswordError.message;
     else

@@ -20,11 +20,16 @@
             <!-- Desktop navigation -->
             <nav class="flex grow">
                 <!-- Desktop sign in links -->
-                <ul class="flex grow justify-end flex-wrap items-center">
+                <ul class="flex grow justify-end flex-wrap items-center space-x-2">
                     {#if browser}
                         <li>
-                            <a class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out"
-                               href="/auth">Sign in</a>
+                            <a class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3"
+                               href="/auth?view=sign_in">Sign In</a>
+                        </li>
+
+                        <li>
+                            <a class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out px-3 py-2 bg-blue-500 rounded"
+                               href="/auth?view=sign_up">Sign Up</a>
                         </li>
                     {/if}
                     {#if $page.data.session && browser}

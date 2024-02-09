@@ -33,9 +33,10 @@
     let brandColor = colors[0];
     let socialLayout = socialAlignments[0] satisfies SocialLayout;
     let borderRadius = radii[0];
-    let view = views[0];
+
 
     export let supabase
+    export let view = 'sign_in';
 
     let token;
     $: token;
@@ -43,6 +44,7 @@
     onMount(() => {
         init();
     });
+    console.log(view);
 </script>
 
 <style>
@@ -56,6 +58,8 @@
     .auth-box-shadow {
         min-width: 364px;
     }
+
+
 </style>
 
 <!-- Particles animation -->
@@ -77,7 +81,7 @@
                                     <img src="/favicon.png" width="50" height="100%" alt="CSBOX">
 
                                     {#if authTitle !== undefined}
-                                    <div class="flex text-white font-semibold text-xl">{$authTitle?.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</div>
+                                        <div class="flex text-white font-semibold text-xl">{$authTitle?.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</div>
                                     {/if}
                                 </div>
                                 <!-- Title -->
@@ -91,6 +95,7 @@
                                  This is some jank shit, but like if Supabase Auth changes, I would have to rebuild this, or my own version.
                                  They did an alright job, so, sort of a loose loose.-->
                             <Auth
+                                    view={view}
                                     supabaseClient={supabase}
                                     showLinks={true}
                                     theme="dark"
@@ -130,7 +135,9 @@
                             />
                             <div class="flex justify-center text-center pt-4 pb-14" >
                                 <div class="absolute">
-                                    <Turnstile siteKey="0x4AAAAAAAFpCF8-h1TYQKHV" on:turnstile-callback={e => {token = e.detail.token}} />
+                                    {#if browser}
+                                        <Turnstile siteKey="0x4AAAAAAAFpCF8-h1TYQKHV" on:turnstile-callback={e => {token = e.detail.token}} />
+                                    {/if}
                                 </div>
                             </div>
                     </div>

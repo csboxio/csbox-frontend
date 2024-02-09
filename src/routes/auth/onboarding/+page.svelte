@@ -39,17 +39,13 @@
 			}
 		});
 		const result = deserialize(await response.text());
+		await applyAction(result);
+		await invalidateAll();
 		if (result.type === 'redirect') {
 			// re-run all `load` functions, following the successful update
-			await invalidateAll()
 			await goto('/d')
 		}
-		await applyAction(result);
-		await invalidateAll()
-		if (browser) {
-			window.location.reload()
-		}
-
+		await goto('/d')
 	}
 
 	async function handleRoleSubmit() {

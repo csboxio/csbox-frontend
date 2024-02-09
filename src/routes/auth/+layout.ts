@@ -6,14 +6,11 @@ export const load = async ({ fetch, url, parent, depends}) => {
     const parentData = await parent();
     const session = parentData.session;
 
-    console.log(session)
-
     if (session) {
         const response = await fetch('/api/users/onboard');
 
         return {
             onboard: await response.json(),
-            session
         };
     }
 

@@ -9,6 +9,7 @@ export let i18n;
 export let supabaseClient;
 export let authView;
 export let appearance;
+export let captchaToken;
 export let showLinks = false;
 let password = '';
 let message = '';
@@ -19,8 +20,8 @@ async function handleSubmit() {
     error = '';
     message = '';
     const { data, error: resetPasswordError } = await supabaseClient.auth.updateUser({
-        password
-    });
+        password: password
+	});
     if (resetPasswordError)
         error = resetPasswordError.message;
     else
