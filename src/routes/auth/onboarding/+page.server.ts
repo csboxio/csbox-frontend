@@ -3,6 +3,7 @@ import {redirect} from '@sveltejs/kit'
 import {invalidateAll} from "$app/navigation";
 
 export const prerender = false;
+
 export const actions: Actions = {
     updateRole: async  ({ request, url, params, locals: { supabase } }) => {
         const formData = await request.formData()
