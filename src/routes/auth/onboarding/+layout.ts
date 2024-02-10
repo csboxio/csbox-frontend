@@ -4,7 +4,6 @@ export const load = async ({ fetch, url, parent, depends}) => {
 
     if (session) {
         const response = await fetch('/api/org');
-
         return {
             org: await response.json(),
         };

@@ -5,6 +5,7 @@ import {invalidateAll} from "$app/navigation";
 export const prerender = false;
 
 export const actions: Actions = {
+
     updateRole: async  ({ request, url, params, locals: { supabase } }) => {
         const formData = await request.formData()
         const {data} = await supabase.auth.refreshSession()

@@ -62,7 +62,6 @@
     let selectedRole;
 
     function onChangePreview() {
-
         if (files.length > 0) {
             const file = files[0];
             console.log(file)
@@ -90,8 +89,8 @@
     }
 </script>
 
-<body class="bg-gray-600 antialiased bg-body text-body font-body">
-<div class="from-gray-500 to-gray-500 bg-gradient-to-br antialiased bg-body text-body font-body">
+<body class="bg-gray-800">
+<div class="">
     <section class="">
         <div class="container px-6 mx-auto 2xl:w-[27%] xl:w-2/5 lg:w-2/3 md:w-2/3 sm:w-full">
             <div class="min-h-screen gap-4 flex justify-center items-center">
@@ -109,8 +108,7 @@
                         </div>
                         <form action="?/updateProfile" method="POST" on:submit|preventDefault={handleSubmit}>
                             {#if currentStep === 1}
-                                <StepTwo bind:org={org} bind:selectedRole={selectedRole} bind:currentStep={currentStep}
-                                         loading={loading}/>
+                                <StepTwo bind:org={org} bind:selectedRole={selectedRole} bind:currentStep={currentStep} loading={loading}/>
                             {/if}
                             {#if currentStep === 3}
 								<StepOne bind:data={data} bind:currentStep={currentStep} loading={loading}/>

@@ -11,6 +11,13 @@
     export let currentStep;
     export let org;
 
+    let accessCode;
+
+    async function checkAccessCode() {
+        const response = await fetch(`/api/org/check_code?org_id=${selectedOrg.id}&code=${accessCode}`)
+        console.log(response)
+    }
+
     async function handleRoleSubmit() {
         const data = new FormData(this);
         const response = await fetch(this.action, {
@@ -24,7 +31,6 @@
         if (result.type === 'redirect') {
             // re-run all `load` functions, following the successful update
             await invalidateAll();
-
         }
         await invalidateAll();
         await applyAction(result);
@@ -36,23 +42,22 @@
 <!-- Submits form to /updateRole -->
 <!-- On select Instructor make a if block to show an input box -->
 <form method="POST" action="?/updateRole" on:submit|preventDefault={handleRoleSubmit}>
-
     <div class="mb-10 mt-2">
-        <label for="org" class="block mb-2 text-white">Organization: </label>
+        <label for="org" class="block mb-2 text-white font-semibold">Organization: </label>
         <select id="org" bind:value={selectedOrg}
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-white focus:border-white block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white dark:focus:border-white"
                 required>
             <option value="">Choose a organization</option>
             {#if org}
                 {#each org as org}
-                    <option value={org.org_id}>{org.org_name}</option>
+                    <option value={org.id}>{org.org_name}</option>
                 {/each}
             {/if}
         </select>
     </div>
 
     <div class="mb-10">
-        <label for="roles" class="block mb-2 text-white">Role: </label>
+        <label for="roles" class="block mb-2 text-white font-semibold">Role: </label>
         <select
                 id="roles"
                 bind:value={selectedRole}
@@ -66,16 +71,18 @@
     </div>
 
     {#if selectedRole === 'Instructor'}
-        <div class="mb-10">
-            <label for="instructorInput" class="block mb-2 text-white">Access Code:</label>
-            <input
-                    type="text"
+        <div class="mb-10 space-y-2">
+            <label for="instructorInput" class="block mb-2 text-white font-semibold">Access Code:</label>
+            <div class="text-gray-300 text-sm"> Ask your administrator for the access code. </div>
+            <input bind:value={accessCode} type="text"
                     id="instructorInput"
                     name="instructorInput"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-white focus:border-white block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white dark:focus:border-white"
                     placeholder="Enter Access Code"
-                    required
-            />
+                    required />
+
+            <button class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
+                    on:click|preventDefault={() => { checkAccessCode() }}>Check</button>
         </div>
     {/if}
     <div class="flex justify-between w-full sm:w-auto mt-2">

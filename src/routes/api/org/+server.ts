@@ -7,7 +7,9 @@ export const GET: RequestHandler = async ({ url, locals: { supabase } }) => {
     const {data, error} = await supabase
         .schema('public')
         .from('org')
-        .select('org_id, org_name')
+        .select('id, org_name')
+
+    console.log(data, error)
 
     return json(data)
 }
