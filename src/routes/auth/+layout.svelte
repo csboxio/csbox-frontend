@@ -4,6 +4,8 @@
 	import { browser } from "$app/environment";
 	import ErrorBoundary from "$lib/components/ErrorBoundary.svelte";
 	import {Modal} from "flowbite-svelte";
+	import Transition from "$lib/fun/Transition.svelte";
+	import {page} from "$app/stores";
 
 	export let data
 
@@ -19,8 +21,9 @@
 	<title>CSBOX</title>
 </svelte:head>
 
+
 <ErrorBoundary>
-<slot />
+		<slot />
 </ErrorBoundary>
 
 

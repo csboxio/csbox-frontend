@@ -1,3 +1,35 @@
+Issues Feb 9.
+-----
+
+ - Onboarding UI, inconsistent.
+
+ - Onboarding Profile Image doesn't work.
+
+ - Onboarding Profile Image, button appearance after loads.
+
+- Create workspace, no error message if API down.
+
+- Join course broken.
+
+- Create course make all SSR and or Postgres side for assignments, modules, groups etc.
+
+- Course, create module doesn't work. 
+
+- Student dashboard placeholder.
+
+- Average Grade Placeholder.
+
+- Hide all menu items "X".
+
+- Delete notification is broken.
+
+------
+
+Consistent UI
+
+-------
+
+
 # CSBOX Education LMS
 
 Welcome to the CSBOX Education LMS (Learning Management System) repository! This project is designed to help you quickly set up and deploy an internal educational platform using SvelteKit, TailwindCSS, and Supabase. This README will guide you through the setup process and provide an overview of the features and customization options available in this repository.
