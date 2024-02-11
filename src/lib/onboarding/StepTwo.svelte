@@ -14,8 +14,9 @@
     let accessCode;
 
     async function checkAccessCode() {
-        const response = await fetch(`/api/org/check_code?org_id=${selectedOrg.id}&code=${accessCode}`)
-        console.log(response)
+
+        const response = await fetch(`/api/org/check_code?org_id=${selectedOrg}&code=${accessCode}`)
+        console.log(response.json())
     }
 
     async function handleRoleSubmit() {

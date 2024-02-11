@@ -37,6 +37,25 @@
 
     export let supabase
     export let view = 'sign_in';
+    export let lti = false;
+
+    let classNames = {
+            label: "text-xs text-white py-2 mb-0 block w-full",
+            divider: "text-white text-center my-2",
+            input: "py-2 px-3 border text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 rounded w-full mb-2",
+            message: "font-regular text-center mb-4 block w-full p-4 text-base text-red-500 mt-5",
+            anchor: "flex text-center justify-center text-white text-blue-300 hover:bg-gray-300 hover:bg-opacity-20 text-gray-800 py-2 px-4 rounded-md mt-1 text-sm",
+        };
+
+    if (lti) {
+        classNames = {
+            label: "text-xs text-white py-2 mb-0 block w-full",
+            divider: "text-white text-center my-1",
+            input: "py-2 px-3 border text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 rounded w-full mb-1",
+            message: "font-regular text-center mb-4 block w-full p-4 text-base text-red-500 mt-2",
+            anchor: "flex text-center justify-center text-white text-blue-300 hover:bg-gray-300 hover:bg-opacity-20 text-gray-800 py-1 px-4 rounded-md mt-1 text-sm",
+        }
+    }
 
     let token;
     $: token;
@@ -44,7 +63,6 @@
     onMount(() => {
         init();
     });
-    console.log(view);
 </script>
 
 <style>
@@ -75,14 +93,15 @@
 
             <div class="lg:mx-auto bg-gray-600  sm:h-auto rounded-xl shadow-gray-400 drop-shadow-lg  ">
                     <div class={'auth-box-shadow'}>
-                        <div class="border-scale-200 bg-scale-300 relative h-full px-8 py-8 md:py-12 drop-shadow-sm ">
-                            <div class="mb-6 flex flex-col gap-6">
+                        <div class="border-scale-200 bg-scale-300 relative h-full px-8 {lti ? 'py-0': 'py-8 md:py-12'} drop-shadow-sm ">
+                            <div class="mb-2 flex flex-col gap-2">
                                 <div class="flex items-center gap-3">
                                     <img src="/favicon.png" width="50" height="100%" alt="CSBOX">
 
                                     {#if authTitle !== undefined}
                                         <div class="flex text-white font-semibold text-xl">{$authTitle?.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</div>
                                     {/if}
+
                                 </div>
                                 <!-- Title -->
                             </div>
@@ -124,13 +143,7 @@
 								// Notice: Button styling has been changed from Library.
 								// Change: Custom styling on the component to allow difference between social and other buttons (Ex. Sign in).
                                     extend: false, // necessary in order to not render default styles
-                                    className: {
-                                      label: "text-xs text-white py-2 mb-0 block w-full",
-                                      divider: "text-white text-center my-2",
-                                      input: "py-2 px-3 border text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 rounded w-full mb-2",
-                                      message: "font-regular text-center mb-4 block w-full p-4 text-base text-red-500 mt-5",
-                                      anchor: "flex text-center justify-center text-white text-blue-300 hover:bg-gray-300 hover:bg-opacity-20 text-gray-800 py-2 px-4 rounded-md mt-1 text-sm",
-                                    },
+                                    className: classNames,
                                   }}
                             />
                             <div class="flex justify-center text-center pt-4 pb-14" >

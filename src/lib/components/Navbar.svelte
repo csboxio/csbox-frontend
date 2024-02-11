@@ -89,8 +89,7 @@
           {#each navItems as item}
             <li>
             <li class:active={currentRoute === item.id} on:click={() => { currentRoute = item.id; }}>
-              {#if item.disabled === "true"}
-              {/if}
+              {#if item.disabled === "false"}
               <a class="flex items-center justify-center w-12 h-12 rounded-xl dark:hover:bg-gray-800 hover:bg-gray-100 mb-2 "
                  on:click={() => currentRoute = item.id}
                  class:text-gray-400={currentRoute !== item.id}
@@ -107,6 +106,7 @@
                   {/if}
                 </div>
               </a>
+              {/if}
             </li>
             {#if item.edge === 'true'}
               <hr class="border-gray-400 pb-2">
@@ -154,24 +154,24 @@
           {#each navItems as item}
             <li>
             <li class:active={currentRoute === item.id} on:click={() => { currentRoute = item.id; }}>
-            {#if item.disabled === "true"}
-            {/if}
-            <a class="flex items-center justify-center w-12 h-12 rounded-xl dark:hover:bg-gray-800 hover:bg-gray-200 mb-2 "
+            {#if item.disabled === "false"}
+              <a class="flex items-center justify-center w-12 h-12 rounded-xl dark:hover:bg-gray-800 hover:bg-gray-200 mb-2 "
                  on:click={() => currentRoute = item.id}
                  class:text-gray-400={currentRoute !== item.id}
                  class:text-blue-500={currentRoute === item.id}
                  href={item.url}
                  sveltekit:prefetch
               >
-              <div class="relative" >
+                <div class="relative" >
                   {@html item.svg}
-                {#if item.disabled === "true"}
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 top-[5px] text-5xl text-red-500">
-                  x
+                  {#if item.disabled === "true"}
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 top-[5px] text-5xl text-red-500">
+                      x
+                    </div>
+                  {/if}
                 </div>
-                {/if}
-              </div>
               </a>
+            {/if}
             </li>
             {#if item.edge === 'true'}
               <hr class="border-gray-400 pb-2">

@@ -5,6 +5,8 @@
     import Fa from 'svelte-fa/src/fa.svelte';
     import {applyAction, deserialize} from "$app/forms";
     import CoursePicker from "$lib/blocks/CoursePicker.svelte";
+    import {onMount} from "svelte";
+    import {init} from "../../../lib/home/scripts/init.js";
 	export let data
 	let { supabase, session, claim, lms_user_id, launch} = data
 	$: ({ supabase, session, claim, lms_user_id, launch } = data)
@@ -45,24 +47,36 @@
         applyAction(result);
 
     }
+    onMount(() => {
+        init();
+    });
+
+
 </script>
 
-<body class="dark:bg-gray-600  bg-gray-100 antialiased bg-body text-body font-body">
+
+<div class="absolute inset-0 z-10" aria-hidden="true">
+    <canvas data-particle-animation></canvas>
+</div>
+
+<body class="dark:bg-gray-600  bg-gray-100 antialiased bg-body text-body font-body z-20">
 
     <!--- NO SESSION -->
     {#if !session}
         <div class="flex justify-center items-center h-screen bg-gray-700">
-            <div class="max-w-md w-full bg-gray-800 shadow-lg shadow-gray-600 rounded p-8">
+            <div class="max-w-md w-full bg-gray-800 shadow-lg shadow-gray-600 rounded p-8 z-10">
                 <div class="flex justify-center mb-6">
                     <img src="/logo-text-white.png" alt="Logo" class="h-12 w-auto">
                 </div>
                 <section class="flex flex-col items-center space-y-4 py-8">
-                    <h2 class="text-xl block truncate text-sm font-bold text-blue-500 animate-text bg-gradient-to-r from-blue-400 via-teal-500 to-purple-200 bg-clip-text text-transparent text-5xl font-black">Let's get you logged in!</h2>
+                    <h2 class="text-xl block truncate text-sm font-bold text-blue-500 animate-text bg-gradient-to-r from-blue-400 via-teal-500 to-purple-200 bg-clip-text text-transparent text-5xl font-black">
+                        Let's get started!
+                    </h2>
                     <button class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                             on:click={() => { goto('/lti/auth'); }}>
                         Login
                     </button>
-                    <a href="https://csbox.io/auth" target="_blank" class="w-full">
+                    <a href="https://csbox.io/auth?view=sign_up" target="_blank" class="w-full">
                         <button class="w-full text-white bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 dark:bg-gray-800 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-blue-800">
                             I don't have an account...
                             <span class="inline-block align-middle ml-2">
