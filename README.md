@@ -3,6 +3,8 @@ Issues Feb 9.
 -----
 
  - Onboarding UI, inconsistent.
+ 
+ - Idea - Onboarding, list of emails, if matches org, send magic link, url parameters to autofill onboarding, and would automaticcaly join org, maybe course
 
  - Onboarding Profile Image doesn't work.
 
@@ -20,7 +22,7 @@ Issues Feb 9.
 
 - Average Grade Placeholder.
 
-- Hide all menu items "X".
+X - Hide all menu items "X".
 
 - Delete notification is broken.
 

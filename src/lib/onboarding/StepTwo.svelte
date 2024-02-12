@@ -3,7 +3,7 @@
     import {faSpinner} from "@fortawesome/free-solid-svg-icons";
     import {applyAction, deserialize} from "$app/forms";
     import {invalidateAll} from "$app/navigation";
-
+    import {access} from "yarn/lib/cli.js";
 
     export let selectedRole;
     export let selectedOrg;
@@ -13,10 +13,17 @@
 
     let accessCode;
 
-    async function checkAccessCode() {
+    let accessCodeValid;
 
+    async function checkAccessCode() {
+        console.log(selectedOrg, accessCode);
         const response = await fetch(`/api/org/check_code?org_id=${selectedOrg}&code=${accessCode}`)
-        console.log(response.json())
+
+        if (response.ok) {
+            let result = response.json()
+            console.log(result)
+            return true;
+        }
     }
 
     async function handleRoleSubmit() {
@@ -83,7 +90,17 @@
                     required />
 
             <button class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
-                    on:click|preventDefault={() => { checkAccessCode() }}>Check</button>
+                    on:click|preventDefault={() => { accessCodeValid = checkAccessCode() }}>Check</button>
+
+            {#if accessCodeValid !== undefined}
+
+                {#if accessCodeValid === true}
+                    <div class="text-green-200 font-semibold px-2">Access Code Valid!</div>
+                    {:else}
+                    <div class="text-red-200 font-semibold px-2">Access Code Invalid!</div>
+                {/if}
+            {/if}
+
         </div>
     {/if}
     <div class="flex justify-between w-full sm:w-auto mt-2">

@@ -106,6 +106,7 @@
                         <div class="mb-8">
                             <StepIndicator color="blue" {currentStep} hideLabel {steps}/>
                         </div>
+
                         <form action="?/updateProfile" method="POST" on:submit|preventDefault={handleSubmit}>
                             {#if currentStep === 1}
                                 <StepTwo bind:org={org} bind:selectedRole={selectedRole} bind:currentStep={currentStep} loading={loading}/>
@@ -115,6 +116,7 @@
 								<StepThree bind:user={user}/>
                             {/if}
                         </form>
+
                     </div>
                 </div>
             </div>

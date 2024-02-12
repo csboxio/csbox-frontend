@@ -291,9 +291,9 @@
 
     {#if active_workspaces}
         {#if active_workspaces.length !== 0}
-
             <div class="mx-0.5 flex justify-between">
                 <div class="">
+
                     <button class="ml-0.5 relative inline-flex items-center justify-center p-0.5  mr-2 overflow-hidden text-sm
 						font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-blue-300
 						group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
@@ -303,7 +303,9 @@
 						<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
 							dark:bg-gray-600 rounded-md group-hover:bg-opacity-0 flex items-center">
 							<div class="inline-block pr-1"><Fa icon={faAdd}/></div> <div class="inline-block">New Workspace</div>
-						</span></button>
+						</span>
+                    </button>
+
                 </div>
 
                 {#if healthcheck}
@@ -324,7 +326,6 @@
                 <TableSearch placeholder="Search by name..." hoverable={true} bind:inputValue={searchTerm}>
                     <Table shadow hoverable class="mb-40 w-full bg-gray-800">
                         <TableHead>
-
                             <TableHeadCell>Name</TableHeadCell>
                             <TableHeadCell>Created</TableHeadCell>
                             <TableHeadCell>Tier</TableHeadCell>
@@ -357,6 +358,7 @@
                                             </Dropdown>
 
                                             <button class="dark:hover:bg-gray-800 hover:bg-gray-300 p-2 rounded">
+
                                                 {#key workspace_state}
                                                     {#if workspace_state === "running"}
                                                         <div in:flip={{ delay: 250, duration: 250, easing: quintOut }} on:click={async () => await stopWorkspace(id)}>
@@ -368,12 +370,12 @@
                                                         </div>
                                                     {/if}
                                                 {/key}
+
                                             </button>
                                         </TableBodyCell>
                                     </TableBodyRow>
                                 {/each}
                             {/key}
-
                         </TableBody>
                     </Table>
                 </TableSearch>
