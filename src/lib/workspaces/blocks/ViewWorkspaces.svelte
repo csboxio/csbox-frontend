@@ -91,13 +91,22 @@
         generateRandomWorkspaceName();
     }
 
-    // Workspace Functions
+    // OPEN Workspace Functions
     async function openWorkspace(workspace_id) {
         workspaceActionModal = true;
         workspaceActionModalTitle = "Opening Workspace"
-        const websocketUrl = `wss://ide.csbox.io/api/user/${$page.data.session.user.id}/workspace/${workspace_id}/open`
+        const websocketUrl = `wss://ide.csbox.io/api/workspace/open`
 
         const socket = new WebSocket(websocketUrl);
+
+        socket.onopen = (event) => {
+            let workspace_object = {
+                "user_id": $page.data.session.user.id,
+                "workspace_id_str": workspace_id.toString()
+            }
+            console.log(workspace_object)
+            socket.send(JSON.stringify(workspace_object));
+        }
 
         socket.onmessage = (event) => {
             const message = event.data;
@@ -126,8 +135,7 @@
     async function redirectWorkspace(workspace_id) {
         if (browser) {
             try {
-
-                const response = await fetch(`https://ide.csbox.io/api/user/${$page.data.session.user.id}/workspace/${workspace_id}/redirect`, {
+                const response = await fetch(`https://ide.csbox.io/api/redirect/${workspace_id}`, {
                     method: 'GET',
                     mode: 'cors',
                     credentials: 'omit'
@@ -156,13 +164,21 @@
 
     }
 
-    async function stopWorkspace(workspace_id) {
+    async function shutdownWorkspace(workspace_id) {
         workspaceActionModal = true;
         workspaceActionModalTitle = "Stopping Workspace"
 
-        const websocketUrl = 'wss://ide.csbox.io/api/v1/workspace/shutdown/'
+        const websocketUrl = 'wss://ide.csbox.io/api/workspace/shutdown'
 
         const socket = new WebSocket(websocketUrl + workspace_id);
+
+        socket.onopen = (event) => {
+            let workspace_object = {
+                "user_id": $page.data.session.user.id,
+                "workspace_id_str": workspace_id
+            }
+            socket.send(JSON.stringify(workspace_object));
+        }
 
         socket.onmessage = (event) => {
             const message = event.data;
@@ -219,11 +235,11 @@
 
     // Workspace Form Actions
 
-    let selectedWorkspaceCreateType;
-    $: selectedWorkspaceCreateType;
+    let selectedWorkspaceCreateTier;
+    $: selectedWorkspaceCreateTier;
     let selectedWorkspaceCreateConfig
     $: selectedWorkspaceCreateConfig;
-    let createWorkspaceTypeSelect = 0;
+    let createWorkspaceTierSelect = 0;
     let createWorkspaceConfigSelect = 0;
 
     async function handleCreateWorkspaceSubmit(event) {
@@ -238,6 +254,8 @@
             body: data
         });
 
+        console.log(response)
+
         const result = deserialize(await response.text());
         if (result.type === 'success') {
             // re-run all `load` functions, following the successful update
@@ -246,7 +264,7 @@
 
         await invalidateAll();
         createWorkspaceModal = false;
-        selectedWorkspaceCreateType = undefined;
+        selectedWorkspaceCreateTier = undefined;
         selectedWorkspaceCreateConfig = undefined;
         await applyAction(result);
     }
@@ -352,7 +370,7 @@
                                             <!-- Gear Icon Drop down -->
                                             <Dropdown containerClass="absolute z-50 px-4 " class="bg-gray-400 rounded" color="custom">
                                                 <div class="cursor-pointer py-2 px-6 text-sm hover:bg-gray-100 dark:hover:bg-gray-600" on:click={async () => await openWorkspace(id)}>Open</div>
-                                                <div class="cursor-pointer py-2 px-6 text-sm hover:bg-gray-100 dark:hover:bg-gray-600" on:click={async () => await stopWorkspace(id)}>Stop</div>
+                                                <div class="cursor-pointer py-2 px-6 text-sm hover:bg-gray-100 dark:hover:bg-gray-600" on:click={async () => await shutdownWorkspace(id)}>Stop</div>
                                                 <div class="cursor-pointer py-2 px-6 text-sm hover:bg-gray-100 dark:hover:bg-gray-600" on:click={async () => await saveWorkspace(id)}>Save</div>
                                                 <div class="cursor-pointer py-2 px-6 text-sm hover:bg-red-500 dark:hover:bg-red-600 py-1 overflow-hidden rounded-b-lg"  on:click={async () => await deleteWorkspace(id)}>Delete</div>
                                             </Dropdown>
@@ -361,7 +379,7 @@
 
                                                 {#key workspace_state}
                                                     {#if workspace_state === "running"}
-                                                        <div in:flip={{ delay: 250, duration: 250, easing: quintOut }} on:click={async () => await stopWorkspace(id)}>
+                                                        <div in:flip={{ delay: 250, duration: 250, easing: quintOut }} on:click={async () => await shutdownWorkspace(id)}>
                                                             <Fa icon={faStop} size="lg" class="text-red-200 rounded"/>
                                                         </div>
                                                     {:else}
@@ -416,8 +434,9 @@
 <!-- Failed Modal-->
 <Modal bind:open={failedApiModal} class="max-w-md dark:bg-gray-500 bg-gray-200" title="Error">
     <div class="text-center">
-        <div class="font-semibold text-white inline-block pr-4 align-super">We had an internal error... 😔</div>
-        <div class="font-semibold text-white inline-block pr-4 align-super">Contact support@csbox.io, if this error persists.</div>
+        <div class="font-semibold text-white inline-block pr-4 align-super">We had an internal error...</div>
+        <div class="font-semibold text-white inline-block pr-4 align-super text-sm">Try again in a few minutes.</div>
+        <div class="font-semibold text-white inline-block pr-4 align-super text-sm">Contact support@csbox.io, if this error persists.</div>
     </div>
 </Modal>
 
@@ -447,20 +466,20 @@
 
             <div class="mb-6">
 
-                <!-- Workspace Type-->
-                <label class="block mb-2 font-medium text-white dark:text-white" for="type">
-                    Type <span class="text-red-500">*</span>
+                <!-- Workspace Tier-->
+                <label class="block mb-2 font-medium text-white dark:text-white" for="tier">
+                    Tier <span class="text-red-500">*</span>
                 </label>
-                <div id="type">
+                <div id="tier">
                     {#if ide}
                         <Button color="custom" class="w-full text-white bg-gray-600">
-                            <Chevron> {selectedWorkspaceCreateType !== undefined ? ide.type.configurations[createWorkspaceTypeSelect].name : '. . .' }</Chevron>
+                            <Chevron> {selectedWorkspaceCreateTier !== undefined ? ide.tier.configurations[createWorkspaceTierSelect].name : '. . .' }</Chevron>
                         </Button>
                         <Dropdown class=" p-2 space-y-3 text-sm">
-                            {#each Object.entries(ide.type.configurations) as [key, config]}
+                            {#each Object.entries(ide.tier.configurations) as [key, config]}
                                 <li>
-                                    <Radio on:click={() => { selectedWorkspaceCreateType = config.name}} name="type"
-                                           bind:group={createWorkspaceTypeSelect} value={key}>{config.name}</Radio>
+                                    <Radio on:click={() => { selectedWorkspaceCreateTier = config.name}} name="tier"
+                                           bind:group={createWorkspaceTierSelect} value={key}>{config.name}</Radio>
                                 </li>
                             {/each}
                         </Dropdown>
@@ -470,7 +489,7 @@
 
             <!-- Workspace Configuration -->
             <div class="mb-6">
-                <label class="block mb-2 font-medium text-white dark:text-white" for="type">
+                <label class="block mb-2 font-medium text-white dark:text-white" for="tier">
                     Config <span class="text-red-500">*</span>
                 </label>
                 <div id="config">
@@ -481,7 +500,7 @@
                         {#if ide}
                             {#each Object.entries(ide.language.languages) as [key, config]}
                                 <li>
-                                    <Radio on:click={() => { selectedWorkspaceCreateConfig = config.image}} name="type"
+                                    <Radio on:click={() => { selectedWorkspaceCreateConfig = config.image}} name="tier"
                                            bind:group={createWorkspaceConfigSelect} value={key}>{config.name}</Radio>
                                 </li>
                             {/each}

@@ -8,6 +8,7 @@
     import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
     import {afterUpdate, onMount, tick} from "svelte";
     import WorkspaceNav from "$lib/workspaces/components/WorkspaceNav.svelte";
+    import {Modal} from "flowbite-svelte";
 
 
     let healthcheck;
@@ -20,6 +21,8 @@
 
     let pathname = '';
     let extractedName;
+
+    let healthcheck_failed = !$page.data.health_check;
 
     function extractNameFromPath() {
         pathname = $page.url.pathname;
@@ -68,3 +71,11 @@
     </div>
 </div>
 </body>
+
+<Modal bind:open={healthcheck_failed} class="max-w-md dark:bg-gray-500 bg-gray-200" title="Error">
+    <div class="text-center">
+        <div class="font-semibold text-white inline-block pr-4 align-super">Workspaces is down.</div>
+        <div class="font-semibold text-white inline-block pr-4 align-super text-sm">Contact support@csbox.io, if this error persists.</div>
+    </div>
+</Modal>
+

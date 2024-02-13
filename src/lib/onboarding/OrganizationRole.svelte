@@ -3,7 +3,6 @@
     import {faSpinner} from "@fortawesome/free-solid-svg-icons";
     import {applyAction, deserialize} from "$app/forms";
     import {invalidateAll} from "$app/navigation";
-    import {access} from "yarn/lib/cli.js";
 
     export let selectedRole;
     export let selectedOrg;
@@ -16,18 +15,41 @@
     let accessCodeValid;
 
     async function checkAccessCode() {
-        console.log(selectedOrg, accessCode);
-        const response = await fetch(`/api/org/check_code?org_id=${selectedOrg}&code=${accessCode}`)
+        try {
+            const response = await fetch(`/api/org/check_code?org_id=${selectedOrg}&code=${accessCode}`);
 
-        if (response.ok) {
-            let result = response.json()
-            console.log(result)
-            return true;
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result);
+
+                // Check the condition from the API response, for example, if "Success"
+                if (result === "Success") {
+                    accessCodeValid = true;
+                } else {
+                    accessCodeValid = false;
+                }
+
+                return accessCodeValid;
+            } else {
+                // If the response is not ok, set accessCodeValid to false
+                accessCodeValid = false;
+                return accessCodeValid;
+            }
+        } catch (error) {
+            console.error("Error while checking access code:", error);
+            accessCodeValid = false;
+            return accessCodeValid;
         }
     }
 
     async function handleRoleSubmit() {
         const data = new FormData(this);
+
+        data.append('access_code_valid', accessCodeValid);
+        data.append('access_code', accessCode);
+        data.append('org_id', selectedOrg);
+        data.append('role', selectedRole);
+
         const response = await fetch(this.action, {
             method: 'POST',
             body: data,
@@ -90,14 +112,13 @@
                     required />
 
             <button class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
-                    on:click|preventDefault={() => { accessCodeValid = checkAccessCode() }}>Check</button>
+                    on:click|preventDefault={() => { checkAccessCode(); }}>Check</button>
 
             {#if accessCodeValid !== undefined}
-
                 {#if accessCodeValid === true}
                     <div class="text-green-200 font-semibold px-2">Access Code Valid!</div>
                     {:else}
-                    <div class="text-red-200 font-semibold px-2">Access Code Invalid!</div>
+                        <div class="text-red-200 font-semibold px-2">Access Code Invalid!</div>
                 {/if}
             {/if}
 
@@ -105,20 +126,25 @@
     {/if}
     <div class="flex justify-between w-full sm:w-auto mt-2">
         <div>
-            <button class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
-                    on:click|preventDefault={() => {currentStep = 1;}}>
+            <button class="cursor-not-allowed inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200">
                 Back
             </button>
         </div>
 
-        <button type="submit" class="inline-block py-2 px-4 text-sm text-center font-bold leading-normal text-gray-100 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200">
-            {#if loading}
-                <svg class="animate-spin h-4 w-4 mr-3 inline">
-                    <Fa icon={faSpinner} size="xs" />
-                </svg>
-            {/if}
-            Next
-        </button>
+        {#if accessCodeValid}
+            <button type="submit" class="inline-block py-2 px-4 text-sm text-center font-bold leading-normal text-gray-100 bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200">
+                {#if loading}
+                    <svg class="animate-spin h-4 w-4 mr-3 inline">
+                        <Fa icon={faSpinner} size="xs" />
+                    </svg>
+                {/if}
+                Next
+            </button>
+            {:else}
+            <button class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200">
+                Next
+            </button>
+        {/if}
     </div>
 
 </form>

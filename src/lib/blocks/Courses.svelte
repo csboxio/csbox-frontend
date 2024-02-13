@@ -73,11 +73,41 @@
     }
 </script>
 
-
+<section class="flex flex-col">
+    <div>
+        <!-- Existing courses menu -->
+        {#if courses}
+            {#if claim === 'instructor'}
+                {#if courses.length > 0}
+                    <div class="inline-block">
+                        <a>
+                            <button on:click={() => goto("/d/courses/create")}
+                                    class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-300 to-blue-500 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">
+						<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+							Create
+						</span>
+                            </button>
+                        </a>
+                    </div>
+                {/if}
+            {/if}
+            {#if courses.length > 0}
+                <div class="inline-block">
+                    <a>
+                        <button on:click={() => { joinCourse = true; }}
+                                class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-300 to-blue-500 group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">
+						<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+							Join
+						</span>
+                        </button>
+                    </a>
+                </div>
+            {/if}
+        {/if}
+    </div>
+</section>
 <div class="container m-4 mx-8">
     <div class="flex flex-wrap -mx-12 -mb-2">
-
-
         <!--Each course-->
         {#key courses}
             {#if courses}
@@ -159,6 +189,8 @@
 
 {#key courses}
     {#if courses && browser}
+
+
         {#if courses.length === 0 && claim === "student"}
             <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <div class="m-auto">

@@ -5,9 +5,9 @@
     import {StepIndicator} from "flowbite-svelte";
     import {loading} from "$lib/utilities/imageStorage";
     import {browser} from "$app/environment";
-    import StepOne from "$lib/onboarding/StepOne.svelte";
-    import StepTwo from "$lib/onboarding/StepTwo.svelte";
-    import StepThree from "$lib/onboarding/StepThree.svelte";
+    import OrganizationRole from "$lib/onboarding/OrganizationRole.svelte";
+    import ProfileImage from "$lib/onboarding/ProfileImage.svelte";
+    import UserInfo from "$lib/onboarding/UserInfo.svelte";
 
 
     export let data
@@ -46,7 +46,7 @@
         await goto('/d')
     }
 
-    let steps = ['Step 1', 'Step 2', 'Step 3'];
+    let steps = ['Step 1', 'Step 2'];
     let currentStep = 1;
     $: currentStep;
 
@@ -109,11 +109,11 @@
 
                         <form action="?/updateProfile" method="POST" on:submit|preventDefault={handleSubmit}>
                             {#if currentStep === 1}
-                                <StepTwo bind:org={org} bind:selectedRole={selectedRole} bind:currentStep={currentStep} loading={loading}/>
+                                <OrganizationRole bind:org={org} bind:selectedRole={selectedRole} bind:currentStep={currentStep} loading={loading}/>
                             {/if}
-                            {#if currentStep === 3}
-								<StepOne bind:data={data} bind:currentStep={currentStep} loading={loading}/>
-								<StepThree bind:user={user}/>
+                            {#if currentStep === 2}
+								<!--<ProfileImage bind:data={data} bind:currentStep={currentStep} loading={loading}/>-->
+								<UserInfo bind:user={user}/>
                             {/if}
                         </form>
 

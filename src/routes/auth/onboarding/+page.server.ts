@@ -6,22 +6,36 @@ export const prerender = false;
 
 export const actions: Actions = {
 
-    updateRole: async  ({ request, url, params, locals: { supabase } }) => {
-        const formData = await request.formData()
-        const {data} = await supabase.auth.refreshSession()
-        let user;
-        if (data == null) {
-            const {data} = await supabase.auth.refreshSession()
-            user = data.user
-        }
-        user = data.user
+    updateRole: async  ({ request, url, params, locals: { supabase, getSession } }) => {
+        const formData = await request.formData();
+        const session = await getSession();
 
-        if (user != null) {
+        const org_id = formData.get('org_id');
+        const access_code = formData.get('access_code');
+        const role = formData.get('role').toLowerCase();
+        const valid = formData.get('access_code_valid');
 
-            const {error} = await supabase.rpc('set_claim', {uid: user.id, claim: 'userrole', value: 'instructor'});
-            console.log(error)
+        if (session) {
+            // TODO not secure
+            const claim_response = await supabase.rpc('set_claim', {uid: session.user.id, claim: 'userrole', value: role});
+
+            if (claim_response.error) {
+                console.log('claim_error ' + claim_response.error);
+            }
+
+            // Check if access code is valid
+            if (valid) {
+                // Join org
+                const join_response = await supabase.rpc('join_org', {org_id: org_id, access_code: access_code, user_id: session.user.id});
+                // Error
+                if (join_response.error) {
+                    console.log('join_error ' + JSON.stringify(join_response));
+                }
+            }
+
         }
     },
+
     updateProfile: async ({ request, url, fetch, locals: { supabase } }) => {
         const formData = await request.formData()
 

@@ -8,5 +8,6 @@ export const GET = async ({ locals: { supabase } }) => {
     if (error) {
         console.log(error)
     }
+
     return json({data})
 }

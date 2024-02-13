@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { fade } from 'svelte/transition';
     import {uploadAvatar} from "$lib/utilities/imageStorage";
     import Fa from 'svelte-fa/src/fa.svelte';
@@ -35,6 +35,7 @@
         }
         showImage = false;
     }
+
 </script>
 
 <div class="p-4 rounded-lg items-center justify-center">
@@ -47,15 +48,17 @@
             {/if}
         </div>
         <div class="mt-1">
+            <!-- Upload Button -->
             <label class="inline-flex items-center px-3 py-2 text-lg font-semibold text-center text-white
-									bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600
-									dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer">
+                            bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600
+                            dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer">
                 <input class="hidden" type="file" id="single" accept="image/*" bind:files on:change={() => { uploadedAvatarUrl = uploadAvatar(files, uploading, user.avatar_url, session, supabase); onChangePreview(); }  } disabled={uploading}>
                 <div class="m-1">
                     <Fa icon={faUpload} size="xs" />
                 </div>
                 Upload
             </label>
+
         </div>
     </div>
 </div>

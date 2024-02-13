@@ -8,9 +8,6 @@ import {redirect} from "@sveltejs/kit";
 export const actions: Actions = {
 
     createWorkspace: async ({ request, url, fetch, locals: { supabase } }) => {
-        console.log('create workspace')
-
-
         const formData = await request.formData()
 
         const {data} = await supabase.auth.refreshSession()
@@ -20,21 +17,19 @@ export const actions: Actions = {
             throw redirect(303, '/')
         }
         const workspace_name = formData.get('workspace_name')
-        const type = formData.get('type')
+        const tier = formData.get('tier')
         const user_id = user.id
         const image = formData.get('image')
 
         const payload = {
-            //user_id: user_id,
+            user_id: user_id,
             workspace_name: workspace_name,
-            type: "small",
+            tier: "small",
             image_type: 'python'
         }
 
-        console.log(payload)
-
         try {
-            const response = await fetch(`https://ide.csbox.io/api/user/${user_id}/workspace/new`, {
+            const response = await fetch(`https://ide.csbox.io/api/workspace/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

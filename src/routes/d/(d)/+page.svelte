@@ -65,10 +65,9 @@
 
 			<section class="py-3 h-screen ">
 				<div class="container px-4 mx-auto">
-
 					{#if claim === 'instructor'}
 
-						<Metrics />
+						<Metrics bind:claim={claim} />
 
 						<GradeChart />
 
@@ -76,16 +75,12 @@
 
 					{/if}
 					{#if claim === 'student'}
-						TODO Student Dashboard
-						- Number of classes
-						- Missing Assignments
-						- Upcoming Assignments
-						- Grade graphs
-						- Recent submissions
-						- Recent comments
-						- Workspace Data
-					{/if}
+						<Metrics bind:claim={claim}/>
 
+						<GradeChart />
+
+						<Notifications />
+					{/if}
 				</div>
 			</section>
 		</div>

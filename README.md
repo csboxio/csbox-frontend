@@ -2,15 +2,15 @@ Issues Feb 9.
 
 -----
 
- - Onboarding UI, inconsistent.
- 
- - Idea - Onboarding, list of emails, if matches org, send magic link, url parameters to autofill onboarding, and would automaticcaly join org, maybe course
+ X - Onboarding org.
 
- - Onboarding Profile Image doesn't work.
+ X - Onboarding UI, inconsistent.
 
- - Onboarding Profile Image, button appearance after loads.
+ X - Onboarding Profile Image doesn't work.
 
-- Create workspace, no error message if API down.
+ X - Onboarding Profile Image, button appearance after loads.
+
+ X - Create workspace, no error message if API down.
 
 - Join course broken.
 
@@ -18,13 +18,20 @@ Issues Feb 9.
 
 - Course, create module doesn't work. 
 
-- Student dashboard placeholder.
+X - Student dashboard placeholder.
 
-- Average Grade Placeholder.
+- Average Grade Placeholder. 
+
+- Apex charts error
 
 X - Hide all menu items "X".
 
 - Delete notification is broken.
+
+----
+Future
+
+- Idea - Onboarding, list of emails, if matches org, send magic link, url parameters to autofill onboarding, and would automaticcaly join org, maybe course
 
 ------
 

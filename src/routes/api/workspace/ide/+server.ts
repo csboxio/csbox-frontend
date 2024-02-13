@@ -6,7 +6,7 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
   const version = url.searchParams.get('v')
 
   const {data, error } = await supabase.from('ide')
-    .select('version, status_codes, config, type, language, storage')
+    .select('version, status_codes, config, tier, language, storage')
     .eq('version', version)
       .single()
 

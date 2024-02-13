@@ -69,6 +69,8 @@ export const uploadAvatar = async (files: FileList, uploading: boolean, url: str
     // @ts-ignore
     const { error } = await supabase.storage.from('avatars').upload(filePath, rfile)
     const { data } = await supabase.storage.from('avatars').getPublicUrl(filePath)
+
+  console.log(data)
     await updateProfile(data.publicUrl, session.user.id, supabase)
 
 
