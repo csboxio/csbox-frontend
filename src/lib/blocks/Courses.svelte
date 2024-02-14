@@ -125,8 +125,11 @@
                                         <div class="absolute group-hover:scale-105 -inset-0.5 bg-gradient-to-r from-gray-400 to-gray-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-1500 group-hover:duration-200 "></div>
                                         <div class="">
                                             <div class="relative p-6 bg-gray-700 rounded-xl group-hover:scale-105 transition|local duration-1500 ">
-                                                <img src={course_image_url === '' ? '/favicon.png' : course_image_url + '?t=' + inserted_at} class="relative inline-flex items-center justify-center w-20 h-auto mb-6 rounded-lg drop-shadow-2xl  mr-24" alt='Course Image'/>
-
+                                                {#if course_image_url}
+                                                    <img src={course_image_url === '' ? '/favicon.png' : course_image_url + '?t=' + inserted_at} class="relative inline-flex items-center justify-center w-20 h-auto mb-6 rounded-lg drop-shadow-2xl  mr-24" alt='Course Image'/>
+                                                    {:else}
+                                                    <img src='/favicon.png' class="relative inline-flex items-center justify-center w-20 h-auto mb-6 rounded-lg drop-shadow-2xl  mr-24" alt='Course Image'/>
+                                                {/if}
                                                 <a on:click|stopPropagation={() => {
                                                     hoverID = i;
                                                     open = true;

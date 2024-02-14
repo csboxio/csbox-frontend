@@ -8,6 +8,11 @@
   import { fade, slide } from 'svelte/transition'
   import {PUBLIC_SUPABASE_ID} from "$env/static/public";
 
+  import { avatar, bg } from '@svelkit/spectre'
+  import AvatarImage from "./AvatarImage.svelte";
+
+
+
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
@@ -166,7 +171,11 @@
         <div>
           {#key user}
               <Button pill color="light"  id="avatar_with_name" class=" !p-1.5 ">
-                <Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class=" "/>
+                {#if user?.avatar_url}
+                  <Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class=" "/>
+                {:else}
+                  <figure use:avatar.md={user.first_name[0].toUpperCase() + user.last_name[0].toUpperCase()} use:bg.dark></figure>
+                {/if}
                 <!-- Smaller than sm hide name -->
                 <div class="hidden sm:block">
                 <div class="ml-3 mr-3 font-medium text-nowrap ">{user?.first_name == null ? '' : user?.first_name} {user?.last_name == null ? '' : user?.last_name}</div>

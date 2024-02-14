@@ -18,6 +18,7 @@ export let i18n;
 export let appearance;
 export let captchaToken;
 export let reload;
+export let lti;
 let message = '';
 let error = '';
 let loading;
@@ -40,7 +41,9 @@ async function handleSubmit() {
             loading = false;
 			// TODO OLD HOTFIX (NOT IMPORTANT) BUT KEEPING HERE FOR REFERENCE
 			// window.location.reload();
-				await goto('/d');
+				if (!lti) {
+					await goto('/d');
+				}
             break;
         case VIEWS.SIGN_UP:
             let options = {

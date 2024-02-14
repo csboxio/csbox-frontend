@@ -114,6 +114,7 @@
                                  This is some jank shit, but like if Supabase Auth changes, I would have to rebuild this, or my own version.
                                  They did an alright job, so, sort of a loose loose.-->
                             <Auth
+                                    lti={lti}
                                     view={view}
                                     supabaseClient={supabase}
                                     showLinks={true}

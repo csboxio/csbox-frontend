@@ -18,6 +18,7 @@ export let redirectTo = undefined;
 export let onlyThirdPartyProviders = false;
 export let magicLink = false;
 export let showLinks = true;
+export let lti;
 export let appearance = {
 	theme: ThemeSupa,
 	style: {
@@ -92,6 +93,7 @@ $: authTitle.set(view)
 	{#if view === VIEWS.SIGN_IN}
 		{#if !onlyThirdPartyProviders}
 			<EmailAuth
+					{lti}
 				{appearance}
 				{supabaseClient}
 				bind:authView={view}
