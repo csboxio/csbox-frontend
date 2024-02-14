@@ -8,8 +8,10 @@
 	import Settings from "$lib/components/Settings.svelte";
 	import {uploadAvatar} from "$lib/utilities/imageStorage.js";
 	import {faUpload} from "@fortawesome/free-solid-svg-icons";
-	import {Input, Label, Textarea} from "flowbite-svelte";
+	import {Avatar, Input, Label, Textarea} from "flowbite-svelte";
 	import {page} from "$app/stores";
+	import { avatar, bg } from '@svelkit/spectre'
+
 
 	onMount(() => {
 		// Set the selected item when the page is mounted
@@ -112,7 +114,11 @@
 				<div class="flex flex-wrap -mx-3 ">
 					<div class="w-full lg:w-1/3 px-3 mb-6 lg:mb-0">
 						<div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
-							<img class="rounded-full w-24 h-24 inline-block" src={user?.avatar_url} alt="image description">
+							{#if user?.avatar_url}
+								<Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class=" "/>
+							{:else}
+								<figure use:avatar.xl={user.first_name[0].toUpperCase() + user.last_name[0].toUpperCase()} use:bg.dark></figure>
+							{/if}
 							<div class="inline-block ml-4">
 								<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-800 dark:text-white">{$page.data.user?.data.first_name} {user?.last_name}</h5>
 								<main>
@@ -142,8 +148,8 @@
 									<div class="relative group">
 										<div class="px-24 py-8 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
 											<div class="flex flex-wrap -mx-10 -mb-6 text-white font-semibold">
-												<h4 class="text-2xl font-bold tracking-wide text-white mb-4">General Information</h4>
-												<div class="grid grid-cols-2 gap-6 w-full">
+												<h4 class="text-2xl font-bold tracking-wide text-white mb-4">User Information</h4>
+												<div class="grid grid-cols-2 gap-6 w-full space-x-2">
 													<div class="mb-6">
 														<Label for="first" class="block mb-2 text-red-500 {user?.first_name == '' ? 'animate-pulse pulse-red text-red-500' : ''}">First Name:</Label>
 														<Input id="first" name="first" class="w-full" bind:value={user.first_name} />
@@ -171,7 +177,7 @@
 													</div>
 
 												</div>
-												<div class="w-full sm:w-auto mb-4">
+												<div class="w-full sm:w-auto mb-8">
 													<div>
 														<input class="inline-block py-2 px-4 text-xs text-center font-semibold leading-normal text-white bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200"
 															   href="/dashboard"
