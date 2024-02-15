@@ -1,23 +1,21 @@
 <main class="flex-grow bg-gray-800 rounded-lg">
     <div class="max-w-6xl mx-auto px-6 py-6 sm:px-6 my-8">
-        <h1 class="text-6xl font-bold text-white mb-4 py-6 px-6">High Performance Workspaces</h1>
+        <h1 class="text-6xl font-bold text-white mb-4 py-6 px-6 pt-24">High Performance Workspaces</h1>
 
         <div class="flex flex-wrap items-center">
-            <div class="w-full md:w-1/2 mb-4 md:mb-0">
-                <img src="your-image-url.jpg" alt="Workspace Image" class="rounded-lg h-auto w-full">
-            </div>
 
-            <div class="w-full md:w-1/2 md:pl-8 pb-8">
+            <div class="w-full md:w-1/2 pb-8">
                 <p class="text-gray-200 mb-2">Published on January 31, 2024</p>
-                <h2 class="text-3xl font-bold mb-4 text-blue-100">Unlocking Productivity Potential</h2>
-                <div class="prose text-white">
-                    <p class="text-white mb-4 text-xl">In the dynamic world of programming and education, there is a growing demand for innovative tools that empower both educators and students alike. Enter CSBOX, a cutting-edge cloud-based coding environment built specifically for the needs of educators and students. In this blog post, we'll explore how CSBOX is transforming the coding education landscape, with a particular focus on its stellar performance.</p>
-                </div>
 
 
             </div>
 
             <div class="space-y-12">
+
+                <div class="mb-4">
+                    <h2 class="text-2xl font-semibold text-blue-100 pb-4">Unlocking Productivity Potential</h2>
+                    <p class="text-white text-lg">In the dynamic world of programming and education, there is a growing demand for innovative tools that empower both educators and students alike. Enter CSBOX, a cutting-edge cloud-based coding environment built specifically for the needs of educators and students. In this blog post, we'll explore how CSBOX is transforming the coding education landscape, with a particular focus on its stellar performance.</p>
+                </div>
 
                 <div class="mb-4">
                     <h2 class="text-2xl font-semibold text-blue-100 pb-4">Next-Gen Infrastructure: SOC 2 Verified Cloud Servers</h2>

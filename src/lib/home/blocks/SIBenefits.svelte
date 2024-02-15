@@ -14,14 +14,20 @@
             </svg>
         </div>
 
-        <div class="pt-16 pb-12 md:pt-32 md:pb-20">
+        <div class="pt-16 pb-12 md:pt-32 md:pb-20 flex justify-between">
 
             <!-- Section header -->
-            <div class="max-w-3xl pb-12 md:pb-20">
+            <div class="max-w-3xl pb-12 md:pb-20 w-1/2">
                 <h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Faculty Benefits</h2>
-                <p class="text-lg text-slate-400 px-4">
+                <p class="text-md text-slate-400 px-4">
                     Faculty often spend significant time configuring technical environments, diverting attention from teaching. Simplifying these complexities allows educators to
                     focus on in-depth coding concepts, offer better guidance, and address complex queries effectively. This optimization creates a more immersive learning environment for both faculty and students.</p>
+            </div>
+
+            <div class="max-w-3xl pb-12 md:pb-20 w-1/2">
+                <h2 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">Student Benefits</h2>
+                <p class="text-md text-slate-400 px-4">Students' challenges with technical setup hinder their engagement and practical coding application, impacting effective learning and contributing to increased attrition rates.
+                    Introducing coding activities from day one enables educators to prioritize teaching, optimizing instructional time, and significantly enhancing overall educational quality.</p>
             </div>
         </div>
     </div>

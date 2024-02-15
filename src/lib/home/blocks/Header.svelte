@@ -3,6 +3,7 @@
     import {page} from "$app/stores";
     import Fa from 'svelte-fa/src/fa.svelte';
     import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
+    import {goto} from "$app/navigation";
 
 </script>
 
@@ -14,11 +15,56 @@
             <div class="shrink-0 mr-4">
                 <!-- Logo -->
                 <a aria-label="CSBOX" class="block" href="/">
-                    <img alt="CSBOX" height="100%" src="./logo-fullColor-white-text.png" width="150">
+                    <img alt="CSBOX" height="100%" src="/logo-fullColor-white-text.png" width="150">
                 </a>
             </div>
             <!-- Desktop navigation -->
             <nav class="flex grow">
+                <div class="relative">
+                    {#if browser}
+                        {#if window.location.pathname === '/'}
+                            <button class="font-medium text-sm text-white hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
+                                Home
+                            </button>
+                        {:else}
+                            <button class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
+                                Home
+                            </button>
+                        {/if}
+                    {/if}
+                </div>
+
+                <div class="relative">
+                    <button class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
+                        Product
+                    </button>
+                </div>
+
+                <div class="relative">
+                    <button class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
+                        Features
+                    </button>
+                </div>
+
+                <div class="relative">
+                    <button class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
+                        Pricing
+                    </button>
+                </div>
+
+                <div class="relative">
+                    <button class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
+                        Demo
+                    </button>
+                </div>
+
+
+                <div class="relative">
+                    <button class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
+                        About us
+                    </button>
+                </div>
+
                 <!-- Desktop sign in links -->
                 <ul class="flex grow justify-end flex-wrap items-center space-x-2">
                     {#if browser}
@@ -28,7 +74,7 @@
                         </li>
 
                         <li>
-                            <a class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out px-3 py-2 bg-blue-500 rounded"
+                            <a class="btn border-none text-slate-200 hover:text-white bg-blue-700 bg-opacity-50 hover:bg-opacity-70 w-full"
                                href="/auth?view=sign_up">Sign Up</a>
                         </li>
                     {/if}

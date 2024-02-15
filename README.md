@@ -24,6 +24,12 @@ X - Student dashboard placeholder.
 
 - Apex charts error
 
+- Make canvas account for demo
+
+- Make demo document PDF
+
+- Make demo homepage link
+
 X - Hide all menu items "X".
 
 - Delete notification is broken.

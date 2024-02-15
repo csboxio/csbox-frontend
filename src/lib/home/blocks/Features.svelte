@@ -91,7 +91,7 @@
                             </div>
                         </div>
 
-                        <div on:click={() => { goto("/features/high-performance"); } } class="cursor-pointer sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 swiper-slide mb-4 mx-2 h-auto relative bg-slate-800 rounded-3xl p-px  before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
+                        <div on:click={() => { goto("/site/features/high-performance"); } } class="cursor-pointer sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 swiper-slide mb-4 mx-2 h-auto relative bg-slate-800 rounded-3xl p-px  before:absolute before:w-96 before:h-96 before:-left-48 before:-top-48 before:bg-blue-500 before:rounded-full before:opacity-0 before:pointer-events-none before:transition-opacity before:duration-500 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:hover:opacity-20 before:z-30 before:blur-[100px] after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500 after:[background:_radial-gradient(250px_circle_at_var(--mouse-x)_var(--mouse-y),theme(colors.slate.400),transparent)] after:group-hover:opacity-100 after:z-10 overflow-hidden group/slide">
                             <div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden" >
                                 <!-- Particles animation -->
                                 <div class="absolute inset-0 -z-10 opacity-0  group-hover/slide:opacity-100 transition-opacity duration-500 ease-in-out" aria-hidden="true">
@@ -108,7 +108,7 @@
                                         <div class="text-slate-400 mb-3">Our custom solution has dynamically allocated resources to match any workload.</div>
                                     </div>
                                     <div class="text-right">
-                                        <a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="/features/high-performance">Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
+                                        <a class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group" href="/site/features/high-performance">Learn More <span class="tracking-normal text-blue-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span></a>
                                     </div>
                                 </div>
                             </div>

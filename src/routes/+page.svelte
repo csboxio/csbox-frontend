@@ -8,14 +8,13 @@
 	import FeaturesGrid from "../lib/home/blocks/FeaturesGrid.svelte";
 	import Benefits from "../lib/home/blocks/Benefits.svelte";
 	import Pricing from "../lib/home/blocks/Pricing.svelte";
-	import FacultyBenefits from "../lib/home/blocks/FacultyBenefits.svelte";
-	import StudentBenefits from "../lib/home/blocks/StudentBenefits.svelte";
 	import Testimonials from "../lib/home/blocks/Testimonials.svelte";
 	import CTA from "../lib/home/blocks/CTA.svelte";
 	import Footer from "../lib/home/blocks/Footer.svelte";
     import {onMount} from "svelte";
     import {init} from "../lib/home/scripts/init.js";
     import {navigating} from "$app/stores";
+    import SIBenefits from "../lib/home/blocks/SIBenefits.svelte";
 
 
     onMount(() => {
@@ -55,9 +54,7 @@
     <!-- Pricing -->
     <Pricing/>
     <!-- Faculty Benefits -->
-    <FacultyBenefits/>
-    <!-- Student Benefits -->
-    <StudentBenefits/>
+    <SIBenefits/>
     <!-- Testimonials -->
     <Testimonials/>
     <!-- CTA -->
