@@ -33,7 +33,7 @@
                         </button>
                     </div>
                 </div>
-                <h1 class="h1 wrap text-gray-300 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" in:fade={{ delay: 250, duration: 300 }}>Developer environment for education</h1>
+                <h1 class="h1 wrap text-gray-300 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4" in:fade={{ delay: 250, duration: 300 }}>Platform built for education</h1>
                 <p class="text-lg text-gray-300 mb-8">A cloud-based code learning platform built for next-generation education.</p>
                 <div class="max-w-xs mx-auto sm:max-w-none sm:inline-flex sm:justify-center space-y-4 sm:space-y-0 sm:space-x-4" in:fade={{ delay: 250, duration: 300 }}>
                     <div>

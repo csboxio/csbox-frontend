@@ -50,7 +50,7 @@
                     message: "Wait for your instructor to accept you."
                 };
 
-            addNotification(newNotification, supabase, $page.data.session.user)
+            //addNotification(newNotification, supabase, $page.data.session.user)
         }
         if (result?.data.error !== null) {
             if (result?.data.error.message === "Already Enrolled") {

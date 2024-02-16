@@ -12,13 +12,13 @@ Issues Feb 9.
 
  X - Create workspace, no error message if API down.
 
-- Join course broken.
+ X - Join course broken.
 
 - Create course make all SSR and or Postgres side for assignments, modules, groups etc.
 
-- Course, create module doesn't work. 
+ X - Course, create module doesn't work. 
 
-X - Student dashboard placeholder.
+ X - Student dashboard placeholder.
 
 - Average Grade Placeholder. 
 

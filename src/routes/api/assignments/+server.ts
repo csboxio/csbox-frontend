@@ -9,5 +9,6 @@ export const GET: RequestHandler = async ({ url, locals: { supabase } }) => {
     .select('assignment_id, title, category, due, points, order_in_group')
     .eq('course_id', course)
 
+  console.log(data)
   return json(data)
 }

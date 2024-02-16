@@ -7,19 +7,12 @@ export const load = (async ({ fetch, data, request, url, parent, params, cookies
     const ltik = parentData.ltik;
     const { searchParams } = new URL(url);
 
-
-
     if (!session) {
         throw redirect(303, '/');
-    }
-    const assignments = async () => {
-        const response =  await fetch(`/api/assignments/?course=${params.course}`)
-        return response.json()
     }
 
     return {
         ltik: ltik,
-        assignments: assignments(),
         session: session,
     };
 

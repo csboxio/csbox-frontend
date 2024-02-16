@@ -8,9 +8,6 @@ export const GET: RequestHandler = async ({ url, setHeaders, locals: { supabase,
       .rpc('get_groups_assignments', { course_id_param: course });
 
   //console.log(data, error)
-  setHeaders({
-    'cache-control': 'public, max-age=60, s-maxage=60'
-  })
 
   return json(data)
 }

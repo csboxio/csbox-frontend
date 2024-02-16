@@ -62,9 +62,10 @@
     let assignmentStartDate;
     let assignmentEndDate;
 
-    let showAllAssignments;
+    let showAllAssignments
+    $: showAllAssignments = false;
 
-    if (groups === undefined) {
+    if (groups === undefined && Array.isArray(groups)) {
         showAllAssignments = true;
     }
 
@@ -132,7 +133,7 @@
                     message: `Created Assignment: ${data.get('name')}`
                 };
 
-            addNotification(newNotification, supabase, $page.data.session.user)
+            //addNotification(newNotification, supabase, $page.data.session.user)
 
         } else {
             const newNotification =
@@ -141,7 +142,7 @@
                     message: `Error: Type: ${result.type} Status: ${result.status}}`
                 };
 
-            addNotification(newNotification, supabase, $page.data.session.user)
+            //addNotification(newNotification, supabase, $page.data.session.user)
         }
         close_box();
         await invalidateAll();
@@ -161,22 +162,19 @@
     }
 
     async function handleDeleteAssignment(aid) {
-        const response = await fetch('/api/assignments/delete/', {
-            method: 'POST',
-            body: JSON.stringify({assignment_id: aid}),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        const {data, error, status} = await $page.data.supabase
+            .from('assignments')
+            .delete()
+            .eq('assignment_id', aid);
 
-        console.log(response)
+        console.log(data, error, status)
 
         const newNotification =
         {
             title: "Success! 🥳",
             message: `Deleted Assignment!`
         };
-        addNotification(newNotification, supabase, $page.data.session.user)
+        //addNotification(newNotification, supabase, $page.data.session.user)
         delete_model_close();
         await invalidateAll();
     }
@@ -692,12 +690,13 @@
 
 <!-- Model for removing assignment -->
 <Modal title="Remove assignment" class="max-w-xs" bind:open={deleteModel}>
-    <p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to delete this item?</p>
+    <p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to delete this assignment?</p>
     <div class="flex justify-center items-center space-x-4">
         <button on:click={() => deleteModel = false} data-modal-toggle="deleteModal" type="button"
                 class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
             No, cancel
         </button>
+
         <button on:click={async () => await handleDeleteAssignment(delete_assignment_id)} type="submit"
                 class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">
             Yes, I'm sure
@@ -710,9 +709,9 @@
     <form method="POST" action="?/createGroup" on:submit|preventDefault={handle_group_submit}>
         <div class="grid gap-4 mb-4 sm:grid-cols-1">
             <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Group Name</label
-                >
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Group Name
+                </label>
                 <input
                         type="text"
                         name="name"

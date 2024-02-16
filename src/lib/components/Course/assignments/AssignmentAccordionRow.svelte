@@ -79,15 +79,13 @@
     }
 
     async function handleDeleteAssignment(aid) {
-        const {error, status} = await $page.data.supabase.from('assignments').delete().match({assignment_id: aid});
-        console.log(status)
+        const {data, error, status} = await $page.data.supabase
+            .from('assignments')
+            .delete()
+            .eq('assignment_id', aid);
+
+        console.log(data, error, status)
         if (status === 204) {
-            const newNotification =
-                {
-                    title: "Success! 🥳",
-                    message: `Deleted Assignment!`
-                };
-            //addNotification(newNotification, $page.data.supabase, $page.data.session.user)
             delete_model_close();
             await invalidateAll();
         }

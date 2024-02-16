@@ -20,6 +20,7 @@
     import {Dropdown, DropdownItem, Modal} from "flowbite-svelte";
     import {page} from "$app/stores";
     import {addNotification} from "../../../utilities/notifications.js";
+    import {browser} from "$app/environment";
 
     export let id;
     export let title;
@@ -91,15 +92,20 @@
     }
 
     async function handleDeleteGroup() {
-        const {error, status} = await $page.data.supabase.from('groups').delete().match({id: group_id});
-        console.log(status)
+        const {error, status} = await $page.data.supabase
+            .from('groups')
+            .delete()
+            .eq('id', group_id);
+
+        console.log(browser, group_id, status, error)
+
         if (status === 204) {
             const newNotification =
                 {
                     title: "Success! 🥳",
                     message: `Deleted Group!`
                 };
-            addNotification(newNotification, $page.data.supabase, $page.data.session.user)
+            //addNotification(newNotification, $page.data.supabase, $page.data.session.user)
             deleteGroupClose();
             await invalidateAll();
         }
@@ -235,7 +241,7 @@
 
 <Modal title="Remove group" class="max-w-xs" bind:open={removeGroup}>
     <p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to delete {title}? </p>
-    All group will be deleted, only.
+    The group will only be deleted, nothing inside the group.
     <div class="flex justify-center items-center space-x-4">
         <button on:click={() => removeGroup = false} data-modal-toggle="deleteModal" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
             No, cancel

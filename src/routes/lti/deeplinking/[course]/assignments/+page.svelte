@@ -14,16 +14,22 @@
     import {page} from "$app/stores";
 
     export let data
-    let { supabase, assignments, session, deeplinking, claim, lms_user_id, ltik, launch } = data
-    $: ({ supabase, assignments, session, deeplinking, claim, lms_user_id, ltik, launch } = data)
+    let { supabase, session, deeplinking, claim, lms_user_id, ltik, launch } = data
+    $: ({ supabase, session, deeplinking, claim, lms_user_id, ltik, launch } = data)
+
+
+    $: assignments = data.assignments;
+
+    console.log(data)
 
     let assignments_data;
     $: assignments_data = assignments;
 
     let searchTerm = '';
-    $: filteredItems = assignments_data.filter(
-        (assignment) => assignment.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
-    );
+    $: filteredItems = assignments && Array.isArray(assignments)
+        ? assignments.filter(
+            (assignment) => assignment.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+        ) : [];
 
     let selected_assignment_id;
     $: selected_assignment_id;

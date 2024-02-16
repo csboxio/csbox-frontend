@@ -119,7 +119,7 @@
 						title: "Success! 🥳",
 						message: `Deleted Quiz!`
 					};
-			addNotification(newNotification, supabase, $page.data.session.user)
+			//addNotification(newNotification, supabase, $page.data.session.user)
 			delete_model_close();
 			await invalidateAll();
 		}

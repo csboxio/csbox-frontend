@@ -8,5 +8,7 @@ export const GET: RequestHandler = async ({ url, locals: { supabase} }) => {
   const { data ,error } = await supabase.from('assignments').delete().eq('assignment_id', assignment_id);
   console.log(data, error)
 
+  console.log('assignment delete')
+
   return json(data)
 }
