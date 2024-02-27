@@ -162,6 +162,8 @@
     }
 
     async function handleDeleteAssignment(aid) {
+        console.log('here')
+
         const {data, error, status} = await $page.data.supabase
             .from('assignments')
             .delete()

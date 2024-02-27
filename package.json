@@ -21,10 +21,11 @@
 		"test:unit": "vitest",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
-		"test": "playwright test",
 		"test:chrome": "playwright test --browser chromium",
 		"test:firefox": "playwright test --browser firefox",
-		"test:webkit": "playwright test --browser webkit"
+		"test:webkit": "playwright test --browser webkit",
+		"cypress:open": "cypress open",
+		"test": "cross-env PUBLIC_CLOUDFLARE_SITE_KEY=1x00000000000000000000AA vite dev"
 	},
 	"devDependencies": {
 		"@locator/runtime": "^0.2.4",
@@ -41,6 +42,8 @@
 		"@typescript-eslint/eslint-plugin": "^5.60.1",
 		"@typescript-eslint/parser": "^5.60.1",
 		"autoprefixer": "^10.4.14",
+		"cross-env": "^7.0.3",
+		"cypress": "^13.6.6",
 		"date-picker-svelte": "^2.5.1",
 		"eslint": "^8.43.0",
 		"eslint-config-prettier": "^8.8.0",

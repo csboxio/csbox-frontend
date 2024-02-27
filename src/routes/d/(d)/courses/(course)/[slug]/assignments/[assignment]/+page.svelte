@@ -361,17 +361,20 @@
 
 	console.log($page.data)
 
-	let buttonText = assignment_published ? 'Published' : 'Unpublished';
-	let buttonColor = assignment_published ? 'from-green-500 to-green-300' : 'from-blue-500 to-blue-300';
+	let buttonText
+	$: buttonText = assignment_published ? 'Published' : 'Unpublished';
+
+	let buttonColor
+	$: buttonColor = assignment_published ? 'from-green-500 to-green-300' : 'from-blue-500 to-blue-300';
 
 	function toggleAssignment() {
 		buttonText = '...';
 		if (assignment_published) {
 			unpublishAssignment(assignment_slug);
-			buttonText = 'Unpublished';
+			$: buttonText = 'Unpublished';
 		} else {
 			publishAssignment(assignment_slug);
-			buttonText = 'Published';
+			$: buttonText = 'Published';
 		}
 	}
 </script>
@@ -384,7 +387,7 @@
 
 			<button class="text-gray-100 hover:text-gray-200"
 					on:click={handleEdit}>
-				<Fa icon={faPencil} size="sm" class=""/>
+				<Fa icon={faPencil} size="sm" class="pl-2"/>
 			</button>
 		</div>
 
@@ -396,18 +399,16 @@
 				<div>
 					<button
 							class={`relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm
-             font-medium text-gray-900 rounded-lg group bg-gradient-to-br ${buttonColor}
-             group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
-             focus:ring-4 focus:outline-none ${assignment_published ? 'focus:ring-green-200 dark:focus:ring-green-800' : 'focus:ring-blue-200 dark:focus:ring-blue-800'}`}
+							font-medium text-gray-900 rounded-lg group bg-gradient-to-br ${buttonColor}
+							group-hover:from-blue-300 group-hover:to-blue-500 hover:text-white dark:text-white
+							focus:ring-4 focus:outline-none ${ assignment_published ? 'focus:ring-green-200 dark:focus:ring-green-800' : 'focus:ring-blue-200 dark:focus:ring-blue-800'}`}
 							on:mouseenter={() => { buttonColor = assignment_published ? 'from-blue-300 to-blue-500' : 'from-green-300 to-green-500'; buttonText = 'Unpublished'; }}
-							on:mouseleave={() => { buttonColor = assignment_published ? 'from-green-500 to-green-300' : 'from-blue-500 to-blue-300'; buttonText = 'Published';} }
-							on:click|stopPropagation={toggleAssignment}
-					>
-    <span
-			class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
-             dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-      {buttonText}
-    </span>
+							on:mouseleave={() => { buttonColor = assignment_published ? 'from-green-500 to-green-300' : 'from-blue-500 to-blue-300'; buttonText = 'Published'; } }
+							on:click|stopPropagation={toggleAssignment}>
+						<span class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
+								dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
+							{buttonText}
+						</span>
 					</button>
 				</div>
 			{/key}
@@ -530,7 +531,7 @@
 						<span
 								class="relative px-5 py-2.5 transition-all|local ease-in duration-75 bg-white
 									dark:bg-gray-600 rounded-md group-hover:bg-opacity-0">
-							Attach Template
+							Template
 						</span>
 							</button>
 						</div>
@@ -869,26 +870,26 @@
 <Modal title="Attach Template" bind:open={createOrLinkTemplateModal} class="max-w-xs" >
 	<div>
 	<div class="text-white font-semibold py-2">
-		Build and Attach Template.
+		Create and attach template
 	</div>
 	<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-2 rounded flex items-center"
 					on:click={() => {createNewTemplateModal = true; createOrLinkTemplateModal = false;}}>
 		<div class="inline-block pr-1 ">
 		<Fa icon={faPlus}/>
 		</div>
-		Template
+		Create Template
 	</button>
 	</div>
 	<div>
 		<div class="text-white font-semibold py-2">
-			Attach Existing Template
+			Attach existing template
 		</div>
 	<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-2 rounded flex items-center"
 			on:click={() => {createOrLinkTemplateModal = false; linkTemplateModal = true; getTemplates();}}>
 		<div class="inline-block pr-1">
 		<Fa icon={faChain}/>
 		</div>
-		Find Template
+		Existing Template(s)
 	</button>
 	</div>
 </Modal>
@@ -983,8 +984,7 @@
 				class="px-4 py-2 bg-blue-500 text-white rounded"
 				class:bg-gray-600={linkTemplateId === undefined}
 				class:opacity-40={linkTemplateId === undefined}
-				class:bg-blue-600={linkTemplateId !== undefined}
-		>
+				class:bg-blue-600={linkTemplateId !== undefined}>
 
 			Link Template
 		</button>

@@ -35,32 +35,32 @@
                 </div>
 
                 <div class="relative">
-                    <button class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
+                    <button class="cursor-not-allowed font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
                         Product
                     </button>
                 </div>
 
                 <div class="relative">
-                    <button class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
+                    <button class="cursor-not-allowed font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
                         Features
                     </button>
                 </div>
 
                 <div class="relative">
-                    <button class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
+                    <button class="cursor-not-allowed font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
                         Pricing
                     </button>
                 </div>
 
                 <div class="relative">
-                    <button class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
+                    <button class="cursor-not-allowed font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
                         Demo
                     </button>
                 </div>
 
 
                 <div class="relative">
-                    <button class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
+                    <button class="cursor-not-allowed font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out py-2 px-3 focus:outline-none">
                         About us
                     </button>
                 </div>

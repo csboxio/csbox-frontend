@@ -2,23 +2,7 @@ Issues Feb 9.
 
 -----
 
- X - Onboarding org.
-
- X - Onboarding UI, inconsistent.
-
- X - Onboarding Profile Image doesn't work.
-
- X - Onboarding Profile Image, button appearance after loads.
-
- X - Create workspace, no error message if API down.
-
- X - Join course broken.
-
 - Create course make all SSR and or Postgres side for assignments, modules, groups etc.
-
- X - Course, create module doesn't work. 
-
- X - Student dashboard placeholder.
 
 - Average Grade Placeholder. 
 
@@ -30,9 +14,27 @@ Issues Feb 9.
 
 - Make demo homepage link
 
-X - Hide all menu items "X".
-
 - Delete notification is broken.
+
+----
+1 week
+- Forgot password
+2 weeks
+- Link workspace to assignment
+- Link workspace to template
+- Link template to assignment
+- Open template from assignment
+- Submit workspace to assignment
+- Grade workspace from assignment
+- Submit grades
+- Submit grades to canvas
+4 weeks
+- Content tab
+- Pull content from Canvas (any LMS)
+- Automagically reformat to CSBOX format
+- Markdown Instructions, Starting Files, Then create workspace (unit testing maybe later)
+- GPT 4 powered auto conversion with human checks and modify throughout the process.
+
 
 ----
 Future

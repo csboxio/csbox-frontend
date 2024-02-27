@@ -5,9 +5,13 @@ import { json } from "@sveltejs/kit";
 export const GET: RequestHandler = async ({ url, locals: { supabase} }) => {
   const assignment_id = url.searchParams.get('assignment_id')
 
-  const {data, error } = await supabase.from('assignments')
-    .update({assignment_id: assignment_id, published: true, })
+  const {data, error } = await supabase
+      .schema('public')
+      .from('assignments')
+      .update({ published: true })
       .eq('assignment_id', assignment_id)
+
+  console.log(assignment_id, data, error)
 
   return json(data)
 }

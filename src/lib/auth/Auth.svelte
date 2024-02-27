@@ -8,6 +8,7 @@
     import { afterUpdate } from 'svelte';
     import {init} from "../home/scripts/init.js";
     import {fade, fly} from 'svelte/transition';
+    import {PUBLIC_CLOUDFLARE_SITE_KEY} from "$env/static/public";
 
 
     const colors = [
@@ -63,6 +64,7 @@
     onMount(() => {
         init();
     });
+
 </script>
 
 <style>
@@ -150,7 +152,7 @@
                             <div class="flex justify-center text-center pt-4 pb-14" >
                                 <div class="absolute">
                                     {#if browser}
-                                        <Turnstile siteKey="0x4AAAAAAAFpCF8-h1TYQKHV" on:turnstile-callback={e => {token = e.detail.token}} />
+                                        <Turnstile siteKey={PUBLIC_CLOUDFLARE_SITE_KEY} on:turnstile-callback={e => {token = e.detail.token}} />
                                     {/if}
                                 </div>
                             </div>

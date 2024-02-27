@@ -52,13 +52,12 @@
 
   async function deleteNotification(notifications, pos, event) {
 
-    console.log(notifications, pos)
-
+    console.log(notifications)
     if (pos >= 0 && pos < notifications.notifications.length) {
       notifications.notifications.splice(pos, 1)
     }
 
-    console.log(notifications, pos)
+    console.log(notifications)
 
     //console.log(notifications)
     const { data, error } = await supabase
@@ -137,7 +136,7 @@
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
-                    on:click|stopPropagation={() => { deleteNotification(notificationsReceived.all_notifications, id) }}
+                    on:click|stopPropagation={() => { deleteNotification(notificationsReceived.data.all_notifications, id) }}
             >
               <path
                       fill-rule="evenodd"
