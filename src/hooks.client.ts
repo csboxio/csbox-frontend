@@ -14,7 +14,10 @@ export const handle = async ({ event, resolve, request, response }) => {
         }
     }
 
-    if (request.url.endsWith('.css')) {
+    const cacheablePaths = ['/images', '/icons', '/fonts'];
+    const isCacheable = cacheablePaths.some(path => event.url.pathname.startsWith(path) || event.url.pathname.endsWith('.png') || event.url.pathname.endsWith('.css'));
+
+    if (isCacheable) {
         response.headers['Cache-Control'] = 'public, max-age=86400';
     }
 };

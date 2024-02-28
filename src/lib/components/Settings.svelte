@@ -42,7 +42,9 @@
   }
 
   async function getNotifications() {
-    const response = await fetch('/api/users/notifications');
+    const response = await fetch('/api/users/notifications', {
+      cache: 'force-cache'
+    });
     if (response.ok) {
       return await response.json()
     }

@@ -1,11 +1,13 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { esbuildCommonjs, viteCommonjs } from "@originjs/vite-plugin-commonjs";
 import postcss from "postcss";
+import { enhancedImages } from '@sveltejs/enhanced-img';
 
 
 const config = {
 	plugins: [
 		sveltekit(),
+		enhancedImages(),
 		viteCommonjs(),
 		postcss()
 	],

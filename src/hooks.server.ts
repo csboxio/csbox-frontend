@@ -164,8 +164,6 @@ export const handle: Handle = async ({ event, resolve, request }) => {
    *
    */
 
-
-
   const { error: getSessionError } = await event.locals.supabase.auth.getSession()
   if (getSessionError) {
     console.error(getSessionError)
