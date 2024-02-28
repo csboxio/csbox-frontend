@@ -17,8 +17,10 @@ Issues Feb 9.
 - Delete notification is broken.
 
 ----
+
 1 week
 - Forgot password
+
 2 weeks
 - Link workspace to assignment
 - Link workspace to template
@@ -28,6 +30,7 @@ Issues Feb 9.
 - Grade workspace from assignment
 - Submit grades
 - Submit grades to canvas
+
 4 weeks
 - Content tab
 - Pull content from Canvas (any LMS)
@@ -35,11 +38,10 @@ Issues Feb 9.
 - Markdown Instructions, Starting Files, Then create workspace (unit testing maybe later)
 - GPT 4 powered auto conversion with human checks and modify throughout the process.
 
-
 ----
 Future
 
-- Idea - Onboarding, list of emails, if matches org, send magic link, url parameters to autofill onboarding, and would automaticcaly join org, maybe course
+- Idea - Onboarding, list of emails, if matches org, send magic link, url parameters to autofill onboarding, and would automatically join org, maybe course
 
 ------
 

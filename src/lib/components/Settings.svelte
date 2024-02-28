@@ -11,8 +11,6 @@
   import { avatar, bg } from '@svelkit/spectre'
   import AvatarImage from "./AvatarImage.svelte";
 
-
-
   export let showTopRightMenuModel = false
   export function handleToggleMenuTopRight(s) {
     showTopRightMenuModel = s == "inside" && !showTopRightMenuModel;
@@ -53,8 +51,8 @@
   async function deleteNotification(notifications, pos, event) {
 
     console.log(notifications)
-    if (pos >= 0 && pos < notifications.notifications.length) {
-      notifications.notifications.splice(pos, 1)
+    if (pos >= 0 && pos < notifications.length) {
+      notifications.splice(pos, 1)
     }
 
     console.log(notifications)
@@ -66,7 +64,7 @@
             .eq('user_id', $page.data.session.user.id)
     console.log(data, error)
 
-    fetchNotifications();
+    await invalidateAll();
   }
 
   export let user;
@@ -74,37 +72,11 @@
 
 
   onMount(async () => {
-
-    const storedNotifications = localStorage.getItem('storedNotifications');
-
-    if(storedNotifications != 'undefined') {
-      notificationsReceived = JSON.parse(storedNotifications);
-      fetchNotifications();
-    }
-    else {
-      console.log('here')
-      fetchNotifications();
-    }
-
-   //notificationsReceived = await getNotifications()
-    //notificationsReceived = notificationsReceived.new
-    //console.log(notificationsReceived)
+    let notifications = await getNotifications();
+    notificationsReceived = notifications.data.all_notifications
+    console.log(notificationsReceived)
   });
 
-  afterUpdate(() => {
-    localStorage.setItem('storedNotifications', JSON.stringify(notificationsReceived))
-  })
-
-  function fetchNotifications() {
-    getNotifications()
-            .then((notifications) => {
-              notificationsReceived = notifications;
-              localStorage.setItem('storedNotifications', JSON.stringify(notificationsReceived))
-            })
-            .catch((error) => {
-              console.log('Error notifications: ', error)
-            })
-  }
 
 </script>
 
@@ -125,7 +97,7 @@
           <div slot="header" class="text-center py-2 font-bold z-10">Notifications</div>
 
           {#if notificationsReceived}
-          {#each notificationsReceived.data.all_notifications.notifications as notification, id}
+          {#each notificationsReceived.notifications as notification, id}
           <DropdownItem class="flex space-x-4 z-20" >
             <div class="pl-3 w-full" transition:slide|local>
               <span class="font-semibold text-gray-900 dark:text-white" transition:slide|local>{notification.title}</span>: {notification.message}</div>
@@ -136,7 +108,7 @@
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
-                    on:click|stopPropagation={() => { deleteNotification(notificationsReceived.data.all_notifications, id) }}
+                    on:click|stopPropagation={() => { deleteNotification(notificationsReceived.notifications, id) }}
             >
               <path
                       fill-rule="evenodd"

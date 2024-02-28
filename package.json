@@ -25,7 +25,7 @@
 		"test:firefox": "playwright test --browser firefox",
 		"test:webkit": "playwright test --browser webkit",
 		"cypress:open": "cypress open",
-		"test": "cross-env PUBLIC_CLOUDFLARE_SITE_KEY=1x00000000000000000000AA vite dev"
+		"test": "cross-env PUBLIC_CLOUDFLARE_SITE_KEY=1x00000000000000000000AA vite preview"
 	},
 	"devDependencies": {
 		"@locator/runtime": "^0.2.4",
