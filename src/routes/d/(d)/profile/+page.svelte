@@ -116,8 +116,8 @@
 						<div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center">
 							{#if user?.avatar_url}
 								<Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class=" "/>
-							{:else}
-								<figure use:avatar.xl={user.first_name[0].toUpperCase() + user.last_name[0].toUpperCase()} use:bg.dark></figure>
+							{:else if user?.first_name}
+								<figure use:avatar.xl={user?.first_name[0].toUpperCase() + user?.last_name[0].toUpperCase()} use:bg.dark></figure>
 							{/if}
 							<div class="inline-block ml-4">
 								<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-800 dark:text-white">{$page.data.user?.data.first_name} {user?.last_name}</h5>

@@ -75,8 +75,8 @@
 
   onMount(async () => {
     let notifications = await getNotifications();
-    notificationsReceived = notifications.data.all_notifications
-    console.log(notificationsReceived)
+    notificationsReceived = notifications.data.all_notifications.notifications
+    console.log(notifications)
   });
 
 
@@ -146,8 +146,8 @@
               <Button pill color="light"  id="avatar_with_name" class=" !p-1.5 ">
                 {#if user?.avatar_url}
                   <Avatar src="{user?.avatar_url === 'null?t=undefined' ? '' : user?.avatar_url}" alt="" class=" "/>
-                {:else}
-                  <figure use:avatar.md={user.first_name[0].toUpperCase() + user.last_name[0].toUpperCase()} use:bg.dark></figure>
+                {:else if user?.first_name}
+                  <figure use:avatar.md={user?.first_name[0].toUpperCase() + user?.last_name[0].toUpperCase()} use:bg.dark></figure>
                 {/if}
                 <!-- Smaller than sm hide name -->
                 <div class="hidden sm:block">

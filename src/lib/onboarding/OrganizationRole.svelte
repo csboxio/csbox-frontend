@@ -101,7 +101,7 @@
     </div>
 
     {#if selectedRole === 'Instructor'}
-        <div class="mb-10 space-y-2">
+        <div class="mb-10 space-y-2 p-4 rounded bg-gray-900">
             <label for="instructorInput" class="block mb-2 text-white font-semibold">Access Code:</label>
             <div class="text-gray-300 text-sm"> Ask your administrator for the access code. </div>
             <input bind:value={accessCode} type="text"
@@ -112,7 +112,7 @@
                     required />
 
             <button class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
-                    on:click|preventDefault={() => { checkAccessCode(); }}>Check</button>
+                    on:click={() => { checkAccessCode(); }}>Check</button>
 
             {#if accessCodeValid !== undefined}
                 {#if accessCodeValid === true}

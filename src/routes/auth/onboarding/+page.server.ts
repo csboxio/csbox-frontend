@@ -74,7 +74,7 @@ export const actions: Actions = {
         const response = await fetch('/api/users/update', requestOptions)
 
         //const {error} = await supabase.from('users').upsert(updates)
-
-        throw redirect(303, '/d')
+        if (response.ok)
+            throw redirect(303, '/d')
     }
 }

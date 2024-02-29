@@ -18,8 +18,9 @@ Issues Feb 9.
 
 ----
 
-1 week
-- Forgot password
+make assignments json based.
+remove triggers and separate table for assignments
+does materialize views need to exist for assignments
 
 2 weeks
 - Link workspace to assignment

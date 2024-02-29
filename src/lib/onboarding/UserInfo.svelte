@@ -27,28 +27,22 @@
                                     <option value="US"> United States </option>
                                 </select>
                             </div>
+
                             <div class="flex items-center mb-1 -pb-2">
-                                <input id="age" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
+                                <input id="age" type="checkbox" value="" class=" text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
                                 <label for="age" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I confirm that I am over the age of 13</label>
                             </div>
 
                             <div class="flex items-center mb-1">
-                                <input id="aup" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
-                                <label for="aup" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I read and agree with the </label>
-                                <a href="/legal/aup" class="text-sm hover:underline px-2"> Acceptable Use Policy</a>
+                                <input id="legal" type="checkbox" value="" class=" text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
+                                <label for="legal" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 h-6">
+                                    I read and agree with the
+                                    <a href="/legal/aup" class="text-blue-400 hover:underline">Acceptable Use Policy</a>,
+                                    <a href="/legal/privacy" class="text-blue-400 hover:underline">Privacy Policy</a>, and
+                                    <a href="/legal/terms" class="text-blue-400 hover:underline">Terms and Conditions</a>
+                                </label>
                             </div>
 
-                            <div class="flex items-center mb-1">
-                                <input id="privacy" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
-                                <label for="privacy" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I read and agree with the </label>
-                                <a href="/legal/privacy" class="text-sm hover:underline px-2"> Privacy Policy</a>
-                            </div>
-
-                            <div class="flex items-center mb-4">
-                                <input id="terms" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
-                                <label for="terms" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I read and agree with the </label>
-                                <a href="/legal/terms" class="text-sm hover:underline px-2"> Terms and Conditions</a>
-                            </div>
                         </div>
                         <div class="w-full mb-2 items-center text-center">
                             <button class="py-2 px-4 text-md font-semibold leading-normal text-white bg-blue-500 hover:bg-blue-700 rounded-lg transition duration-200">
