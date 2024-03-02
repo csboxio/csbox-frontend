@@ -18,6 +18,8 @@
 
 
   export let supabase
+  export let claim
+  $: claim
 
   let notificationsReceived
   $: notificationsReceived;
@@ -78,7 +80,6 @@
     notificationsReceived = notifications.data.all_notifications.notifications
     console.log(notifications)
   });
-
 
 </script>
 
@@ -160,6 +161,12 @@
                   <span class="block truncate text-sm font-medium"> {$page.data.session?.user?.email} </span>
                   <span class="block truncate text-sm font-bold text-blue-500 animate-text bg-gradient-to-r from-blue-500 via-teal-500 to-yellow-500 bg-clip-text text-transparent text-5xl font-black"> {$page.data.session?.user?.app_metadata.userrole.toUpperCase() } </span>
                 </div>
+                {#if claim}
+                {#if claim === 'instructor' && false}
+                  <DropdownItem on:click={() => { $: claim = 'student' }}>Student Preview</DropdownItem>
+                  <div class="py-2"></div>
+                {/if}
+                {/if}
                 <DropdownItem on:click={() => {goto('/d/profile')}}>Settings</DropdownItem>
                 <DropdownItem on:click={signOut} slot="footer">Sign out</DropdownItem>
               </Dropdown>

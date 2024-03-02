@@ -8,8 +8,7 @@ export const GET: RequestHandler = async ({ setHeaders, request, url, locals: { 
     const response = await fetch(`https://ide.csbox.io/api/ping`, {
       headers: {
         'Content-Type': 'application/json'
-      },
-      mode: 'no-cors'
+      }
     })
 
     if (response.ok) {

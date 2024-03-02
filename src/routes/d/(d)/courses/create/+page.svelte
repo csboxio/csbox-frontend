@@ -37,8 +37,8 @@
 	let currentStep = 1;
 	$: currentStep;
 
-	let currentCourseId = null;
-	$: currentCourseId;
+	let course_id = null;
+	$: course_id;
 
 
 	let { supabase, claim } = data
@@ -72,11 +72,10 @@
 			currentStep = 2;
 
 			if (data) {
-				currentCourseId = result.data.id
-				console.log(result)
-				//console.log($page.data.session.user.id)
-				if (browser)
-					await createTemplateCourseData(currentCourseId, $page.data.supabase, $page.data.session.user.id)
+				course_id = result.data.id
+
+				const response = await fetch(`/api/courses/template?course_id=${course_id}`)
+				console.log(response)
 			}
 			await invalidateAll();
 		}
@@ -259,6 +258,16 @@
 															</svg>
 														{/if}
 															Next
+													</button>
+													{:else}
+													<button class="float-right inline-block py-2 px-4 text-xs text-center font-bold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-700 rounded-lg transition duration-200"
+															on:click={() => goto("/d/courses")}>
+														{#if loading}
+															<svg class="animate-spin h-4 w-4 mr-3 inline">
+																<Fa icon={faSpinner} size="xs" />
+															</svg>
+														{/if}
+														Skip
 													</button>
 												{/if}
 											</div>

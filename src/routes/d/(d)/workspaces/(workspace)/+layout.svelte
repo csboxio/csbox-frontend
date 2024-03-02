@@ -57,7 +57,7 @@
                         {/if}
                     </div>
                     <div class="lg:w-auto px-2">
-                        <Settings bind:user={user.data} bind:supabase={supabase} />
+                        <Settings bind:supabase={supabase} bind:user={user.data} bind:claim={claim}/>
                     </div>
                 </div>
             </div>

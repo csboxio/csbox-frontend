@@ -1,5 +1,6 @@
 import type { User } from "@supabase/supabase-js";
 import {invalidateAll} from "$app/navigation";
+import {browser} from "$app/environment";
 let loading;
 
 export const downloadQuillDocument = async (filePath: string, supabase, bucket: string) => {
@@ -58,7 +59,8 @@ export const updateCourseInsert = async(courseId: bigint, user: User, supabase) 
     }
   } finally {
     loading = false
-    await invalidateAll()
+    if (browser)
+      await invalidateAll()
   }
 }
 

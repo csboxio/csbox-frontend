@@ -53,7 +53,6 @@ export const handle: Handle = async ({ event, resolve, request }) => {
   }
 
   event.locals.getClaim = async () => {
-    // This right now just checks if they are a claim admin.
     try {
       const {
         data: { session },

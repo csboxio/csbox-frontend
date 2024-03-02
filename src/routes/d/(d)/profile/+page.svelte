@@ -20,8 +20,8 @@
 
 	let loading;
 	export let data
-	let { supabase, session } = data
-	$: ({ supabase, session } = data)
+	let { supabase, session, claim } = data
+	$: ({ supabase, session, claim } = data)
 	let files;
 	let uploading = false;
 	let user
@@ -103,7 +103,7 @@
 					<h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Profile Settings</h4>
 				</div>
 				<div class="lg:w-auto px-2">
-					<Settings bind:user={user} bind:supabase={supabase} />
+					<Settings bind:supabase={supabase} bind:user={user} bind:claim={claim}/>
 				</div>
 			</div>
 		</div>

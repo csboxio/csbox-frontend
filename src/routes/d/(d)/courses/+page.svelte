@@ -79,7 +79,7 @@
                     <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Courses</h4>
                 </div>
                 <div class=" lg:w-auto px-2">
-                    <Settings bind:supabase={supabase} bind:user={user.data}/>
+                    <Settings bind:supabase={supabase} bind:user={user.data} bind:claim={claim}/>
                 </div>
             </div>
         </div>

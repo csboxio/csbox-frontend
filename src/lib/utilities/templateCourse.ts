@@ -2,26 +2,30 @@ import {updateCourseInsert} from "./quill.js";
 import {v4 as uuidv4} from 'uuid';
 
 export const createPlaceHolderCourseDocument = async (courseId: bigint, user: any, supabase) => {
-    const file = new File(["<h2>Welcome to this course's Home Page!</h2> <br> <b>Click edit</b> to change this!"], 'home.HTML');
+    const content = "<h2>Welcome to this course's Home Page!</h2> <br> <b>Click edit</b> to change this!";
+    const file = new File([content], 'home.HTML');
 
-    const dataTransfer = new DataTransfer();
+    // Delete old HTML from block storage
+    const filePath = `${courseId}/${"document/home"}.HTML`;
 
-    dataTransfer.items.add(file);
-
-    // Delete old html from block storage
-    const filePath = `${courseId + "/" + "document/" + "home"}.HTML`;
+    // Upload the file to Supabase storage
     const { error } = await supabase.storage.from("courses").upload(filePath, file);
+
+    // Get the public URL of the uploaded file
     const { data } = await supabase.storage.from("courses").getPublicUrl(filePath);
 
-    console.log(error, courseId, user, supabase)
-    await updateCourseInsert(courseId, user, supabase)
+    // Perform any other necessary actions, like updating the course
+    await updateCourseInsert(courseId, user, supabase);
 
-    return 'Okay'
+    console.log(error, courseId, user, supabase);
+
+    return 'Okay';
 };
 
-export const createPlaceHolderAssignment = async (courseId: bigint, user: any, supabase) => {
+export const createPlaceHolderAssignment = async (courseId: bigint, user: any, supabase, group_id, module_id) => {
     const _assignment_id = Math.floor(Math.random() * 9999999999)
     try {
+
     const updates = {
         p_assignment_id: _assignment_id,
         p_user_id: user,
@@ -30,12 +34,11 @@ export const createPlaceHolderAssignment = async (courseId: bigint, user: any, s
         p_display_as: 'Points',
         p_due: new Date(),
         p_title: 'Sample Assignment',
-        p_category: '',
+        p_in_module: module_id,
+        p_in_group: group_id,
         p_published: true,
-        p_description: 'Sample Assignment Description',
         p_submission_type: 'Points',
-        p_submission_attempts: null,
-        p_in_module: null,
+        p_submission_attempts: 2,
         p_available_start: new Date(),
         p_available_end: new Date()
     }
@@ -173,13 +176,9 @@ export const createPlaceHolderAssignmentDocument = async (courseId: bigint, user
 
 export async function createTemplateCourseData(courseId, supabase, user_id) {
     await createPlaceHolderCourseDocument(courseId, user_id, supabase);
-    const a_id = await createPlaceHolderAssignment(courseId, user_id, supabase);
     const g_id = await createPlaceHolderGroup(courseId, user_id, supabase);
     const m_id = await createPlaceHolderModule(courseId, user_id, supabase);
-    await addPlaceHolderAssignmentToPlaceHolderGroup(courseId, user_id, supabase, a_id, g_id);
-    await addPlaceHolderAssignmentToPlaceHolderModule(courseId, user_id, supabase, a_id, m_id);
-    await createPlaceHolderQuiz(courseId, user_id, supabase, m_id);
+    const a_id = await createPlaceHolderAssignment(courseId, user_id, supabase, g_id, m_id);
 
-
-
+    //await addPlaceHolderAssignmentToPlaceHolderModule(courseId, user_id, supabase, a_id, m_id);
 }

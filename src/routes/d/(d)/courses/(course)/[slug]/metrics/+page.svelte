@@ -17,6 +17,8 @@
 		faUserTimes
 	} from "@fortawesome/free-solid-svg-icons";
 	import {invalidateAll} from "$app/navigation";
+	import {Avatar} from "flowbite-svelte";
+	import { avatar, bg } from '@svelkit/spectre'
 
 	// QUILL
 	let courses;
@@ -163,11 +165,14 @@
 									   href={'#'}>
 										<div class="flex items-center pr-2">
 											<div class="flex w-10 h-10 mr-3 items-center justify-center bg-gray-400 bg-opacity-20 text-blue-500 rounded-xl">
-												<img alt="" class="rounded-lg w-10 h-10 object-cover" src="{student.avatar_url}" />
+												{#if student?.avatar_url}
+													<Avatar src="{student?.avatar_url === 'null?t=undefined' ? '' : student?.avatar_url}" alt="" class=" "/>
+												{:else if student?.first_name}
+													<figure use:avatar.md={student?.first_name[0].toUpperCase() + student?.last_name[0].toUpperCase()} use:bg.dark></figure>
+												{/if}
 											</div>
 											<div>
 												<h5 class="text-sm text-gray-100 leading-5 font-medium mb-1">{student.first_name} {student.last_name}</h5>
-												<p class="text-xs text-gray-300 font-semibold">Placeholder</p>
 											</div>
 										</div>
 										<svg
@@ -192,11 +197,14 @@
 										   href={'#'}>
 											<div class="flex items-center pr-2">
 												<div class="flex w-10 h-10 mr-3 items-center justify-center bg-gray-400 bg-opacity-20 text-blue-500 rounded-xl">
-													<img alt="" class="rounded-lg w-10 h-10 object-cover" src="{student.avatar_url}" />
+													{#if student?.avatar_url}
+														<Avatar src="{student?.avatar_url === 'null?t=undefined' ? '' : student?.avatar_url}" alt="" class=" "/>
+													{:else if student?.first_name}
+														<figure use:avatar.md={student?.first_name[0].toUpperCase() + student?.last_name[0].toUpperCase()} use:bg.dark></figure>
+													{/if}
 												</div>
 												<div>
 													<h5 class="text-sm text-gray-100 leading-5 font-medium mb-1">{student.first_name} {student.last_name}</h5>
-													<p class="text-xs text-gray-300 font-semibold">Placeholder</p>
 												</div>
 											</div>
 											<svg

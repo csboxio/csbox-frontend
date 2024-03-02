@@ -18,6 +18,7 @@ export const GET: RequestHandler = async ({ request, url, params, locals: { getS
 
   if (session) {
     const course = url.searchParams.get('course')
+      console.log(course)
 
       const {data, error } = await supabase.from(`${course}+people_info`)
           .select('username, avatar_url, website, first_name, last_name, id, enrolled, enrollment_date')

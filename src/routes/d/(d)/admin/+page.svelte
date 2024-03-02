@@ -39,7 +39,7 @@
                     <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Admin</h4>
                 </div>
                 <div class="lg:w-auto px-2">
-                    <Settings bind:user={user} bind:supabase={supabase} />
+                    <Settings bind:supabase={supabase} bind:user={user.data} bind:claim={claim}/>
                 </div>
             </div>
         </div>

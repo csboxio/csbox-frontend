@@ -2,14 +2,17 @@ import type {Actions} from "./$types";
 import {redirect} from '@sveltejs/kit'
 import {DEV} from "../../../../lib/dev/mode.js";
 
-export const ssr = false;
+
 export const prerender = false;
 
 export const load = async ({ locals: { getSession, getClaim, getLMSUserID } }) => {
     const session = await getSession()
+
     if (session) {
+        const claim = await getClaim()
         return {
-            session: session
+            session: session,
+            claim: claim
         }
     }
 }
