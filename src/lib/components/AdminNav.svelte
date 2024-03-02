@@ -11,17 +11,17 @@
     <!-- Panel content -->
     <div class="flex-1 pl-1.5 pr-1 mr-0.5 overflow-y-hidden font-semibold text-white ">
       <!-- Content -->
-      <a href="/d/admin/">
+      <a href="/d/org/">
         <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg">
-          <p class="px-4 whitespace-nowrap">Dashboard</p>
+          <p class="px-4 whitespace-nowrap">General</p>
         </div>
       </a>
-      <a href="/d/admin/users">
+      <a href="/d/org/users">
         <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg">
           <p class="px-4 whitespace-nowrap">Users</p>
         </div>
       </a>
-      <a href="/d/admin/billing">
+      <a href="/d/org/billing">
         <div class="space-y-8 py-2 my-5 hover:bg-gray-800 rounded-lg">
           <p class="px-4 whitespace-nowrap">Billing</p>
         </div>

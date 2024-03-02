@@ -39,7 +39,7 @@
                     <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Admin</h4>
                 </div>
                 <div class="lg:w-auto px-2">
-                    <Settings bind:supabase={supabase} bind:user={user.data} bind:claim={claim}/>
+                    <Settings bind:supabase={supabase} bind:user={user} bind:claim={claim}/>
                 </div>
             </div>
         </div>
@@ -59,7 +59,8 @@
                 <div class="mb-6">
                     <div class="flex flex-wrap -mx-3 -mb-6">
 
-                        <!-- Number of Users -->
+                        <!--
+                        <!- - Number of Users - ->
                         <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6 ">
                             <div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
                                 <div class="max-w-xs mx-auto text-center">
@@ -86,7 +87,7 @@
                             </div>
                         </div>
 
-                        <!-- Number of Instructors -->
+                        <!- - Number of Instructors - ->
                         <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6 ">
                             <div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
                                 <div class="max-w-xs mx-auto text-center">
@@ -113,7 +114,7 @@
                             </div>
                         </div>
 
-                        <!-- Number of Courses -->
+                        <!- - Number of Courses - ->
                         <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6 ">
                             <div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
                                 <div class="max-w-xs mx-auto text-center">
@@ -140,7 +141,7 @@
                             </div>
                         </div>
 
-                        <!-- Number of Courses -->
+                        <!- - Number of Courses - ->
                         <div class="w-full md:w-1/2 lg:w-1/4 px-3 mb-6 ">
                             <div class="max-w-sm mx-auto py-8 px-6 bg-gray-500 rounded-xl drop-shadow-xl">
                                 <div class="max-w-xs mx-auto text-center">
@@ -166,8 +167,7 @@
                                 </div>
                             </div>
                         </div>
-
-
+                        -->
                     </div>
                 </div>
             </div>

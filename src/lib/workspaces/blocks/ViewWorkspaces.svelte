@@ -21,6 +21,7 @@
     import {browser} from "$app/environment";
     import {invalidate, invalidateAll} from "$app/navigation";
     import {applyAction, deserialize} from "$app/forms";
+    import {onMount} from "svelte";
 
     // Variables
     export let active_workspaces;
@@ -268,6 +269,48 @@
         selectedWorkspaceCreateConfig = undefined;
         await applyAction(result);
     }
+
+    let tierDropdown;
+    let tierDropdownButton;
+
+    let configDropdown;
+    let configDropdownButton;
+
+    const toggleTierDropdown = () => {
+        tierDropdown.classList.toggle('hidden');
+    };
+
+    const toggleConfigDropdown = () => {
+        configDropdown.classList.toggle('hidden');
+    };
+
+    onMount(() => {
+        // Attach click event listener to document
+        document.addEventListener('click', handleDocumentClick);
+
+        // Cleanup event listener on component destruction
+        return () => {
+            document.removeEventListener('click', handleDocumentClick);
+        };
+    });
+
+    const handleDocumentClick = (event) => {
+        // Check if the dropdown element and button element are defined
+        if (tierDropdown && tierDropdownButton) {
+            // Check if the click is outside the dropdown and button
+            if (!(tierDropdown.contains(event.target) || tierDropdownButton.contains(event.target))) {
+                tierDropdown.classList.add('hidden');
+            }
+        }
+
+        if (configDropdown && configDropdownButton) {
+            // Check if the click is outside the dropdown and button
+            if (!(configDropdown.contains(event.target) || configDropdownButton.contains(event.target))) {
+                configDropdown.classList.add('hidden');
+            }
+        }
+    };
+
 </script>
 
 <section class="flex flex-col py-8 px-2 mr-4 inline-block w-full">
@@ -472,17 +515,28 @@
                 </label>
                 <div id="tier">
                     {#if ide}
-                        <Button color="custom" class="w-full text-white bg-gray-600">
-                            <Chevron> {selectedWorkspaceCreateTier !== undefined ? ide.tier.configurations[createWorkspaceTierSelect].name : '. . .' }</Chevron>
-                        </Button>
-                        <Dropdown class=" p-2 space-y-3 text-sm">
-                            {#each Object.entries(ide.tier.configurations) as [key, config]}
-                                <li>
-                                    <Radio on:click={() => { selectedWorkspaceCreateTier = config.name}} name="tier"
-                                           bind:group={createWorkspaceTierSelect} value={key}>{config.name}</Radio>
-                                </li>
+                        <div class="w-full cursor-pointer relative inline-block text-left">
+                            <div
+                                    bind:this={tierDropdownButton}
+                                    class="w-full text-white bg-gray-600 hover:bg-gray-700 py-2 px-2 rounded-md select-none font-semibold"
+                            on:click={toggleTierDropdown}
+                            >
+                            {ide.tier.configurations[createWorkspaceTierSelect].name}
+                        </div>
+
+                        <div bind:this={tierDropdown} class="absolute z-10 hidden divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 w-full space-y-1 p-1 font-semibold">
+                            {#each Object.entries(ide.tier.configurations) as [key, config] (key)}
+                                <div on:click={() => {
+                                    createWorkspaceTierSelect = key;
+                                    selectedWorkspaceCreateTier = config.name;
+                                    toggleTierDropdown();
+                                }}
+                                     class="{`py-2 px-4 cursor-pointer border-none rounded-md hover:bg-gray-400 ${createWorkspaceTierSelect === key ? 'bg-gray-400' : ''} my-0`}">
+                                {config.name}
+                                </div>
                             {/each}
-                        </Dropdown>
+                        </div>
+                        </div>
                     {/if}
                 </div>
             </div>
@@ -493,20 +547,32 @@
                     Config <span class="text-red-500">*</span>
                 </label>
                 <div id="config">
-                    <Button class="w-full text-white bg-gray-600" color="custom">
-                        <Chevron> {selectedWorkspaceCreateConfig !== undefined ? ide.language.languages[createWorkspaceConfigSelect].name : '. . .' }</Chevron>
-                    </Button>
-                    <Dropdown class="w-44 p-2 space-y-3 text-sm w-full">
-                        {#if ide}
-                            {#each Object.entries(ide.language.languages) as [key, config]}
-                                <li>
-                                    <Radio on:click={() => { selectedWorkspaceCreateConfig = config.image}} name="tier"
-                                           bind:group={createWorkspaceConfigSelect} value={key}>{config.name}</Radio>
-                                </li>
-                            {/each}
-                        {/if}
-                    </Dropdown>
+                    {#if ide}
+                        <div class="w-full cursor-pointer relative inline-block text-left">
+                            <div
+                                    bind:this={configDropdownButton}
+                                    class="w-full text-white bg-gray-600 hover:bg-gray-700 py-2 px-2 rounded-md select-none font-semibold"
+                                    on:click={toggleConfigDropdown}
+                            >
+                                {ide.language.languages[createWorkspaceConfigSelect].name}
+                            </div>
 
+
+                            <div bind:this={configDropdown} class="absolute z-10 hidden divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 w-full space-y-1 p-1 font-semibold">
+                                {#each Object.entries(ide.language.languages) as [key, config] (key)}
+                                    <div on:click={() => {
+                                    createWorkspaceConfigSelect = key;
+                                    selectedWorkspaceCreateConfig = config.name;
+                                    toggleConfigDropdown();
+                                }}
+                                         class="{`py-2 px-4 cursor-pointer border-none rounded-md hover:bg-gray-400 ${createWorkspaceConfigSelect === key ? 'bg-gray-400' : ''} my-0`}">
+                                        {config.name}
+                                    </div>
+                                {/each}
+                            </div>
+                        </div>
+
+                    {/if}
                 </div>
 
             </div>
