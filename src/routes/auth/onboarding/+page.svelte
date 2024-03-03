@@ -8,13 +8,18 @@
     import OrganizationRole from "$lib/onboarding/OrganizationRole.svelte";
     import ProfileImage from "$lib/onboarding/ProfileImage.svelte";
     import UserInfo from "$lib/onboarding/UserInfo.svelte";
+    import {onMount} from "svelte";
+    import { page } from '$app/stores';
 
 
     export let data
-    let {supabase, session, org} = data
-    $: ({supabase, session, org} = data)
+    let {supabase, session} = data
+    $: ({supabase, session} = data)
     let uploading;
 
+
+    let org;
+    $: org = $page.data.org;
 
     let step = 1;
 
@@ -87,6 +92,7 @@
             invalidate('supabase:auth');
         }
     }
+
 </script>
 
 <body class="bg-gray-800">

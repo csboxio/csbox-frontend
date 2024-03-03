@@ -226,11 +226,25 @@
 					</div>
 					{#if code !== ''}
 						<div class=" inline-block px-2">
-							<h2 id="code" class="text-2xl font-semibold space-x-2  text-gray-900 dark:text-white py-2 px-2 border rounded tracking-widest">{code}</h2>
+
+							<h2 id="code" class="text-2xl font-semibold space-x-2  text-gray-900 dark:text-white py-2 px-2 border rounded tracking-widest">
+								{code}
+								<div class="inline-block text-xl text-gray-200 hover:text-blue-500 cursor-pointer" title="Click to copy code" on:click={copyCode}>
+									<Fa icon={faCopy} size="xl"/>
+								</div>
+							</h2>
+
 						</div>
 
-						<div class="inline-block text-xl text-gray-200 hover:text-blue-500 cursor-pointer" title="Click to copy code" on:click={copyCode}>
-							<Fa icon={faCopy} size="xl"/>
+						{:else}
+						<div class=" inline-block px-2 ">
+							<h2 class="text-2xl font-semibold space-x-2  text-gray-900 dark:text-white py-2 px-2 border rounded tracking-widest">
+								000000
+								<div class="inline-block text-xl text-gray-200 hover:text-blue-500 cursor-pointer" title="Click to copy code" on:click={copyCode}>
+									<Fa icon={faCopy} size="xl"/>
+								</div>
+							</h2>
+
 						</div>
 					{/if}
 

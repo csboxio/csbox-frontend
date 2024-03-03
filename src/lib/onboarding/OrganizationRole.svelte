@@ -112,7 +112,7 @@
                     required />
 
             <button class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200"
-                    on:click={() => { checkAccessCode(); }}>Check</button>
+                    on:click|preventDefault={() => { checkAccessCode(); }}>Check</button>
 
             {#if accessCodeValid !== undefined}
                 {#if accessCodeValid === true}
@@ -126,9 +126,7 @@
     {/if}
     <div class="flex justify-between w-full sm:w-auto mt-2">
         <div>
-            <button class="cursor-not-allowed inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200">
-                Back
-            </button>
+
         </div>
 
         {#if accessCodeValid}
@@ -141,7 +139,7 @@
                 Next
             </button>
             {:else}
-            <button class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-200 bg-gray-500 hover:bg-gray-400 rounded-lg transition duration-200">
+            <button class="inline-block py-2 px-4 mr-3 text-xs text-center font-semibold leading-normal text-gray-100 bg-blue-500 hover:bg-gray-400 rounded-lg transition duration-200">
                 Next
             </button>
         {/if}
