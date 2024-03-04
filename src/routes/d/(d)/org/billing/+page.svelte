@@ -31,16 +31,15 @@
     <section>
         <div class="pt-3 pb-3 px-8 dark:bg-gray-700 bg-white">
             <div class="flex flex-wrap items-center justify-between -mx-2">
-                <div class="w-full lg:w-auto px-2 mb-6 lg:mb-0">
-                    <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Admin - Billing</h4>
+                <div class="lg:w-auto px-2 my-1 sm:my-2  ">
+                    <h4 class="text-2xl font-bold dark:text-white  tracking-wide leading-7 mb-1">Organization - Billing</h4>
                 </div>
                 <div class="w-full lg:w-auto px-2">
-                    <Settings bind:supabase={supabase} bind:user={user.data} bind:claim={claim}/>
+                    <Settings bind:supabase={supabase} bind:user={user} bind:claim={claim}/>
                 </div>
             </div>
         </div>
     </section>
-
 
     <div class="flex min-h-screen">
         <!-- Work space navigation -->

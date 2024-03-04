@@ -18,10 +18,18 @@ Issues Feb 9.
 
 ----
 
+org settings
+org users
+org billing
+
+org "claim"
+
+
+----
+
 make assignments json based.
 remove triggers and separate table for assignments
 does materialize views need to exist for assignments
-auth onboarding key check auto switchs to next step shouldnt
 
 2 weeks
 - Link workspace to assignment
