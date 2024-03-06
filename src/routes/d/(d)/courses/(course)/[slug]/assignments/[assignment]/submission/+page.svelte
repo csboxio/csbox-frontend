@@ -60,7 +60,7 @@
 
 
 <div class="w-full mr-4">
-	<section class="p-1 mt-4">
+	<section class="p-1 mt-4 mr-4">
 		<div class="container my-5">
 			<div class="ml-auto flex px-4 pb-4">
 				<div class="inline-flex flex items-center text-white">
@@ -77,15 +77,8 @@
 				</div>
 			</div>
 			<div class="w-full flex ">
-
-				<div class="flex-1  h-4/5 p-4 h-[60vh] ">
-					<form method="POST" action="?/submitAssignment" on:submit|preventDefault={handleSubmit}>
-
-						<InputBox bind:data={url} label="Submission URL" id='url' />
-						<button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 mt-2 rounded">Submit</button>
-					</form>
-
-					<div class="pt-4">
+				<div class="flex-1  h-4/5 px-2 h-[60vh] ">
+					<div class="pb-8">
 						{#each submission_data as submission, i}
 							<div class="border rounded p-4 mb-4 text-white">
 								<p><span class="font-semibold">Submission Type:</span> {submission.submission_type || 'N/A'}</p>
@@ -94,6 +87,11 @@
 							</div>
 						{/each}
 					</div>
+
+					<form method="POST" action="?/submitAssignment" on:submit|preventDefault={handleSubmit}>
+						<InputBox bind:data={url} label="Submission URL" id='url' />
+						<button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 mt-2 rounded">Submit</button>
+					</form>
 				</div>
 
 

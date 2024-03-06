@@ -385,10 +385,12 @@
 		<div class="flex-grow text-white text-2xl font-semibold pt-4">
 			{assignment_data.title ? assignment_data.title : "No title"}
 
+			{#if claim === 'instructor'}
 			<button class="text-gray-100 hover:text-gray-200"
 					on:click={handleEdit}>
 				<Fa icon={faPencil} size="sm" class="pl-2"/>
 			</button>
+			{/if}
 		</div>
 
 		<!-- Button group -->

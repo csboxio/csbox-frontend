@@ -483,7 +483,7 @@
     </div>
 </Modal>
 
-<Modal bind:open={createWorkspaceModal} class="max-w-md dark:bg-gray-500 bg-gray-200 text-white" color="custom" title="Create Workspace">
+<Modal bind:open={createWorkspaceModal} class="max-w-md text-white"  title="Create Workspace">
     <div class="space-b-8">
         <form action="?/createWorkspace" method="POST" on:submit|preventDefault={handleCreateWorkspaceSubmit}>
             <div class="mb-2">
@@ -531,8 +531,8 @@
                                     selectedWorkspaceCreateTier = config.name;
                                     toggleTierDropdown();
                                 }}
-                                     class="{`py-2 px-4 cursor-pointer border-none rounded-md hover:bg-gray-400 ${createWorkspaceTierSelect === key ? 'bg-gray-400' : ''} my-0`}">
-                                {config.name}
+                                     class="{`font-normal py-2 px-4 text-white cursor-pointer border-none rounded-md hover:bg-gray-400 ${createWorkspaceTierSelect === key ? 'bg-gray-400' : ''} my-0`}">
+                                    <div class="font-semibold">{config.name}</div> Up to {config.cpu} cores, {config.memory} RAM, {config.storage}
                                 </div>
                             {/each}
                         </div>
@@ -565,7 +565,7 @@
                                     selectedWorkspaceCreateConfig = config.name;
                                     toggleConfigDropdown();
                                 }}
-                                         class="{`py-2 px-4 cursor-pointer border-none rounded-md hover:bg-gray-400 ${createWorkspaceConfigSelect === key ? 'bg-gray-400' : ''} my-0`}">
+                                         class="{`py-2 px-4 text-white cursor-pointer border-none rounded-md hover:bg-gray-400 ${createWorkspaceConfigSelect === key ? 'bg-gray-400' : ''} my-0`}">
                                         {config.name}
                                     </div>
                                 {/each}
