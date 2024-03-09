@@ -110,7 +110,7 @@
 -->
 {#if currentSubmission}
 <div class="w-full">
-	<section class="p-1 mt-4">
+	<section class=" mt-4">
 		{#key selectedStudent}
 			{#if selectedStudent}
 				<h2 class="text-xl font-semibold mb-2 text-white">{assignment.title} - {selectedStudent?.first_name + ' ' + selectedStudent?.last_name}</h2>
@@ -122,12 +122,12 @@
 				<!-- Rest of the student info -->
 
 				<!-- Student selector -->
-				<div class="absolute top-24 right-4 flex justify-between items-center mb-4 space-x-2">
+				<div class="absolute top-24 right-10 flex justify-between items-center mb-4 space-x-2">
 					<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click={loadPreviousStudent}>
 						<Fa icon={faArrowLeft}/>
 					</button>
 
-					<select class="border rounded px-2 py-1" value={selectedStudentIndex} on:change={(event) => loadStudent(event.target.value)}>
+					<select class="border rounded px-2 py-1 text-ellipsis" value={selectedStudentIndex} on:change={(event) => loadStudent(event.target.value)}>
 						{#each submissions as student, index}
 							<option value={index}>{student.first_name + ' ' + student.last_name}</option>
 						{/each}
@@ -145,12 +145,14 @@
 	{#if currentSubmission}
 	<div class="w-full flex">
 
-		<div class="flex-1 border rounded-l h-4/5 text-white p-2 h-[70vh]">
+		<div class="flex-1 border border-gray-400 rounded-l h-4/5 text-white p-0 h-[82vh]">
 			{#key currentSubmission}
 			{#if currentSubmission}
 				{#if currentSubmission.submission_type === "url"}
-					<div class="font-semibold">URL:</div>
+					<div class="font-semibold ">URL:</div>
 					{currentSubmission.url}
+
+					<iframe class="w-full aspect-video" src={currentSubmission.url} frameborder="0" scrolling="no"></iframe>
 				{/if}
 				{#if currentSubmission.submission_type === "project"}
 					<div class="font-semibold">Project ID:</div>
@@ -160,15 +162,15 @@
 			{/key}
 		</div>
 
-		<!-- Right Side Comments Box -->
-		<div class="w-1/4 bg-gray-100 p-4  right-0 h-4/5 flex flex-col">
-			<div class="h-4/5 overflow-y-auto ">
+		<!-- Right Side Grading Box -->
+		<div class="w-1/6 bg-gray-500 p-4  right-0 h-4/5 flex flex-col">
+			<div class="h-4/5 overflow-y-auto text-white">
 				Grade
 				<form bind:this={gradeForm} action="?/updateGrade" method="POST" on:submit|preventDefault={handleGradeSubmit}>
 
 				<div class="inline-block">
 					{#if currentSubmission}
-				<input id="grade_percentage" name="grade_percentage" class="border rounded p-1 px-2 text-sm w-14 " bind:value={currentSubmission.grade_percent} on:change={() => gradeForm.requestSubmit()}/>
+				<input id="grade_percentage" name="grade_percentage" class="border rounded p-1 px-2 text-sm w-14 text-black" bind:value={currentSubmission.grade_percent} on:change={() => gradeForm.requestSubmit()}/>
 					{/if}
 				</div>
 
@@ -180,7 +182,8 @@
 					</div>
 				{/each}
 			</div>
-			<div class="mt-4">
+			<!-- Comment box -->
+			<div class="mt-4 ">
 				<input
 						type="text"
 						class="border rounded px-2 py-1"

@@ -15,7 +15,6 @@
 
   const menuItems = [
     { name: "Workspaces", route: route + 'view' },
-    { name: "Projects", route: route + 'projects' },
     { name: "Templates", route: route + 'templates' },
   ];
 

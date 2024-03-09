@@ -22,6 +22,8 @@
     import {invalidate, invalidateAll} from "$app/navigation";
     import {applyAction, deserialize} from "$app/forms";
     import {onMount} from "svelte";
+    import WorkspaceAccordionBody from "$lib/workspaces/components/WorkspaceAccordionBody.svelte";
+    import WorkspaceAccordion from "$lib/workspaces/components/WorkspaceAccordion.svelte";
 
     // Variables
     export let active_workspaces;
@@ -435,6 +437,13 @@
                                             </button>
                                         </TableBodyCell>
                                     </TableBodyRow>
+                                {/each}
+                            {/key}
+
+                            {#key filteredItems}
+
+                                {#each filteredItems as {id, inserted_at, workspace_name, tier, workspace_state}}
+                                    <WorkspaceAccordion id={id} workspace_name={workspace_name} workspace_state={workspace_state} tier={tier} inserted_at={inserted_at}></WorkspaceAccordion>
                                 {/each}
                             {/key}
                         </TableBody>
