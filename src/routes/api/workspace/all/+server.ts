@@ -12,6 +12,7 @@ export const GET: RequestHandler = async ({ request, setHeaders, url, locals: { 
     const {data, error } = await supabase.from('workspaces')
         .select('id, user_id, workspace_name, image_type, tier, workspace_state, inserted_at')
         .eq('user_id', session.user.id)
+        .order('inserted_at', {ascending: false})
 
   console.log(error)
 
