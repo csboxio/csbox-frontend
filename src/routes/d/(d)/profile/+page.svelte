@@ -93,7 +93,7 @@
 </style>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
-<Navbar/>
+<Navbar claim={claim}/>
 
 <div class="mx-auto lg:ml-16">
 	<section>

@@ -153,7 +153,8 @@
           {#each navItems as item}
             <li>
             <li class:active={currentRoute === item.id} on:click={() => { currentRoute = item.id; }}>
-            {#if item.disabled === "false" && (item.admin ? claim === 'instructor' : true)}
+            {#if item.disabled === "false"}
+              {#if item.admin ? claim === 'instructor' : true}
 
             <a class="flex items-center justify-center w-12 h-12 rounded-xl dark:hover:bg-gray-800 hover:bg-gray-200 mb-2 "
                  on:click={() => currentRoute = item.id}
@@ -167,6 +168,7 @@
 
                 </div>
               </a>
+              {/if}
             {/if}
             </li>
             {#if item.edge === 'true'}

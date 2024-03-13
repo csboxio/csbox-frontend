@@ -70,7 +70,7 @@
 </script>
 
 <body class="bg-gray-600 antialiased bg-body text-body font-body overflow-y-hidden">
-<Navbar/>
+<Navbar claim={claim}/>
 <div class="mx-auto lg:ml-16">
     <section>
         <div class="sm:py-3 py-1 px-8 dark:bg-gray-700 bg-white">

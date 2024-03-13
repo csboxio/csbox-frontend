@@ -24,7 +24,7 @@
 <body class="bg-gray-600 antialiased bg-body text-body font-body">
 
 <!-- Nav bar on the left of the screen-->
-<Navbar/>
+<Navbar claim={claim}/>
 
 <div class="mx-auto lg:ml-16">
 

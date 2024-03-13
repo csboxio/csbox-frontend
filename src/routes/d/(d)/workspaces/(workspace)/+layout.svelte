@@ -39,7 +39,7 @@
 
 <body class="dark:bg-gray-600 bg-gray-300 antialiased bg-body text-body font-body">
 <div>
-    <Navbar bind:claim={claim}/>
+    <Navbar claim={claim}/>
     <div class="mx-auto lg:ml-16">
         <section>
             <div class="sm:py-3 py-1 px-8 dark:bg-gray-700 bg-white">
