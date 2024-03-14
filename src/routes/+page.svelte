@@ -51,6 +51,10 @@
     <FeaturesGrid/>
     <!-- Benefits -->
     <Benefits/>
+    <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+    <stripe-pricing-table pricing-table-id="prctbl_1OuLBJRwAbJEJm28rkVTKAYg"
+                          publishable-key="pk_test_51OuJKpRwAbJEJm28XoImgqZSBTLhYLd2DlGBKJRumOG3SprpNxHZ05cKgzQvbewdwzeHYZgo9hRNMEqLAuzfCBos00PzmaVmDF">
+    </stripe-pricing-table>
     <!-- Pricing -->
     <Pricing/>
     <!-- Faculty Benefits -->
