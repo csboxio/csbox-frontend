@@ -56,7 +56,6 @@
                           publishable-key="pk_live_51OuJKpRwAbJEJm286wqnRZXsC58MMWpoSRIeb8A71oEvzMvJdmr4AeGHeG8BjMGF8gEZpHO1C4zQumUNHzmASAp000HLVXBHch">
     </stripe-pricing-table>
     <!-- Pricing -->
-    <Pricing/>
     <!-- Faculty Benefits -->
     <SIBenefits/>
     <!-- Testimonials -->
