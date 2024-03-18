@@ -15,14 +15,12 @@
     import {init} from "../lib/home/scripts/init.js";
     import {navigating} from "$app/stores";
     import SIBenefits from "../lib/home/blocks/SIBenefits.svelte";
-
+    import {PUBLIC_STRIPE_TEST_MODE} from "$env/static/public";
 
     onMount(() => {
         // Main init function for home page.
         init();
     });
-
-
 
 </script>
 
@@ -51,10 +49,17 @@
     <FeaturesGrid/>
     <!-- Benefits -->
     <Benefits/>
+
     <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
-    <stripe-pricing-table pricing-table-id="prctbl_1OuMAhRwAbJEJm284tCVEyVb"
-                          publishable-key="pk_live_51OuJKpRwAbJEJm286wqnRZXsC58MMWpoSRIeb8A71oEvzMvJdmr4AeGHeG8BjMGF8gEZpHO1C4zQumUNHzmASAp000HLVXBHch">
-    </stripe-pricing-table>
+    {#if PUBLIC_STRIPE_TEST_MODE}
+        <stripe-pricing-table pricing-table-id="prctbl_1OuLBJRwAbJEJm28rkVTKAYg"
+                              publishable-key="pk_test_51OuJKpRwAbJEJm28XoImgqZSBTLhYLd2DlGBKJRumOG3SprpNxHZ05cKgzQvbewdwzeHYZgo9hRNMEqLAuzfCBos00PzmaVmDF">
+        </stripe-pricing-table>
+        {:else}
+        <stripe-pricing-table pricing-table-id="prctbl_1OuMAhRwAbJEJm284tCVEyVb"
+                              publishable-key="pk_live_51OuJKpRwAbJEJm286wqnRZXsC58MMWpoSRIeb8A71oEvzMvJdmr4AeGHeG8BjMGF8gEZpHO1C4zQumUNHzmASAp000HLVXBHch">
+        </stripe-pricing-table>
+    {/if}
     <!-- Pricing -->
     <!-- Faculty Benefits -->
     <SIBenefits/>
