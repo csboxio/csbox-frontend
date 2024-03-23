@@ -16,6 +16,7 @@
     import {navigating} from "$app/stores";
     import SIBenefits from "../lib/home/blocks/SIBenefits.svelte";
     import {PUBLIC_STRIPE_TEST_MODE} from "$env/static/public";
+    import PricingTable from "$lib/home/blocks/PricingTable.svelte";
 
     onMount(() => {
         // Main init function for home page.
@@ -49,6 +50,8 @@
     <FeaturesGrid/>
     <!-- Benefits -->
     <Benefits/>
+
+    <PricingTable/>
 
     <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
     {#if PUBLIC_STRIPE_TEST_MODE}
